@@ -11,8 +11,8 @@ node_modules/
 # /client/node_modules/
 # /client/build/
 
-# # Environment variables
-# .env
+# Environment variables
+.env
 
 # # IDE
 # .vscode/
