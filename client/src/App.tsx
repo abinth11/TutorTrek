@@ -1,12 +1,11 @@
 import React from 'react';
-import './App.css';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-    <h2>hello world</h2>
+    <div className="bg-blue-500 text-white p-4">
+      Tailwind CSS is working!
     </div>
   );
-}
+};
 
 export default App;
