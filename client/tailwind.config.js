@@ -1,9 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [],
-  theme: {
-    extend: {},
+export const content = ["./src/**/*.{html,js,ts,jsx,tsx}"];
+export const theme = {
+  extend: {
+    fontFamily: {
+      sans: ["Open Sans", "Roboto", "Arial", "sans-serif"],
+      serif: ["Merriweather", "serif"],
+    },
   },
-  plugins: [],
-}
-
+};
+export const plugins = [];

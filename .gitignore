@@ -1,32 +1,33 @@
 # Node.js
 node_modules/
-# npm-debug.log
-# yarn-error.log
 
-# # Backend
-# /server/node_modules/
-# /server/dist/
+npm-debug.log
+yarn-error.log
 
-# # Frontend
-# /client/node_modules/
-# /client/build/
+# Backend
+/server/node_modules/
+/server/dist/
+
+# Frontend
+/client/node_modules/
+/client/build/
 
 # Environment variables
 .env
 
-# # IDE
-# .vscode/
+# IDE
+.vscode/
 
-# # Logs
-# logs/
-# *.log
+# Logs
+logs/
+*.log
 
-# # Dependency lock files
-# package-lock.json
-# yarn.lock
+# Dependency lock files
+package-lock.json
+yarn.lock
 
-# # macOS
-# .DS_Store
+# macOS
+.DS_Store
 
-# # Windows
-# Thumbs.db
+# Windows
+Thumbs.db
