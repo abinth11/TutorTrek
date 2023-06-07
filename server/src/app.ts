@@ -5,11 +5,12 @@ import serverConfig from './frameworks/webserver/server';
 import expressConfig from './frameworks/webserver/express';
 // import routes from './frameworks/webserver/routes';
 import connection from './frameworks/database/redis/connection';
-import Colors from 'colors.ts';
+import colors from 'colors.ts';
 // import errorHandlingMiddleware from './frameworks/webserver/middlewares/errorHandlingMiddleware';
 import AppError from './utils/appError';
 import configKeys from './config';
-Colors.enable
+
+colors?.enable()
 
 const app:Application = express();
 const server = http.createServer(app);
