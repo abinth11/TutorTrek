@@ -63,7 +63,7 @@ const StudentLoginPage: React.FC = () => {
                 Email
               </label>
               <Field
-                className='bg-white hover:bg-gray-100 text-gray-800 font-semibold py-3 px-4 border-dashed border-gray-400 rounded shadow flex items-center justify-center w-full'
+                className='appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500'
                 id='email'
                 name='email'
                 type='text'
