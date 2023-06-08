@@ -9,7 +9,7 @@ import helmet from "helmet";
 const expressConfig = (app: Application) => {
 
     // Development logging
-    if (configKeys.NODE_ENV == 'development') {
+    if (configKeys.NODE_ENV === 'development') {
         app.use(morgan('dev'));
     }
 
@@ -17,7 +17,7 @@ const expressConfig = (app: Application) => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(cookieParser());
-    app.use(helmet({xssFilter:true}))
+    app.use(helmet())
     app.use(mongoSanitize())
 }
 
