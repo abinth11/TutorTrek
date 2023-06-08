@@ -1,31 +1,28 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { object, string } from "yup";
-import { loginUser } from "../../../api/endpoints/student/auth";
+import { loginStudent } from "../../../api/endpoints/student/auth";
 import { handleApiError } from "../../../api/utils/apiError";
+import { studentLoginValidationSchema } from "../../../validations/student/studentLoginValidation";
+import {toast} from 'react-toastify'
 
-const validationSchema = object().shape({
-  email: string().email("Invalid email").required("Email is required"),
-  password: string().required("Password is required"),
-});
 
 const StudentLoginPage: React.FC = () => {
-  const [error,setError] = useState('')
-  console.log(error)
+  const [errorMsg, setErrorMsg] = useState("");
   const handleSubmit = async (studentInfo: any) => {
     try {
-      const response = await loginUser(studentInfo);
-      // Handle successful login response
-      console.log('User logged in:', response);
-      // Perform additional actions like setting authentication state or redirecting
+      const response = await loginStudent(studentInfo);
+      console.log("User logged in:", response);
     } catch (error) {
-      setError(handleApiError(error));
+      setErrorMsg(handleApiError(error));
+      toast.error(errorMsg, {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   };
 
   return (
     <div className='flex justify-center items-center h-screen bg-gray-100 text-customFontColorBlack'>
-      <div className='bg-white rounded-lg mx-10 shadow p-8 w-full max-w-md md:mx-auto md:p-10 lg:p-12'>
+      <div className='bg-white rounded-lg mx-10 shadow-xl p-8 w-full max-w-md md:mx-auto md:p-10 lg:p-12'>
         <div className='flex flex-col md:flex-row items-center justify-between mb-6'>
           <h2 className='text-2xl font-bold mb-4'>Login</h2>
           <div className='flex items-center'>
@@ -62,7 +59,7 @@ const StudentLoginPage: React.FC = () => {
 
         <Formik
           initialValues={{ email: "", password: "" }}
-          validationSchema={validationSchema}
+          validationSchema={studentLoginValidationSchema}
           onSubmit={handleSubmit}
         >
           <Form>
