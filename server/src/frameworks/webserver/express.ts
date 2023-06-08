@@ -13,7 +13,7 @@ const expressConfig = (app: Application) => {
         app.use(morgan('dev'));
     }
 
-    app.use(cors({ origin: configKeys.ORIGIN_PORT }));
+    app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(cookieParser());

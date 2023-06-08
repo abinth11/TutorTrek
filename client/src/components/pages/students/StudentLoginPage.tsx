@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { object, string } from "yup";
+import { loginUser } from "../../../api/endpoints/student/auth";
+import { handleApiError } from "../../../api/utils/apiError";
 
 const validationSchema = object().shape({
   email: string().email("Invalid email").required("Email is required"),
@@ -8,8 +10,17 @@ const validationSchema = object().shape({
 });
 
 const StudentLoginPage: React.FC = () => {
-  const handleSubmit = (values: any) => {
-    console.log(values);
+  const [error,setError] = useState('')
+  console.log(error)
+  const handleSubmit = async (studentInfo: any) => {
+    try {
+      const response = await loginUser(studentInfo);
+      // Handle successful login response
+      console.log('User logged in:', response);
+      // Perform additional actions like setting authentication state or redirecting
+    } catch (error) {
+      setError(handleApiError(error));
+    }
   };
 
   return (
