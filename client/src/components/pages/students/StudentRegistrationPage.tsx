@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-// import { registerStudent } from "../../../api/endpoints/student/auth";
+import { registerStudent } from "../../../api/endpoints/student/auth";
 import { handleApiError } from "../../../api/utils/apiError";
 import { studentRegistrationValidationSchema } from "../../../validations/student/studentRegisterValidation";
 import { toast } from "react-toastify";
@@ -10,8 +10,11 @@ const StudentRegistrationPage: React.FC = () => {
 
   const handleSubmit = async (studentInfo: any) => {
     try {
-      //   const response = await registerStudent(studentInfo);
-      //   console.log("User registered:", response);
+        const response = await registerStudent(studentInfo);
+        console.log("User registered:", response);
+        toast.success("User registered", {
+          position: toast.POSITION.TOP_CENTER,
+        });
     } catch (error) {
       setErrorMsg(handleApiError(error));
       toast.error(errorMsg, {
@@ -35,8 +38,6 @@ const StudentRegistrationPage: React.FC = () => {
             </a>
           </div>
         </div>
-
-        {/* Registration Form */}
         <Formik
           initialValues={{
             firstName: "",

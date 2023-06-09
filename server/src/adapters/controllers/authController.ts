@@ -22,7 +22,6 @@ const authController = (
   const authService = authServiceInterface(authServiceImpl());
 
   const registerStudent = asyncHandler(async (req: Request, res: Response) => {
-    console.log(req.body);
     const student: StudentRegisterInterface = req.body;
     const token = await studentRegister(student, dbRepositoryUser, authService);
     res.json(sendJsonResponse('success','Successfully registered the user',token))
