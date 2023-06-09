@@ -14,7 +14,7 @@ const authRouter = () => {
     studentDbRepository,
     studentRepositoryMongoDB
   );
-
+  router.post('/student-register',controller.registerStudent)
   router.post("/student-login", controller.loginStudent);
 
   return router;

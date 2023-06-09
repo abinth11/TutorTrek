@@ -3,6 +3,23 @@ import { StudentInterface } from "../../../types/student/studentInterface";
 import AppError from "../../../utils/appError";
 import { StudentsDbInterface } from "../../repositories/studentDbRepository";
 import { AuthServiceInterface } from "../../services/authServicesInterface";
+import { StudentRegisterInterface } from "@src/types/student/studentRegisterInterface";
+
+export const studentRegister = async (
+  student: StudentRegisterInterface,
+  studentRepository: ReturnType<StudentsDbInterface>,
+  authService: ReturnType<AuthServiceInterface>
+) => {
+  student.email = student?.email?.toLowerCase();
+  const isEmailAlreadyRegistered = await studentRepository.getStudentByEmail(student.email)
+  if(isEmailAlreadyRegistered){
+    throw new AppError("User with same email already exists...!", HttpStatusCodes.CONFLICT);
+  }
+  student.password = await authService.hashPassword(student.password)
+  const { _id: studentId,email } = await studentRepository.addStudent(student)
+  const accessToken = authService.generateToken({studentId,email});
+  return accessToken;
+}
 
 export const studentLogin = async (
   email: string,
@@ -10,13 +27,14 @@ export const studentLogin = async (
   studentRepository: ReturnType<StudentsDbInterface>,
   authService: ReturnType<AuthServiceInterface>
 ) => {
-  const user: StudentInterface | null = await studentRepository.getStudentByEmail(email);
-  if (!user) {
+  const student: StudentInterface | null =
+    await studentRepository.getStudentByEmail(email);
+  if (!student) {
     throw new AppError("this user doesn't exist", HttpStatusCodes.UNAUTHORIZED);
   }
   const isPasswordCorrect = await authService.comparePassword(
     password,
-    user.password
+    student.password
   );
   if (!isPasswordCorrect) {
     throw new AppError(
@@ -24,6 +42,10 @@ export const studentLogin = async (
       HttpStatusCodes.UNAUTHORIZED
     );
   }
-  const token = authService.generateToken(user._id.toString());
+  const payload = {
+    studentId:student._id,
+    email:student.email
+  }
+  const token = authService.generateToken(payload);
   return token;
 };
