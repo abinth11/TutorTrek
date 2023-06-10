@@ -1,14 +1,9 @@
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import React from "react";
+import { Disclosure,} from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import SearchBar from "../../common/SearchBar";
+import {Link} from 'react-router-dom'
 
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
 const navigation = [
   { name: "Home", href: "#", current: true },
   { name: "Courses", href: "#", current: false },
@@ -16,11 +11,7 @@ const navigation = [
   { name: "Community", href: "#", current: false },
   { name: "Contact", href: "#", current: false },
 ];
-const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-];
+
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -37,11 +28,13 @@ const StudentHeader: React.FC = () => {
                 <div className='flex h-16 items-center justify-between'>
                   <div className='flex items-center'>
                     <div className='flex-shrink-0'>
+                      <Link to="/">
                       <img
                         className='h-8 w-8'
                         src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500'
                         alt='Your Company'
                       />
+                      </Link>
                     </div>
                     <div className='hidden md:block'>
                       <div className='ml-10 flex items-baseline space-x-4'>
@@ -67,12 +60,16 @@ const StudentHeader: React.FC = () => {
                   <div className='hidden md:block'>
                     <div className='flex justify-center items-center h-screen'>
                       <div className='space-x-4'>
+                        <Link to='/login'>
                         <button className='bg-gray-500 hover:bg-gray-600 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
                           Login
                         </button>
+                        </Link>
+                        <Link to='/register'>
                         <button className='bg-purple-800 hover:bg-purple-900 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
                           Register
                         </button>
+                        </Link>
                       </div>
                     </div>
                   </div>

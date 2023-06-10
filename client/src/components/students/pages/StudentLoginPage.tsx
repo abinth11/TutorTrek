@@ -4,13 +4,16 @@ import { loginStudent } from "../../../api/endpoints/student/auth";
 import { handleApiError } from "../../../api/utils/apiError";
 import { studentLoginValidationSchema } from "../../../validations/student/studentLoginValidation";
 import { toast } from "react-toastify";
+import {Link,useNavigate} from 'react-router-dom'
 
 const StudentLoginPage: React.FC = () => {
   const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate()
   const handleSubmit = async (studentInfo: any) => {
     try {
       const response = await loginStudent(studentInfo);
       console.log("User logged in:", response);
+      navigate('/')
     } catch (error) {
       setErrorMsg(handleApiError(error));
       toast.error(errorMsg?errorMsg:"Something wrong..", {
@@ -20,7 +23,7 @@ const StudentLoginPage: React.FC = () => {
   };
 
   return (
-    <div className='flex justify-center items-center h-screen bg-gray-100 text-customFontColorBlack'>
+    <div className='flex justify-center items-center mt-16 bg-gray-100 text-customFontColorBlack'>
       <div className='bg-white rounded-lg mx-10 shadow-xl p-8 w-full max-w-md md:mx-auto md:p-10 lg:p-12'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
           <img
@@ -115,12 +118,12 @@ const StudentLoginPage: React.FC = () => {
 
         <p className='mt-10 text-center text-sm text-gray-500'>
           Do not have an account?
-          <a
-            href='#'
+          <Link
+            to='/register'
             className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'
           >
             &nbsp; Sign up
-          </a>
+          </Link>
         </p>
       </div>
     </div>

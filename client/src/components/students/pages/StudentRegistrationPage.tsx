@@ -4,6 +4,7 @@ import { registerStudent } from "../../../api/endpoints/student/auth";
 import { handleApiError } from "../../../api/utils/apiError";
 import { studentRegistrationValidationSchema } from "../../../validations/student/studentRegisterValidation";
 import { toast } from "react-toastify";
+import {Link} from 'react-router-dom'
 
 const StudentRegistrationPage: React.FC = () => {
   const [errorMsg, setErrorMsg] = useState("");
@@ -24,7 +25,7 @@ const StudentRegistrationPage: React.FC = () => {
   };
 
   return (
-    <div className='mt-40 my-3 flex justify-center items-center h-screen bg-gray-100 text-customFontColorBlack'>
+    <div className='mt-20 mb-20 my-3 flex justify-center items-center h-screen bg-gray-100 text-customFontColorBlack'>
       <div className='bg-white rounded-lg mx-10 shadow-xl p-8 w-full max-w-xl md:mx-auto md:p-10 lg:p-12'>
       <div className='mb-8 sm:mx-auto sm:w-full sm:max-w-sm'>
           <img
@@ -197,12 +198,12 @@ const StudentRegistrationPage: React.FC = () => {
         </Formik>
         <p className='mt-10 text-center text-sm text-gray-500'>
           Already have an account?
-          <a
-            href='#'
+          <Link
+            to='/login'
             className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'
           >
             &nbsp; Sign in
-          </a>
+          </Link>
         </p>
       </div>
     </div>
