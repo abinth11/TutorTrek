@@ -31,17 +31,6 @@ const studentSchema = new Schema({
     required: true,
     minlength: 8
   },
-  age: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 150
-  },
-  gender: {
-    type: String,
-    enum: ['Male', 'Female', 'Other'],
-    required: true
-  },
   coursesEnrolled: [
     {
       type: mongoose.Schema.Types.ObjectId,
