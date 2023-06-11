@@ -4,4 +4,5 @@ export interface StudentRegisterInterface {
   email: string;
   mobile:string;
   password: string;
+  isGoogleUser:boolean
 }

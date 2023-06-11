@@ -4,7 +4,7 @@ import AppError from "../../../utils/appError";
 import { StudentsDbInterface } from "../../repositories/studentDbRepository";
 import { AuthServiceInterface } from "../../services/authServicesInterface";
 import { StudentRegisterInterface } from "@src/types/student/studentRegisterInterface";
-
+import { GoogleAuthServiceInterface } from "@src/app/services/googleAuthServicesInterface";
 export const studentRegister = async (
   student: StudentRegisterInterface,
   studentRepository: ReturnType<StudentsDbInterface>,
@@ -49,3 +49,25 @@ export const studentLogin = async (
   const token = authService.generateToken(payload);
   return token;
 };
+
+export const signInWithGoogle=async(
+  credential:string,
+  googleAuthService:ReturnType<GoogleAuthServiceInterface>,
+  studentRepository: ReturnType<StudentsDbInterface>, 
+  authService: ReturnType<AuthServiceInterface>)=>{
+
+  const user = await googleAuthService.verify(credential)
+  const isUserExist = await studentRepository.getStudentByEmail(user.email);
+  if(isUserExist){
+    const payload = {userId:isUserExist._id,email:isUserExist.email}
+    const token = authService.generateToken(payload);
+    return token
+  }else{
+    console.log(user)
+    const dummyUser = { firstName: 'abin', lastName: 't h', email: "abi@gmail.com", isGoogleUser: true,mobile:'something',password:'sdlfjdk' }
+    const { _id: userId,email } = await studentRepository.addStudent(dummyUser);
+    const payload = {userId,email}
+    const token = authService.generateToken(payload);
+    return token
+  }
+}
