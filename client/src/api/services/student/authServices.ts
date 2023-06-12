@@ -28,7 +28,7 @@ export const googleLoginStudent = async (endpoint: string, credential: string) =
       credential
     }
     const response = await api.post(`${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,data);
-    return response.data
+    return response
   } catch (error) {
     console.log(error)
     throw new Error("Unable to register student" + error);
