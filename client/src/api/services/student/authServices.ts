@@ -20,3 +20,13 @@ export const register = async (endpoint:string,studentData:StudentRegisterData)=
     throw new Error("Unable to register student"+error)
   }
 }
+
+export const googleLoginStudent = async(endpoint:string,credential:string)=>{
+  try {
+    const response = await axios.post(`${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,credential)
+    console.log(response)
+    return response.data
+  } catch (error){
+    throw new Error("Unable to register student"+error)
+  }
+}
