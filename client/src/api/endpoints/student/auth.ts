@@ -1,4 +1,4 @@
-import { login,register } from "../../services/student/authServices";
+import { login,register,googleLoginStudent } from "../../services/student/authServices";
 import END_POINTS from "../../../constants/endpoints";
 
 export const loginStudent = (studentData: any) => {
@@ -7,4 +7,9 @@ export const loginStudent = (studentData: any) => {
 
 export const registerStudent = (studentData:any)=>{
   return register(END_POINTS.REGISTER,studentData)
+}
+
+export const googleLogin = (credential:string) =>{
+  return googleLoginStudent(END_POINTS.GOOGLE_LOGIN,credential)
+
 }

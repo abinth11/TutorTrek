@@ -1,6 +1,18 @@
-import mongoose,{Schema,model} from 'mongoose'
+import mongoose, { Schema, model, Document } from 'mongoose';
 
-const studentSchema = new Schema({
+interface IStudent extends Document {
+  firstName: string;
+  lastName: string;
+  email: string;
+  profilePic:string;
+  mobile?: string;
+  password?: string;
+  coursesEnrolled: mongoose.Schema.Types.ObjectId[];
+  dateJoined: Date;
+  isGoogleUser: boolean;
+}
+
+const studentSchema = new Schema<IStudent>({
   firstName: {
     type: String,
     required: true,
@@ -19,16 +31,24 @@ const studentSchema = new Schema({
     lowercase: true,
     match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email']
   },
+  profilePic:{
+    type:String,
+    required:false
+  },
   mobile: {
     type: String,
-    required: true,
+    required: function(this: IStudent) {
+      return !this.isGoogleUser;
+    },
     trim: true,
     unique: true,
     match: [/^[0-9]{10}$/, 'Please enter a valid 10-digit mobile number']
   },
   password: {
     type: String,
-    required: true,
+    required: function(this: IStudent) {
+      return !this.isGoogleUser;
+    },
     minlength: 8
   },
   coursesEnrolled: [
@@ -40,9 +60,13 @@ const studentSchema = new Schema({
   dateJoined: {
     type: Date,
     default: Date.now
+  },
+  isGoogleUser: {
+    type: Boolean,
+    default: false
   }
 });
 
-const Students = model("Students",studentSchema,"students")
+const Students = model<IStudent>('Students', studentSchema, 'students');
 
-export default Students
+export default Students;

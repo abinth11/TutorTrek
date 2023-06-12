@@ -5,7 +5,7 @@ import { handleApiError } from "../../../api/utils/apiError";
 import { studentLoginValidationSchema } from "../../../validations/student/studentLoginValidation";
 import { toast } from "react-toastify";
 import {Link,useNavigate} from 'react-router-dom'
-
+import GoogleAuthComponent from "../../common/GoogleAuthComponent";
 const StudentLoginPage: React.FC = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate()
@@ -91,21 +91,7 @@ const StudentLoginPage: React.FC = () => {
             </div>
 
             <div>
-              <button
-                className='flex mb-4 w-full justify-center rounded-md bg-white border border-gray-300 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-800 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
-                type='button'
-              >
-                <div className='flex items-center'>
-                  <img
-                    className='h-5 w-5 mr-2'
-                    src='https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg'
-                    alt='Google Logo'
-                  />
-                  <span>Sign In with Google
-                  </span>
-              </div>
-            </button>
-
+            <GoogleAuthComponent/>
             <button
               type='submit'
               className='flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'

@@ -4,7 +4,7 @@ import AppError from "../../../utils/appError";
 import { StudentsDbInterface } from "../../repositories/studentDbRepository";
 import { AuthServiceInterface } from "../../services/authServicesInterface";
 import { StudentRegisterInterface } from "@src/types/student/studentRegisterInterface";
-
+import { GoogleAuthServiceInterface } from "@src/app/services/googleAuthServicesInterface";
 export const studentRegister = async (
   student: StudentRegisterInterface,
   studentRepository: ReturnType<StudentsDbInterface>,
@@ -15,7 +15,9 @@ export const studentRegister = async (
   if(isEmailAlreadyRegistered){
     throw new AppError("User with same email already exists...!", HttpStatusCodes.CONFLICT);
   }
-  student.password = await authService.hashPassword(student.password)
+  if(student.password){
+    student.password = await authService.hashPassword(student.password)
+  }
   const { _id: studentId,email } = await studentRepository.addStudent(student)
   const accessToken = authService.generateToken({studentId,email});
   return accessToken;
@@ -49,3 +51,24 @@ export const studentLogin = async (
   const token = authService.generateToken(payload);
   return token;
 };
+
+export const signInWithGoogle=async(
+  credential:string,
+  googleAuthService:ReturnType<GoogleAuthServiceInterface>,
+  studentRepository: ReturnType<StudentsDbInterface>, 
+  authService: ReturnType<AuthServiceInterface>)=>{
+  console.log('sign in with google')
+  const user = await googleAuthService.verify(credential)
+  const isUserExist = await studentRepository.getStudentByEmail(user.email);
+  if(isUserExist){
+    const payload = {userId:isUserExist._id,email:isUserExist.email}
+    const token = authService.generateToken(payload);
+    return token
+  }else{
+    console.log(user)
+    const { _id: userId,email } = await studentRepository.addStudent(user);
+    const payload = {userId,email}
+    const token = authService.generateToken(payload);
+    return token
+  }
+}

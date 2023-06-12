@@ -112,12 +112,16 @@ const StudentHeader: React.FC = () => {
                 </div>
                 <div className='border-t border-gray-700 pb-3 pt-4'>
                   <div className='mt-3 space-y-1 px-2'>
+                    <Link to='/login'>
                     <button className='w-full mb-2 block rounded-md px-3 py-2 text-base font-medium bg-gray-600 text-gray-200 hover:bg-gray-700 hover:text-white'>
                       Login
                     </button>
+                    </Link>
+                    <Link to='/register'>
                     <button className='w-full block bg-purple-800 hover:bg-purple-900 text-sm text-gray-200  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
                       Register
                     </button>
+                    </Link>
                   </div>
                 </div>
               </Disclosure.Panel>
