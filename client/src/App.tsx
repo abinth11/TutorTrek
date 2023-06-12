@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 const App: React.FC = () => {
   return (
     <div className='bg-gray-100'>
+    
         <StudentHeader />
         <Outlet />
         <ToastContainer />

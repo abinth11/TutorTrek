@@ -15,7 +15,9 @@ export const studentRegister = async (
   if(isEmailAlreadyRegistered){
     throw new AppError("User with same email already exists...!", HttpStatusCodes.CONFLICT);
   }
-  student.password = await authService.hashPassword(student.password)
+  if(student.password){
+    student.password = await authService.hashPassword(student.password)
+  }
   const { _id: studentId,email } = await studentRepository.addStudent(student)
   const accessToken = authService.generateToken({studentId,email});
   return accessToken;
@@ -55,7 +57,7 @@ export const signInWithGoogle=async(
   googleAuthService:ReturnType<GoogleAuthServiceInterface>,
   studentRepository: ReturnType<StudentsDbInterface>, 
   authService: ReturnType<AuthServiceInterface>)=>{
-
+  console.log('sign in with google')
   const user = await googleAuthService.verify(credential)
   const isUserExist = await studentRepository.getStudentByEmail(user.email);
   if(isUserExist){
@@ -64,8 +66,7 @@ export const signInWithGoogle=async(
     return token
   }else{
     console.log(user)
-    const dummyUser = { firstName: 'abin', lastName: 't h', email: "abi@gmail.com", isGoogleUser: true,mobile:'something',password:'sdlfjdk' }
-    const { _id: userId,email } = await studentRepository.addStudent(dummyUser);
+    const { _id: userId,email } = await studentRepository.addStudent(user);
     const payload = {userId,email}
     const token = authService.generateToken(payload);
     return token
