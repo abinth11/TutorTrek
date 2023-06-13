@@ -1,4 +1,4 @@
-import { Request, Response, response } from "express";
+import { Request, Response} from "express";
 import asyncHandler from "express-async-handler";
 import { AuthService } from "../../frameworks/services/authService";
 import { AuthServiceInterface } from "../../app/services/authServicesInterface";
@@ -74,12 +74,12 @@ const authController = (
   const registerInstructor = asyncHandler(
     async (req: Request, res: Response) => {
       const instructor: InstructorInterface = req.body;
-      console.log(req.body)
       const response = await instructorRegister(
         instructor,
         dbRepositoryInstructor,
         authService
       );
+      console.log(response)
       response.status
         ? res.json(
             sendJsonResponseAdminRegister("success", "Success", response)

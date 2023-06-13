@@ -9,6 +9,7 @@ export const instructorRegister = async (
   instructorRepository: ReturnType<InstructorDbInterface>,
   authService: ReturnType<AuthServiceInterface>
 ) => {
+  console.log(instructor)
   const { password }: { password: string } = instructor;
   instructor.email = instructor?.email?.toLowerCase();
   const isEmailAlreadyRegistered =

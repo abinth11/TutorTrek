@@ -8,7 +8,6 @@ import connection from './frameworks/database/redis/connection';
 import colors from 'colors.ts';
 import errorHandlingMiddleware from './frameworks/webserver/middlewares/errorHandling';
 import AppError from './utils/appError';
-import configKeys from './config';
 
 colors?.enable()
 

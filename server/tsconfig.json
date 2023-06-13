@@ -1,5 +1,16 @@
 {
     "compilerOptions": {
+      // "noImplicitAny": true,
+      // "strictNullChecks": true,
+      // "strictFunctionTypes": true,
+      // "strictBindCallApply": true,
+      // "strictPropertyInitialization": true,
+      // "noImplicitThis": true,
+      // "alwaysStrict": true,
+      // "noUnusedLocals": true,
+      // "noUnusedParameters": true,
+      // "noImplicitReturns": true,
+      // "noFallthroughCasesInSwitch": true,
       /* Visit https://aka.ms/tsconfig.json to read more about this file */
   
       /* Basic Options */
