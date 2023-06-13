@@ -9,7 +9,7 @@ import {
   studentRegister,
   signInWithGoogle,
 } from "../../app/usecases/auth/studentAuth";
-import { instructorRegister } from "@src/app/usecases/auth/instructorAuth";
+import {instructorRegister} from "../../../src/app/usecases/auth/instructorAuth"
 import { InstructorDbInterface } from "@src/app/repositories/instructorDbRepository";
 import { InstructorRepositoryMongoDb } from "@src/frameworks/database/mongodb/repositories/instructorRepoMongoDb";
 import { StudentRegisterInterface } from "@src/types/student/studentRegisterInterface";
@@ -74,6 +74,7 @@ const authController = (
   const registerInstructor = asyncHandler(
     async (req: Request, res: Response) => {
       const instructor: InstructorInterface = req.body;
+      console.log(req.body)
       const response = await instructorRegister(
         instructor,
         dbRepositoryInstructor,

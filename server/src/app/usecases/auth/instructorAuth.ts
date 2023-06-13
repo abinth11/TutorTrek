@@ -1,6 +1,6 @@
-import HttpStatusCodes from "@src/constants/HttpStatusCodes";
+import HttpStatusCodes from "../../../../src/constants/HttpStatusCodes"
 import { InstructorInterface } from "@src/types/instructor/instructorInterface";
-import AppError from "@src/utils/appError";
+import AppError from "../../../../src/utils/appError"
 import { InstructorDbInterface } from "@src/app/repositories/instructorDbRepository";
 import { AuthServiceInterface } from "@src/app/services/authServicesInterface";
 
