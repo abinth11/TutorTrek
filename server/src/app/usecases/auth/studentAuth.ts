@@ -57,7 +57,6 @@ export const signInWithGoogle=async(
   googleAuthService:ReturnType<GoogleAuthServiceInterface>,
   studentRepository: ReturnType<StudentsDbInterface>, 
   authService: ReturnType<AuthServiceInterface>)=>{
-  console.log('sign in with google')
   const user = await googleAuthService.verify(credential)
   const isUserExist = await studentRepository.getStudentByEmail(user.email);
   if(isUserExist){
@@ -65,7 +64,6 @@ export const signInWithGoogle=async(
     const token = authService.generateToken(payload);
     return token
   }else{
-    console.log(user)
     const { _id: userId,email } = await studentRepository.addStudent(user);
     const payload = {userId,email}
     const token = authService.generateToken(payload);

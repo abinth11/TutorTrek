@@ -43,6 +43,8 @@ const StudentRegistrationPage: React.FC = () => {
             lastName: "",
             email: "",
             password: "",
+            confirmPassword:"",
+            mobile:""
           }}
           validationSchema={studentRegistrationValidationSchema}
           onSubmit={handleSubmit}
