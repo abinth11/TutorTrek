@@ -66,8 +66,13 @@ const StudentHeader: React.FC = () => {
                         </button>
                         </Link>
                         <Link to='/register'>
-                        <button className='bg-purple-800 hover:bg-purple-900 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                        <button className='bg-gray-500 hover:bg-gray-600 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
                           Register
+                        </button>
+                        </Link>
+                        <Link to='/instructors/login'>
+                        <button className='bg-purple-800 hover:bg-purple-900 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                        Instructor Login
                         </button>
                         </Link>
                       </div>
@@ -118,8 +123,13 @@ const StudentHeader: React.FC = () => {
                     </button>
                     </Link>
                     <Link to='/register'>
-                    <button className='w-full block bg-purple-800 hover:bg-purple-900 text-sm text-gray-200  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                    <button className='w-full mb-2 block rounded-md px-3 py-2 text-base font-medium bg-gray-600 text-gray-200 hover:bg-gray-700 hover:text-white'>
                       Register
+                    </button>
+                    </Link>
+                    <Link to='/instructors/login'>
+                    <button className='w-full block bg-purple-800 hover:bg-purple-900 text-sm text-gray-200  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                     Instructor Login
                     </button>
                     </Link>
                   </div>

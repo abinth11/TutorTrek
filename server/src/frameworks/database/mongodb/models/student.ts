@@ -54,7 +54,7 @@ const studentSchema = new Schema<IStudent>({
   coursesEnrolled: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Course'
+      ref: 'Courses'
     }
   ],
   dateJoined: {
