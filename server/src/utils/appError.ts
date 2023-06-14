@@ -4,6 +4,7 @@ class AppError extends Error {
     statusCode: number;
     status: string;
     isOperational: boolean;
+    keyValue: any;
     constructor(message: string, statusCode: HttpStatusCodes) {
       super(message);
       

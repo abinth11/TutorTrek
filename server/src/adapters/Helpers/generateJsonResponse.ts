@@ -13,14 +13,9 @@ export const sendJsonResponse = (
 export const sendJsonResponseAdminRegister = (
   status: string,
   message: string,
-  response: {
-    status:boolean,
-    message:string
-  }
 ) => {
   return {
     status,
     message,
-    response
   }
 };

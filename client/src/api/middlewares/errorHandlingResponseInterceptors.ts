@@ -1,33 +1,38 @@
-import axios from "axios";
+import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 import CONSTANTS_COMMON from "../../constants/common";
-import {toast} from 'react-toastify'
-const api = axios.create({
+import CustomApiError from "../../utils/CustomApiError";
+
+const api: AxiosInstance = axios.create({
   baseURL: CONSTANTS_COMMON.API_BASE_URL,
 });
 
 api.interceptors.response.use(
-    (response) => {
-      return response.data
-    },
-    (error) => {
-      console.log(error)
-      if (error.response) {
-        // Handle specific error codes or messages
-        if (error.response.status === 401) {
-          // Handle unauthorized access
-          toast.error('Unauthorized access');
-        } else if (error.response.status === 404) {
-          // Handle not found error
-          toast.error('Resource not found');
-        } else {
-          // Handle other error codes or messages
-          toast.error('An error occurred');
-        }
+  (response: AxiosResponse) => {
+    return response
+  },
+  (error: AxiosError) => {
+    if (error.response) {
+      const { data, status } = error.response;
+      
+      if (status === 400) {
+        console.log('Bad Request:', data);
+      } else if (status === 401) {
+        console.log('Unauthorized:', data);
+      } else if (status === 404) {
+        console.log('Not Found:', data);
+      } else if (status === 409) {
+        throw new CustomApiError("Conflict",data)
       } else {
-        // Handle network errors
-        toast.error('Network error');
+        throw new CustomApiError("Request failed with status ${status}",data)
       }
-    //   return Promise.reject(error);
+    } else if (error.request) {
+      console.log('No response received:', error.request);
+    } else {
+      console.log('Error:', error.message);
     }
-  );
-  export default api
+
+    return Promise.reject(error);
+  }
+);
+
+export default api;

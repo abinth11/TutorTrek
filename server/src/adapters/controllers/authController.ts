@@ -81,12 +81,11 @@ const authController = (
         dbRepositoryInstructor,
         authService
       );
-      console.log(response)
       response.status
         ? res.json(
-            sendJsonResponseAdminRegister("success", "Success", response)
+            sendJsonResponseAdminRegister("Success","Your registration is pending verification by the administrators.You will receive an email once your registration is approved")
           )
-        : res.json(sendJsonResponseAdminRegister("failed", "failed", response));
+        : res.json(sendJsonResponseAdminRegister( "failed","failed to register"));
     }
   );
 
