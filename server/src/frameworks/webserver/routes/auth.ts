@@ -8,15 +8,15 @@ import {googleAuthService} from "../../../frameworks/services/googleAuthService"
 import { googleAuthServiceInterface } from "../../../app/services/googleAuthServicesInterface";
 import {instructorDbRepository} from "../../../../src/app/repositories/instructorDbRepository"
 import {instructorRepoMongoDb} from "../../../frameworks/database/mongodb/repositories/instructorRepoMongoDb"
-const authRouter = () => {
+const authRouter = () => {     
   const router = express.Router();
-
+  
   const controller = authController(
     authServiceInterface,
-    authService,
+    authService,  
     studentDbRepository,
-    studentRepositoryMongoDB,
-    instructorDbRepository,
+    studentRepositoryMongoDB,  
+    instructorDbRepository,  
     instructorRepoMongoDb,
     googleAuthServiceInterface,
     googleAuthService

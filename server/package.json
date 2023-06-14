@@ -1,5 +1,5 @@
 {
-  "name": "sample",
+  "name": "tutortrek",
   "version": "1.0.0",
   "description": "server side of tutortrek",
   "main": "index.js",
@@ -32,6 +32,12 @@
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.2",
-    "@types/morgan": "^1.9.4"
+    "@types/morgan": "^1.9.4",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
+    "@typescript-eslint/parser": "^5.59.11",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8"
   }
 }

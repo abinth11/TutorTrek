@@ -40,12 +40,14 @@ const authController = (
   //? STUDENT
   const registerStudent = asyncHandler(async (req: Request, res: Response) => {
     const student: StudentRegisterInterface = req.body;
+    console.log(student)
+    const user = req.body
     const token = await studentRegister(student, dbRepositoryUser, authService);
     res.json(
       sendJsonResponse("success", "Successfully registered the user", token)
     );
   });
-
+    
   const loginStudent = asyncHandler(async (req: Request, res: Response) => {
     const { email, password }: { email: string; password: string } = req.body;
     const token = await studentLogin(
