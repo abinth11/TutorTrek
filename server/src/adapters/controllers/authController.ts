@@ -1,25 +1,28 @@
-import { Request, Response} from "express";
-import asyncHandler from "express-async-handler";
-import { AuthService } from "../../frameworks/services/authService";
-import { AuthServiceInterface } from "../../app/services/authServicesInterface";
-import { StudentsDbInterface } from "../../app/repositories/studentDbRepository";
-import { StudentRepositoryMongoDB } from "../../frameworks/database/mongodb/repositories/studentsRepoMongoDb";
+import { Request, Response } from 'express';
+import asyncHandler from 'express-async-handler';
+import { AuthService } from '../../frameworks/services/authService';
+import { AuthServiceInterface } from '../../app/services/authServicesInterface';
+import { StudentsDbInterface } from '../../app/repositories/studentDbRepository';
+import { StudentRepositoryMongoDB } from '../../frameworks/database/mongodb/repositories/studentsRepoMongoDb';
 import {
   studentLogin,
   studentRegister,
   signInWithGoogle,
-} from "../../app/usecases/auth/studentAuth";
-import {instructorRegister} from "../../../src/app/usecases/auth/instructorAuth"
-import { InstructorDbInterface } from "@src/app/repositories/instructorDbRepository";
-import { InstructorRepositoryMongoDb } from "@src/frameworks/database/mongodb/repositories/instructorRepoMongoDb";
-import { StudentRegisterInterface } from "@src/types/student/studentRegisterInterface";
+} from '../../app/usecases/auth/studentAuth';
+import {
+  instructorRegister,
+  instructorLogin,
+} from '../../../src/app/usecases/auth/instructorAuth';
+import { InstructorDbInterface } from '@src/app/repositories/instructorDbRepository';
+import { InstructorRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/instructorRepoMongoDb';
+import { StudentRegisterInterface } from '@src/types/student/studentRegisterInterface';
 import {
   sendJsonResponse,
   sendJsonResponseAdminRegister,
-} from "../Helpers/generateJsonResponse";
-import { GoogleAuthServiceInterface } from "@src/app/services/googleAuthServicesInterface";
-import { GoogleAuthService } from "@src/frameworks/services/googleAuthService";
-import { InstructorInterface } from "@src/types/instructor/instructorInterface";
+} from '../Helpers/generateJsonResponse';
+import { GoogleAuthServiceInterface } from '@src/app/services/googleAuthServicesInterface';
+import { GoogleAuthService } from '@src/frameworks/services/googleAuthService';
+import { InstructorInterface } from '@src/types/instructor/instructorInterface';
 const authController = (
   authServiceInterface: AuthServiceInterface,
   authServiceImpl: AuthService,
@@ -40,14 +43,12 @@ const authController = (
   //? STUDENT
   const registerStudent = asyncHandler(async (req: Request, res: Response) => {
     const student: StudentRegisterInterface = req.body;
-    console.log(student)
-    const user = req.body
     const token = await studentRegister(student, dbRepositoryUser, authService);
     res.json(
-      sendJsonResponse("success", "Successfully registered the user", token)
+      sendJsonResponse('success', 'Successfully registered the user', token)
     );
   });
-    
+
   const loginStudent = asyncHandler(async (req: Request, res: Response) => {
     const { email, password }: { email: string; password: string } = req.body;
     const token = await studentLogin(
@@ -56,7 +57,7 @@ const authController = (
       dbRepositoryUser,
       authService
     );
-    res.json(sendJsonResponse("success", "User logged in successfully", token));
+    res.json(sendJsonResponse('success', 'User logged in successfully', token));
   });
 
   const loginWithGoogle = asyncHandler(async (req: Request, res: Response) => {
@@ -68,7 +69,7 @@ const authController = (
       authService
     );
     res.json(
-      sendJsonResponse("success", "Successfully logged in with google", token)
+      sendJsonResponse('success', 'Successfully logged in with google', token)
     );
   });
 
@@ -83,17 +84,35 @@ const authController = (
       );
       response.status
         ? res.json(
-            sendJsonResponseAdminRegister("Success","Your registration is pending verification by the administrators.You will receive an email once your registration is approved")
+            sendJsonResponseAdminRegister(
+              'Success',
+              'Your registration is pending verification by the administrators.You will receive an email once your registration is approved'
+            )
           )
-        : res.json(sendJsonResponseAdminRegister( "failed","failed to register"));
+        : res.json(
+            sendJsonResponseAdminRegister('failed', 'failed to register')
+          );
     }
   );
+  const loginInstructor = asyncHandler(async (req: Request, res: Response) => {
+    const { email, password }: { email: string; password: string } = req.body;
+    const token = await instructorLogin(
+      email,
+      password,
+      dbRepositoryInstructor,
+      authService
+    );
+    res.json(
+      sendJsonResponse('success', 'Instructor logged in successfully', token)
+    );
+  });
 
   return {
     loginStudent,
     registerStudent,
     loginWithGoogle,
-    registerInstructor
+    registerInstructor,
+    loginInstructor,
   };
 };
 

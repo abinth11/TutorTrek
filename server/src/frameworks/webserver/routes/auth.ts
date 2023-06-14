@@ -28,6 +28,7 @@ const authRouter = () => {
   
   //* Instructor
   router.post("/instructor/instructor-register",controller.registerInstructor)
+  router.post("/instructor/instructor-login",controller.loginInstructor)
 
   return router;
 };

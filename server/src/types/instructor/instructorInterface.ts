@@ -10,3 +10,6 @@ export interface InstructorInterface {
     about:string;
     password: string;
 }
+export interface SavedInstructorInterface extends InstructorInterface {
+    _id:string;  
+}
