@@ -3,15 +3,18 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { AdminLoginInfo } from "../../../api/types/admin/authInterface";
+import { loginAdmin } from "../../../api/endpoints/admin/auth";
 
 const AdminLoginPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (adminInfo: AdminLoginInfo) => {
     try {
-      //todo admin login logic here
-
-      navigate("/");
+      const response = await loginAdmin(adminInfo)
+     toast.success(response.data.message,{
+        position:toast.POSITION.BOTTOM_RIGHT
+     })
+      navigate("/admin/dashboard");
     } catch (error: any) {
       toast.error(error.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,

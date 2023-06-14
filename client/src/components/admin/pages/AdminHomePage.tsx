@@ -1,7 +1,7 @@
 import React from "react"
 const AdminHomePage:React.FC = ()=>{
     return (
-        <div>
+        <div className="bg-purple-700">
             admin home page
         </div>
     )

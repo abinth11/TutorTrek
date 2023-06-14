@@ -38,12 +38,12 @@ const AppRouter = createBrowserRouter([
     ]
   },
   {
-    path:"/admin",
+    path:"admin",
     element:<App/>,
     errorElement:<ErrorElement/>,
     children:[
       {
-        path:"admin",
+        path:"dashboard",
         element:<AdminHomePage/>
       },
       {
