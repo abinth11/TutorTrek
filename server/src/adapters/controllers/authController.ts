@@ -23,6 +23,9 @@ import {
 import { GoogleAuthServiceInterface } from '@src/app/services/googleAuthServicesInterface';
 import { GoogleAuthService } from '@src/frameworks/services/googleAuthService';
 import { InstructorInterface } from '@src/types/instructor/instructorInterface';
+import { adminLogin } from '../../../src/app/usecases/auth/adminAuth';
+import { AdminDbInterface} from '@src/app/repositories/adminDbRepository';
+import { AdminRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/adminRepoMongoDb';
 const authController = (
   authServiceInterface: AuthServiceInterface,
   authServiceImpl: AuthService,
@@ -31,12 +34,15 @@ const authController = (
   instructorDbRepository: InstructorDbInterface,
   instructorDbRepositoryImpl: InstructorRepositoryMongoDb,
   googleAuthServiceInterface: GoogleAuthServiceInterface,
-  googleAuthServiceImpl: GoogleAuthService
+  googleAuthServiceImpl: GoogleAuthService,
+  adminDbRepository:AdminDbInterface,
+  adminDbRepositoryImpl:AdminRepositoryMongoDb
 ) => {
   const dbRepositoryUser = studentDbRepository(studentDbRepositoryImpl());
   const dbRepositoryInstructor = instructorDbRepository(
     instructorDbRepositoryImpl()
   );
+  const dbRepositoryAdmin = adminDbRepository(adminDbRepositoryImpl())
   const authService = authServiceInterface(authServiceImpl());
   const googleAuthService = googleAuthServiceInterface(googleAuthServiceImpl());
 
@@ -107,12 +113,26 @@ const authController = (
     );
   });
 
+  //? ADMIN
+  const loginAdmin = asyncHandler(async (req:Request,res:Response)=>{
+    const {email,password}:{email:string,password:string} = req.body
+    const accessToken = await adminLogin(email,password,dbRepositoryAdmin,authService)
+    res.json(
+      {
+       status:"success",
+       message:"Successfully logged in ",
+       accessToken
+      }
+    )
+  })
+
   return {
     loginStudent,
     registerStudent,
     loginWithGoogle,
     registerInstructor,
     loginInstructor,
+    loginAdmin
   };
 };
 

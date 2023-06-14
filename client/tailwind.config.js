@@ -2,6 +2,9 @@
 export const content = ["./src/**/*.{html,js,ts,jsx,tsx}"];
 export const theme = {
   extend: {
+    padding: {
+      'custom': '.5px', // Replace '20px' with your desired padding value
+    },
     fontFamily: {
       sans: ['Roboto', 'Arial', 'sans-serif'],
       serif: ['Merriweather', 'serif'],

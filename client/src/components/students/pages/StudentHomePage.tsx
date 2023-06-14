@@ -2,8 +2,8 @@ import React from 'react'
 
 const StudentHomePage:React.FC = () =>{
     return (
-        <div>
-            <h2>Home page</h2>
+        <div className='bg-green-500'>
+            <h2>Student Home page</h2>
         </div>
     )
 }

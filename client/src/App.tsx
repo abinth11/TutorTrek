@@ -4,12 +4,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Outlet } from "react-router-dom";
 const App: React.FC = () => {
+  const admin = true;
   return (
     <div className='bg-gray-100'>
-    
-        <StudentHeader />
-        <Outlet />
-        <ToastContainer />
+      {!admin && <StudentHeader />}
+      <Outlet />
+      <ToastContainer />
     </div>
   );
 };
