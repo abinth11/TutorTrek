@@ -11,5 +11,9 @@ export interface InstructorInterface {
     password: string;
 }
 export interface SavedInstructorInterface extends InstructorInterface {
-    _id:string;  
+    _id:string;
+    isVerified:boolean;
+    dateJoined:Date;
+    coursesCreated:Array<String>
+
 }

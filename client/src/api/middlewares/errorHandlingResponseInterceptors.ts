@@ -8,27 +8,28 @@ const api: AxiosInstance = axios.create({
 
 api.interceptors.response.use(
   (response: AxiosResponse) => {
-    return response
+    return response;
   },
   (error: AxiosError) => {
     if (error.response) {
       const { data, status } = error.response;
-      
+
       if (status === 400) {
-        console.log('Bad Request:', data);
+        throw new CustomApiError("Bad request", data);
       } else if (status === 401) {
-        console.log('Unauthorized:', data);
+        throw new CustomApiError("Unauthorized", data);
       } else if (status === 404) {
-        console.log('Not Found:', data);
+        console.log("Not Found:", data);
+        throw new CustomApiError("Not Found", data);
       } else if (status === 409) {
-        throw new CustomApiError("Conflict",data)
+        throw new CustomApiError("Conflict", data);
       } else {
-        throw new CustomApiError("Request failed with status ${status}",data)
+        throw new CustomApiError("Request failed with status ${status}", data);
       }
     } else if (error.request) {
-      console.log('No response received:', error.request);
+      console.log("No response received:", error.request);
     } else {
-      console.log('Error:', error.message);
+      console.log("Error:", error.message);
     }
 
     return Promise.reject(error);

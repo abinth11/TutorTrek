@@ -10,3 +10,8 @@ export interface InstructorRegisterDataInterface {
     about: string;
     password: string;
   }
+
+export interface InstructorLoginInfo {
+  email:string;
+  password:string;
+}

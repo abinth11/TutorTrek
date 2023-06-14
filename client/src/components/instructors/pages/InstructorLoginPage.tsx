@@ -1,21 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { handleApiError } from "../../../api/utils/apiError";
 import { instructorLoginValidationSchema } from "../../../validations/instructors/InstructorLoginValidation";
 import { toast } from "react-toastify";
-import {Link,useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from "react-router-dom";
+import { loginInstructor } from "../../../api/endpoints/instructor/auth";
+import { InstructorLoginInfo } from "../../../api/types/instructor/authInterface";
 const InstructorLoginPage: React.FC = () => {
-  const [errorMsg, setErrorMsg] = useState("");
-  const navigate = useNavigate()
-  const handleSubmit = async (instructorInfo: any) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (instructorInfo: InstructorLoginInfo) => {
     try {
-    //todo=> handle submit logic
-      
+      const response = await loginInstructor(instructorInfo);
+      console.log(response)
+      toast.success(response?.data?.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
       navigate('/')
-    } catch (error) {
-      setErrorMsg(handleApiError(error));
-      toast.error(errorMsg?errorMsg:"Something wrong..", {
-        position: toast.POSITION.TOP_CENTER,
+    } catch (error:any) {
+      toast.error(error.data?.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
   };
@@ -33,14 +35,17 @@ const InstructorLoginPage: React.FC = () => {
             Sign in to your account
           </h2>
         </div>
-         <Formik
-          initialValues={{ email: '', password: '' }}
+        <Formik
+          initialValues={{ email: "", password: "" }}
           validationSchema={instructorLoginValidationSchema}
           onSubmit={handleSubmit}
         >
           <Form className='mt-10 space-y-6'>
             <div>
-              <label htmlFor='email' className='block text-sm font-medium leading-6 text-gray-900'>
+              <label
+                htmlFor='email'
+                className='block text-sm font-medium leading-6 text-gray-900'
+              >
                 Email address
               </label>
               <div className='mt-2'>
@@ -62,11 +67,17 @@ const InstructorLoginPage: React.FC = () => {
 
             <div>
               <div className='flex items-center justify-between'>
-                <label htmlFor='password' className='block text-sm font-medium leading-6 text-gray-900'>
+                <label
+                  htmlFor='password'
+                  className='block text-sm font-medium leading-6 text-gray-900'
+                >
                   Password
                 </label>
                 <div className='text-sm'>
-                  <a href='#' className='font-semibold text-indigo-600 hover:text-indigo-500'>
+                  <a
+                    href='/'
+                    className='font-semibold text-indigo-600 hover:text-indigo-500'
+                  >
                     Forgot password?
                   </a>
                 </div>
@@ -89,15 +100,15 @@ const InstructorLoginPage: React.FC = () => {
             </div>
 
             <div>
-            <button
-              type='submit'
-              className='flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
-            >
-              Sign in
-            </button>
-          </div>
-        </Form>
-      </Formik>
+              <button
+                type='submit'
+                className='flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+              >
+                Sign in
+              </button>
+            </div>
+          </Form>
+        </Formik>
 
         <p className='mt-10 text-center text-sm text-gray-500'>
           Do not have an account?

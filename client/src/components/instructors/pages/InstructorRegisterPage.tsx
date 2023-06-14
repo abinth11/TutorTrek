@@ -6,7 +6,7 @@ import { registerInstructor } from "../../../api/endpoints/instructor/auth";
 import { instructorRegistrationValidationSchema } from "../../../validations/instructors/InstructorRegisterValidation";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { ApiResponse } from "../../../api/types/interfaces";
-import { InstructorRegisterDataInterface } from "../../../api/types/admin/authInterface";
+import { InstructorRegisterDataInterface } from "../../../api/types/instructor/authInterface";
 
 const InstructorRegistrationPage: React.FC = () => {
   const handleSubmit = async (instructorInfo: InstructorRegisterDataInterface) => {

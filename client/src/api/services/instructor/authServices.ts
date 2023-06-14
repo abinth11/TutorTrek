@@ -1,14 +1,28 @@
 import CONSTANTS_COMMON from "../../../constants/common";
 import api from "../../middlewares/errorHandlingResponseInterceptors";
-import { InstructorRegisterDataInterface } from "../../types/admin/authInterface";
+import {
+  InstructorRegisterDataInterface,
+  InstructorLoginInfo,
+} from "../../types/instructor/authInterface";
 
 export const register = async (
   endpoint: string,
-  studentData: InstructorRegisterDataInterface
+  instructorData: InstructorRegisterDataInterface
 ) => {
   const response = await api.post(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
-    studentData
+    instructorData
+  );
+  return response;
+};
+
+export const login = async (
+  endpoint: string,
+  loginInfo: InstructorLoginInfo
+) => {
+  const response = await api.post(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
+    loginInfo
   );
   return response;
 };

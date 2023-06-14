@@ -39,6 +39,9 @@ export const instructorLogin = async (
     if(!instructor){
       throw new AppError("Instructor doesn't exist, please register",HttpStatusCodes.UNAUTHORIZED)
     }
+    if(!instructor.isVerified){
+      throw new AppError("Your details is under verification please try again later",HttpStatusCodes.FORBIDDEN)
+    }
     const isPasswordCorrect = await authService.comparePassword(password,instructor.password)
     if(!isPasswordCorrect){
       throw new AppError(
