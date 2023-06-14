@@ -48,8 +48,8 @@ export const studentLogin = async (
     studentId:student._id,
     email:student.email
   }
-  const token = authService.generateToken(payload);
-  return token;
+  const accessToken = authService.generateToken(payload);
+  return accessToken;
 };
 
 export const signInWithGoogle=async(

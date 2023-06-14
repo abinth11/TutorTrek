@@ -5,7 +5,6 @@ export const instructorRepoMongoDb = () =>{
         return await Instructor.create(instructor)
     }
     const getInstructorByEmail = async (email:string)=>{
-        //todo change the interface; separate interface for database value 
         const instructor:SavedInstructorInterface | null = await Instructor.findOne({email})
         return instructor
     }

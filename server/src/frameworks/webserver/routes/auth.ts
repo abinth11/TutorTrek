@@ -8,6 +8,8 @@ import {googleAuthService} from "../../../frameworks/services/googleAuthService"
 import { googleAuthServiceInterface } from "../../../app/services/googleAuthServicesInterface";
 import {instructorDbRepository} from "../../../../src/app/repositories/instructorDbRepository"
 import {instructorRepoMongoDb} from "../../../frameworks/database/mongodb/repositories/instructorRepoMongoDb"
+import { adminDbRepository } from "../../../../src/app/repositories/adminDbRepository";
+import { adminRepoMongoDb } from "../../../../src/frameworks/database/mongodb/repositories/adminRepoMongoDb";
 const authRouter = () => {     
   const router = express.Router();
   
@@ -19,7 +21,9 @@ const authRouter = () => {
     instructorDbRepository,  
     instructorRepoMongoDb,
     googleAuthServiceInterface,
-    googleAuthService
+    googleAuthService,
+    adminDbRepository,
+    adminRepoMongoDb
   );
   //* Student
   router.post("/student-register",controller.registerStudent)
@@ -29,6 +33,9 @@ const authRouter = () => {
   //* Instructor
   router.post("/instructor/instructor-register",controller.registerInstructor)
   router.post("/instructor/instructor-login",controller.loginInstructor)
+
+  //* Admin 
+  router.post("/admin/admin-login",controller.loginAdmin)
 
   return router;
 };
