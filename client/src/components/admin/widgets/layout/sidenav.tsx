@@ -72,7 +72,7 @@ export function Sidenav({ brandImg, brandName, routes }:NavbarProps) {
       </div>
       <div className="m-4">
         {routes.map(({ layout, title, pages }:any, key) => (
-          <ul key={key} className="mb-4 flex flex-col gap-1">
+          <ul key={key} className="mb-4 flex flex-col gap-1 ">
             {title && (
               <li className="mx-3.5 mt-4 mb-2">
                 <Typography
@@ -87,7 +87,7 @@ export function Sidenav({ brandImg, brandName, routes }:NavbarProps) {
             {pages.map(({ icon, name, path }:Route) => (
               <li key={name}>
                 <NavLink to={`/${layout}${path}`}>
-                  {({ isActive=true }) => (
+                  {({ isActive}) => (
                     <Button
                       variant={isActive ? "gradient" : "text"}
                       color='gray'
@@ -97,7 +97,7 @@ export function Sidenav({ brandImg, brandName, routes }:NavbarProps) {
                       {icon}
                       <Typography
                         color="inherit"
-                        className="font-medium capitalize"
+                        className="font-medium  capitalize"
                       >
                         {name}
                       </Typography>

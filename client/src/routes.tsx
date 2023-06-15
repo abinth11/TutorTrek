@@ -8,12 +8,13 @@ import ErrorElement from "./components/common/ErrorElement";
 import AdminLoginPage from "./components/admin/pages/AdminLoginPage";
 import AdminHomePage from "./components/admin/pages/AdminHomePage";
 import Dashboard from "./components/admin/pages/AdminDashBoardPage";
-import App from "./App";
+import ViewInstructorsPage from "./components/admin/pages/ViewInstructorsPage";
+import { Student,Admin } from "./App";
 
 const AppRouter = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Student />,
     errorElement: <ErrorElement />,
     children: [
       {
@@ -40,16 +41,20 @@ const AppRouter = createBrowserRouter([
   },
   {
     path:"admin",
-    element:<App/>,
+    element:<Admin/>,
     errorElement:<ErrorElement/>,
     children:[
       {
-        path:"dashboard",
+        path:"admin/",
         element:<Dashboard/>
       },
       {
-        path:"home",
+        path:"dashboard",
         element:<AdminHomePage/>
+      },
+      {
+        path:"instructors",
+        element:<ViewInstructorsPage/>
       },
       {
         path:"login",

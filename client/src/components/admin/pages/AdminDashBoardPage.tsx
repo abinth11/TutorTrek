@@ -9,11 +9,9 @@ import {
 import {
   Cog6ToothIcon,
   HomeIcon,
-  UserCircleIcon,
-  TableCellsIcon,
+  UserGroupIcon,
+  AcademicCapIcon,
   BellIcon,
-  ArrowRightOnRectangleIcon,
-  UserPlusIcon,
 } from "@heroicons/react/24/solid";
 import { useMaterialTailwindController, setOpenConfigurator } from "../widgets/context";
 import AdminHomePage from "./AdminHomePage";
@@ -23,24 +21,24 @@ const icon = {
 
 export const routes = [
   {
-    layout: "dashboard",
+    layout: "admin",
     pages: [
       {
         icon: <HomeIcon {...icon} />,
         name: "dashboard",
-        path: "/home",
+        path: "/dashboard",
         element: <AdminHomePage />,
       },
       {
-        icon: <UserCircleIcon {...icon} />,
-        name: "profile",
-        path: "/profile",
+        icon: <AcademicCapIcon {...icon} />,
+        name: "Instructors",
+        path: "/instructors",
         element: <AdminHomePage />,
       },
       {
-        icon: <TableCellsIcon {...icon} />,
-        name: "tables",
-        path: "/tables",
+        icon: <UserGroupIcon {...icon} />,
+        name: "Students",
+        path: "/students",
         element: <AdminHomePage />,
       },
       {
@@ -50,25 +48,7 @@ export const routes = [
         element: <AdminHomePage />,
       },
     ],
-  },
-  {
-    title: "auth pages",
-    layout: "auth",
-    pages: [
-      {
-        icon: <ArrowRightOnRectangleIcon {...icon} />,
-        name: "sign in",
-        path: "/sign-in",
-        element: <AdminHomePage />,
-      },
-      {
-        icon: <UserPlusIcon {...icon} />,
-        name: "sign up",
-        path: "/sign-up",
-        element: <AdminHomePage />,
-      },
-    ],
-  },
+  }
 ];
 
 
@@ -85,7 +65,7 @@ export function Dashboard() {
       />
       <div className="p-4 xl:ml-80">
         <DashboardNavbar />
-        <Configurator />
+        {/* <Configurator /> */}
         <IconButton
           size="lg"
           color="white"
@@ -98,7 +78,7 @@ export function Dashboard() {
         <Routes>
           {routes.map(
             ({ layout, pages }) =>
-              layout === "dashboard" &&
+              layout === "admin" &&
               pages.map(({ path, element }) => (
                 <Route  path={path} element={element} />
               ))
