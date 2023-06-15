@@ -17,7 +17,7 @@ export const Student: React.FC = () => {
 };
 
 export const Admin: React.FC = () => {
-  const admin = false;
+  const admin = true;
   return (
     <>
       {admin ? (
