@@ -7,6 +7,7 @@ import InstructorLoginPage from "./components/instructors/pages/InstructorLoginP
 import ErrorElement from "./components/common/ErrorElement";
 import AdminLoginPage from "./components/admin/pages/AdminLoginPage";
 import AdminHomePage from "./components/admin/pages/AdminHomePage";
+import Dashboard from "./components/admin/pages/AdminDashBoardPage";
 import App from "./App";
 
 const AppRouter = createBrowserRouter([
@@ -44,6 +45,10 @@ const AppRouter = createBrowserRouter([
     children:[
       {
         path:"dashboard",
+        element:<Dashboard/>
+      },
+      {
+        path:"home",
         element:<AdminHomePage/>
       },
       {
@@ -53,5 +58,4 @@ const AppRouter = createBrowserRouter([
     ]
   }
 ]);
-
 export default AppRouter;

@@ -8,15 +8,20 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { client_id } from "./constants/common";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { ThemeProvider } from "@material-tailwind/react";
+import { MaterialTailwindControllerProvider } from "../src/components/admin/widgets/context";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <GoogleOAuthProvider clientId="868341844656-jr4d6pb4gro123nbet4d3th7cvogpbpq.apps.googleusercontent.com">
+  <GoogleOAuthProvider clientId={client_id}>
     <React.StrictMode>
       <Provider store={store}>
-      
-        <RouterProvider router={AppRouter} />
+        <ThemeProvider>
+          <MaterialTailwindControllerProvider>
+            <RouterProvider router={AppRouter} />
+          </MaterialTailwindControllerProvider>
+        </ThemeProvider>
       </Provider>
     </React.StrictMode>
   </GoogleOAuthProvider>
