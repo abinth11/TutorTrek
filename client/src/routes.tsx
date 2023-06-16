@@ -7,12 +7,14 @@ import InstructorLoginPage from "./components/instructors/pages/InstructorLoginP
 import ErrorElement from "./components/common/ErrorElement";
 import AdminLoginPage from "./components/admin/pages/AdminLoginPage";
 import AdminHomePage from "./components/admin/pages/AdminHomePage";
-import App from "./App";
+import Dashboard from "./components/admin/pages/AdminDashBoardPage";
+import ViewInstructorsPage from "./components/admin/pages/ViewInstructorsPage";
+import { Student,Admin } from "./App";
 
 const AppRouter = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Student />,
     errorElement: <ErrorElement />,
     children: [
       {
@@ -39,12 +41,20 @@ const AppRouter = createBrowserRouter([
   },
   {
     path:"admin",
-    element:<App/>,
+    element:<Admin/>,
     errorElement:<ErrorElement/>,
     children:[
       {
+        path:"admin/",
+        element:<Dashboard/>
+      },
+      {
         path:"dashboard",
         element:<AdminHomePage/>
+      },
+      {
+        path:"instructors",
+        element:<ViewInstructorsPage/>
       },
       {
         path:"login",
@@ -53,5 +63,4 @@ const AppRouter = createBrowserRouter([
     ]
   }
 ]);
-
 export default AppRouter;
