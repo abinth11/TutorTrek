@@ -1,10 +1,7 @@
 ```markdown
-# TutorTrek
+### TutorTrek
 
-
-![Project Logo](/path/to/project-logo.png)
-
-> A comprehensive online learning platform that connects teachers and students, allowing teachers to upload courses and students to access and watch them. The project is built with Node.js, Express, React, MongoDB, Mongoose, TypeScript, Redux, Tailwind CSS, and Redis Cache.
+A comprehensive online learning platform that connects teachers and students, allowing teachers to upload courses and students to access and watch them. The project is built with Node.js, Express, React, MongoDB, Mongoose, TypeScript, Redux, Tailwind CSS, and Redis Cache.
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
