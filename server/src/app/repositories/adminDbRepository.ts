@@ -10,6 +10,8 @@ export const adminDbRepository = (
   const acceptInstructorRequest = async (instructorId: string) =>
     await repository.acceptInstructorRequest(instructorId);
 
+  const checkRejected = async (instructorId: string) =>
+    await repository.checkRejected(instructorId);
   const rejectInstructorRequest = async (
     instructorId: string,
     reason: string
@@ -18,6 +20,7 @@ export const adminDbRepository = (
     getAdminByEmail,
     getInstructorRequests,
     acceptInstructorRequest,
+    checkRejected,
     rejectInstructorRequest,
   };
 };

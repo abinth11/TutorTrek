@@ -18,6 +18,16 @@ export const adminRepoMongoDb = () => {
     return instructorId;
   };
 
+  const checkRejected = async (instructorId: string) => {
+    const result = await Instructor.findOne({
+      $and: [
+        { _id:new mongoose.Types.ObjectId(instructorId) },
+        { rejected: true },
+      ],
+    });
+    return result;
+  };
+
   const rejectInstructorRequest = async (
     instructorId: string,
     reason: string
@@ -43,6 +53,7 @@ export const adminRepoMongoDb = () => {
     getAdminByEmail,
     getInstructorRequests,
     acceptInstructorRequest,
+    checkRejected,
     rejectInstructorRequest,
   };
 };

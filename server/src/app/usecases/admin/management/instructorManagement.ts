@@ -30,6 +30,13 @@ export const rejectInstructorRequest = async (
       HttpStatusCodes.BAD_REQUEST
     );
   }
+  const rejected = await adminRepository.checkRejected(instructorId)
+  if (rejected) {
+    throw new AppError(
+      'Already rejected this request',
+      HttpStatusCodes.CONFLICT
+    );
+  }
   const response = await adminRepository.rejectInstructorRequest(
     instructorId,
     reason
