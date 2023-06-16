@@ -8,3 +8,11 @@ export const getAllInstructorRequests = async (
   }
   return allRequests;
 };
+
+export const acceptInstructorRequest = async (
+  instructorId: string,
+  adminRepository: ReturnType<AdminDbInterface>
+) => {
+  const response = await adminRepository.acceptInstructorRequest(instructorId);
+  return response;
+};

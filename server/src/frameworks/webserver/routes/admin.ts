@@ -11,6 +11,10 @@ const adminRouter = () => {
     '/instructors/view-instructor-requests',
     controller.getInstructorRequests
   );
+  router.patch(
+    '/instructors/accept-instructor-request/:instructorId',
+    controller.verifyInstructor
+  );
   return router;
 };
 

@@ -13,9 +13,14 @@ export const adminRepoMongoDb = () => {
     const instructors:SavedInstructorInterface[] | null = await Instructor.find({isVerified:false})
     return instructors
   }
+  const acceptInstructorRequest = async (instructorId:string) =>{
+    await Instructor.updateOne({_id:instructorId},{isVerified:true})
+    return instructorId
+  }
   return {
     getAdminByEmail,
-    getInstructorRequests
+    getInstructorRequests,
+    acceptInstructorRequest
   };
 };
 
