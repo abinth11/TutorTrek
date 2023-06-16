@@ -30,15 +30,13 @@ export const adminRepoMongoDb = () => {
     const update = {
       $set: { rejectedReason: reason, rejected: true },
     };
-    const instructor = await Instructor.findOne({_id:new mongoose.Types.ObjectId(instructorId)})
-    console.log(instructor)
-    const response = await Instructor.findOneAndUpdate(
+    await Instructor.updateOne(
       { _id: new mongoose.Types.ObjectId(instructorId) },
       update,
       options
     );
 
-    return response;
+    return instructorId;
   };
 
   return {
