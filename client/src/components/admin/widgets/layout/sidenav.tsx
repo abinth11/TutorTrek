@@ -32,7 +32,6 @@ export function Sidenav({ brandImg, brandName, routes }:NavbarProps) {
   const [controller, dispatch] = useMaterialTailwindController();
   const {openSidenav } = controller;
   const sidenavType = 'white'
-  const sidenavColor = 'dark'
   const sidenavTypes = {
     dark: "bg-gradient-to-br from-blue-gray-800 to-blue-gray-900",
     white: "bg-white shadow-lg",

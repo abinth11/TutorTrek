@@ -12,8 +12,6 @@ import {
   BellIcon,
 } from "@heroicons/react/24/solid";
 import AdminHomePage from "./AdminHomePage";
-import { useSelector } from "react-redux";
-import { selectAdmin } from "../../../redux/reducers/AdminSlice";
 const icon = {
   className: "w-5 h-5 text-inherit",
 };

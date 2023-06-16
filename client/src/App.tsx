@@ -6,8 +6,6 @@ import { Outlet } from "react-router-dom";
 import AdminLoginPage from "./components/admin/pages/AdminLoginPage";
 import { Sidenav } from "./components/admin/widgets/layout";
 import { routes } from "./components/admin/pages/AdminDashBoardPage";
-import { useSelector } from "react-redux";
-import { selectAdmin } from "./redux/reducers/AdminSlice";
 export const Student: React.FC = () => {
   return (
     <div className='bg-gray-100'>
@@ -20,7 +18,6 @@ export const Student: React.FC = () => {
 
 export const Admin: React.FC = () => {
   const admin = true;
-  const isModalOpen = useSelector(selectAdmin);
   return (
     <>
       {admin ? (
