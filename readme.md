@@ -15,14 +15,20 @@ A comprehensive online learning platform that connects teachers and students, al
    ```shell
    cd TutorTrek
    ```
-
-3. Install the dependencies:
+3. Navigate to client directory and server directory
 
    ```shell
-   npm install
+   cd client
+   cd server
+   ```
+  
+4. Install the dependencies separately(install in both client and server)
+
+   ```shell
+   npm install 
    ```
 
-4. Set up the required environment variables. Rename the `.env.example` file to `.env` and provide the necessary values for your environment.
+5. Set up the required environment variables. Rename the `.env.example` file to `.env` and provide the necessary values for your environment.
 
 5. Seed the database with initial data (if applicable):
 
@@ -34,9 +40,15 @@ A comprehensive online learning platform that connects teachers and students, al
 
 1. Start the development server:
 
+   -server side
    ```shell
    npm run dev
    ```
+   -client side
+   ```shell
+   npm start 
+   ```
+
 
 2. Access the online learning platform through the provided URL in your web browser.
 
@@ -120,24 +132,14 @@ To deploy the online learning platform to a production environment, follow the d
 
 Contributions to the project are welcome. To contribute, please follow the guidelines outlined in the [Contributing Documentation](/docs/contributing.md).
 
-## License
-
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 ## Contact
 
 For any questions, feedback, or inquiries, please reach out to:
 
-- Your Name
+- Abin T H
   - Email: abinth250@example.com
-  - Twitter: [@your-twitter-handle](https://twitter.com/your-twitter-handle)
-
-## Acknowledgments
-
-- Library/Framework #1 - [Link](https://example.com)
-- Library/Framework #2 - [Link](https://example.com)
-- Tutorial/Resource #1 - [Link](https://example.com)
-- Tutorial/Resource #2 - [Link](https://example.com)
+  - LinkedIn: [linkedin-profile](https://www.linkedin.com/in/abin-th-170676245/)
 
 ## Design Files and API Documentation
 
