@@ -21,7 +21,7 @@ const TopNav: React.FC = () => {
       <CardBody className='p-2'>
         <div className='w-96 bg-gray-100 rounded-lg'>
           <Tabs value={activeTab} onChange={handleTabChange}>
-            <TabsHeader className='z-20'>
+            <TabsHeader className='z-10'>
               <Tab value='app'>
                 <FaEye className='-mt-1 mr-2 inline-block h-5 w-5' />
                 View
