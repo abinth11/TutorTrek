@@ -14,8 +14,8 @@ export const adminRepoMongoDb = () => {
     return instructors;
   };
   const acceptInstructorRequest = async (instructorId: string) => {
-    await Instructor.updateOne({ _id: instructorId }, { isVerified: true });
-    return instructorId;
+    const response = await Instructor.findOneAndUpdate({ _id: instructorId }, { isVerified: true });
+    return response;
   };
 
   const checkRejected = async (instructorId: string) => {
@@ -40,13 +40,13 @@ export const adminRepoMongoDb = () => {
     const update = {
       $set: { rejectedReason: reason, rejected: true },
     };
-    await Instructor.updateOne(
+    const response = await Instructor.findOneAndUpdate(
       { _id: new mongoose.Types.ObjectId(instructorId) },
       update,
       options
     );
 
-    return instructorId;
+    return response
   };
 
   return {

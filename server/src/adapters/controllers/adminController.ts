@@ -7,11 +7,17 @@ import {
   acceptInstructorRequest,
   rejectInstructorRequest,
 } from '../../app/usecases/admin/management/instructorManagement';
+import { SendEmailService } from '@src/frameworks/services/sendEmailService';
+import { SendEmailServiceInterface } from '@src/app/services/sendEmailServiceInterface';
 const adminController = (
   adminDbRepository: AdminDbInterface,
-  adminDbRepositoryImpl: AdminRepositoryMongoDb
+  adminDbRepositoryImpl: AdminRepositoryMongoDb,
+  emailServiceInterface:SendEmailServiceInterface,
+  emailServiceImpl:SendEmailService
+
 ) => {
   const dbRepositoryAdmin = adminDbRepository(adminDbRepositoryImpl());
+  const emailService = emailServiceInterface(emailServiceImpl())
 
   //? INSTRUCTOR MANAGEMENT
   const getInstructorRequests = asyncHandler(
@@ -29,7 +35,8 @@ const adminController = (
     const instructorId: string = req.params.instructorId;
     const response = await acceptInstructorRequest(
       instructorId,
-      dbRepositoryAdmin
+      dbRepositoryAdmin,
+      emailService
     );
     res.json({
       status: 'success',
@@ -44,7 +51,8 @@ const adminController = (
     const response = await rejectInstructorRequest(
       instructorId,
       reason,
-      dbRepositoryAdmin
+      dbRepositoryAdmin,
+      emailService
     );
     console.log(response)
     res.json({
