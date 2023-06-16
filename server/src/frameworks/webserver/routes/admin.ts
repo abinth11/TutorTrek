@@ -15,6 +15,7 @@ const adminRouter = () => {
     '/instructors/accept-instructor-request/:instructorId',
     controller.verifyInstructor
   );
+  router.put('/instructors/reject-instructor-request',controller.rejectRequest)
   return router;
 };
 

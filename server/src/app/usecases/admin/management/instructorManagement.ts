@@ -1,4 +1,6 @@
 import { AdminDbInterface } from '../../../repositories/adminDbRepository';
+import HttpStatusCodes from '../../../../constants/HttpStatusCodes';
+import AppError from '../../../../utils/appError';
 export const getAllInstructorRequests = async (
   adminRepository: ReturnType<AdminDbInterface>
 ) => {
@@ -14,5 +16,23 @@ export const acceptInstructorRequest = async (
   adminRepository: ReturnType<AdminDbInterface>
 ) => {
   const response = await adminRepository.acceptInstructorRequest(instructorId);
+  return response;
+};
+
+export const rejectInstructorRequest = async (
+  instructorId: string,
+  reason: string,
+  adminRepository: ReturnType<AdminDbInterface>
+) => {
+  if (!instructorId || !reason) {
+    throw new AppError(
+      'InstructorId or reason cannot be empty',
+      HttpStatusCodes.BAD_REQUEST
+    );
+  }
+  const response = await adminRepository.rejectInstructorRequest(
+    instructorId,
+    reason
+  );
   return response;
 };
