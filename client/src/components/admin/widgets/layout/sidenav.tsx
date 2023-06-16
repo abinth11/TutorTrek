@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useMaterialTailwindController, setOpenSidenav } from "../context";
-import { ReactElement } from "react";
+import { ReactElement,useState } from "react";
 
 interface Route {
   icon:ReactElement;
@@ -30,6 +30,7 @@ interface NavbarProps {
 
 export function Sidenav({ brandImg, brandName, routes }:NavbarProps) {
   const [controller, dispatch] = useMaterialTailwindController();
+  const [selected,setSelected] = useState(true)
   const {openSidenav } = controller;
   const sidenavType = 'white'
   const sidenavTypes = {
@@ -37,7 +38,9 @@ export function Sidenav({ brandImg, brandName, routes }:NavbarProps) {
     white: "bg-white shadow-lg",
     transparent: "bg-transparent",
   };
-
+  const handleClick = () =>{
+    setSelected(true)
+  }
   return (
     <aside
       className={`${sidenavTypes[sidenavType]} ${
@@ -55,7 +58,7 @@ export function Sidenav({ brandImg, brandName, routes }:NavbarProps) {
             variant="h6"
             color="black"
           >
-            {brandName}
+            TutorTrek
           </Typography>
         </Link>
         <IconButton
@@ -88,19 +91,21 @@ export function Sidenav({ brandImg, brandName, routes }:NavbarProps) {
                 <NavLink to={`/${layout}${path}`}>
                   {({ isActive}) => (
                     <Button
-                      variant={isActive ? "gradient" : "text"}
-                      color='gray'
-                      className="flex items-center gap-4 px-4 capitalize"
-                      fullWidth
+                    variant={isActive ? "gradient" : "text"}
+                    color={isActive ? 'gray' : 'gray'}
+                    className={`flex items-center gap-4 px-4 capitalize${isActive && selected ? " bg-gray-700" : ""}`}
+                    fullWidth
+                    onClick={handleClick}
+                  >
+                    {icon}
+                    <Typography
+                      color="inherit"
+                      className="font-medium capitalize"
                     >
-                      {icon}
-                      <Typography
-                        color="inherit"
-                        className="font-medium  capitalize"
-                      >
-                        {name}
-                      </Typography>
-                    </Button>
+                      {name}
+                    </Typography>
+                  </Button>
+                  
                   )}
                 </NavLink>
               </li>

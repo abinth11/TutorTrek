@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   getAllInstructorRequests,
   acceptInstructorRequest,
-  rejectInstructorRequest,
 } from "../../../api/endpoints/admin/instructorManagement";
 import { toast } from "react-toastify";
 import Modal from "../../common/Modal";
-import { openModal } from "../../../redux/reducers/AdminSlice";
-import { useDispatch } from "react-redux";
 const ViewInstructorRequests: React.FC = () => {
   const [requests, setRequests] = useState([]);
-  const dispatch = useDispatch();
-  const [modalOpened,setModalOpened] = useState(false)
+  const [id, setId] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
   const handleApiCall = async () => {
     try {
       const response = await getAllInstructorRequests();
@@ -24,16 +21,6 @@ const ViewInstructorRequests: React.FC = () => {
   useEffect(() => {
     handleApiCall();
   }, []);
-
-  // Define the Person interface
-  interface Person {
-    email: string;
-    imageUrl: string;
-    name: string;
-    role: string;
-    lastSeen?: string;
-    lastSeenDateTime?: string;
-  }
 
   const acceptRequest = async (id: string) => {
     try {
@@ -48,25 +35,15 @@ const ViewInstructorRequests: React.FC = () => {
     }
   };
 
-  const rejectRequest = async (id: string, reason: string) => {
-    try {
-      setModalOpened(true)
-      dispatch(openModal())
-      const response = await rejectInstructorRequest(id, reason);
-      toast.success(response?.data?.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-    } catch (error: any) {
-      toast.error(error.data?.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-    }
+  const handleReject = (id: string) => {
+    setId(id);
+    setOpen(true);
   };
 
   return (
     <ul role='list' className='divide-y divide-gray-100'>
-      {modalOpened && <Modal/>}
-      {requests.map((person: any) => (
+      {open && <Modal open={open} setOpen={setOpen} id={id} />}
+      {requests?.map((person: any) => (
         <li key={person?._id} className='flex justify-between gap-x-6 py-5'>
           <div className='flex gap-x-4'>
             <img
@@ -111,7 +88,9 @@ const ViewInstructorRequests: React.FC = () => {
               Accept
             </button>
             <button
-              onClick={() => rejectRequest(person?._id, "dummy reason")}
+              onClick={() => {
+                handleReject(person._id);
+              }}
               className='p-1 m-3 rounded-md bg-red-600 text-white w-20 focus:outline-none focus:ring-2 focus:ring-red-600 hover:bg-red-700 hover:shadow-md'
             >
               Reject
