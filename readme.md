@@ -1,27 +1,6 @@
-```markdown
 ### TutorTrek
 
 A comprehensive online learning platform that connects teachers and students, allowing teachers to upload courses and students to access and watch them. The project is built with Node.js, Express, React, MongoDB, Mongoose, TypeScript, Redux, Tailwind CSS, and Redis Cache.
-
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Features](#features)
-- [Architecture and Technologies](#architecture-and-technologies)
-- [Folder Structure](#folder-structure)
-- [API Documentation](#api-documentation)
-- [Configuration](#configuration)
-- [State Management (Redux)](#state-management-redux)
-- [Styling (Tailwind CSS)](#styling-tailwind-css)
-- [Caching (Redis)](#caching-redis)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
-- [Acknowledgments](#acknowledgments)
 
 ## Installation
 
@@ -166,8 +145,5 @@ For any questions, feedback, or inquiries, please reach out to:
 * [Modules Specifications](https://drive.google.com/file/d/10aB7mVSsG_oG9V9wcK65orqcLoon2Dl4/view?usp=sharing)
 * [API Documentation](https://documenter.getpostman.com/view/23308654/2s93mAVL88)
 * [Database Design](https://drive.google.com/file/d/1N3YZ22s2cJnA1sSa5P5a-1ECzC70ztQu/view?usp=sharing)
-
-
-```
 
 
