@@ -4,7 +4,7 @@ import AppError from "../../../utils/appError";
 import { authService } from "../../services/authService";
 import { CustomRequest } from "@src/types/custom/customRequest";
 
-const userAuthMiddleware=(req:CustomRequest,res:Response,next:NextFunction)=>{
+const  jwtAuthMiddleware=(req:CustomRequest,res:Response,next:NextFunction)=>{
     let token:string | null='';
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
       token = req.headers.authorization.split(' ')[1];
@@ -21,4 +21,4 @@ const userAuthMiddleware=(req:CustomRequest,res:Response,next:NextFunction)=>{
     }
 }
 
-export default userAuthMiddleware
+export default jwtAuthMiddleware
