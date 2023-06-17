@@ -9,14 +9,12 @@ import GoogleAuthComponent from "../../common/GoogleAuthComponent";
 import { useDispatch } from "react-redux";
 import { setToken } from "../../../redux/reducers/studentAuthSlice";
 const StudentLoginPage: React.FC = () => {
-  const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate()
   const handleSubmit = async (studentInfo: any) => {
     try {
       const response = await loginStudent(studentInfo);
       response &&navigate('/')
     } catch (error:any) {
-      console.log(error.data)
       toast.error(error.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });

@@ -25,8 +25,8 @@ function GoogleAuthComponent(): JSX.Element {
         // }, 1000);
          navigate("/");
       })
-      .catch((error) => {
-        toast.error(error, {
+      .catch((error:any) => {
+        toast.error(error.data.message, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
       });

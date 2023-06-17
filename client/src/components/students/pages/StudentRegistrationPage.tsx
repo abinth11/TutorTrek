@@ -13,12 +13,11 @@ const StudentRegistrationPage: React.FC = () => {
     try {
         const response = await registerStudent(studentInfo);
         toast.success("User registered", {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.BOTTOM_RIGHT,
         });
-    } catch (error) {
-      setErrorMsg(handleApiError(error));
-      toast.error(errorMsg, {
-        position: toast.POSITION.TOP_CENTER,
+    } catch (error:any) {
+      toast.error(error?.data?.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
   };
