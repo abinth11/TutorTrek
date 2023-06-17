@@ -4,16 +4,23 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { AdminLoginInfo } from "../../../api/types/admin/authInterface";
 import { loginAdmin } from "../../../api/endpoints/admin/auth";
+import { setToken } from "../../../redux/reducers/adminAuthSlice";
+import { useDispatch } from "react-redux";
 
 const AdminLoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (adminInfo: AdminLoginInfo) => {
     try {
-      const response = await loginAdmin(adminInfo)
-     toast.success(response.data.message,{
-        position:toast.POSITION.BOTTOM_RIGHT
-     })
+      const response = await loginAdmin(adminInfo);
+      console.log(response);
+      const token = response?.data?.accessToken;
+      console.log(token);
+      dispatch(setToken({ token }));
+      toast.success(response.data.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
       navigate("/admin/dashboard");
     } catch (error: any) {
       toast.error(error.data?.message, {
@@ -111,7 +118,6 @@ const AdminLoginPage: React.FC = () => {
         </Formik>
       </div>
     </div>
-    
   );
 };
 

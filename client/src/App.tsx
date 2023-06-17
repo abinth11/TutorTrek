@@ -6,6 +6,8 @@ import { Outlet } from "react-router-dom";
 import AdminLoginPage from "./components/admin/pages/AdminLoginPage";
 import { Sidenav } from "./components/admin/widgets/layout";
 import { routes } from "./components/admin/pages/AdminDashBoardPage";
+import { useSelector } from "react-redux";
+import { selectIsAdminLoggedIn } from "./redux/reducers/adminAuthSlice";
 export const Student: React.FC = () => {
   return (
     <div className='bg-gray-100'>
@@ -17,10 +19,10 @@ export const Student: React.FC = () => {
 };
 
 export const Admin: React.FC = () => {
-  const admin = true;
+  const isAdminLoggedIn = useSelector(selectIsAdminLoggedIn);
   return (
     <>
-      {admin ? (
+      {isAdminLoggedIn ? (
         <div className='bg-gray-100 flex h-screen'>
           <div className='w-80 '>
             <Sidenav routes={routes} brandImg={"/img/logo-ct-dark.png"} />

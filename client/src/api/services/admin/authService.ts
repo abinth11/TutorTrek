@@ -1,5 +1,5 @@
 import CONSTANTS_COMMON from "../../../constants/common";
-import api from "../../middlewares/errorHandlingResponseInterceptors";
+import api from "../../middlewares/interceptors";
 import { AdminLoginInfo } from "../../types/admin/authInterface";
 
 export const login = async (

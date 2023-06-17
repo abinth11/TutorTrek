@@ -1,10 +1,22 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 import CONSTANTS_COMMON from "../../constants/common";
 import CustomApiError from "../../utils/CustomApiError";
-
 const api: AxiosInstance = axios.create({
   baseURL: CONSTANTS_COMMON.API_BASE_URL,
 });
+
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 api.interceptors.response.use(
   (response: AxiosResponse) => {

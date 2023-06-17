@@ -18,13 +18,13 @@ export const acceptInstructorRequest = async (
   emailService: ReturnType<SendEmailService>
 ) => {
   const response = await adminRepository.acceptInstructorRequest(instructorId);
-  if (response) {
-    emailService.sendEmail(
-      response.email,
-      'Successfully verified your profile',
-      'You are verified'
-    );
-  }
+  // if (response) {
+  //   emailService.sendEmail(
+  //     response.email,
+  //     'Successfully verified your profile',
+  //     'You are verified'
+  //   );
+  // }
   return response;
 };
 

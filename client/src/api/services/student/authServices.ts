@@ -1,7 +1,7 @@
 import axios from 'axios';
 import CONSTANTS_COMMON from '../../../constants/common';
 import { StudentRegisterData,StudentLoginData } from '../../types/student/authInterface';
-import api from '../../middlewares/errorHandlingResponseInterceptors';
+import api from '../../middlewares/interceptors';
 
 export const login = async (endpoint: string, data: StudentLoginData) => {
     try {

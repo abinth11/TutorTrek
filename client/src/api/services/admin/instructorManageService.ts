@@ -1,6 +1,5 @@
 import CONSTANTS_COMMON from "../../../constants/common";
-import api from "../../middlewares/errorHandlingResponseInterceptors";
-
+import api from "../../middlewares/interceptors";
 export const getInstructors = async (endpoint: string) => {
   const response = await api.get(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
