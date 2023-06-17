@@ -12,7 +12,6 @@ const InstructorRegistrationPage: React.FC = () => {
   const handleSubmit = async (instructorInfo: InstructorRegisterDataInterface) => {
     try {
       const response: AxiosResponse<ApiResponse> = await registerInstructor(instructorInfo);
-      console.log(response.data)
       toast.success(response.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });

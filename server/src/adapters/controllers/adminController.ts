@@ -22,7 +22,6 @@ const adminController = (
   //? INSTRUCTOR MANAGEMENT
   const getInstructorRequests = asyncHandler(
     async (req: Request, res: Response) => {
-      console.log(req.headers.Authorization)
       const response = await getAllInstructorRequests(dbRepositoryAdmin);
       res.json({
         status: 'success',
@@ -55,7 +54,6 @@ const adminController = (
       dbRepositoryAdmin,
       emailService
     );
-    console.log(response)
     res.json({
       status: 'success',
       message: 'Successfully rejected instructor request',

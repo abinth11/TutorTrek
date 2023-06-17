@@ -10,7 +10,6 @@ const InstructorLoginPage: React.FC = () => {
   const handleSubmit = async (instructorInfo: InstructorLoginInfo) => {
     try {
       const response = await loginInstructor(instructorInfo);
-      console.log(response)
       toast.success(response?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });

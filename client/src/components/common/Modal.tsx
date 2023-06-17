@@ -23,7 +23,6 @@ export default function Modal({open,setOpen,id}:ModalProps) {
     try {
       const response = await rejectInstructorRequest(id,selectedReason);
       setOpen(false)
-      console.log(open)
       toast.success(response?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });

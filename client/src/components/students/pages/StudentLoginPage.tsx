@@ -12,7 +12,6 @@ const StudentLoginPage: React.FC = () => {
   const handleSubmit = async (studentInfo: any) => {
     try {
       const response = await loginStudent(studentInfo);
-      console.log("User logged in:", response);
       navigate('/')
     } catch (error) {
       setErrorMsg(handleApiError(error));

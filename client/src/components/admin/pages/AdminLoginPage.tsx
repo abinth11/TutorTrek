@@ -14,9 +14,7 @@ const AdminLoginPage: React.FC = () => {
   const handleSubmit = async (adminInfo: AdminLoginInfo) => {
     try {
       const response = await loginAdmin(adminInfo);
-      console.log(response);
       const token = response?.data?.accessToken;
-      console.log(token);
       dispatch(setToken({ token }));
       toast.success(response.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,

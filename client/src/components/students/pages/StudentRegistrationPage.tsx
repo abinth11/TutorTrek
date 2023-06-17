@@ -12,7 +12,6 @@ const StudentRegistrationPage: React.FC = () => {
   const handleSubmit = async (studentInfo: any) => {
     try {
         const response = await registerStudent(studentInfo);
-        console.log("User registered:", response);
         toast.success("User registered", {
           position: toast.POSITION.TOP_CENTER,
         });
