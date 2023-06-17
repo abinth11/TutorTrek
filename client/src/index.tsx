@@ -13,9 +13,8 @@ import { MaterialTailwindControllerProvider } from "../src/components/admin/widg
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-const admin = true
 root.render(
-  <GoogleOAuthProvider clientId={client_id}>
+  <GoogleOAuthProvider clientId="868341844656-jr4d6pb4gro123nbet4d3th7cvogpbpq.apps.googleusercontent.com">
     <React.StrictMode>
       <Provider store={store}>
         <ThemeProvider>

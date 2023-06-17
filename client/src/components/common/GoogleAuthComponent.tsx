@@ -20,9 +20,10 @@ function GoogleAuthComponent(): JSX.Element {
         toast.success(response.message, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
-        setTimeout(() => {
-          navigate("/");
-        }, 3000);
+        // setTimeout(() => {
+        //   navigate("/");
+        // }, 1000);
+         navigate("/");
       })
       .catch((error) => {
         toast.error(error, {
