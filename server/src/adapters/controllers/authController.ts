@@ -16,15 +16,11 @@ import {
 import { InstructorDbInterface } from '@src/app/repositories/instructorDbRepository';
 import { InstructorRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/instructorRepoMongoDb';
 import { StudentRegisterInterface } from '@src/types/student/studentRegisterInterface';
-import {
-  sendJsonResponse,
-  sendJsonResponseAdminRegister,
-} from '../Helpers/generateJsonResponse';
 import { GoogleAuthServiceInterface } from '@src/app/services/googleAuthServicesInterface';
 import { GoogleAuthService } from '@src/frameworks/services/googleAuthService';
 import { InstructorInterface } from '@src/types/instructor/instructorInterface';
 import { adminLogin } from '../../../src/app/usecases/auth/adminAuth';
-import { AdminDbInterface} from '@src/app/repositories/adminDbRepository';
+import { AdminDbInterface } from '@src/app/repositories/adminDbRepository';
 import { AdminRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/adminRepoMongoDb';
 const authController = (
   authServiceInterface: AuthServiceInterface,
@@ -35,14 +31,14 @@ const authController = (
   instructorDbRepositoryImpl: InstructorRepositoryMongoDb,
   googleAuthServiceInterface: GoogleAuthServiceInterface,
   googleAuthServiceImpl: GoogleAuthService,
-  adminDbRepository:AdminDbInterface,
-  adminDbRepositoryImpl:AdminRepositoryMongoDb
+  adminDbRepository: AdminDbInterface,
+  adminDbRepositoryImpl: AdminRepositoryMongoDb
 ) => {
   const dbRepositoryUser = studentDbRepository(studentDbRepositoryImpl());
   const dbRepositoryInstructor = instructorDbRepository(
     instructorDbRepositoryImpl()
   );
-  const dbRepositoryAdmin = adminDbRepository(adminDbRepositoryImpl())
+  const dbRepositoryAdmin = adminDbRepository(adminDbRepositoryImpl());
   const authService = authServiceInterface(authServiceImpl());
   const googleAuthService = googleAuthServiceInterface(googleAuthServiceImpl());
 
@@ -50,9 +46,11 @@ const authController = (
   const registerStudent = asyncHandler(async (req: Request, res: Response) => {
     const student: StudentRegisterInterface = req.body;
     const token = await studentRegister(student, dbRepositoryUser, authService);
-    res.json(
-      sendJsonResponse('success', 'Successfully registered the user', token)
-    );
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully registered the user',
+      accessToken: token,
+    });
   });
 
   const loginStudent = asyncHandler(async (req: Request, res: Response) => {
@@ -63,7 +61,11 @@ const authController = (
       dbRepositoryUser,
       authService
     );
-    res.json(sendJsonResponse('success', 'User logged in successfully', token));
+    res.status(200).json({
+      status: 'success',
+      message: 'User logged in successfully',
+      accessToken: token,
+    });
   });
 
   const loginWithGoogle = asyncHandler(async (req: Request, res: Response) => {
@@ -74,9 +76,11 @@ const authController = (
       dbRepositoryUser,
       authService
     );
-    res.json(
-      sendJsonResponse('success', 'Successfully logged in with google', token)
-    );
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully logged in with google',
+      accessToken: token,
+    });
   });
 
   //? INSTRUCTOR
@@ -89,15 +93,15 @@ const authController = (
         authService
       );
       response.status
-        ? res.json(
-            sendJsonResponseAdminRegister(
-              'Success',
-              'Your registration is pending verification by the administrators.You will receive an email once your registration is approved'
-            )
-          )
-        : res.json(
-            sendJsonResponseAdminRegister('failed', 'failed to register')
-          );
+        ? res.status(200).json({
+            status: 'success',
+            message:
+              'Your registration is pending verification by the administrators.You will receive an email once your registration is approved',
+          })
+        : res.status(500).json({
+            status: 'failed',
+            message: 'Something went wrong please try again later',
+          });
     }
   );
   const loginInstructor = asyncHandler(async (req: Request, res: Response) => {
@@ -108,23 +112,28 @@ const authController = (
       dbRepositoryInstructor,
       authService
     );
-    res.json(
-      sendJsonResponse('success', 'Instructor logged in successfully', token)
-    );
+    res.status(200).json({
+      status: 'success',
+      message: 'Instructor logged in successfully',
+      accessToken: token,
+    });
   });
 
   //? ADMIN
-  const loginAdmin = asyncHandler(async (req:Request,res:Response)=>{
-    const {email,password}:{email:string,password:string} = req.body
-    const accessToken = await adminLogin(email,password,dbRepositoryAdmin,authService)
-    res.json(
-      {
-       status:"success",
-       message:"Successfully logged in ",
-       accessToken
-      }
-    )
-  })
+  const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
+    const { email, password }: { email: string; password: string } = req.body;
+    const accessToken = await adminLogin(
+      email,
+      password,
+      dbRepositoryAdmin,
+      authService
+    );
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully logged in ',
+      accessToken,
+    });
+  });
 
   return {
     loginStudent,
@@ -132,7 +141,7 @@ const authController = (
     loginWithGoogle,
     registerInstructor,
     loginInstructor,
-    loginAdmin
+    loginAdmin,
   };
 };
 
