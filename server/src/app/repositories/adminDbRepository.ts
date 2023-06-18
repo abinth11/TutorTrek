@@ -15,13 +15,18 @@ export const adminDbRepository = (
   const rejectInstructorRequest = async (
     instructorId: string,
     reason: string
-  ) => await repository.rejectInstructorRequest(instructorId, reason)
-  
-  const getAllInstructors = async()=> await repository.getAllInstructors()
-  
-  const blockInstructors = async (instructorId:string,reason:string)=> await repository.blockInstructors(instructorId,reason)
+  ) => await repository.rejectInstructorRequest(instructorId, reason);
 
-  const unblockInstructors = async (instructorId:string)=> await repository.unblockInstructors(instructorId) 
+  const getAllInstructors = async () => await repository.getAllInstructors();
+
+  const blockInstructors = async (instructorId: string, reason: string) =>
+    await repository.blockInstructors(instructorId, reason);
+
+  const unblockInstructors = async (instructorId: string) =>
+    await repository.unblockInstructors(instructorId);
+
+  const getBlockedInstructors = async ()=> await repository.getBlockedInstructors()
+  
   return {
     getAdminByEmail,
     getInstructorRequests,
@@ -30,7 +35,8 @@ export const adminDbRepository = (
     rejectInstructorRequest,
     getAllInstructors,
     blockInstructors,
-    unblockInstructors
+    unblockInstructors,
+    getBlockedInstructors
   };
 };
 

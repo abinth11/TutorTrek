@@ -79,6 +79,11 @@ export const adminRepoMongoDb = () => {
     })
   }
 
+  const getBlockedInstructors = async () =>{
+    const blockedInstructors = await Instructor.find({isBlocked:true})
+    return blockedInstructors
+  }
+
   return {
     getAdminByEmail,
     getInstructorRequests,
@@ -87,7 +92,8 @@ export const adminRepoMongoDb = () => {
     rejectInstructorRequest,
     getAllInstructors,
     blockInstructors,
-    unblockInstructors
+    unblockInstructors,
+    getBlockedInstructors
   };
 };
 

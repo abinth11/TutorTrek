@@ -41,6 +41,11 @@ const adminRouter = () => {
     controller.unblockInstructor
   );
 
+  router.get(
+    '/instructors/get-blocked-instructors',
+    controller.getBlockedInstructor
+  );
+
   return router;
 };
 

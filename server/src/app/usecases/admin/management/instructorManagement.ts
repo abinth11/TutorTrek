@@ -73,11 +73,11 @@ export const blockInstructors = async (
   reason: string,
   adminRepository: ReturnType<AdminDbInterface>
 ) => {
-  if(!instructorId ||!reason){
+  if (!instructorId || !reason) {
     throw new AppError(
       'Please provide instructor id and reason',
       HttpStatusCodes.BAD_REQUEST
-    )
+    );
   }
   const response = await adminRepository.blockInstructors(instructorId, reason);
   return response;
@@ -89,4 +89,11 @@ export const unblockInstructors = async (
 ) => {
   const response = await adminRepository.unblockInstructors(instructorId);
   return response;
+};
+
+export const getBlockedInstructors = async (
+  adminRepository: ReturnType<AdminDbInterface>
+) => {
+  const blockedInstructors = await adminRepository.getBlockedInstructors();
+  return blockedInstructors;
 };
