@@ -18,21 +18,30 @@ import {
   Input,
 } from "@material-tailwind/react";
 import {
-  blockInstructors,
   getAllInstructors,
   unblockInstructors,
 } from "../../../../api/endpoints/admin/instructorManagement";
 import { toast } from "react-toastify";
 import { formatDate } from "../../../../utils/helpers";
 import BlockReasonModal from "./BlockReasonModal";
+import usePagination from "../../../../hooks/usePagination";
 
 const TABLE_HEAD = ["Name", "Email", "Date Joined", "Status", "Actions", ""];
 
 const ViewInstructors: React.FC = () => {
   const [instructors, setInstructors] = useState([]);
-  const [open,setOpen] = useState(false)
-  const [updated,setUpdated] = useState(false)
-  const [id,setId] = useState('')
+  const [open, setOpen] = useState(false);
+  const [updated, setUpdated] = useState(false);
+  const [id, setId] = useState("");
+  const ITEMS_PER_PAGE = 6;
+  const {
+    currentPage,
+    totalPages,
+    currentData,
+    goToPage,
+    goToPreviousPage,
+    goToNextPage,
+  } = usePagination(instructors, ITEMS_PER_PAGE);
   const fetchInstructors = async () => {
     try {
       const response = await getAllInstructors();
@@ -53,7 +62,7 @@ const ViewInstructors: React.FC = () => {
       toast.success(response.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-      setUpdated(!updated)
+      setUpdated(!updated);
     } catch (error: any) {
       toast.error(error.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -62,7 +71,15 @@ const ViewInstructors: React.FC = () => {
   };
   return (
     <Card className='h-full w-full'>
-      {open && <BlockReasonModal open={open} setOpen={setOpen}updated={updated} setUpdated={setUpdated} id={id} />}
+      {open && (
+        <BlockReasonModal
+          open={open}
+          setOpen={setOpen}
+          updated={updated}
+          setUpdated={setUpdated}
+          id={id}
+        />
+      )}
       <CardHeader floated={false} shadow={false} className='rounded-none'>
         <div className='mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center'>
           <div>
@@ -104,7 +121,7 @@ const ViewInstructors: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {instructors.map(
+            {currentData.map(
               (
                 {
                   _id,
@@ -199,8 +216,8 @@ const ViewInstructors: React.FC = () => {
                           <div>
                             <button
                               onClick={() => {
-                                setOpen(true)
-                                setId(_id)
+                                setOpen(true);
+                                setId(_id);
                               }}
                               className='w-[80px] px-1 py-1.5 text-xs bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-md transform-gpu transition-transform duration-300 ease-in-out active:scale-95'
                             >
@@ -225,33 +242,37 @@ const ViewInstructors: React.FC = () => {
         </table>
       </CardBody>
       <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4'>
-        <Button variant='outlined' color='blue-gray' size='sm'>
+        <Button
+          variant='outlined'
+          color='blue-gray'
+          size='sm'
+          onClick={goToPreviousPage}
+          disabled={currentPage === 1}
+        >
           Previous
         </Button>
         <div className='flex items-center gap-2'>
-          <IconButton variant='outlined' color='blue-gray' size='sm'>
-            1
-          </IconButton>
-          <IconButton variant='text' color='blue-gray' size='sm'>
-            2
-          </IconButton>
-          <IconButton variant='text' color='blue-gray' size='sm'>
-            3
-          </IconButton>
-          <IconButton variant='text' color='blue-gray' size='sm'>
-            ...
-          </IconButton>
-          <IconButton variant='text' color='blue-gray' size='sm'>
-            8
-          </IconButton>
-          <IconButton variant='text' color='blue-gray' size='sm'>
-            9
-          </IconButton>
-          <IconButton variant='text' color='blue-gray' size='sm'>
-            10
-          </IconButton>
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+            (pageNumber) => (
+              <IconButton
+                key={pageNumber}
+                variant={pageNumber === currentPage ? "outlined" : "text"}
+                color='blue-gray'
+                size='sm'
+                onClick={() => goToPage(pageNumber)}
+              >
+                {pageNumber}
+              </IconButton>
+            )
+          )}
         </div>
-        <Button variant='outlined' color='blue-gray' size='sm'>
+        <Button
+          variant='outlined'
+          color='blue-gray'
+          size='sm'
+          onClick={goToNextPage}
+          disabled={currentPage === totalPages}
+        >
           Next
         </Button>
       </CardFooter>
