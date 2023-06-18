@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import {
   getAllInstructorRequests,
   acceptInstructorRequest,
-} from "../../../api/endpoints/admin/instructorManagement";
+} from "../../../../api/endpoints/admin/instructorManagement";
 import { toast } from "react-toastify";
-import Modal from "../../common/Modal";
+import Modal from "../../../common/Modal";
 const ViewInstructorRequests: React.FC = () => {
   const [requests, setRequests] = useState([]);
   const [id, setId] = useState<string>("");

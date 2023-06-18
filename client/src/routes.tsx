@@ -8,7 +8,7 @@ import ErrorElement from "./components/common/ErrorElement";
 import AdminLoginPage from "./components/admin/pages/AdminLoginPage";
 import AdminHomePage from "./components/admin/pages/AdminHomePage";
 import Dashboard from "./components/admin/pages/AdminDashBoardPage";
-import ViewInstructorsPage from "./components/admin/pages/ViewInstructorsPage";
+import ViewInstructorsPage from "./components/admin/pages/InstructorManagement/ViewInstructorsIndex";
 import { Student,Admin } from "./App";
 
 const AppRouter = createBrowserRouter([
