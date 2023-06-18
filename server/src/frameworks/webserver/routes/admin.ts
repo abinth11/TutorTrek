@@ -18,14 +18,29 @@ const adminRouter = () => {
     '/instructors/view-instructor-requests',
     controller.getInstructorRequests
   );
+
   router.patch(
     '/instructors/accept-instructor-request/:instructorId',
     controller.verifyInstructor
   );
+
   router.put(
     '/instructors/reject-instructor-request',
     controller.rejectRequest
   );
+
+  router.get('/instructors/get-all-instructors', controller.getAllInstructor);
+
+  router.patch(
+    '/instructors/get-all-instructors/block-instructors',
+    controller.blockInstructor
+  );
+
+  router.patch(
+    '/instructors/get-all-instructors/unblock-instructors/:instructorId',
+    controller.unblockInstructor
+  );
+
   return router;
 };
 

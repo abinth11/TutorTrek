@@ -6,18 +6,20 @@ import {
   getAllInstructorRequests,
   acceptInstructorRequest,
   rejectInstructorRequest,
+  getAllInstructors,
+  blockInstructors,
+  unblockInstructors,
 } from '../../app/usecases/admin/management/instructorManagement';
 import { SendEmailService } from '@src/frameworks/services/sendEmailService';
 import { SendEmailServiceInterface } from '@src/app/services/sendEmailServiceInterface';
 const adminController = (
   adminDbRepository: AdminDbInterface,
   adminDbRepositoryImpl: AdminRepositoryMongoDb,
-  emailServiceInterface:SendEmailServiceInterface,
-  emailServiceImpl:SendEmailService
-
+  emailServiceInterface: SendEmailServiceInterface,
+  emailServiceImpl: SendEmailService
 ) => {
   const dbRepositoryAdmin = adminDbRepository(adminDbRepositoryImpl());
-  const emailService = emailServiceInterface(emailServiceImpl())
+  const emailService = emailServiceInterface(emailServiceImpl());
 
   //? INSTRUCTOR MANAGEMENT
   const getInstructorRequests = asyncHandler(
@@ -61,10 +63,52 @@ const adminController = (
     });
   });
 
+  const getAllInstructor = asyncHandler(async (req: Request, res: Response) => {
+    const instructors = await getAllInstructors(dbRepositoryAdmin);
+    res.json({
+      status: 'success',
+      message: 'Successfully fetched all instructor information',
+      data: instructors,
+    });
+  });
+
+  const blockInstructor = asyncHandler(async (req: Request, res: Response) => {
+    const { instructorId, reason }: { instructorId: string; reason: string } =
+      req.body;
+    const response = await blockInstructors(
+      instructorId,
+      reason,
+      dbRepositoryAdmin
+    );
+    res.json({
+      status: 'success',
+      message: 'Successfully blocked the instructor',
+      data: response,
+    });
+  });
+
+  const unblockInstructor = asyncHandler(
+    async (req: Request, res: Response) => {
+      const instructorId: string = req.params.instructorId;
+      const response = await unblockInstructors(
+        instructorId,
+        dbRepositoryAdmin
+      );
+      res.json({
+        status: 'success',
+        message: 'Successfully unblocked the instructor',
+        data: response,
+      });
+    }
+  );
+
   return {
     getInstructorRequests,
     verifyInstructor,
     rejectRequest,
+    getAllInstructor,
+    blockInstructor,
+    unblockInstructor,
   };
 };
 

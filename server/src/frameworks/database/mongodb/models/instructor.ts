@@ -70,6 +70,8 @@ const instructorSchema = new Schema({
   ],
   rejected: { type: Boolean, default: false },
   rejectedReason: { type: String, default: '' },
+  isBlocked: { type: Boolean, default: false },
+  blockedReason: { type: String, default: '' },
   dateJoined: {
     type: Date,
     default: Date.now,

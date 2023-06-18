@@ -14,8 +14,8 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <GoogleOAuthProvider clientId={client_id}>
-    <React.StrictMode>
+  <React.StrictMode>
+    <GoogleOAuthProvider clientId={client_id}>
       <Provider store={store}>
         <ThemeProvider>
           <MaterialTailwindControllerProvider>
@@ -23,8 +23,8 @@ root.render(
           </MaterialTailwindControllerProvider>
         </ThemeProvider>
       </Provider>
-    </React.StrictMode>
-  </GoogleOAuthProvider>
+    </GoogleOAuthProvider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

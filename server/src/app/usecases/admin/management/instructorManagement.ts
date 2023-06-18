@@ -60,3 +60,33 @@ export const rejectInstructorRequest = async (
   }
   return response;
 };
+
+export const getAllInstructors = async (
+  adminRepository: ReturnType<AdminDbInterface>
+) => {
+  const instructors = await adminRepository.getAllInstructors();
+  return instructors;
+};
+
+export const blockInstructors = async (
+  instructorId: string,
+  reason: string,
+  adminRepository: ReturnType<AdminDbInterface>
+) => {
+  if(!instructorId ||!reason){
+    throw new AppError(
+      'Please provide instructor id and reason',
+      HttpStatusCodes.BAD_REQUEST
+    )
+  }
+  const response = await adminRepository.blockInstructors(instructorId, reason);
+  return response;
+};
+
+export const unblockInstructors = async (
+  instructorId: string,
+  adminRepository: ReturnType<AdminDbInterface>
+) => {
+  const response = await adminRepository.unblockInstructors(instructorId);
+  return response;
+};
