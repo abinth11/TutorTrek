@@ -3,6 +3,9 @@ import {
   getInstructors,
   acceptRequest,
   rejectRequest,
+  getAllInstructor,
+  blockInstructor,
+  unblockInstructor,
 } from "../../services/admin/instructorManageService";
 
 export const getAllInstructorRequests = () => {
@@ -22,4 +25,20 @@ export const rejectInstructorRequest = (
     instructorId,
     reason
   );
+};
+
+export const getAllInstructors = () => {
+  return getAllInstructor(END_POINTS.GET_INSTRUCTORS);
+};
+
+export const blockInstructors = (instructorId: string, reason: string) => {
+  return blockInstructor(
+    END_POINTS.BLOCK_INSTRUCTORS,
+    instructorId,
+    reason
+  );
+};
+
+export const unblockInstructors = (instructorId: string) => {
+  return unblockInstructor(END_POINTS.UNBLOCK_INSTRUCTORS, instructorId);
 };
