@@ -42,6 +42,6 @@ export const adminDbRepository = (
     getBlockedInstructors,
     getInstructorById
   };
-};
+}; 
 
 export type AdminDbInterface = typeof adminDbRepository;

@@ -1,12 +1,29 @@
 {
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "ecmaVersion": 2020
-    },
-    "extends": [
-      "plugin:@typescript-eslint/recommended",
-      "prettier/@typescript-eslint",
-      "plugin:prettier/recommended"
-    ]
-  }
-  
+  "env": {
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-console": "off",
+    "no-underscore-dangle": ["error", { "allowAfterThis": true, "allow": ["_id"] }],
+    "no-buffer-constructor": "off",
+    "no-restricted-syntax": "off",
+    "object-curly-newline": ["error", { "consistent": true }],
+    "max-len": ["error", { "code": 120 }],
+    "implicit-arrow-linebreak": "off",
+    "indent": "off",
+    "operator-linebreak": "off",
+    "prettier/prettier": "error"
+  },
+  "extends": ["airbnb-base", "prettier"],
+  "plugins": ["prettier"]
+}

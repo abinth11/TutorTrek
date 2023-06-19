@@ -7,11 +7,11 @@ import { StudentRepositoryMongoDB } from '../../frameworks/database/mongodb/repo
 import {
   studentLogin,
   studentRegister,
-  signInWithGoogle,
+  signInWithGoogle
 } from '../../app/usecases/auth/studentAuth';
 import {
   instructorRegister,
-  instructorLogin,
+  instructorLogin
 } from '../../../src/app/usecases/auth/instructorAuth';
 import { InstructorDbInterface } from '@src/app/repositories/instructorDbRepository';
 import { InstructorRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/instructorRepoMongoDb';
@@ -49,7 +49,7 @@ const authController = (
     res.status(200).json({
       status: 'success',
       message: 'Successfully registered the user',
-      accessToken: token,
+      accessToken: token
     });
   });
 
@@ -64,7 +64,7 @@ const authController = (
     res.status(200).json({
       status: 'success',
       message: 'User logged in successfully',
-      accessToken: token,
+      accessToken: token
     });
   });
 
@@ -79,7 +79,7 @@ const authController = (
     res.status(200).json({
       status: 'success',
       message: 'Successfully logged in with google',
-      accessToken: token,
+      accessToken: token
     });
   });
 
@@ -87,21 +87,12 @@ const authController = (
   const registerInstructor = asyncHandler(
     async (req: Request, res: Response) => {
       const instructor: InstructorInterface = req.body;
-      const response = await instructorRegister(
-        instructor,
-        dbRepositoryInstructor,
-        authService
-      );
-      response.status
-        ? res.status(200).json({
-            status: 'success',
-            message:
-              'Your registration is pending verification by the administrators.You will receive an email once your registration is approved',
-          })
-        : res.status(500).json({
-            status: 'failed',
-            message: 'Something went wrong please try again later',
-          });
+      await instructorRegister(instructor, dbRepositoryInstructor, authService);
+      res.status(200).json({
+        status: 'success',
+        message:
+          'Your registration is pending verification by the administrators.You will receive an email once your registration is approved'
+      });
     }
   );
   const loginInstructor = asyncHandler(async (req: Request, res: Response) => {
@@ -115,7 +106,7 @@ const authController = (
     res.status(200).json({
       status: 'success',
       message: 'Instructor logged in successfully',
-      accessToken: token,
+      accessToken: token
     });
   });
 
@@ -131,7 +122,7 @@ const authController = (
     res.status(200).json({
       status: 'success',
       message: 'Successfully logged in ',
-      accessToken,
+      accessToken
     });
   });
 
@@ -141,7 +132,7 @@ const authController = (
     loginWithGoogle,
     registerInstructor,
     loginInstructor,
-    loginAdmin,
+    loginAdmin
   };
 };
 

@@ -11,7 +11,7 @@ import Dashboard from "./components/admin/pages/AdminDashBoardPage";
 import ViewInstructorsIndex from "./components/admin/pages/InstructorManagement/ViewInstructorsIndex";
 import ViewInstructorRequests from "./components/admin/pages/InstructorManagement/ViewInstructorRequests";
 import ViewBlockedInstructors from "./components/admin/pages/InstructorManagement/ViewBlockedInstructors";
-import { Student, Admin } from "./App";
+import { Student, Admin } from "./App"; 
 import ViewMoreInstructorRequest from "./components/admin/pages/InstructorManagement/ViewMoreInstructorRequest";
 const AppRouter = createBrowserRouter([
   {
