@@ -23,7 +23,7 @@ export const Admin: React.FC = () => {
   return (
     <>
       {isAdminLoggedIn ? (
-        <div className='bg-gray-100 flex h-screen'>
+        <div className='bg-gray-100 flex '>
           <div className='w-80 '>
             <Sidenav routes={routes} brandImg={"/img/logo-ct-dark.png"} />
           </div>

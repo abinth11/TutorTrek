@@ -21,15 +21,18 @@ import {
 } from "@heroicons/react/24/outline";
 import { StatisticsCard } from "../widgets/cards";
 import { StatisticsChart } from "../widgets/charts";
-import {statisticsCardsData} from "../widgets/data/statistics-cards-data"
+import { statisticsCardsData } from "../widgets/data/statistics-cards-data";
 import statisticsChartsData from "../widgets/data/statistics-charts-data";
 import projectsTableData from "../widgets/data/projects-table-data";
 import ordersOverviewData from "../widgets/data/orders-overview-data";
 
-const  AdminHomePage:React.FC=()=> {
+const AdminHomePage: React.FC = () => {
   return (
-    <div className="mt-12">
-      <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
+    <div className='mt-12'>
+      <div className="p-8 flex items-center justify-center">
+        <h1 className="text-4xl font-bold text-gray-700"> Welcome back...!</h1>
+      </div>
+      {/* <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
         {statisticsCardsData.map(({ icon, title, footer, ...rest }) => (
           <StatisticsCard
             key={title}
@@ -249,9 +252,9 @@ const  AdminHomePage:React.FC=()=> {
             )}
           </CardBody>
         </Card>
-      </div>
+      </div> */}
     </div>
   );
-}
+};
 
-export default AdminHomePage
+export default AdminHomePage;

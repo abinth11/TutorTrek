@@ -6,17 +6,17 @@ import { studentLoginValidationSchema } from "../../../validations/student/stude
 import { toast } from "react-toastify";
 import {Link,useNavigate} from 'react-router-dom'
 import GoogleAuthComponent from "../../common/GoogleAuthComponent";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../../redux/reducers/studentAuthSlice";
 const StudentLoginPage: React.FC = () => {
-  const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate()
   const handleSubmit = async (studentInfo: any) => {
     try {
       const response = await loginStudent(studentInfo);
-      navigate('/')
-    } catch (error) {
-      setErrorMsg(handleApiError(error));
-      toast.error(errorMsg?errorMsg:"Something wrong..", {
-        position: toast.POSITION.TOP_CENTER,
+      response &&navigate('/')
+    } catch (error:any) {
+      toast.error(error.data?.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
   };

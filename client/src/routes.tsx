@@ -8,9 +8,11 @@ import ErrorElement from "./components/common/ErrorElement";
 import AdminLoginPage from "./components/admin/pages/AdminLoginPage";
 import AdminHomePage from "./components/admin/pages/AdminHomePage";
 import Dashboard from "./components/admin/pages/AdminDashBoardPage";
-import ViewInstructorsPage from "./components/admin/pages/ViewInstructorsPage";
-import { Student,Admin } from "./App";
-
+import ViewInstructorsIndex from "./components/admin/pages/InstructorManagement/ViewInstructorsIndex";
+import ViewInstructorRequests from "./components/admin/pages/InstructorManagement/ViewInstructorRequests";
+import ViewBlockedInstructors from "./components/admin/pages/InstructorManagement/ViewBlockedInstructors";
+import { Student, Admin } from "./App";
+import ViewMoreInstructorRequest from "./components/admin/pages/InstructorManagement/ViewMoreInstructorRequest";
 const AppRouter = createBrowserRouter([
   {
     path: "/",
@@ -30,37 +32,51 @@ const AppRouter = createBrowserRouter([
         element: <StudentRegistrationPage />,
       },
       {
-        path:"/instructors/login",
-        element:<InstructorLoginPage/>
+        path: "/instructors/login",
+        element: <InstructorLoginPage />,
       },
       {
-        path:"/instructors/register",
-        element:<InstructorRegistrationPage/>
-      }
-    ]
+        path: "/instructors/register",
+        element: <InstructorRegistrationPage />,
+      },
+    ],
   },
   {
-    path:"admin",
-    element:<Admin/>,
-    errorElement:<ErrorElement/>,
-    children:[
+    path: "admin",
+    element: <Admin />,
+    errorElement: <ErrorElement />,
+    children: [
       {
-        path:"admin/",
-        element:<Dashboard/>
+        path: "admin/",
+        element: <Dashboard />,
       },
       {
-        path:"dashboard",
-        element:<AdminHomePage/>
+        path: "dashboard",
+        element: <AdminHomePage />,
       },
       {
-        path:"instructors",
-        element:<ViewInstructorsPage/>
+        path: "instructors",
+        element: <ViewInstructorsIndex />,
+        children: [
+          {
+            path: "requests",
+            element: <ViewInstructorRequests />,
+          },
+          {
+            path: "requests/:id",
+            element: <ViewMoreInstructorRequest/>,
+          },
+          {
+            path: "blocked",
+            element: <ViewBlockedInstructors />,
+          },
+        ],
       },
       {
-        path:"login",
-        element:<AdminLoginPage/>
-      }
-    ]
-  }
+        path: "login",
+        element: <AdminLoginPage />,
+      },
+    ],
+  },
 ]);
 export default AppRouter;
