@@ -97,3 +97,11 @@ export const getBlockedInstructors = async (
   const blockedInstructors = await adminRepository.getBlockedInstructors();
   return blockedInstructors;
 };
+
+export const getInstructorByIdUseCase = async (
+  instructorId: string,
+  adminRepository: ReturnType<AdminDbInterface>
+) => {
+  const instructor = await adminRepository.getInstructorById(instructorId)
+  return instructor
+};

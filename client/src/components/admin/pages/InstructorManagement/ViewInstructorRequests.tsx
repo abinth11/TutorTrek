@@ -1,20 +1,48 @@
 import React, { useEffect, useState } from "react";
 import {
   getAllInstructorRequests,
-  acceptInstructorRequest,
 } from "../../../../api/endpoints/admin/instructorManagement";
 import { toast } from "react-toastify";
 import Modal from "../../../common/Modal";
+import { Link } from "react-router-dom";
+import useTimeAgo from "../../../../hooks/useTimeAgo";
+
+export const applicant = {
+  firstName: "John",
+  lastName: "Doe",
+  email: "johndoe@example.com",
+  profilePic:
+    "https://res.cloudinary.com/dwucedjmy/image/upload/v1679288002/cld-sample-3.jpg",
+  mobile: "123-456-7890",
+  qualification: "Bachelor of Science",
+  subjects: ["Mathematics", "Physics"],
+  experience: "3 years",
+  skills: ["JavaScript", "React", "Node.js"],
+  about:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  date: "2023-06-18",
+  certificates: [
+    {
+      name: "Certificate 1",
+      url: "https://res.cloudinary.com/dwucedjmy/image/upload/v1679288002/cld-sample-3.jpg",
+    },
+    {
+      name: "Certificate 2",
+      url: "https://res.cloudinary.com/dwucedjmy/image/upload/v1679288002/cld-sample-3.jpg",
+    },
+  ],
+};
+
 const ViewInstructorRequests: React.FC = () => {
   const [requests, setRequests] = useState([]);
-  const [id, setId] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(false);
+  const calculateTimeAgo = useTimeAgo();
+
   const handleApiCall = async () => {
     try {
       const response = await getAllInstructorRequests();
       setRequests(response.data.data);
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      toast.error(error.data.message,{position:toast.POSITION.BOTTOM_RIGHT})
     }
   };
 
@@ -22,84 +50,47 @@ const ViewInstructorRequests: React.FC = () => {
     handleApiCall();
   }, []);
 
-  const acceptRequest = async (id: string) => {
-    try {
-      const response = await acceptInstructorRequest(id);
-      toast.success(response?.data?.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-    } catch (error: any) {
-      toast.error(error.data?.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-    }
-  };
-
-  const handleReject = (id: string) => {
-    setId(id);
-    setOpen(true);
-  };
-
   return (
-    <ul role='list' className='divide-y divide-gray-100'>
-      {open && <Modal open={open} setOpen={setOpen} id={id} />}
+    <ul role='list' className='divide-y divide-gray-100  '>
       {requests?.map((person: any) => (
-        <li key={person?._id} className='flex justify-between gap-x-6 py-5'>
-          <div className='flex gap-x-4'>
-            <img
-              className='h-12 w-12 flex-none rounded-full bg-gray-50'
-              src={
-                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              }
-              alt=''
-            />
-            <div className='min-w-0 flex-auto'>
-              <p className='text-sm font-semibold leading-6 text-gray-900'>
-                {`${person?.firstName} ${person?.lastName}`}
-              </p>
-              <p className='mt-1 truncate text-xs leading-5 text-gray-500'>
-                {person?.email}
+        <Link
+          to={`/admin/instructors/requests/${person._id}`}
+          key={person?._id}
+        >
+          <li className='flex justify-between gap-x-6 gap-y-3 mt-3 p-3 py-5 rounded-md border bg-white border-gray-300'>
+            <div className='flex gap-x-4'>
+              <img
+                className='h-12 w-12 flex-none rounded-full bg-gray-50'
+                src={person.profilePic}
+                alt=''
+              />
+              <div className='min-w-0 flex-auto'>
+                <p className='text-sm font-semibold leading-6 text-gray-900'>
+                  {`${person?.firstName} ${person?.lastName}`}
+                </p>
+                <p className='mt-1 truncate text-xs leading-5 text-gray-500'>
+                  {person?.email}
+                </p>
+              </div>
+            </div>
+            <div className='hidden sm:flex sm:flex-col sm:items-end'>
+              <p className='text-sm leading-6 text-gray-900'>{person?.role}</p>
+                <p className='mt-1 text-xs leading-5 text-gray-500'>
+                Application sent {calculateTimeAgo(person?.dateJoined)}
               </p>
             </div>
-          </div>
-          <div className='hidden sm:flex sm:flex-col sm:items-end'>
-            <p className='text-sm leading-6 text-gray-900'>{person?.role}</p>
-            {person?.lastSeen ? (
-              <p className='mt-1 text-xs leading-5 text-gray-500'>
-                Last seen{" "}
-                <time dateTime={person?.lastSeenDateTime}>
-                  {person?.lastSeen}
-                </time>
-              </p>
-            ) : (
-              <div className='mt-1 flex items-center gap-x-1.5'>
-                <div className='flex-none rounded-full bg-emerald-500/20 p-1'>
-                  <div className='h-1.5 w-1.5 rounded-full bg-emerald-500' />
-                </div>
-                <p className='text-xs leading-5 text-gray-500'>Online</p>
-              </div>
-            )}
-          </div>
-          <div className='flex gap-x-4'>
-            <button
-              onClick={() => acceptRequest(person?._id)}
-              className='p-1 m-3 rounded-md bg-green-600 text-white w-20 focus:outline-none focus:ring-2 focus:ring-green-600 hover:bg-green-700 hover:shadow-md'
-            >
-              Accept
-            </button>
-            <button
-              onClick={() => {
-                handleReject(person._id);
-              }}
-              className='p-1 m-3 rounded-md bg-red-600 text-white w-20 focus:outline-none focus:ring-2 focus:ring-red-600 hover:bg-red-700 hover:shadow-md'
-            >
-              Reject
-            </button>
-          </div>
-        </li>
+            <div className='flex gap-x-4'>
+              <Link
+                to={`/admin/instructors/requests/${person._id}`}
+                className='p-1 m-3 rounded-md bg-blue-600 text-white w-20 text-center focus:outline-none focus:ring-2 focus:ring-blue-600 hover:bg-blue-700 hover:shadow-md'
+              >
+                View
+              </Link>
+            </div>
+          </li>
+        </Link>
       ))}
     </ul>
   );
 };
-
 export default ViewInstructorRequests;

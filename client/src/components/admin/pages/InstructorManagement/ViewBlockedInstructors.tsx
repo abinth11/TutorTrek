@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import {
-  ArrowDownTrayIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import {
@@ -18,7 +17,6 @@ import {
   Input,
 } from "@material-tailwind/react";
 import {
-  getAllInstructors,
   unblockInstructors,
 } from "../../../../api/endpoints/admin/instructorManagement";
 import { toast } from "react-toastify";

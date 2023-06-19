@@ -67,3 +67,10 @@ export const getBlockedInstructor = async (endpoint: string) => {
   );
   return response;
 };
+
+export const getIndividualInstructor = async (endpoint:string,instructorId:string)=>{
+  const response = await api.get(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${instructorId}`
+  );
+  return response;
+}

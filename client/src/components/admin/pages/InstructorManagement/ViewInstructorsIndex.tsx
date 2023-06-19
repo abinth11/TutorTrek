@@ -1,33 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import TopNav from "../../widgets/layout/TopNav";
-import ViewInstructorRequests from "./ViewInstructorRequests";
 import ViewInstructors from "./ViewInstructors";
-import ViewBlockedInstructors from "./ViewBlockedInstructors";
+import CustomBreadCrumbs from "../../../common/BreadCrumbs";
 const ViewInstructorsIndex: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("view");
-
-  const handleTabChange = (tabValue: string) => {
-    setActiveTab(tabValue);
-  };
-
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case "view":
-        return <ViewInstructors />;
-      case "requests":
-        return <ViewInstructorRequests />;
-      case "blocked":
-        return <ViewBlockedInstructors />;
-      default:
-        return null;
-    }
-  };
-
+  const location = useLocation();
   return (
     <div className='pt-6'>
-      <TopNav activeTab={activeTab} setActiveTab={handleTabChange} />
-      <div className='p-10 m-5 shadow-lg rounded-lg bg-white'>
-        {renderTabContent()}
+      <TopNav />
+      <div className="pl-5 pr-5 pb-5 pt-1">
+      <CustomBreadCrumbs  paths={location.pathname}/>
+      {location.pathname === "/admin/instructors" && <ViewInstructors />}
+      <Outlet />
       </div>
     </div>
   );

@@ -46,6 +46,11 @@ const adminRouter = () => {
     controller.getBlockedInstructor
   );
 
+  router.get(
+    '/instructors/view-instructor-requests/:instructorId',
+    controller.getInstructorById
+  );
+
   return router;
 };
 

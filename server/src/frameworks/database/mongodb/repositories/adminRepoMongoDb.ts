@@ -61,28 +61,41 @@ export const adminRepoMongoDb = () => {
     return instructors;
   };
 
-  const blockInstructors =async (instructorId:string,reason:string) =>{
-    await Instructor.updateOne({_id: new mongoose.Types.ObjectId(instructorId)},{
-      $set: {
-        isBlocked:true,
-        blockedReason:reason
+  const blockInstructors = async (instructorId: string, reason: string) => {
+    await Instructor.updateOne(
+      { _id: new mongoose.Types.ObjectId(instructorId) },
+      {
+        $set: {
+          isBlocked: true,
+          blockedReason: reason,
+        },
       }
-    })
-    return instructorId
-  }
+    );
+    return instructorId;
+  };
 
-  const unblockInstructors = async (instructorId:string) =>{
-    await Instructor.updateOne({_id: new mongoose.Types.ObjectId(instructorId)},{
-      $set:{
-        isBlocked:false,
+  const unblockInstructors = async (instructorId: string) => {
+    await Instructor.updateOne(
+      { _id: new mongoose.Types.ObjectId(instructorId) },
+      {
+        $set: {
+          isBlocked: false,
+        },
       }
-    })
-  }
+    );
+  };
 
-  const getBlockedInstructors = async () =>{
-    const blockedInstructors = await Instructor.find({isBlocked:true})
-    return blockedInstructors
-  }
+  const getBlockedInstructors = async () => {
+    const blockedInstructors = await Instructor.find({ isBlocked: true });
+    return blockedInstructors;
+  };
+
+  const getInstructorById = async (instructorId: string) => {
+    const instructor = await Instructor.findOne({
+      _id: new mongoose.Types.ObjectId(instructorId),
+    });
+    return instructor;
+  };
 
   return {
     getAdminByEmail,
@@ -93,7 +106,8 @@ export const adminRepoMongoDb = () => {
     getAllInstructors,
     blockInstructors,
     unblockInstructors,
-    getBlockedInstructors
+    getBlockedInstructors,
+    getInstructorById
   };
 };
 

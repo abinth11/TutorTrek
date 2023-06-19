@@ -26,6 +26,8 @@ export const adminDbRepository = (
     await repository.unblockInstructors(instructorId);
 
   const getBlockedInstructors = async ()=> await repository.getBlockedInstructors()
+
+  const getInstructorById = async (instructorId:string) => await repository.getInstructorById(instructorId)
   
   return {
     getAdminByEmail,
@@ -36,7 +38,8 @@ export const adminDbRepository = (
     getAllInstructors,
     blockInstructors,
     unblockInstructors,
-    getBlockedInstructors
+    getBlockedInstructors,
+    getInstructorById
   };
 };
 

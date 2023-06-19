@@ -9,7 +9,8 @@ import {
   getAllInstructors,
   blockInstructors,
   unblockInstructors,
-  getBlockedInstructors
+  getBlockedInstructors,
+  getInstructorByIdUseCase
 } from '../../app/usecases/admin/management/instructorManagement';
 import { SendEmailService } from '@src/frameworks/services/sendEmailService';
 import { SendEmailServiceInterface } from '@src/app/services/sendEmailServiceInterface';
@@ -112,6 +113,17 @@ const adminController = (
     })
   })
 
+  const getInstructorById = asyncHandler(async(req:Request,res:Response)=>{
+    const instructorId=req?.params?.instructorId
+    const response = await getInstructorByIdUseCase(instructorId,dbRepositoryAdmin)
+    res.json({
+      status:'success',
+      message:'Successfully fetched instructor info',
+      data:response
+    })
+
+  })
+
   return {
     getInstructorRequests,
     verifyInstructor,
@@ -119,7 +131,8 @@ const adminController = (
     getAllInstructor,
     blockInstructor,
     unblockInstructor,
-    getBlockedInstructor
+    getBlockedInstructor,
+    getInstructorById
   };
 };
 
