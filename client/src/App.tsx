@@ -8,6 +8,7 @@ import { Sidenav } from "./components/admin/widgets/layout";
 import { routes } from "./components/admin/pages/AdminDashBoardPage";
 import { useSelector } from "react-redux";
 import { selectIsAdminLoggedIn } from "./redux/reducers/adminAuthSlice";
+import InstructorHeader from "./components/instructors/partials/InstructorHeader";
 export const Student: React.FC = () => {
   return (
     <div className='bg-gray-100'>
@@ -17,6 +18,16 @@ export const Student: React.FC = () => {
     </div>
   );
 };
+
+export const Instructor:React.FC= ()=>{
+  return (
+    <div className='bg-gray-100'>
+      <InstructorHeader />
+      <Outlet />
+      <ToastContainer />
+    </div>
+  )
+}
 
 export const Admin: React.FC = () => {
   const isAdminLoggedIn = useSelector(selectIsAdminLoggedIn);
