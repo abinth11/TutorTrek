@@ -1,6 +1,6 @@
 import React from 'react';
 import { Disclosure } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { BiMenu, BiX } from 'react-icons/bi';
 import SearchBar from '../../common/SearchBar';
 import { Link } from 'react-router-dom';
 
@@ -12,15 +12,15 @@ const navigation = [
   { name: 'Contact', href: '#', current: false },
 ];
 
-function classNames(...classes:any) {
+function classNames(...classes:string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-const InstructorHeader = () => {
+const InstructorHeader:React.FC = () => {
   return (
     <>
-      <div className="min-h-full">
-        <Disclosure as="nav" className="bg-gray-800">
+      <div className="min-h-full bg-white border-b border-gray-300">
+        <Disclosure as="nav" className="bg-white">
           {({ open }) => (
             <>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -30,7 +30,7 @@ const InstructorHeader = () => {
                       <Link to="/">
                         <img
                           className="h-8 w-8"
-                          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                          src="https://tailwindui.com/img/logos/mark-indigo-500.svg"
                           alt="Your Company"
                         />
                       </Link>
@@ -43,8 +43,8 @@ const InstructorHeader = () => {
                             href={item.href}
                             className={classNames(
                               item.current
-                                ? 'bg-gray-900 text-white'
-                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                ? 'bg-hoverBlue text-gray-800'
+                                : 'text-gray-500 hover:bg-hoverBlue hover:text-gray-800',
                               'rounded-md px-3 py-2 text-sm font-medium'
                             )}
                             aria-current={item.current ? 'page' : undefined}
@@ -57,39 +57,15 @@ const InstructorHeader = () => {
                     </div>
                   </div>
                   <div className="hidden md:block">
-                    <div className="flex justify-center items-center h-screen">
-                      <div className="space-x-4">
-                        <Link to="/login">
-                          <button className="bg-gray-500 hover:bg-gray-600 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Login
-                          </button>
-                        </Link>
-                        <Link to="/register">
-                          <button className="bg-gray-500 hover:bg-gray-600 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Register
-                          </button>
-                        </Link>
-                        <Link to="/instructors/login">
-                          <button className="bg-purple-800 hover:bg-purple-900 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Instructor Login
-                          </button>
-                        </Link>
-                      </div>
-                    </div>
+                    <div className="flex justify-center items-center h-screen"></div>
                   </div>
                   <div className="-mr-2 flex md:hidden">
-                    <Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-gray-200 p-2 text-gray-500 hover:bg-gray-300 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-200">
                       <span className="sr-only">Open main menu</span>
                       {open ? (
-                        <XMarkIcon
-                          className="block h-6 w-6"
-                          aria-hidden="true"
-                        />
+                        <BiX className="block h-6 w-6" aria-hidden="true" />
                       ) : (
-                        <Bars3Icon
-                          className="block h-6 w-6"
-                          aria-hidden="true"
-                        />
+                        <BiMenu className="block h-6 w-6" aria-hidden="true" />
                       )}
                     </Disclosure.Button>
                   </div>
@@ -104,8 +80,8 @@ const InstructorHeader = () => {
                       href={item.href}
                       className={classNames(
                         item.current
-                          ? 'bg-gray-900 text-white'
-                          : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          ? 'bg-hoverBlue text-gray-800'
+                          : 'text-gray-500 hover:bg-hoverBlue hover:text-gray-800',
                         'block rounded-md px-3 py-2 text-base font-medium'
                       )}
                       aria-current={item.current ? 'page' : undefined}
@@ -113,25 +89,6 @@ const InstructorHeader = () => {
                       {item.name}
                     </Disclosure.Button>
                   ))}
-                </div>
-                <div className="border-t border-gray-700 pb-3 pt-4">
-                  <div className="mt-3 space-y-1 px-2">
-                    <Link to="/login">
-                      <button className="w-full mb-2 block rounded-md px-3 py-2 text-base font-medium bg-gray-600 text-gray-200 hover:bg-gray-700 hover:text-white">
-                        Login
-                      </button>
-                    </Link>
-                    <Link to="/register">
-                      <button className="w-full mb-2 block rounded-md px-3 py-2 text-base font-medium bg-gray-600 text-gray-200 hover:bg-gray-700 hover:text-white">
-                        Register
-                      </button>
-                    </Link>
-                    <Link to="/instructors/login">
-                      <button className="w-full block bg-purple-800 hover:bg-purple-900 text-sm text-gray-200 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        Instructor Login
-                      </button>
-                    </Link>
-                  </div>
                 </div>
               </Disclosure.Panel>
             </>

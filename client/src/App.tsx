@@ -7,6 +7,7 @@ import AdminLoginPage from "./components/admin/pages/AdminLoginPage";
 import { Sidenav } from "./components/admin/widgets/layout";
 import { routes } from "./components/admin/pages/AdminDashBoardPage";
 import { useSelector } from "react-redux";
+import InstructorSideNav from "./components/instructors/partials/SideNav";
 import { selectIsAdminLoggedIn } from "./redux/reducers/adminAuthSlice";
 import InstructorHeader from "./components/instructors/partials/InstructorHeader";
 import useIsOnline from "./hooks/useOnline";
@@ -34,8 +35,9 @@ export const Instructor: React.FC = () => {
   return (
     <>
       {isOnline ? (
-        <div className='bg-gray-100'>
+        <div className='bg-customBlueShade'>
           <InstructorHeader />
+          <InstructorSideNav/>
           <Outlet />
           <ToastContainer />
         </div>
