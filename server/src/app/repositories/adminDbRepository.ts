@@ -5,6 +5,7 @@ export const adminDbRepository = (
 ) => {
   const getAdminByEmail = async (email: string) =>
     await repository.getAdminByEmail(email);
+    
   const getInstructorRequests = async () =>
     await repository.getInstructorRequests();
   const acceptInstructorRequest = async (instructorId: string) =>

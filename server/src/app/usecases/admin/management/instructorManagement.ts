@@ -17,6 +17,9 @@ export const acceptInstructorRequest = async (
   adminRepository: ReturnType<AdminDbInterface>,
   emailService: ReturnType<SendEmailService>
 ) => {
+  if(!instructorId){
+    throw new AppError("Invalid instructor id",HttpStatusCodes.BAD_REQUEST)
+  }
   const response = await adminRepository.acceptInstructorRequest(instructorId);
   if (response) {
     emailService.sendEmail(
@@ -87,6 +90,9 @@ export const unblockInstructors = async (
   instructorId: string,
   adminRepository: ReturnType<AdminDbInterface>
 ) => {
+  if(!instructorId){
+    throw new AppError("Invalid instructor id",HttpStatusCodes.BAD_REQUEST)
+  }
   const response = await adminRepository.unblockInstructors(instructorId);
   return response;
 };
@@ -102,6 +108,9 @@ export const getInstructorByIdUseCase = async (
   instructorId: string,
   adminRepository: ReturnType<AdminDbInterface>
 ) => {
+  if(!instructorId){
+    throw new AppError("Invalid instructor id",HttpStatusCodes.BAD_REQUEST)
+  }
   const instructor = await adminRepository.getInstructorById(instructorId)
   return instructor
 };
