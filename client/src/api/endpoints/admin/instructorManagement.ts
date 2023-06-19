@@ -6,6 +6,7 @@ import {
   getAllInstructor,
   blockInstructor,
   unblockInstructor,
+  getBlockedInstructor
 } from "../../services/admin/instructorManageService";
 
 export const getAllInstructorRequests = () => {
@@ -42,3 +43,7 @@ export const blockInstructors = (instructorId: string, reason: string) => {
 export const unblockInstructors = (instructorId: string) => {
   return unblockInstructor(END_POINTS.UNBLOCK_INSTRUCTORS, instructorId);
 };
+
+export const getBlockedInstructors = ()=>{
+  return getBlockedInstructor(END_POINTS.GET_BLOCKED_INSTRUCTORS)
+}

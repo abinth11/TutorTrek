@@ -24,6 +24,7 @@ import {
 import { toast } from "react-toastify";
 import { formatDate } from "../../../../utils/helpers";
 import usePagination from "../../../../hooks/usePagination";
+import { getBlockedInstructors } from "../../../../api/endpoints/admin/instructorManagement";
 
 const TABLE_HEAD = ["Name", "Email", "Date Joined", "Status", "Actions", ""];
 
@@ -39,9 +40,9 @@ const ViewBlockedInstructors: React.FC = () => {
     goToPreviousPage,
     goToNextPage,
   } = usePagination(instructors, ITEMS_PER_PAGE);
-  const fetchInstructors = async () => {
+  const fetchBlockedInstructors = async () => {
     try {
-      const response = await getAllInstructors();
+      const response = await getBlockedInstructors();
       setInstructors(response?.data?.data);
     } catch (error: any) {
       toast.error(error.data.message, {
@@ -50,7 +51,7 @@ const ViewBlockedInstructors: React.FC = () => {
     }
   };
   useEffect(() => {
-    fetchInstructors();
+    fetchBlockedInstructors();
   }, [updated]);
 
   const handleUnblock = async (instructorId: string) => {

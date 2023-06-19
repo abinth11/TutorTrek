@@ -10,6 +10,7 @@ const END_POINTS = {
     REJECT_INSTRUCTOR_REQUESTS:'api/admin/instructors/reject-instructor-request',
     GET_INSTRUCTORS:'api/admin/instructors/get-all-instructors',
     BLOCK_INSTRUCTORS:'api/admin/instructors/get-all-instructors/block-instructors',
-    UNBLOCK_INSTRUCTORS:'api/admin/instructors/get-all-instructors/unblock-instructors'
+    UNBLOCK_INSTRUCTORS:'api/admin/instructors/get-all-instructors/unblock-instructors',
+    GET_BLOCKED_INSTRUCTORS:'api/admin/instructors/get-blocked-instructors'
 }
 export default END_POINTS
