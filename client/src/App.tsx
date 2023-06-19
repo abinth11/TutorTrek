@@ -9,45 +9,67 @@ import { routes } from "./components/admin/pages/AdminDashBoardPage";
 import { useSelector } from "react-redux";
 import { selectIsAdminLoggedIn } from "./redux/reducers/adminAuthSlice";
 import InstructorHeader from "./components/instructors/partials/InstructorHeader";
+import useIsOnline from "./hooks/useOnline";
+import YouAreOffline from "./components/common/YouAreOffline";
+
 export const Student: React.FC = () => {
+  const isOnline = useIsOnline();
   return (
-    <div className='bg-gray-100'>
-      <StudentHeader />
-      <Outlet />
-      <ToastContainer />
-    </div>
+    <>
+      {isOnline ? (
+        <div className='bg-gray-100'>
+          <StudentHeader />
+          <Outlet />
+          <ToastContainer />
+        </div>
+      ) : (
+        <YouAreOffline />
+      )}
+    </>
   );
 };
 
-export const Instructor:React.FC= ()=>{
+export const Instructor: React.FC = () => {
+  const isOnline = useIsOnline();
   return (
-    <div className='bg-gray-100'>
-      <InstructorHeader />
-      <Outlet />
-      <ToastContainer />
-    </div>
-  )
-}
+    <>
+      {isOnline ? (
+        <div className='bg-gray-100'>
+          <InstructorHeader />
+          <Outlet />
+          <ToastContainer />
+        </div>
+      ) : (
+        <YouAreOffline />
+      )}
+    </>
+  );
+};
 
 export const Admin: React.FC = () => {
   const isAdminLoggedIn = useSelector(selectIsAdminLoggedIn);
+  const isOnline = useIsOnline();
   return (
     <>
-      {isAdminLoggedIn ? (
-        <div className='bg-gray-100 flex '>
-          <div className='w-80 '>
-            <Sidenav routes={routes} brandImg={"/img/logo-ct-dark.png"} />
+      {isOnline ? (
+        isAdminLoggedIn ? (
+          <div className='bg-gray-100 flex'>
+            <div className='w-80'>
+              <Sidenav routes={routes} brandImg='/img/logo-ct-dark.png' />
+            </div>
+            <div className='flex-1'>
+              <Outlet />
+              <ToastContainer />
+            </div>
           </div>
-          <div className='flex-1'>
-            <Outlet />
+        ) : (
+          <div className='bg-gray-100'>
+            <AdminLoginPage />
             <ToastContainer />
           </div>
-        </div>
+        )
       ) : (
-        <div className='bg-gray-100'>
-          <AdminLoginPage />
-          <ToastContainer />
-        </div>
+        <YouAreOffline />
       )}
     </>
   );
