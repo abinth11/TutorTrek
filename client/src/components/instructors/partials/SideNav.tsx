@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import {AiFillBook, AiOutlinePlus } from "react-icons/ai";
+import {MdLibraryAdd} from "react-icons/md"
 import {
   HomeIcon,
 } from "@heroicons/react/24/solid";
 import { Button, Typography } from "@material-tailwind/react";
+
+import { Square3Stack3DIcon } from "@heroicons/react/24/outline";
+import { useLocation } from "react-router-dom";
+import {IoMdChatboxes} from 'react-icons/io'
+import { FaUserGraduate } from "react-icons/fa";
+
 const icon = {
   className: "w-5 h-5 text-inherit",
 };
@@ -17,20 +23,34 @@ const routes = [
   },
   {
     title: "View course",
-    icon: <AiFillBook {...icon} />,
+    icon: <Square3Stack3DIcon {...icon} />,
     value: "view-course",
     path:'/instructors/view-course'
   },
   {
     title: "Add course",
-    icon: <AiOutlinePlus {...icon} />,
+    icon: <MdLibraryAdd {...icon} />,
     value: "add-course",
     path:'/instructors/add-course'
+  },{
+    title:"Channels",
+    icon:<IoMdChatboxes {...icon}/>,
+    value:"view-channels",
+    path:'/instructors/view-channels'
   },
+  {
+    title:"Students",
+    icon:<FaUserGraduate {...icon}/>,
+    value:"view-students",
+    path:"/instructors/view-students"
+  }
 ];
 
 const InstructorSideNav: React.FC = () => {
-  const [isActive, setIsActive] = useState<string>("home");
+  const location = useLocation()
+  const parts = location.pathname.split('/');
+  const result = parts.slice(2).join('/');
+  const [isActive, setIsActive] = useState<string>(result===""?'home':result);
   const selected = false;
   const handleClick = (active: string) => {
     setIsActive(active);
@@ -38,9 +58,9 @@ const InstructorSideNav: React.FC = () => {
   return (
     <nav className='bg-white h-screen w-64 border-r border-gray-300 flex flex-col'>
       <ul className='py-6'>
-        {routes.map(({ title, icon, value,path }) => {
+        {routes.map(({ title, icon, value,path },index) => {
           return (
-            <Link to={path} >
+            <Link to={path} key={index}>
              <li className='py-2 px-4'>
               <Button
                 variant={isActive ===value ? "gradient" : "text"}
