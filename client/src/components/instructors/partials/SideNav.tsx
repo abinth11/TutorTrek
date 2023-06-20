@@ -1,52 +1,70 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { AiFillHome, AiFillBook, AiOutlinePlus } from 'react-icons/ai';
-import { RiLogoutBoxRLine } from 'react-icons/ri';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import {AiFillBook, AiOutlinePlus } from "react-icons/ai";
+import {
+  HomeIcon,
+} from "@heroicons/react/24/solid";
+import { Button, Typography } from "@material-tailwind/react";
+const icon = {
+  className: "w-5 h-5 text-inherit",
+};
+const routes = [
+  {
+    title: "Home",
+    icon: <HomeIcon {...icon} />,
+    value: "home",
+    path:'/instructors/'
+  },
+  {
+    title: "View course",
+    icon: <AiFillBook {...icon} />,
+    value: "view-course",
+    path:'/instructors/view-course'
+  },
+  {
+    title: "Add course",
+    icon: <AiOutlinePlus {...icon} />,
+    value: "add-course",
+    path:'/instructors/add-course'
+  },
+];
 
-const InstructorSideNav:React.FC = () => {
+const InstructorSideNav: React.FC = () => {
+  const [isActive, setIsActive] = useState<string>("home");
+  const selected = false;
+  const handleClick = (active: string) => {
+    setIsActive(active);
+  };
   return (
-    <nav className="bg-white h-screen w-64 flex flex-col justify-between">
-      <div className="p-4">
-        {/* <Link to="/" className="text-xl font-bold">
-          Instructor Dashboard
-        </Link> */}
-      </div>
-      <ul className="py-4">
-        <li>
-          <Link
-            to="/"
-            className="flex items-center py-2 px-4 hover:bg-gray-200"
-          >
-            <AiFillHome className="mr-2" />
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/courses"
-            className="flex items-center py-2 px-4 hover:bg-gray-200"
-          >
-            <AiFillBook className="mr-2" />
-            View Courses
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/add-course"
-            className="flex items-center py-2 px-4 hover:bg-gray-200"
-          >
-            <AiOutlinePlus className="mr-2" />
-            Add Course
-          </Link>
-        </li>
-        {/* Add more menu items here */}
+    <nav className='bg-white h-screen w-64 border-r border-gray-300 flex flex-col'>
+      <ul className='py-6'>
+        {routes.map(({ title, icon, value,path }) => {
+          return (
+            <Link to={path} >
+             <li className='py-2 px-4'>
+              <Button
+                variant={isActive ===value ? "gradient" : "text"}
+                color={isActive===value ? "blue" : "gray"}
+                className={`flex items-center gap-4 capitalize${
+                  isActive && selected ? " bg-indigo-600" : ""
+                }`}
+                fullWidth
+                value={value}
+                onClick={() => {
+                  handleClick(value);
+                }}
+              >
+                {icon}
+                <Typography color={isActive===value?'inherit':'gray'} className='font-bold capitalize'>
+                  {title}
+                </Typography>
+              </Button>
+            </li>
+            </Link>
+           
+          );
+        })}
       </ul>
-      <div className="p-4">
-        <Link to="/logout" className="text-red-500">
-          <RiLogoutBoxRLine className="mr-2" />
-          Logout
-        </Link>
-      </div>
     </nav>
   );
 };

@@ -35,12 +35,18 @@ export const Instructor: React.FC = () => {
   return (
     <>
       {isOnline ? (
-        <div className='bg-customBlueShade'>
-          <InstructorHeader />
-          <InstructorSideNav/>
-          <Outlet />
+        <>
+        <InstructorHeader />
+        <div className="flex">
+          <InstructorSideNav />
+          <div className="flex flex-col flex-1">
+            <div className="p-4 bg-customBlueShade">
+              <Outlet />
+            </div>
+          </div>
           <ToastContainer />
         </div>
+        </>
       ) : (
         <YouAreOffline />
       )}
