@@ -41,9 +41,9 @@ const courseSchema = new Schema({
   },
   rating: {
     type: Number,
-    required: true,
     min: 0,
-    max: 5
+    max: 5,
+    default:0
   },
   lessons: {
     type: [String],
@@ -51,7 +51,7 @@ const courseSchema = new Schema({
   },
   isVerified: {
     type: Boolean,
-    required: true
+    default:false,
   },
   isPaid: {
     type: Boolean,
@@ -63,6 +63,7 @@ const courseSchema = new Schema({
   },
   duration: {
     type: Number,
+    required:true,
     min: 0
   },
   requirements: {

@@ -8,7 +8,7 @@ import jwtAuthMiddleware from '../middlewares/userAuth';
 const routes = (app: Application, redisClient: RedisClient) => {
   app.use('/api/auth', authRouter());
   app.use('/api/admin',jwtAuthMiddleware, adminRouter());
-  app.use('/api/courses',jwtAuthMiddleware,courseRouter)
+  app.use('/api/courses',jwtAuthMiddleware,courseRouter())
 };
 
 export default routes;

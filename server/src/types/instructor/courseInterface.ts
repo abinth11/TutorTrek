@@ -13,19 +13,14 @@ export interface AddCourseInfoInterface {
     isPaid: boolean;
     duration?: number;
     requirements?: string[];
+    quiz:AddQuizInfoInterface;
     tags?: string[];
-    reviews?: {
-      rating: number;
-      comment?: string;
-      userId: string;
-      createdAt?: Date;
-    }[];
     enrollmentLimit?: number;
     completionStatus?: number;
   }
   
   export interface AddQuizInfoInterface {
-    courseId: string;
+    courseId:string;
     title: string;
     questions: {
       question: string;

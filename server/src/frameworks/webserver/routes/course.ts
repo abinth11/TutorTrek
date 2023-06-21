@@ -5,7 +5,7 @@ import { courseDbRepository } from '../../../app/repositories/courseDbRepository
 
 const courseRouter = () => {
   const router = express.Router();
-  const controller = courseController(
+  const controller = courseController( 
     courseDbRepository,
     courseRepositoryMongodb
   );
