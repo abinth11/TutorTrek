@@ -13,6 +13,11 @@ const courseController = (
 
     const addCourse = asyncHandler(async(req:Request,res:Response) =>{
         const course:AddCourseInfoInterface = req.body
+        console.log(req.files)
+        if (req.files) {
+            const files = Array.isArray(req.files) ? req.files : Object.values(req.files)[0];
+            course.thumbnail = files[0].path;
+          } 
         const response = await addCourses(course,dbRepositoryCourse)
         res.status(200).json({
             status:'success',
