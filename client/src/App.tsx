@@ -34,22 +34,29 @@ export const Instructor: React.FC = () => {
   const isOnline = useIsOnline();
   return (
     <>
-      {isOnline ? (
-        <>
-        <InstructorHeader />
-        <div className="flex">
-          <InstructorSideNav />
-          <div className="flex flex-col flex-1">
-            <div className="p-4 bg-customBlueShade">
-              <Outlet />
-            </div>
-          </div>
-          <ToastContainer />
-        </div>
-        </>
-      ) : (
-        <YouAreOffline />
-      )}
+    {isOnline ? (
+  <>
+  <div className="fixed inset-x-0 top-0 flex flex-col ">
+  <InstructorHeader />
+  <div className="flex flex-1">
+    <div className="w-64 h-screen overflow-y-auto">
+      <InstructorSideNav />
+    </div>
+    <div className="flex flex-col flex-1">
+      <div className="p-4 bg-customBlueShade overflow-y-scroll h-screen">
+        <Outlet />
+      </div>
+    </div>
+    <ToastContainer />
+  </div>
+</div>
+
+
+
+  </>
+) : (
+  <YouAreOffline />
+)}
     </>
   );
 };

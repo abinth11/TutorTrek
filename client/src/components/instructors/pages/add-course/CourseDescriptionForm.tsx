@@ -11,7 +11,6 @@ export interface FormValues {
     description: string;
     category: string;
     price: string;
-    lessons: string;
   }
   
 const initialValues: FormValues = {
@@ -23,7 +22,6 @@ const initialValues: FormValues = {
     description: "",
     category: "",
     price: "",
-    lessons: "",
   };
   
   
@@ -198,25 +196,6 @@ const CourseDescriptionForm:React.FC = () =>{
                 />
                 <ErrorMessage
                   name='price'
-                  component='div'
-                  className='text-red-500 text-sm'
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor='lessons'
-                  className='block text-sm font-medium leading-6 text-gray-900'
-                >
-                  Lessons
-                </label>
-                <Field
-                  as='textarea'
-                  id='lessons'
-                  name='lessons'
-                  className='pl-2 block w-72 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
-                />
-                <ErrorMessage
-                  name='lessons'
                   component='div'
                   className='text-red-500 text-sm'
                 />

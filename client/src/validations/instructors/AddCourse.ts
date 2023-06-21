@@ -12,5 +12,4 @@ export const AddCourseValidationSchema = Yup.object().shape({
     price: Yup.number()
       .required("Price is required")
       .positive("Price must be a positive number"),
-    lessons: Yup.string().required("Lessons are required"),
   });
