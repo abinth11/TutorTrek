@@ -4,12 +4,31 @@ import { AddCourseInfoInterface } from '../../../types/instructor/courseInterfac
 import AppError from '../../../utils/appError';
 
 export const addCourses = async (
-  courseInfo:AddCourseInfoInterface,
+  courseInfo: AddCourseInfoInterface,
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>
 ) => {
-  if(!courseInfo){
-    throw new AppError("Please provide course details",HttpStatusCodes.BAD_REQUEST)
+  if (!courseInfo) {
+    throw new AppError(
+      'Please provide course details',
+      HttpStatusCodes.BAD_REQUEST
+    );
   }
-  const response = await courseDbRepository.addCourse(courseInfo);
-  return response
+  const courseId = await courseDbRepository.addCourse(courseInfo);
+  if (!courseId) {
+    throw new AppError(
+      'Unable to add course please try again',
+      HttpStatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+  const { quiz } = courseInfo;
+  if (!quiz) {
+    throw new AppError(
+      'Please add quiz to upload the course',
+      HttpStatusCodes.BAD_REQUEST
+    );
+  }
+  if (courseId) {
+    await courseDbRepository.addQuiz(courseId.toString(), quiz);
+  }
+  return courseId;
 };

@@ -18,7 +18,7 @@ function configureMulter(field: string, limit: number, resourceType: string, all
     params: {
       resource_type: resourceType,
       allowed_formats: allowedFormats,
-      folder: 'your-folder-name' // Specify the folder where the images or videos will be stored in Cloudinary
+      folder: 'Tutor-Trek' // Specify the folder where the images or videos will be stored in Cloudinary
     }
   };
 
