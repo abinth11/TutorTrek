@@ -4,7 +4,6 @@ import { AddCourseInfoInterface } from '@src/types/instructor/courseInterface';
 
 export const courseRepositoryMongodb = () => {
   const addCourse = async (courseInfo: AddCourseInfoInterface) => {
-    console.log(courseInfo)
     const quiz = courseInfo.quiz;
     const newCourse = new Course(courseInfo);
     const { _id: courseId } = await newCourse.save();

@@ -1,17 +1,8 @@
 import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer';
-import {  RequestHandler } from 'express';
+import { RequestHandler } from 'express';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import configKeys from '../../../config';
-
-interface CloudinaryStorageOptions {
-  cloudinary: any; // Adjust the type as needed for the cloudinary object
-  params: {
-    resource_type: string;
-    allowed_formats: string[];
-    folder: string; // Specify the folder where the images will be stored in Cloudinary
-  };
-}
 
 // Cloudinary configuration
 cloudinary.config({
@@ -21,13 +12,13 @@ cloudinary.config({
 });
 
 // Function to configure Multer for handling single or multiple images
-function configureMulter(field: string, limit: number): RequestHandler {
-  const storageOptions: CloudinaryStorageOptions = {
+function configureMulter(field: string, limit: number, resourceType: string, allowedFormats: string[]): RequestHandler {
+  const storageOptions = {
     cloudinary: cloudinary,
     params: {
-      resource_type: 'auto',
-      allowed_formats: ['jpg', 'jpeg', 'png'],
-      folder: 'your-folder-name' // Specify the folder where the images will be stored in Cloudinary
+      resource_type: resourceType,
+      allowed_formats: allowedFormats,
+      folder: 'your-folder-name' // Specify the folder where the images or videos will be stored in Cloudinary
     }
   };
 
@@ -35,6 +26,34 @@ function configureMulter(field: string, limit: number): RequestHandler {
   return multer({ storage: storage }).array(field, limit);
 }
 
-export const uploadSingle: RequestHandler = configureMulter('image', 1);
+// Function to configure Multer for handling images
+function configureImageMulter(field: string, limit: number): RequestHandler {
+  const resourceType = 'image'; // Specify the resource type as 'image' for images
+  const allowedFormats = ['jpg', 'jpeg', 'png'];
 
-export const uploadMultiple: RequestHandler = configureMulter('images', 5);
+  return configureMulter(field, limit, resourceType, allowedFormats);
+}
+
+// Function to configure Multer for handling videos
+function configureVideoMulter(field: string, limit: number): RequestHandler {
+  const resourceType = 'video'; // Specify the resource type as 'video' for videos
+  const allowedFormats = ['mp4', 'mov']; // Add supported video formats here
+
+  return configureMulter(field, limit, resourceType, allowedFormats);
+}
+
+// Function to configure Multer for handling both image and video uploads
+function configureImageAndVideoMulter(field: string, limit: number): RequestHandler {
+  const resourceType = 'auto'; // Specify the resource type as 'auto' to handle both images and videos
+  const allowedFormats = ['jpg', 'jpeg', 'png', 'mp4', 'mov']; // Add supported formats for both images and videos
+
+  return configureMulter(field, limit, resourceType, allowedFormats);
+}
+
+export const uploadSingleImage: RequestHandler = configureImageMulter('image', 1);
+export const uploadMultipleImages: RequestHandler = configureImageMulter('images', 5);
+
+export const uploadSingleVideo: RequestHandler = configureVideoMulter('video', 1);
+export const uploadMultipleVideos: RequestHandler = configureVideoMulter('videos', 5);
+
+export const uploadImageAndVideo: RequestHandler = configureImageAndVideoMulter('files', 2);

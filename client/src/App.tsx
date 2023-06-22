@@ -12,6 +12,7 @@ import { selectIsAdminLoggedIn } from "./redux/reducers/adminAuthSlice";
 import InstructorHeader from "./components/instructors/partials/InstructorHeader";
 import useIsOnline from "./hooks/useOnline";
 import YouAreOffline from "./components/common/YouAreOffline";
+import { useState,ChangeEvent } from "react";
 
 export const Student: React.FC = () => {
   const isOnline = useIsOnline();
@@ -34,29 +35,26 @@ export const Instructor: React.FC = () => {
   const isOnline = useIsOnline();
   return (
     <>
-    {isOnline ? (
-  <>
-  <div className="fixed inset-x-0 top-0 flex flex-col ">
-  <InstructorHeader />
-  <div className="flex flex-1">
-    <div className="w-64 h-screen overflow-y-auto">
-      <InstructorSideNav />
-    </div>
-    <div className="flex flex-col flex-1">
-      <div className="p-4 bg-customBlueShade overflow-y-scroll h-screen">
-        <Outlet />
-      </div>
-    </div>
-    <ToastContainer />
-  </div>
-</div>
-
-
-
-  </>
-) : (
-  <YouAreOffline />
-)}
+      {isOnline ? (
+        <>
+          <div className='fixed inset-x-0 top-0 flex flex-col '>
+            <InstructorHeader />
+            <div className='flex flex-1'>
+              <div className='w-64 h-screen overflow-y-auto'>
+                <InstructorSideNav />
+              </div>
+              <div className='flex flex-col flex-1'>
+                <div className='p-4 bg-customBlueShade overflow-y-scroll h-screen'>
+                  <Outlet />
+                </div>
+              </div>
+              <ToastContainer />
+            </div>
+          </div>
+        </>
+      ) : (
+        <YouAreOffline />
+      )}
     </>
   );
 };
