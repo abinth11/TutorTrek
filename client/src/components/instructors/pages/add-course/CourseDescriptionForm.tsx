@@ -221,14 +221,8 @@ const CourseDescriptionForm: React.FC<CourseDescriptionFormProps> = ({onSubmit})
             )}
           </div>
         </div>
-        <button
-            type="submit"
-              className="bg-blue-500 mt-5 text-white px-3 py-2 rounded-md text-xs">
-              ADD Description
-            </button>
       </Form>
     </Formik>
   );
 };
 
-export default CourseDescriptionForm;

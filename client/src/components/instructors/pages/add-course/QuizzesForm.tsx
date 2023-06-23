@@ -157,4 +157,3 @@ const QuizzesForm: React.FC<QuizzesFormProps> = ({ onSubmit }) => {
     </div>
   );
 };
-export default QuizzesForm;

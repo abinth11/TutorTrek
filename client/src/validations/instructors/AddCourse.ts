@@ -12,6 +12,8 @@ export const AddCourseValidationSchema = Yup.object().shape({
     price: Yup.number()
       .required("Price is required")
       .positive("Price must be a positive number"),
+      // introductionVideo: Yup.mixed().required("Introduction video is required"),
+      // thumbnail: Yup.mixed().required("Thumbnail is required"),
   });
 
  export const QuizValidationSchema = Yup.object().shape({

@@ -111,16 +111,9 @@ const CourseMediaForm: React.FC<CourseMediaFormProps> = ({ onSubmit }) => {
               )}
             </Field>
           </div>
-          <button
-            type="submit"
-            className="bg-blue-500 mt-5 text-white px-3 py-2 rounded-md text-xs"
-          >
-            ADD Media
-          </button>
         </Form>
       </Formik>
     </div>
   );
 };
 
-export default CourseMediaForm;
