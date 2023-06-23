@@ -1,4 +1,3 @@
-import axios from "axios";
 import CONSTANTS_COMMON from "../../../constants/common";
 import {
   StudentRegisterData,

@@ -1,32 +1,24 @@
 import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { AddCourseValidationSchema } from "../../../../validations/instructors/AddCourse";
 import { Switch } from "@material-tailwind/react";
-const validationSchema = Yup.object().shape({
-  title: Yup.string().required("Title is required"),
-  instructor: Yup.string().required("Instructor is required"),
-  duration: Yup.string().required("Duration is required"),
-  description: Yup.string().required("Description is required"),
-  requirements: Yup.string().required("Requirements are required"),
-  lessons: Yup.string().required("Lessons are required"),
-  category: Yup.string().required("Category is required"),
-  price: Yup.number().when("paid", {
-    is: true,
-    then: Yup.number().required("Price is required") as any,
-    otherwise: Yup.number() as any,
-  }),
-  tags: Yup.string().required("Tags are required"),
-  introductionVideo: Yup.mixed().required("Introduction video is required"),
-  thumbnail: Yup.mixed().required("Thumbnail is required"),
-});
+import { addCourse } from "../../../../api/endpoints/instructor/course";
+import { toast } from "react-toastify";
 
 const CombinedForm: React.FC = () => {
   const [paid, setPaid] = useState(false);
 
-  const handleFormSubmit = (values:any) => {
-   console.log(values)
-  };
+  const handleFormSubmit = async(values:any) => {
+    try {
+      console.log(values)
+      const response = await addCourse(values)
+      console.log(response)
+      toast.success(response.data.message,{position:toast.POSITION.BOTTOM_RIGHT})
+    } catch (error:any) {
+      toast.error(error.data.message,{position:toast.POSITION.BOTTOM_RIGHT})
+      console.log(error)
+    }
+  };  
 
   const handlePaid = () => {
     setPaid(!paid);

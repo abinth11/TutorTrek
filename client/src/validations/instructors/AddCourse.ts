@@ -9,9 +9,11 @@ export const AddCourseValidationSchema = Yup.object().shape({
     lessons: Yup.string().required("lessons is required"),
     description: Yup.string().required("Description is required"),
     category: Yup.string().required("Category is required"),
-    price: Yup.number()
-      .required("Price is required")
-      .positive("Price must be a positive number"),
+    // price: Yup.number().when("paid", {
+    //   is: true,
+    //   then: Yup.number().required("Price is required") as any,
+    //   otherwise: Yup.number() as any,
+    // })
       // introductionVideo: Yup.mixed().required("Introduction video is required"),
       // thumbnail: Yup.mixed().required("Thumbnail is required"),
   });

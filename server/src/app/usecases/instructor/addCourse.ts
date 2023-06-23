@@ -20,15 +20,5 @@ export const addCourses = async (
       HttpStatusCodes.INTERNAL_SERVER_ERROR
     );
   }
-  const { quiz } = courseInfo;
-  if (!quiz) {
-    throw new AppError(
-      'Please add quiz to upload the course',
-      HttpStatusCodes.BAD_REQUEST
-    );
-  }
-  if (courseId) {
-    await courseDbRepository.addQuiz(courseId.toString(), quiz);
-  }
   return courseId;
 };

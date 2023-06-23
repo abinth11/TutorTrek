@@ -4,6 +4,7 @@ import { CourseRepositoryMongoDbInterface } from '../../frameworks/database/mong
 import { CourseDbRepositoryInterface } from '../../app/repositories/courseDbRepository';
 import { addCourses } from '../../app/usecases/instructor/addCourse';
 import { AddCourseInfoInterface } from '../../types/instructor/courseInterface';
+import { CustomRequest } from '@src/types/custom/customRequest';
 // import { handleFileUpload } from '../Helpers/handleFileUpload';
 
 const courseController = (
@@ -13,10 +14,14 @@ const courseController = (
   const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl());
 
   const addCourse = asyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: CustomRequest, res: Response, next: NextFunction) => {
       const course: AddCourseInfoInterface = req.body;
+      console.log(course)
       const files: Express.Multer.File[] = req.files as Express.Multer.File[];
-
+      const instructorId = req.user?.instructorId
+      if(instructorId){
+        course.instructorId = instructorId
+      }
       if (files) {
         const images = files.filter(file => file.mimetype.startsWith('image/')).map(file => file.path);
         const videos = files.filter(file => file.mimetype.startsWith('video/')).map(file => file.path);

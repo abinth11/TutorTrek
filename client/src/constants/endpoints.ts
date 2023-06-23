@@ -11,6 +11,7 @@ const END_POINTS = {
     GET_INSTRUCTORS:'api/admin/instructors/get-all-instructors',
     BLOCK_INSTRUCTORS:'api/admin/instructors/get-all-instructors/block-instructors',
     UNBLOCK_INSTRUCTORS:'api/admin/instructors/get-all-instructors/unblock-instructors',
-    GET_BLOCKED_INSTRUCTORS:'api/admin/instructors/get-blocked-instructors'
+    GET_BLOCKED_INSTRUCTORS:'api/admin/instructors/get-blocked-instructors',
+    ADD_COURSE:'api/courses/instructors/add-course'
 }
 export default END_POINTS

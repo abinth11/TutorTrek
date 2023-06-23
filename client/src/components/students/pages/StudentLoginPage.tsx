@@ -10,9 +10,11 @@ import { useDispatch } from "react-redux";
 import { setToken } from "../../../redux/reducers/studentAuthSlice";
 const StudentLoginPage: React.FC = () => {
   const navigate = useNavigate()
+  const dispatch= useDispatch()
   const handleSubmit = async (studentInfo: any) => {
     try {
       const response = await loginStudent(studentInfo);
+      dispatch(setToken(response?.data?.authToken))
       response &&navigate('/')
     } catch (error:any) {
       toast.error(error.data?.message, {

@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-
+import { AddCourseInfoInterface } from '@src/types/instructor/courseInterface';
 const courseSchema = new Schema({
   title: {
     type: String,
@@ -9,7 +9,6 @@ const courseSchema = new Schema({
   },
   thumbnail: {
     type: String,
-    required: true,
     match: /^(https?|data):\/\/[^\s/$.?#].[^\s]*$/i
   },
   introductionVideo: {
@@ -29,15 +28,22 @@ const courseSchema = new Schema({
     type: String,
     required: true
   },
+  isPaid: {
+    type: Boolean,
+    required: true
+  },
   price: {
     type: Number,
-    required: true,
+    required: function(this:AddCourseInfoInterface) {
+      return this.isPaid;
+    },
     min: 0
   },
   enrollmentCount: {
     type: Number,
     required: true,
-    min: 0
+    min: 0,
+    default:0
   },
   rating: {
     type: Number,
@@ -52,10 +58,6 @@ const courseSchema = new Schema({
   isVerified: {
     type: Boolean,
     default:false,
-  },
-  isPaid: {
-    type: Boolean,
-    required: true
   },
   createdAt: {
     type: Date,
@@ -92,14 +94,11 @@ const courseSchema = new Schema({
       default: Date.now
     }
   }],
-  enrollmentLimit: {
-    type: Number,
-    min: 0
-  },
   completionStatus: {
     type: Number,
     min: 0,
-    max: 100
+    max: 100,
+    default:0
   }
 });
 
