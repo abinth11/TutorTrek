@@ -17,7 +17,8 @@ export default withMT({
         customFontColorBlack:'#2A3B4F',
         customBlueShade:'#F3F7FE',
         hoverBlue:'#D4E4FC',
-        customTextColor:'#2A3B4F'
+        customTextColor:'#2A3B4F',
+        skyBlueCustom:"#F3F7FE"
       } 
     },
   },

@@ -5,11 +5,27 @@ export const AddCourseValidationSchema = Yup.object().shape({
     duration: Yup.number()
       .required("Duration is required")
       .positive("Duration must be a positive number"),
-    thumbnail: Yup.string().url("Invalid URL"),
-    introductionVideo: Yup.string().url("Invalid URL"),
+    requirements: Yup.string().required("requirements is required"),
+    lessons: Yup.string().required("lessons is required"),
     description: Yup.string().required("Description is required"),
     category: Yup.string().required("Category is required"),
     price: Yup.number()
       .required("Price is required")
       .positive("Price must be a positive number"),
+  });
+
+ export const QuizValidationSchema = Yup.object().shape({
+    questions: Yup.array().of(
+      Yup.object().shape({
+        question: Yup.string().required("Question is required"),
+        options: Yup.array()
+          .of(
+            Yup.object().shape({
+              option: Yup.string().required("Option is required"),
+              isCorrect: Yup.boolean().required("Specify if the option is correct"),
+            })
+          )
+          .required("At least one option is required"),
+      })
+    ),
   });

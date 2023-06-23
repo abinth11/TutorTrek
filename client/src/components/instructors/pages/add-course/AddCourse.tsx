@@ -11,6 +11,7 @@ const AddCourseForm: React.FC = () => {
   const [isLastStep, setIsLastStep] = useState(false);
   const [isFirstStep, setIsFirstStep] = useState(true);
   const [isCourseAdded, setIsCourseAdded] = useState(false);
+  const [formData, setFormData] = useState({});
 
   const handleNext = () => {
     if (activeStep < 2) {
@@ -20,6 +21,8 @@ const AddCourseForm: React.FC = () => {
       // Finish button clicked, perform final actions
       setIsLastStep(true); // Set isLastStep to true when it's the last step
       setIsCourseAdded(true);
+      // Access complete form data and perform necessary actions
+      console.log(formData);
     }
   };
 
@@ -33,24 +36,32 @@ const AddCourseForm: React.FC = () => {
     }
   };
 
-  const handleCourseAdd = () => {
-    // Perform course add actions
-    setIsCourseAdded(true);
+  const handleDescriptionFormSubmit = (descriptionFormData:any) => {
+    setFormData((prevData) => ({ ...prevData, description: descriptionFormData }));
   };
+
+  const handleMediaFormSubmit = (mediaFormData:any) => {
+    setFormData((prevData) => ({ ...prevData, media: mediaFormData }));
+  };
+
+  const handleQuizzesFormSubmit = (quizzesFormData:any) => {
+    setFormData((prevData) => ({ ...prevData, quizzes: quizzesFormData }));
+  };
+  console.log(formData)
 
   const renderStep = () => {
     switch (activeStep) {
       case 0:
-        return <CourseDescriptionForm />;
+        return <CourseDescriptionForm onSubmit={handleDescriptionFormSubmit} />;
       case 1:
-        return <CourseMediaForm />;
+        return <CourseMediaForm onSubmit={handleMediaFormSubmit} />;
       case 2:
-        return <QuizzesForm />;
+        return <QuizzesForm onSubmit={handleQuizzesFormSubmit} />;
       default:
         return null;
     }
   };
-  console.log(isCourseAdded)
+
   return (
     <div className='pb-16'>
       {isCourseAdded ? (
@@ -71,8 +82,10 @@ const AddCourseForm: React.FC = () => {
             </div>
           </div>
           <div className=''>
-            <div className='mt-20 ml-20 mr-20 mb-5 pb-10 border-2 rounded-lg border-gray-300'>
-              {renderStep()}
+            <div className='mt-20 bg-white ml-20 mr-20 mb-5 pb-10 border-2 rounded-lg border-gray-200'>
+              {/* {renderStep()} */}
+              <CourseDescriptionForm onSubmit={handleDescriptionFormSubmit} />
+
             </div>
           </div>
           <div className='mb-10 mr-10 pl-8 pr-11 ml-11 flex justify-between'>

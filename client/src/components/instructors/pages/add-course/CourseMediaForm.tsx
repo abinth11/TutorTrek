@@ -2,26 +2,31 @@ import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-const CourseMediaForm: React.FC = () => {
+type CourseMediaFormProps = {
+  onSubmit: (formData: any) => void;
+};
+
+const CourseMediaForm: React.FC<CourseMediaFormProps> = ({ onSubmit }) => {
   // Define the validation schema using Yup
   const validationSchema = Yup.object({
-    introductionVideo: Yup.string().required("Introduction video is required"),
-    thumbnail: Yup.string().required("Thumbnail is required"),
+    introductionVideo: Yup.mixed().required("Introduction video is required"),
+    thumbnail: Yup.mixed().required("Thumbnail is required"),
   });
 
   // Define the initial form values
   const initialValues = {
-    introductionVideo: "",
-    thumbnail: "",
+    introductionVideo: null,
+    thumbnail: null,
   };
 
   // Define state variables to store the selected video and thumbnail
-  const [selectedVideo, setSelectedVideo] = useState("");
-  const [selectedThumbnail, setSelectedThumbnail] = useState("");
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [selectedThumbnail, setSelectedThumbnail] = useState<string | null>(null);
 
   // Handle form submission
   const handleSubmit = (values: any) => {
     console.log(values);
+    onSubmit(values);
     // Perform the necessary actions with the form values
   };
 
@@ -42,61 +47,75 @@ const CourseMediaForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Add Course Media</h1>
+    <div className="max-w-md mx-auto pt-10">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         <Form>
-          <div className="mb-4">
+          <div className="mb-6">
             <label htmlFor="introductionVideo" className="block font-bold mb-1">
               Introduction Video
             </label>
-            <Field
-              type="file"
-              id="introductionVideo"
-              name="introductionVideo"
-              onChange={handleVideoChange}
-              className="border border-gray-300 px-3 py-2 rounded-lg w-full"
-            />
-            <ErrorMessage
-              name="introductionVideo"
-              component="div"
-              className="text-red-500"
-            />
-            {selectedVideo && (
-              <video src={selectedVideo} controls className="mt-2" />
-            )}
+            <Field name="introductionVideo">
+              {({ form }: { form: any }) => (
+                <>
+                  <input
+                    type="file"
+                    id="introductionVideo"
+                    onChange={(event) => {
+                      form.setFieldValue("introductionVideo", event.currentTarget.files?.[0]);
+                      handleVideoChange(event);
+                    }}
+                    className="border border-gray-300 px-3 py-2 rounded-lg w-full"
+                  />
+                  <ErrorMessage
+                    name="introductionVideo"
+                    component="div"
+                    className="text-red-500"
+                  />
+                  {selectedVideo && (
+                    <video src={selectedVideo} controls className="mt-2" />
+                  )}
+                </>
+              )}
+            </Field>
           </div>
 
           <div className="mb-4">
             <label htmlFor="thumbnail" className="block font-bold mb-1">
               Thumbnail
             </label>
-            <Field
-              type="file"
-              id="thumbnail"
-              name="thumbnail"
-              onChange={handleThumbnailChange}
-              className="border border-gray-300 px-3 py-2 rounded-lg w-full"
-            />
-            <ErrorMessage
-              name="thumbnail"
-              component="div"
-              className="text-red-500"
-            />
-            {selectedThumbnail && (
-              <img src={selectedThumbnail} alt="Thumbnail" className="mt-2" />
-            )}
+            <Field name="thumbnail">
+              {({ form }: { form: any }) => (
+                <>
+                  <input
+                    type="file"
+                    id="thumbnail"
+                    onChange={(event) => {
+                      form.setFieldValue("thumbnail", event.currentTarget.files?.[0]);
+                      handleThumbnailChange(event);
+                    }}
+                    className="border border-gray-300 px-3 py-2 rounded-lg w-full"
+                  />
+                  <ErrorMessage
+                    name="thumbnail"
+                    component="div"
+                    className="text-red-500"
+                  />
+                  {selectedThumbnail && (
+                    <img src={selectedThumbnail} alt="Thumbnail" className="mt-2" />
+                  )}
+                </>
+              )}
+            </Field>
           </div>
-
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+            className="bg-blue-500 mt-5 text-white px-3 py-2 rounded-md text-xs"
           >
-            Add Media
+            ADD Media
           </button>
         </Form>
       </Formik>
