@@ -13,6 +13,7 @@
   "dependencies": {
     "@types/nodemailer": "^6.4.8",
     "bcrypt": "^5.1.0",
+    "cloudinary": "^1.37.2",
     "colors.ts": "^1.0.20",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -25,6 +26,8 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.2.2",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^6.9.3",
     "redis": "^4.6.7"
   },
@@ -35,6 +38,7 @@
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/morgan": "^1.9.4",
+    "@types/multer": "^1.4.7",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
     "eslint": "^8.42.0",

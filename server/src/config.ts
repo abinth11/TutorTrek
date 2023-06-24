@@ -19,6 +19,12 @@ const configKeys = {
   EMAIL_NODE_MAILER: process.env.EMAIL_USERNAME as string,
 
   PASSWORD_NODE_MAILER: process.env.EMAIL_PASSWORD as string,
+
+  CLOUDINARY_CLOUD_NAME:process.env.CLOUDINARY_CLOUD_NAME as string,
+
+  CLOUDINARY_API_KEY:process.env.CLOUDINARY_API_KEY as string,
+
+  CLOUDINARY_API_SECRET:process.env.CLOUDINARY_API_SECRET as string
 };
 
 export default configKeys;

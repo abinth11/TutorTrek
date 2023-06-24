@@ -5,15 +5,20 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { loginInstructor } from "../../../api/endpoints/instructor/auth";
 import { InstructorLoginInfo } from "../../../api/types/instructor/authInterface";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../../redux/reducers/studentAuthSlice";
 const InstructorLoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const handleSubmit = async (instructorInfo: InstructorLoginInfo) => {
     try {
       const response = await loginInstructor(instructorInfo);
+      console.log(response.data.accessToken)
+      dispatch(setToken({token:response?.data?.accessToken}))
       toast.success(response?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-      navigate('/')
+      // response && navigate('/')
     } catch (error:any) {
       toast.error(error.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,

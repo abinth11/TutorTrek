@@ -13,6 +13,10 @@ import ViewInstructorRequests from "./components/admin/pages/InstructorManagemen
 import ViewBlockedInstructors from "./components/admin/pages/InstructorManagement/ViewBlockedInstructors";
 import { Student, Admin } from "./App"; 
 import ViewMoreInstructorRequest from "./components/admin/pages/InstructorManagement/ViewMoreInstructorRequest";
+import { Instructor } from "./App";
+import InstructorDashboard from "./components/instructors/pages/InstructorDashboard";
+import AddCourse from "./components/instructors/pages/add-course/AddCourse";
+import ViewCourse from "./components/instructors/pages/ViewCourse";
 const AppRouter = createBrowserRouter([
   {
     path: "/",
@@ -76,6 +80,25 @@ const AppRouter = createBrowserRouter([
         path: "login",
         element: <AdminLoginPage />,
       },
+    ],
+  },
+  {
+    path: "instructors",
+    element: <Instructor />,
+    errorElement: <ErrorElement />,
+    children: [
+      {
+        path: "/instructors",
+        element: <InstructorDashboard />,
+      },
+      {
+        path:"add-course",
+        element:<AddCourse/>
+      },
+      {
+        path:"view-course",
+        element:<ViewCourse/>
+      }
     ],
   },
 ]);
