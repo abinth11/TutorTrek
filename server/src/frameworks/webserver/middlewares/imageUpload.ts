@@ -44,6 +44,7 @@ function configureVideoMulter(field: string, limit: number): RequestHandler {
 
 // Function to configure Multer for handling both image and video uploads
 function configureImageAndVideoMulter(field: string, limit: number): RequestHandler {
+  console.log(field)
   const resourceType = 'auto'; // Specify the resource type as 'auto' to handle both images and videos
   const allowedFormats = ['jpg', 'jpeg', 'png', 'mp4', 'mov']; // Add supported formats for both images and videos
 

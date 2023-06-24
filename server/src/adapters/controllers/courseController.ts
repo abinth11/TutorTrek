@@ -15,9 +15,11 @@ const courseController = (
 
   const addCourse = asyncHandler(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
+      console.log(req.body)
       const course: AddCourseInfoInterface = req.body;
       console.log(course)
       const files: Express.Multer.File[] = req.files as Express.Multer.File[];
+      console.log(files)
       const instructorId = req.user?.instructorId
       if(instructorId){
         course.instructorId = instructorId

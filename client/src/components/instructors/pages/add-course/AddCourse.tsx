@@ -4,45 +4,57 @@ import { AddCourseValidationSchema } from "../../../../validations/instructors/A
 import { Switch } from "@material-tailwind/react";
 import { addCourse } from "../../../../api/endpoints/instructor/course";
 import { toast } from "react-toastify";
+const initialValues = {
+  title: "",
+  instructor: "",
+  duration: "",
+  description: "",
+  requirements: "",
+  lessons: "",
+  category: "",
+  price: "",
+  tags: "",
+};
 
 const CombinedForm: React.FC = () => {
   const [paid, setPaid] = useState(false);
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
+  const [introduction, setIntroduction] = useState<File | null>(null);
 
-  const handleFormSubmit = async(values:any) => {
+  const handleFormSubmit = async (values: any) => {
     try {
-      console.log(values)
-      const response = await addCourse(values)
-      console.log(response)
-      toast.success(response.data.message,{position:toast.POSITION.BOTTOM_RIGHT})
-    } catch (error:any) {
-      toast.error(error.data.message,{position:toast.POSITION.BOTTOM_RIGHT})
-      console.log(error)
+      const formData = new FormData();
+      introduction && formData.append("files", introduction);
+      thumbnail && formData.append("files", thumbnail);
+      Object.keys(values).forEach((key) => formData.append(key, values[key]));
+      const response = await addCourse(formData);
+      console.log(response);
+      toast.success(response.data.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    } catch (error: any) {
+      toast.error(error.data.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+      console.log(error);
     }
-  };  
+  };
 
   const handlePaid = () => {
     setPaid(!paid);
   };
 
+  // function setFieldValue(arg0: string, arg1: File | undefined) {
+  //   throw new Error("Function not implemented.");
+  // }
+
   return (
-    <div className="mb-20">
-      <div className="ml-12 pl-20">
-      <h1 className="font-bold text-xl text-gray-800">Create Course</h1>
+    <div className='mb-20'>
+      <div className='ml-12 pl-20'>
+        <h1 className='font-bold text-xl text-gray-800'>Create Course</h1>
       </div>
       <Formik
-        initialValues={{
-          title: "",
-          instructor: "",
-          duration: "",
-          description: "",
-          requirements: "",
-          lessons: "",
-          category: "",
-          price: "",
-          tags: "",
-          introductionVideo: null,
-          thumbnail: null,
-        }}
+        initialValues={initialValues}
         validationSchema={AddCourseValidationSchema}
         onSubmit={handleFormSubmit}
       >
@@ -139,12 +151,12 @@ const CombinedForm: React.FC = () => {
                         className='pl-2 block w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                       />
                       <ErrorMessage
-                    name='price'
-                    component='div'
-                    className='text-red-500 text-sm'
-                  />
+                        name='price'
+                        component='div'
+                        className='text-red-500 text-sm'
+                      />
                     </div>
-                  )}         
+                  )}
                 </div>
               </div>
               <div>
@@ -176,7 +188,7 @@ const CombinedForm: React.FC = () => {
                     Duration
                   </label>
                   <Field
-                    type='text'
+                    type='number'
                     id='duration'
                     name='duration'
                     className='pl-2 block w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
@@ -266,10 +278,11 @@ const CombinedForm: React.FC = () => {
                     id='introductionVideo'
                     name='introductionVideo'
                     accept='video/*'
-                    // onChange={(event) => {
-                    //   form.setFieldValue("introductionVideo", event.currentTarget.files?.[0]);
-                    //   handleVideoChange(event);
-                    // }}                    className='pl-2 block w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
+                    onChange={(event) => {
+                      const file = event.target.files?.[0] || null;
+                      setIntroduction(file);
+                    }}
+                    className='pl-2 block w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                   />
                   <ErrorMessage
                     name='introductionVideo'
@@ -292,10 +305,10 @@ const CombinedForm: React.FC = () => {
                     id='thumbnail'
                     name='thumbnail'
                     accept='image/*'
-                    // onChange={(event) => {
-                    //   form.setFieldValue("thumbnail", event.currentTarget.files?.[0]);
-                    //   handleThumbnailChange(event);
-                    // }}
+                    onChange={(event) => {
+                      const file = event.target.files?.[0] || null;
+                      setThumbnail(file);
+                    }}
                     className='pl-2 block w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                   />
                   <ErrorMessage
@@ -307,11 +320,12 @@ const CombinedForm: React.FC = () => {
               </div>
             </div>
             <div className='flex justify-center  mt-8'>
-            <button
-            type="submit"
-              className="bg-blue-500 mt-5 text-white px-3 py-2 rounded-md">
-              Submit
-            </button>
+              <button
+                type='submit'
+                className='bg-blue-500 mt-5 text-white px-3 py-2 rounded-md'
+              >
+                Submit
+              </button>
             </div>
           </div>
         </Form>
