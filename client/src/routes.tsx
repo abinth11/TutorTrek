@@ -17,6 +17,7 @@ import { Instructor } from "./App";
 import InstructorDashboard from "./components/instructors/pages/InstructorDashboard";
 import AddCourse from "./components/instructors/pages/add-course/AddCourse";
 import ViewCourse from "./components/instructors/pages/ViewCourse";
+import ListCourses from "./components/students/pages/Course/ListCourse";
 const AppRouter = createBrowserRouter([
   {
     path: "/",
@@ -34,6 +35,10 @@ const AppRouter = createBrowserRouter([
       {
         path: "/register",
         element: <StudentRegistrationPage />,
+      },
+      {
+        path:'/courses',
+        element:<ListCourses/>
       },
       {
         path: "/instructors/login",

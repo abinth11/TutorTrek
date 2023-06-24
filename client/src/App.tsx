@@ -12,24 +12,43 @@ import { selectIsAdminLoggedIn } from "./redux/reducers/adminAuthSlice";
 import InstructorHeader from "./components/instructors/partials/InstructorHeader";
 import useIsOnline from "./hooks/useOnline";
 import YouAreOffline from "./components/common/YouAreOffline";
-import { useState,ChangeEvent } from "react";
+import StudentFooter from "./components/students/partials/StudentFooter";
+import { selectIsStudentLoggedIn } from "./redux/reducers/studentAuthSlice";
+import StudentLoginPage from "./components/students/pages/StudentLoginPage";
 
 export const Student: React.FC = () => {
   const isOnline = useIsOnline();
+  // const isStudentLoggedIn = useSelector(selectIsStudentLoggedIn);
+  const isStudentLoggedIn = true
+
   return (
     <>
       {isOnline ? (
-        <div className='bg-gray-100'>
-          <StudentHeader />
-          <Outlet />
-          <ToastContainer />
-        </div>
+        isStudentLoggedIn ? (
+          <div className="bg-gray-100">
+            <StudentHeader />
+            <Outlet />
+            <ToastContainer />
+            <StudentFooter />
+          </div>
+        ) : (
+          <div className="bg-gray-100">
+          <StudentLoginPage />
+          </div>
+        )
       ) : (
         <YouAreOffline />
       )}
     </>
   );
 };
+
+
+
+
+
+
+
 
 export const Instructor: React.FC = () => {
   const isOnline = useIsOnline();

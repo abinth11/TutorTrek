@@ -6,7 +6,8 @@ const parsedData:{token:string} = data? JSON.parse(data) :null
 const initialState={
     data:parsedData ?? {
         token:'', 
-    }
+    },
+    isLoggedIn:data?true:false
 }
 
 const studentAuthSlice=createSlice({
@@ -21,11 +22,13 @@ const studentAuthSlice=createSlice({
             })
           )
           state.data = {token:action.payload.token}
+          state.isLoggedIn = true
        },
        clearToken(state){
         state.data={
             token:''
         }
+        state.isLoggedIn=false
         localStorage.removeItem('authToken')
        }
    }
@@ -34,5 +37,7 @@ const studentAuthSlice=createSlice({
 export const {setToken,clearToken}=studentAuthSlice.actions
 
 export const selectStudentAuth=(state:RootState)=>state.studentAuth.data
+export const selectIsStudentLoggedIn = (state: RootState) => state.studentAuth.isLoggedIn;
+
 
 export const userAuthReducer =studentAuthSlice.reducer;
