@@ -4,8 +4,8 @@ import { CourseRepositoryMongoDbInterface } from '../../frameworks/database/mong
 import { CourseDbRepositoryInterface } from '../../app/repositories/courseDbRepository';
 import { addCourses } from '../../app/usecases/instructor/addCourse';
 import { AddCourseInfoInterface } from '../../types/instructor/courseInterface';
-import { CustomRequest } from '@src/types/custom/customRequest';
-import { getAllCourseU, getCourseByIdU } from '@src/app/usecases/listCourse';
+import { CustomRequest } from '../../types/custom/customRequest';
+import { getAllCourseU, getCourseByIdU } from '../../app/usecases/listCourse';
 const courseController = (
   courseDbRepository: CourseDbRepositoryInterface,
   courseDbRepositoryImpl: CourseRepositoryMongoDbInterface
