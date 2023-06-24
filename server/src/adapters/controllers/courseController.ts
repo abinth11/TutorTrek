@@ -5,8 +5,7 @@ import { CourseDbRepositoryInterface } from '../../app/repositories/courseDbRepo
 import { addCourses } from '../../app/usecases/instructor/addCourse';
 import { AddCourseInfoInterface } from '../../types/instructor/courseInterface';
 import { CustomRequest } from '@src/types/custom/customRequest';
-// import { handleFileUpload } from '../Helpers/handleFileUpload';
-
+import { getAllCourseU, getCourseByIdU } from '@src/app/usecases/listCourse';
 const courseController = (
   courseDbRepository: CourseDbRepositoryInterface,
   courseDbRepositoryImpl: CourseRepositoryMongoDbInterface
@@ -15,19 +14,20 @@ const courseController = (
 
   const addCourse = asyncHandler(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
-      console.log(req.body)
       const course: AddCourseInfoInterface = req.body;
-      console.log(course)
       const files: Express.Multer.File[] = req.files as Express.Multer.File[];
-      console.log(files)
-      const instructorId = req.user?.instructorId
-      if(instructorId){
-        course.instructorId = instructorId
+      const instructorId = req.user?.instructorId;
+      if (instructorId) {
+        course.instructorId = instructorId;
       }
       if (files) {
-        const images = files.filter(file => file.mimetype.startsWith('image/')).map(file => file.path);
-        const videos = files.filter(file => file.mimetype.startsWith('video/')).map(file => file.path);
-    
+        const images = files
+          .filter((file) => file.mimetype.startsWith('image/'))
+          .map((file) => file.path);
+        const videos = files
+          .filter((file) => file.mimetype.startsWith('video/'))
+          .map((file) => file.path);
+
         if (images.length > 0) {
           course.thumbnail = images[0];
         }
@@ -45,8 +45,29 @@ const courseController = (
     }
   );
 
+  const getAllCourses = asyncHandler(async (req: Request, res: Response) => {
+    const courses = await getAllCourseU(dbRepositoryCourse)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully retrieved all courses',
+      data: courses
+    });
+  });
+
+  const getIndividualCourse = asyncHandler(async(req:Request,res:Response)=>{
+    const courseId:string = req.params.courseId
+    const course = await getCourseByIdU(courseId,dbRepositoryCourse)
+    res.status(200).json({
+      status:'success',
+      message:'Successfully retrieved the course',
+      data:course
+    })
+  })
+
   return {
-    addCourse
+    addCourse,
+    getAllCourses,
+    getIndividualCourse
   };
 };
 

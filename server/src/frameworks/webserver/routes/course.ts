@@ -12,6 +12,11 @@ const courseRouter = () => {
   );
   //* Add course 
   router.post('/instructors/add-course',uploadImageAndVideo,controller.addCourse)
+
+  router.get('/get-all-course',controller.getAllCourses)
+
+  router.get('/get-course/:courseId',controller.getIndividualCourse)
+  
   return router
 };
 export default courseRouter

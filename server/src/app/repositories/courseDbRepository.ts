@@ -9,9 +9,15 @@ export const courseDbRepository = (
     await repository.addCourse(courseInfo);
   
   const addQuiz = async (courseId:string,quiz:AddQuizInfoInterface)=>await repository.addQuiz(courseId,quiz)
+
+  const getAllCourse = async ()=> await repository.getAllCourse()
+
+  const getCourseById = async (courseId:string) => await repository.getCourseById(courseId)
   return {
     addCourse,
-    addQuiz
+    addQuiz,
+    getAllCourse,
+    getCourseById
   };
 };
 export type CourseDbRepositoryInterface = typeof courseDbRepository;
