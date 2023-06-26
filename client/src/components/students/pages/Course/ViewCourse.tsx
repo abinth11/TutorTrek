@@ -8,10 +8,13 @@ import { toast } from "react-toastify";
 import { CourseInterface } from "../../../../types/course";
 import { formatToINR } from "../../../../utils/helpers";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { BiVideo} from "react-icons/bi";
+import { IoBookSharp } from "react-icons/io5";
+
 const ViewCourseStudent: React.FC = () => {
   const [course, setCourse] = useState<CourseInterface>();
   const params = useParams();
-  const [expanded, setExpanded] = useState(false);
+  const [expandedIndex, setExpandedIndex] = useState(null);
   const courseId: string | undefined = params.courseId;
   const fetchCourse = async (courseId: string) => {
     try {
@@ -30,8 +33,8 @@ const ViewCourseStudent: React.FC = () => {
     }
   }, []);
 
-  const handleToggle = () => {
-    setExpanded(!expanded);
+  const handleToggle = (index: any) => {
+    setExpandedIndex(index === expandedIndex ? null : index);
   };
 
   const location = useLocation();
@@ -83,27 +86,74 @@ const ViewCourseStudent: React.FC = () => {
             <div className='mb-8'>
               <h4 className='text-2xl font-semibold mb-2'>Syllabus</h4>
               <ul className='text-gray-700 bg-white mt-2 rounded-lg shadow-lg border-2'>
+                
                 <li
-                  className={`mb-2 p-6 border-b cursor-pointer hover:bg-blue-gray-50 ${
-                    expanded ? "bg-blue-gray-50" : ""
+                  className={` p-6 border-b-2 cursor-pointer ${
+                    expandedIndex === 0
+                      ? "bg-blue-gray-50"
+                      : "hover:bg-blue-gray-50"
                   }`}
-                  onClick={handleToggle}
+                  onClick={() => handleToggle(0)}
                 >
-                  <span className='text-blue-500 mr-2'>&#9679;</span> Module 1:
-                  Introduction to the Course
-                  {expanded ? (
-                    <FaAngleUp className='float-right' />
-                  ) : (
-                    <FaAngleDown className='float-right' />
-                  )}
+                  <div className='flex items-center'>
+                    <span className='text-blue-500 mr-2'>&#9679;</span>
+                    <span>Module 1: Introduction to the Course</span>
+                    {expandedIndex === 0 ? (
+                      <FaAngleUp className='ml-auto' />
+                    ) : (
+                      <FaAngleDown className='ml-auto' />
+                    )}
+                  </div>
                 </li>
-                {expanded && (
-                  <li className='p-6'>
-                    <p>This is the content of Module 1.</p>
-                    <p>It contains various topics and subtopics.</p>
+                {expandedIndex === 0 && (
+                  <li className=''>
+                    <ul>
+                      <li className='p-6 border-b flex items-center cursor-pointer hover:bg-blue-gray-50'>
+                        <IoBookSharp className='mr-2 text-blue-500' />
+                        <span className='flex-1'>Important guidelines</span>
+                      </li>
+                      <Link to={'watch-lessons/1'}>
+                      <li className='p-6 border-b flex items-center cursor-pointer hover:bg-blue-gray-50'>
+                        <BiVideo className='mr-2 text-blue-500' />
+                        <span className='flex-1'>Introduction video</span>
+                      </li>
+                      </Link>
+                    </ul>
                   </li>
                 )}
-                {/* Repeat the same pattern for other list items */}
+                <li
+                  className={` p-6  cursor-pointer ${
+                    expandedIndex === 1
+                      ? "bg-blue-gray-50"
+                      : "hover:bg-blue-gray-50"
+                  } parent-li`}
+                  onClick={() => handleToggle(1)}
+                >
+                  <div className='flex items-center'>
+                    <span className='text-blue-500 mr-2'>&#9679;</span>
+                    <span>Module 2: Advanced Techniques</span>
+                    {expandedIndex === 1 ? (
+                      <FaAngleUp className='ml-auto' />
+                    ) : (
+                      <FaAngleDown className='ml-auto' />
+                    )}
+                  </div>
+                </li>
+                {expandedIndex === 1 && (
+                  <li className='p-6 child-li'>
+                    <ul>
+                      <li className='w-full'>
+                        <p>It contains various topics and subtopics.</p>
+                      </li>
+                      <li className='w-full'>
+                        <p>It contains various topics and subtopics.</p>
+                      </li>
+                      <li className='w-full'>
+                        <p>It contains various topics and subtopics.</p>
+                      </li>
+                    </ul>
+                  </li>
+                )}
               </ul>
             </div>
 

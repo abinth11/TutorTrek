@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import StudentLoginPage from "./components/students/pages/StudentLoginPage";
 import StudentRegistrationPage from "./components/students/pages/StudentRegistrationPage";
@@ -11,7 +12,7 @@ import Dashboard from "./components/admin/pages/AdminDashBoardPage";
 import ViewInstructorsIndex from "./components/admin/pages/InstructorManagement/ViewInstructorsIndex";
 import ViewInstructorRequests from "./components/admin/pages/InstructorManagement/ViewInstructorRequests";
 import ViewBlockedInstructors from "./components/admin/pages/InstructorManagement/ViewBlockedInstructors";
-import { Student, Admin } from "./App"; 
+import { Student, Admin } from "./App";
 import ViewMoreInstructorRequest from "./components/admin/pages/InstructorManagement/ViewMoreInstructorRequest";
 import { Instructor } from "./App";
 import InstructorDashboard from "./components/instructors/pages/InstructorDashboard";
@@ -19,6 +20,11 @@ import AddCourse from "./components/instructors/pages/add-course/AddCourse";
 import ViewCourse from "./components/instructors/pages/ViewCourse";
 import ViewCourseStudent from "./components/students/pages/Course/ViewCourse";
 import ListCourses from "./components/students/pages/Course/ListCourse";
+import WatchLessons from "./components/students/pages/Course/WatchLessons";
+const LazyListCourse = lazy(
+  () => import("./components/students/pages/Course/ListCourse")
+);
+
 const AppRouter = createBrowserRouter([
   {
     path: "/",
@@ -38,13 +44,20 @@ const AppRouter = createBrowserRouter([
         element: <StudentRegistrationPage />,
       },
       {
-        path:'/courses',
-        element:<ListCourses/>
+        path: "/courses",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyListCourse />
+          </Suspense>
+        ),
       },
       {
-        path:'/courses/:courseId',
-        element:<ViewCourseStudent/>
-
+        path: "/courses/:courseId",
+        element: <ViewCourseStudent />,
+      },
+      {
+        path: "/courses/:courseId/watch-lessons/:lessonId",
+        element: <WatchLessons />,
       },
       {
         path: "/instructors/login",
@@ -79,7 +92,7 @@ const AppRouter = createBrowserRouter([
           },
           {
             path: "requests/:id",
-            element: <ViewMoreInstructorRequest/>,
+            element: <ViewMoreInstructorRequest />,
           },
           {
             path: "blocked",
@@ -103,13 +116,13 @@ const AppRouter = createBrowserRouter([
         element: <InstructorDashboard />,
       },
       {
-        path:"add-course",
-        element:<AddCourse/>
+        path: "add-course",
+        element: <AddCourse />,
       },
       {
-        path:"view-course",
-        element:<ViewCourse/>
-      }
+        path: "view-course",
+        element: <ViewCourse />,
+      },
     ],
   },
 ]);

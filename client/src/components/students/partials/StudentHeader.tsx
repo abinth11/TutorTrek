@@ -1,8 +1,8 @@
 import React from "react";
-import { Disclosure,} from "@headlessui/react";
+import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import SearchBar from "../../common/SearchBar";
-import {Link} from 'react-router-dom'
+import { Link, useLocation } from "react-router-dom";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -12,15 +12,22 @@ const navigation = [
   { name: "Contact", href: "#", current: false },
 ];
 
-
-function classNames(...classes: any) {
+function classNames(...classes:any) {
   return classes.filter(Boolean).join(" ");
 }
 
-const StudentHeader: React.FC = () => {
+const StudentHeader = () => {
+  const location = useLocation();
+
+  const handleNavigation = (item:any) => {
+    navigation.forEach((navItem) => {
+      navItem.current = navItem.href === item.href;
+    });
+  };
+
   return (
-    <div className="bg-gray-100 m-2 shadow-lg">
-      <Disclosure as="nav" className="bg-white">
+    <div className="bg-gray-100 z-10 w-full  shadow-xl">
+      <Disclosure as="nav" className="bg-white p-1">
         {({ open }) => (
           <>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -41,10 +48,11 @@ const StudentHeader: React.FC = () => {
                         <Link
                           key={item.name}
                           to={item.href}
+                          onClick={() => handleNavigation(item)}
                           className={classNames(
                             item.current
-                              ? "bg-gray-900 text-white"
-                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                              ? "bg-blue-gray-500 text-white font-semibold"
+                              : "text-blue-gray-800 hover:text-blue-gray-900 font-semibold hover:bg-gray-300 ",
                             "rounded-md px-3 py-2 text-sm font-medium"
                           )}
                           aria-current={item.current ? "page" : undefined}
@@ -59,12 +67,12 @@ const StudentHeader: React.FC = () => {
                 <div className="hidden md:flex items-center">
                   <div className="space-x-4">
                     <Link to="/login">
-                      <button className="bg-gray-500 hover:bg-gray-600 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                      <button className="bg-blue-gray-300 hover:bg-blue-gray-500 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Login
                       </button>
                     </Link>
                     <Link to="/register">
-                      <button className="bg-gray-500 hover:bg-gray-600 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                      <button className="bg-blue-gray-300 hover:bg-blue-gray-500  text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Register
                       </button>
                     </Link>
@@ -93,31 +101,31 @@ const StudentHeader: React.FC = () => {
             <Disclosure.Panel className="md:hidden">
               <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 {navigation.map((item) => (
-                  <Disclosure.Button
+                  <Link
                     key={item.name}
-                    as="a"
-                    href={item.href}
+                    to={item.href}
+                    onClick={() => handleNavigation(item)}
                     className={classNames(
                       item.current
-                        ? "bg-gray-900 text-white"
+                        ? "bg-blue-gray-700 text-white"
                         : "text-gray-300 hover:bg-gray-700 hover:text-white",
                       "block rounded-md px-3 py-2 text-base font-medium"
                     )}
                     aria-current={item.current ? "page" : undefined}
                   >
                     {item.name}
-                  </Disclosure.Button>
+                  </Link>
                 ))}
               </div>
               <div className="border-t border-gray-700 pb-3 pt-4">
                 <div className="mt-3 space-y-1 px-2">
                   <Link to="/login">
-                    <button className="w-full mb-2 block rounded-md px-3 py-2 text-base font-medium bg-gray-600 text-gray-200 hover:bg-gray-700 hover:text-white">
+                    <button className="w-full mb-2 block rounded-md px-3 py-2 text-base font-medium  text-gray-200 bg-blue-gray-300 hover:bg-blue-gray-500   hover:text-white">
                       Login
                     </button>
                   </Link>
                   <Link to="/register">
-                    <button className="w-full mb-2 block rounded-md px-3 py-2 text-base font-medium bg-gray-600 text-gray-200 hover:bg-gray-700 hover:text-white">
+                    <button className="w-full mb-2 block rounded-md px-3 py-2 text-base font-medium  text-gray-200 bg-blue-gray-300 hover:bg-blue-gray-500  hover:text-white">
                       Register
                     </button>
                   </Link>

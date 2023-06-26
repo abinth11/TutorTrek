@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import StudentHeader from "./components/students/partials/StudentHeader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,18 +15,46 @@ import YouAreOffline from "./components/common/YouAreOffline";
 import StudentFooter from "./components/students/partials/StudentFooter";
 import { selectIsStudentLoggedIn } from "./redux/reducers/studentAuthSlice";
 import StudentLoginPage from "./components/students/pages/StudentLoginPage";
+import { throttle } from 'lodash';
 
 export const Student: React.FC = () => {
   const isOnline = useIsOnline();
-  // const isStudentLoggedIn = useSelector(selectIsStudentLoggedIn);
-  const isStudentLoggedIn = true
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
+  const isStudentLoggedIn = true; // Assuming this value is set correctly
 
+  useEffect(() => {
+    const handleScroll = throttle(() => {
+      const currentScrollPos = window.pageYOffset;
+      const scrollThreshold = 8;
+
+      if (prevScrollPos > currentScrollPos && prevScrollPos - currentScrollPos > scrollThreshold) {
+        setIsHeaderVisible(true);
+      } else if (prevScrollPos < currentScrollPos && currentScrollPos - prevScrollPos > scrollThreshold) {
+        setIsHeaderVisible(false);
+      }
+
+      setPrevScrollPos(currentScrollPos);
+    }, 200); // Adjust the time interval (in milliseconds) as needed
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [prevScrollPos]);
+
+  const headerClassName = `bg-gray-100 ${
+    isHeaderVisible ? 'opacity-100 transition-opacity duration-500 ' : 'opacity-0 '
+  }`;
   return (
     <>
       {isOnline ? (
         isStudentLoggedIn ? (
-          <div className="bg-gray-100">
+          <div className="bg-gray-100 ">
+            <div className={`${headerClassName} `}>
             <StudentHeader />
+            </div>
             <Outlet />
             <ToastContainer />
             <StudentFooter />

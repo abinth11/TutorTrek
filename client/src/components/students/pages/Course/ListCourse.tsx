@@ -4,26 +4,35 @@ import { getAllCourses } from "../../../../api/endpoints/student/course";
 import { toast } from "react-toastify";
 import { CourseInterface } from "../../../../types/course";
 import { Link } from "react-router-dom";
+import ShimmerCard from "../../../common/ShimmerCard";
 
 const ListCourse: React.FC = () => {
   const [courses, setCourses] = useState<CourseInterface[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const fetchCourse = async () => {
     try {
       const courses = await getAllCourses();
       setCourses(courses.data.data);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     } catch (error: any) {
       console.log(error);
       toast.error(error.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+      setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchCourse();
   }, []);
+
   return (
     <div>
-      <div className='pl-12 mt-5 pt-2 ml-10 mb-2'>
+      <div className='pl-12 pt-4 mt-5 ml-10 mb-2'>
         <h1 className='text-3xl font-bold'>A broad selection of courses</h1>
         <p className='text-gray-700'>
           Choose from over 4,000 online video courses with new additions
@@ -47,18 +56,28 @@ const ListCourse: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className='px-10 pb-10 mt-3 ml-10 flex flex-wrap'>
-        {courses.map((course: CourseInterface, index: number) => {
-          console.log(course);
-          return (
-            <Link to={course._id} key={index}>
-              <div className='m-3'>
-                <CourseCard course={course} />
-              </div>
-            </Link>
-          );
-        })}
-      </div>
+
+      {isLoading ? (
+        <div className='px-10 pb-10 mt-5 ml-14 flex flex-wrap'>
+          {[...Array(2)].map((_, index) => (
+            <div className='mr-6' key={index}>
+              <ShimmerCard />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className='px-10 pb-10 mt-3 ml-10 flex flex-wrap'>
+          {courses.map((course: CourseInterface, index: number) => {
+            return (
+              <Link to={course._id} key={index}>
+                <div className='m-3'>
+                  <CourseCard course={course} />
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

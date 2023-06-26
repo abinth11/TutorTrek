@@ -5,6 +5,7 @@ export default withMT({
   content: ["./src/**/*.{html,js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      scrollbar: ["rounded"],
       padding: {
         'custom': '.5px', // Replace '20px' with your desired padding value
       },
@@ -22,4 +23,7 @@ export default withMT({
       } 
     },
   },
+  plugins: [
+    require("tailwind-scrollbar"),
+  ],
 });
