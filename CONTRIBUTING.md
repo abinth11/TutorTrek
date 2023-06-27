@@ -2,18 +2,7 @@
 
 # Contributing Guidelines
 
-Thank you for considering contributing to this project! We welcome your ideas, bug reports, and pull requests. By participating in this project, you agree to abide by the code of conduct outlined in [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md).
-
-## Table of Contents
-
-- [Getting Started](#getting-started)
-- [Contributing Workflow](#contributing-workflow)
-- [Pull Requests](#pull-requests)
-- [Code Style](#code-style)
-- [Testing](#testing)
-- [Documentation](#documentation)
-- [Issue Tracker](#issue-tracker)
-- [Community](#community)
+Thank you for considering contributing to this project! We welcome your ideas, bug reports, and pull requests. By participating in this project
 
 ## Getting Started
 
