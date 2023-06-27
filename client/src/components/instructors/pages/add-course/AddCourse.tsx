@@ -28,7 +28,6 @@ const CombinedForm: React.FC = () => {
       thumbnail && formData.append("files", thumbnail);
       Object.keys(values).forEach((key) => formData.append(key, values[key]));
       const response = await addCourse(formData);
-      console.log(response);
       toast.success(response.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -36,7 +35,6 @@ const CombinedForm: React.FC = () => {
       toast.error(error.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-      console.log(error);
     }
   };
 

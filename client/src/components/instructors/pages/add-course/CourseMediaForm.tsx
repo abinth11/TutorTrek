@@ -25,7 +25,6 @@ const CourseMediaForm: React.FC<CourseMediaFormProps> = ({ onSubmit }) => {
 
   // Handle form submission
   const handleSubmit = (values: any) => {
-    console.log(values);
     onSubmit(values);
     // Perform the necessary actions with the form values
   };

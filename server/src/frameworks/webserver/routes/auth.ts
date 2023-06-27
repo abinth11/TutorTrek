@@ -10,6 +10,8 @@ import {instructorDbRepository} from "../../../../src/app/repositories/instructo
 import {instructorRepoMongoDb} from "../../../frameworks/database/mongodb/repositories/instructorRepoMongoDb"
 import { adminDbRepository } from "../../../../src/app/repositories/adminDbRepository";
 import { adminRepoMongoDb } from "../../../../src/frameworks/database/mongodb/repositories/adminRepoMongoDb";
+import { refreshTokenDbRepository } from "../../../app/repositories/refreshTokenDBRepository";
+import { refreshTokenRepositoryMongoDB } from "../../../frameworks/database/mongodb/repositories/refreshTokenRepoMongoDb";
 const authRouter = () => {     
   const router = express.Router();
   
@@ -23,7 +25,9 @@ const authRouter = () => {
     googleAuthServiceInterface,
     googleAuthService,
     adminDbRepository,
-    adminRepoMongoDb
+    adminRepoMongoDb,
+    refreshTokenDbRepository,
+    refreshTokenRepositoryMongoDB
   );
   //* Student
   router.post("/student-register",controller.registerStudent)

@@ -1,17 +1,13 @@
-import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { setToken } from "../../redux/reducers/studentAuthSlice";
 import { googleLogin } from "../../api/endpoints/student/auth";
 
 function GoogleAuthComponent(): JSX.Element {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const errorMessage = (): void => {
-    console.log("error");
+    console.log("error from google login");
   };
 
   const handleSignInWithGoogle = (credential: string) => {

@@ -8,7 +8,3 @@ export interface StudentInterface {
     isGoogleUser:boolean
 }
 
-export interface JwtPayload {
-    studentId:string;
-    email:string;
-}

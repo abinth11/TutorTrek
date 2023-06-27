@@ -1,8 +1,9 @@
 import HttpStatusCodes from '../../../../src/constants/HttpStatusCodes';
 import { SavedInstructorInterface,InstructorInterface } from '@src/types/instructor/instructorInterface';
 import AppError from '../../../../src/utils/appError';
-import { InstructorDbInterface } from '@src/app/repositories/instructorDbRepository';
-import { AuthServiceInterface } from '@src/app/services/authServicesInterface';
+import { InstructorDbInterface } from '../../../app/repositories/instructorDbRepository';
+import { AuthServiceInterface } from '../../../app/services/authServicesInterface';
+import { RefreshTokenDbInterface } from '../../../app/repositories/refreshTokenDBRepository';
 
 export const instructorRegister = async (
   instructor: InstructorInterface,
@@ -32,6 +33,7 @@ export const instructorLogin = async (
   email: string,
   password: string,
   instructorRepository: ReturnType<InstructorDbInterface>,
+  refreshTokenRepository:ReturnType<RefreshTokenDbInterface>,
   authService: ReturnType<AuthServiceInterface>
 ) => {
   const instructor: SavedInstructorInterface | null =
@@ -50,9 +52,22 @@ export const instructorLogin = async (
       );
     }
     const payload = {
-      instructorId:instructor._id,
-      email:instructor.email
+      Id:instructor._id,
+      email:instructor.email,
+      role:'instructor'
     }
-    const token = authService.generateToken(payload)
-    return token
+    await refreshTokenRepository.deleteRefreshToken(instructor._id)
+    const accessToken = authService.generateToken(payload)
+    const refreshToken = authService.generateRefreshToken(payload)
+    const expirationDate =
+    authService.decodedTokenAndReturnExpireDate(refreshToken);
+    await refreshTokenRepository.saveRefreshToken(
+      instructor._id,
+      refreshToken,
+      expirationDate
+    );
+    return {
+      accessToken,
+      refreshToken
+    }
 };

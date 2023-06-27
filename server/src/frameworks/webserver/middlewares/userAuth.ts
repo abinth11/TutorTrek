@@ -3,6 +3,7 @@ import HttpStatusCodes from "../../../constants/HttpStatusCodes";
 import AppError from "../../../utils/appError";
 import { authService } from "../../services/authService";
 import { CustomRequest } from "@src/types/custom/customRequest";
+import { JwtPayload } from "@src/types/custom/common";
 
 const  jwtAuthMiddleware=(req:CustomRequest,res:Response,next:NextFunction)=>{
     let token:string | null='';
@@ -13,7 +14,8 @@ const  jwtAuthMiddleware=(req:CustomRequest,res:Response,next:NextFunction)=>{
         throw new AppError("Token not found",HttpStatusCodes.UNAUTHORIZED)
     }
     try{
-    const {payload}:any=authService().verifyToken(token)
+    const { payload } = authService().verifyToken(token) as { payload: JwtPayload }; // Add type assertion here
+
     req.user=payload
     next()
     }catch(err){

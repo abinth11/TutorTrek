@@ -22,6 +22,8 @@ import { InstructorInterface } from '@src/types/instructor/instructorInterface';
 import { adminLogin } from '../../../src/app/usecases/auth/adminAuth';
 import { AdminDbInterface } from '@src/app/repositories/adminDbRepository';
 import { AdminRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/adminRepoMongoDb';
+import { RefreshTokenDbInterface } from '@src/app/repositories/refreshTokenDBRepository';
+import { RefreshTokenRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/refreshTokenRepoMongoDb';
 const authController = (
   authServiceInterface: AuthServiceInterface,
   authServiceImpl: AuthService,
@@ -32,54 +34,69 @@ const authController = (
   googleAuthServiceInterface: GoogleAuthServiceInterface,
   googleAuthServiceImpl: GoogleAuthService,
   adminDbRepository: AdminDbInterface,
-  adminDbRepositoryImpl: AdminRepositoryMongoDb
+  adminDbRepositoryImpl: AdminRepositoryMongoDb,
+  refreshTokenDbRepository: RefreshTokenDbInterface,
+  refreshTokenDbRepositoryImpl: RefreshTokenRepositoryMongoDb
 ) => {
   const dbRepositoryUser = studentDbRepository(studentDbRepositoryImpl());
   const dbRepositoryInstructor = instructorDbRepository(
     instructorDbRepositoryImpl()
   );
   const dbRepositoryAdmin = adminDbRepository(adminDbRepositoryImpl());
+  const dbRepositoryRefreshToken = refreshTokenDbRepository(
+    refreshTokenDbRepositoryImpl()
+  );
   const authService = authServiceInterface(authServiceImpl());
   const googleAuthService = googleAuthServiceInterface(googleAuthServiceImpl());
 
   //? STUDENT
   const registerStudent = asyncHandler(async (req: Request, res: Response) => {
     const student: StudentRegisterInterface = req.body;
-    const token = await studentRegister(student, dbRepositoryUser, authService);
+    const { accessToken, refreshToken } = await studentRegister(
+      student,
+      dbRepositoryUser,
+      dbRepositoryRefreshToken,
+      authService
+    );
     res.status(200).json({
       status: 'success',
       message: 'Successfully registered the user',
-      accessToken: token
+      accessToken,
+      refreshToken
     });
   });
 
   const loginStudent = asyncHandler(async (req: Request, res: Response) => {
     const { email, password }: { email: string; password: string } = req.body;
-    const token = await studentLogin(
+    const { accessToken, refreshToken } = await studentLogin(
       email,
       password,
       dbRepositoryUser,
+      dbRepositoryRefreshToken,
       authService
     );
     res.status(200).json({
       status: 'success',
       message: 'User logged in successfully',
-      accessToken: token
+      accessToken,
+      refreshToken
     });
   });
 
   const loginWithGoogle = asyncHandler(async (req: Request, res: Response) => {
     const { credential }: { credential: string } = req.body;
-    const token = await signInWithGoogle(
+    const { accessToken, refreshToken } = await signInWithGoogle(
       credential,
       googleAuthService,
       dbRepositoryUser,
+      dbRepositoryRefreshToken,
       authService
     );
     res.status(200).json({
       status: 'success',
       message: 'Successfully logged in with google',
-      accessToken: token
+      accessToken,
+      refreshToken
     });
   });
 
@@ -87,7 +104,11 @@ const authController = (
   const registerInstructor = asyncHandler(
     async (req: Request, res: Response) => {
       const instructor: InstructorInterface = req.body;
-      await instructorRegister(instructor, dbRepositoryInstructor, authService);
+      await instructorRegister(
+        instructor,
+        dbRepositoryInstructor,
+        authService
+      );
       res.status(200).json({
         status: 'success',
         message:
@@ -97,32 +118,36 @@ const authController = (
   );
   const loginInstructor = asyncHandler(async (req: Request, res: Response) => {
     const { email, password }: { email: string; password: string } = req.body;
-    const token = await instructorLogin(
+    const { accessToken, refreshToken } = await instructorLogin(
       email,
       password,
       dbRepositoryInstructor,
+      dbRepositoryRefreshToken,
       authService
     );
     res.status(200).json({
       status: 'success',
       message: 'Instructor logged in successfully',
-      accessToken: token
+      accessToken,
+      refreshToken
     });
   });
 
   //? ADMIN
   const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
     const { email, password }: { email: string; password: string } = req.body;
-    const accessToken = await adminLogin(
+    const { accessToken, refreshToken } = await adminLogin(
       email,
       password,
       dbRepositoryAdmin,
+      dbRepositoryRefreshToken,
       authService
     );
     res.status(200).json({
       status: 'success',
       message: 'Successfully logged in ',
-      accessToken
+      accessToken,
+      refreshToken
     });
   });
 

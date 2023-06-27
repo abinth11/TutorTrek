@@ -10,9 +10,7 @@ export const courseRepositoryMongodb = () => {
   const addCourse = async (courseInfo: AddCourseInfoInterface) => {
     const newCourse = new Course(courseInfo);
     newCourse.price ? (newCourse.isPaid = true) : (newCourse.isPaid = false);
-    console.log(newCourse)
     const { _id: courseId } = await newCourse.save();
-    console.log(courseId)
     return courseId;
   };
   const addQuiz = async (courseId: string, quiz: AddQuizInfoInterface) => {

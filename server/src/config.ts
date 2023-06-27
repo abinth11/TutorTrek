@@ -10,6 +10,8 @@ const configKeys = {
 
   JWT_SECRET: process.env.JWT_SECRET as string,
 
+  JWT_REFRESH_SECRET:process.env.JWT_REFRESH_SECRET as string,
+
   NODE_ENV: process.env.NODE_ENV as string,
 
   GOOGLE_AUTH_CLIENT: process.env.GOOGLE_AUTH_CLIENT as string,

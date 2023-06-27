@@ -7,7 +7,7 @@ const errorHandlingMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(err);
+  console.log(err)
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 

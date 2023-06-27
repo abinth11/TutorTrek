@@ -13,7 +13,7 @@ import InstructorHeader from "./components/instructors/partials/InstructorHeader
 import useIsOnline from "./hooks/useOnline";
 import YouAreOffline from "./components/common/YouAreOffline";
 import StudentFooter from "./components/students/partials/StudentFooter";
-import { selectIsStudentLoggedIn } from "./redux/reducers/studentAuthSlice";
+import { selectIsLoggedIn } from "./redux/reducers/authSlice";
 import StudentLoginPage from "./components/students/pages/StudentLoginPage";
 import { throttle } from 'lodash';
 
