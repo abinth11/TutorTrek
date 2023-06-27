@@ -1,12 +1,14 @@
-import { AdminDbInterface } from '@src/app/repositories/adminDbRepository';
-import { AuthServiceInterface } from '@src/app/services/authServicesInterface';
+import { AdminDbInterface } from '../../../app/repositories/adminDbRepository';
+import { AuthServiceInterface } from '../../../app/services/authServicesInterface';
 import HttpStatusCodes from '../../../../src/constants/HttpStatusCodes';
-import { AdminSavedDbInterface } from '@src/types/admin/adminAuthInterface';
+import { AdminSavedDbInterface } from '../../../types/admin/adminAuthInterface';
 import AppError from '../../../../src/utils/appError';
+import { RefreshTokenDbInterface} from '../../../app/repositories/refreshTokenDBRepository';
 export const adminLogin = async (
   email: string,
   password: string,
   adminRepository: ReturnType<AdminDbInterface>,
+  refreshTokenRepository: ReturnType<RefreshTokenDbInterface>,
   authService: ReturnType<AuthServiceInterface>
 ) => {
   const admin: AdminSavedDbInterface | null =
@@ -29,9 +31,16 @@ export const adminLogin = async (
     email: admin.email,
     role: 'admin'
   };
-
+  await refreshTokenRepository.deleteRefreshToken(admin._id)
   const accessToken = authService.generateToken(payload);
   const refreshToken = authService.generateRefreshToken(payload);
+  const expirationDate =
+    authService.decodedTokenAndReturnExpireDate(refreshToken);
+  await refreshTokenRepository.saveRefreshToken(
+    admin._id,
+    refreshToken,
+    expirationDate
+  );
   return {
     accessToken,
     refreshToken

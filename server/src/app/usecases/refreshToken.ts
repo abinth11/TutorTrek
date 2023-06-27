@@ -3,14 +3,10 @@ import AppError from '../../utils/appError';
 import { RefreshTokenDbInterface } from '../repositories/refreshTokenDBRepository';
 import { AuthServiceInterface } from '../services/authServicesInterface';
 
-export const saveRefreshToken = () => {};
-
-export const deleteRefreshToken = () => {};
-
 export const refreshTokenU = async (
   refreshToken: string,
   refreshDbRepository: ReturnType<RefreshTokenDbInterface>,
-  authService:ReturnType<AuthServiceInterface>
+  authService: ReturnType<AuthServiceInterface>
 ) => {
   if (!refreshToken) {
     throw new AppError('Refresh token not found', HttpStatusCodes.NOT_FOUND);
@@ -20,22 +16,25 @@ export const refreshTokenU = async (
   );
 
   if (!existingToken) {
-    throw new AppError('Refresh token not found', HttpStatusCodes.UNAUTHORIZED);
+    throw new AppError(
+      'Refresh token not exists',
+      HttpStatusCodes.UNAUTHORIZED
+    );
   }
-  if (new Date() > existingToken.expiresAt) {
+  const expirationDate = new Date(existingToken.expiresAt);
+  if (new Date() > expirationDate) {
     throw new AppError(
       'Refresh token has expired',
       HttpStatusCodes.UNAUTHORIZED
     );
   }
   const payload = {
-    Id:'id',
-    email:'email',
-    role:'role'
-  }
+    Id: 'id',
+    email: 'email',
+    role: 'role'
+  };
 
-  const accessToken = authService.generateToken(payload)
+  const accessToken = authService.generateToken(payload);
 
-  return accessToken
-
+  return accessToken;
 };

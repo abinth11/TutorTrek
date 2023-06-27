@@ -1,10 +1,11 @@
+import mongoose from 'mongoose';
 import RefreshToken from '../models/token';
 
 export const refreshTokenRepositoryMongoDB = () => {
   const saveRefreshToken = async (
     userId: string,
     token: string,
-    expiresAt: string
+    expiresAt: number
   ) => {
     const refreshToken = new RefreshToken({
       userId,
@@ -13,14 +14,15 @@ export const refreshTokenRepositoryMongoDB = () => {
     });
     await refreshToken.save();
   };
-  const deleteRefreshToken = async (refreshToken: string) => {
-    await RefreshToken.deleteOne({ token: refreshToken });
+  const deleteRefreshToken = async (id: string) => {
+    await RefreshToken.deleteOne({ userId:new mongoose.Types.ObjectId(id) });
   };
 
-  const findRefreshToken = async (refreshToken:string)=>{
-    const token = await RefreshToken.findOne({token:refreshToken})
+  const findRefreshToken = async (refreshToken: string) => {
+    const convertedToken = refreshToken.split(' ')[1]
+    const token = await RefreshToken.findOne({ token: convertedToken });
     return token;
-  }
+  };
 
   return {
     saveRefreshToken,

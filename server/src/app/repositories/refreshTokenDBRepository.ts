@@ -6,13 +6,14 @@ export const refreshTokenDbRepository = (
   const saveRefreshToken = async (
     userId: string,
     token: string,
-    expiresAt: string
+    expiresAt: number
   ) => await repository.saveRefreshToken(userId, token, expiresAt);
 
-  const deleteRefreshToken = async (token: string) =>
-    await repository.deleteRefreshToken(token);
+  const deleteRefreshToken = async (id: string) =>
+    await repository.deleteRefreshToken(id);
 
-  const findRefreshToken = async (refreshToken:string)=>await repository.findRefreshToken(refreshToken)
+  const findRefreshToken = async (refreshToken: string) =>
+    await repository.findRefreshToken(refreshToken);
 
   return {
     saveRefreshToken,
@@ -21,4 +22,4 @@ export const refreshTokenDbRepository = (
   };
 };
 
-export type RefreshTokenDbInterface = typeof refreshTokenDbRepository
+export type RefreshTokenDbInterface = typeof refreshTokenDbRepository;

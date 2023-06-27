@@ -22,6 +22,8 @@ import { InstructorInterface } from '@src/types/instructor/instructorInterface';
 import { adminLogin } from '../../../src/app/usecases/auth/adminAuth';
 import { AdminDbInterface } from '@src/app/repositories/adminDbRepository';
 import { AdminRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/adminRepoMongoDb';
+import { RefreshTokenDbInterface } from '@src/app/repositories/refreshTokenDBRepository';
+import { RefreshTokenRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/refreshTokenRepoMongoDb';
 const authController = (
   authServiceInterface: AuthServiceInterface,
   authServiceImpl: AuthService,
@@ -32,13 +34,18 @@ const authController = (
   googleAuthServiceInterface: GoogleAuthServiceInterface,
   googleAuthServiceImpl: GoogleAuthService,
   adminDbRepository: AdminDbInterface,
-  adminDbRepositoryImpl: AdminRepositoryMongoDb
+  adminDbRepositoryImpl: AdminRepositoryMongoDb,
+  refreshTokenDbRepository: RefreshTokenDbInterface,
+  refreshTokenDbRepositoryImpl: RefreshTokenRepositoryMongoDb
 ) => {
   const dbRepositoryUser = studentDbRepository(studentDbRepositoryImpl());
   const dbRepositoryInstructor = instructorDbRepository(
     instructorDbRepositoryImpl()
   );
   const dbRepositoryAdmin = adminDbRepository(adminDbRepositoryImpl());
+  const dbRepositoryRefreshToken = refreshTokenDbRepository(
+    refreshTokenDbRepositoryImpl()
+  );
   const authService = authServiceInterface(authServiceImpl());
   const googleAuthService = googleAuthServiceInterface(googleAuthServiceImpl());
 
@@ -48,6 +55,7 @@ const authController = (
     const { accessToken, refreshToken } = await studentRegister(
       student,
       dbRepositoryUser,
+      dbRepositoryRefreshToken,
       authService
     );
     res.status(200).json({
@@ -64,6 +72,7 @@ const authController = (
       email,
       password,
       dbRepositoryUser,
+      dbRepositoryRefreshToken,
       authService
     );
     res.status(200).json({
@@ -80,6 +89,7 @@ const authController = (
       credential,
       googleAuthService,
       dbRepositoryUser,
+      dbRepositoryRefreshToken,
       authService
     );
     res.status(200).json({
@@ -94,7 +104,11 @@ const authController = (
   const registerInstructor = asyncHandler(
     async (req: Request, res: Response) => {
       const instructor: InstructorInterface = req.body;
-      await instructorRegister(instructor, dbRepositoryInstructor, authService);
+      await instructorRegister(
+        instructor,
+        dbRepositoryInstructor,
+        authService
+      );
       res.status(200).json({
         status: 'success',
         message:
@@ -108,6 +122,7 @@ const authController = (
       email,
       password,
       dbRepositoryInstructor,
+      dbRepositoryRefreshToken,
       authService
     );
     res.status(200).json({
@@ -125,6 +140,7 @@ const authController = (
       email,
       password,
       dbRepositoryAdmin,
+      dbRepositoryRefreshToken,
       authService
     );
     res.status(200).json({

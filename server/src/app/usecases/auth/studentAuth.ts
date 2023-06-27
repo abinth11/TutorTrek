@@ -3,11 +3,13 @@ import { StudentInterface } from '../../../types/student/studentInterface';
 import AppError from '../../../utils/appError';
 import { StudentsDbInterface } from '../../repositories/studentDbRepository';
 import { AuthServiceInterface } from '../../services/authServicesInterface';
-import { StudentRegisterInterface } from '@src/types/student/studentRegisterInterface';
-import { GoogleAuthServiceInterface } from '@src/app/services/googleAuthServicesInterface';
+import { StudentRegisterInterface } from '../../../types/student/studentRegisterInterface';
+import { GoogleAuthServiceInterface } from '../../../app/services/googleAuthServicesInterface';
+import { RefreshTokenDbInterface } from '../../../app/repositories/refreshTokenDBRepository';
 export const studentRegister = async (
   student: StudentRegisterInterface,
   studentRepository: ReturnType<StudentsDbInterface>,
+  refreshTokenRepository: ReturnType<RefreshTokenDbInterface>,
   authService: ReturnType<AuthServiceInterface>
 ) => {
   student.email = student?.email?.toLowerCase();
@@ -31,6 +33,13 @@ export const studentRegister = async (
   };
   const accessToken = authService.generateToken(payload);
   const refreshToken = authService.generateRefreshToken(payload);
+  const expirationDate =
+    authService.decodedTokenAndReturnExpireDate(refreshToken);
+  await refreshTokenRepository.saveRefreshToken(
+    studentId,
+    refreshToken,
+    expirationDate
+  );
   return { accessToken, refreshToken };
 };
 
@@ -38,6 +47,7 @@ export const studentLogin = async (
   email: string,
   password: string,
   studentRepository: ReturnType<StudentsDbInterface>,
+  refreshTokenRepository: ReturnType<RefreshTokenDbInterface>,
   authService: ReturnType<AuthServiceInterface>
 ) => {
   const student: StudentInterface | null =
@@ -60,8 +70,16 @@ export const studentLogin = async (
     email: student.email,
     role: 'student'
   };
+  await refreshTokenRepository.deleteRefreshToken(student._id);
   const accessToken = authService.generateToken(payload);
   const refreshToken = authService.generateRefreshToken(payload);
+  const expirationDate =
+    authService.decodedTokenAndReturnExpireDate(refreshToken);
+  await refreshTokenRepository.saveRefreshToken(
+    student._id,
+    refreshToken,
+    expirationDate
+  );
 
   return { accessToken, refreshToken };
 };
@@ -70,6 +88,7 @@ export const signInWithGoogle = async (
   credential: string,
   googleAuthService: ReturnType<GoogleAuthServiceInterface>,
   studentRepository: ReturnType<StudentsDbInterface>,
+  refreshTokenRepository: ReturnType<RefreshTokenDbInterface>,
   authService: ReturnType<AuthServiceInterface>
 ) => {
   const user = await googleAuthService.verify(credential);
@@ -80,14 +99,29 @@ export const signInWithGoogle = async (
       email: isUserExist.email,
       role: 'student'
     };
+    await refreshTokenRepository.deleteRefreshToken(isUserExist._id);
     const accessToken = authService.generateToken(payload);
     const refreshToken = authService.generateRefreshToken(payload);
+    const expirationDate =
+      authService.decodedTokenAndReturnExpireDate(refreshToken);
+    await refreshTokenRepository.saveRefreshToken(
+      isUserExist._id,
+      refreshToken,
+      expirationDate
+    );
     return { accessToken, refreshToken };
   } else {
     const { _id: userId, email } = await studentRepository.addStudent(user);
     const payload = { Id: userId, email, role: 'student' };
     const accessToken = authService.generateToken(payload);
     const refreshToken = authService.generateRefreshToken(payload);
+    const expirationDate =
+      authService.decodedTokenAndReturnExpireDate(refreshToken);
+    await refreshTokenRepository.saveRefreshToken(
+      userId,
+      refreshToken,
+      expirationDate
+    );
     return { accessToken, refreshToken };
   }
 };
