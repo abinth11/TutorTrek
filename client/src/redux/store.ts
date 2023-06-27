@@ -1,13 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./reducers/authSlice";
 import { adminAuthReducer } from "./reducers/adminAuthSlice";
-// import { tokenRefreshReducer } from "./reducers/refreshTokenSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     admin: adminAuthReducer,
-    // token: tokenRefreshReducer,
   },
 });
 
