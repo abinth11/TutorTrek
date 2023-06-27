@@ -8,8 +8,9 @@ export const refreshTokenService = async (
   const response = await api.post(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
     {
-      refreshToken,
+      refreshToken:`Bearer ${refreshToken}`
     }
   );
-  return response.data;
+  return response.data.accessToken
 };
+

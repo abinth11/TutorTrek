@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userAuthReducer } from "./reducers/studentAuthSlice";
+import { authReducer } from "./reducers/authSlice";
 import { adminAuthReducer } from "./reducers/adminAuthSlice";
-import { tokenRefreshReducer } from "./reducers/refreshTokenSlice";
+// import { tokenRefreshReducer } from "./reducers/refreshTokenSlice";
 
 export const store = configureStore({
   reducer: {
-    studentAuth: userAuthReducer,
+    auth: authReducer,
     admin: adminAuthReducer,
-    token: tokenRefreshReducer,
+    // token: tokenRefreshReducer,
   },
 });
 

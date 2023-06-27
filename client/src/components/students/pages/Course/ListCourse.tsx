@@ -13,13 +13,13 @@ const ListCourse: React.FC = () => {
   const fetchCourse = async () => {
     try {
       const courses = await getAllCourses();
-      setCourses(courses.data.data);
+      setCourses(courses?.data?.data);
       setTimeout(() => {
         setIsLoading(false);
       }, 1000);
     } catch (error: any) {
       console.log(error);
-      toast.error(error.data.message, {
+      toast.error(error?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
       setIsLoading(false);

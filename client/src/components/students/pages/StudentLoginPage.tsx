@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { loginStudent } from "../../../api/endpoints/student/auth";
-import { handleApiError } from "../../../api/utils/apiError";
 import { studentLoginValidationSchema } from "../../../validations/student/studentLoginValidation";
 import { toast } from "react-toastify";
 import {Link,useNavigate} from 'react-router-dom'
 import GoogleAuthComponent from "../../common/GoogleAuthComponent";
-import { useDispatch } from "react-redux";
-import { setToken } from "../../../redux/reducers/studentAuthSlice";
+import { useDispatch } from "react-redux"; 
+import { setToken } from "../../../redux/reducers/authSlice";
 const StudentLoginPage: React.FC = () => {
   const navigate = useNavigate()
   const dispatch= useDispatch()
   const handleSubmit = async (studentInfo: any) => {
     try {
       const response = await loginStudent(studentInfo);
-      dispatch(setToken(response?.data?.authToken))
+      const {accessToken,refreshToken}:{accessToken:string,refreshToken:string} = response.data
+      dispatch(setToken({accessToken,refreshToken}))
       response &&navigate('/')
     } catch (error:any) {
+      console.log(error)
       toast.error(error.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -69,7 +70,7 @@ const StudentLoginPage: React.FC = () => {
                   Password
                 </label>
                 <div className='text-sm'>
-                  <a href='#' className='font-semibold text-indigo-600 hover:text-indigo-500'>
+                  <a href='/' className='font-semibold text-indigo-600 hover:text-indigo-500'>
                     Forgot password?
                   </a>
                 </div>
