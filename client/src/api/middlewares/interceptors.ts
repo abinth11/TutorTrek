@@ -1,6 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 import CONSTANTS_COMMON from "../../constants/common";
 import CustomApiError from "../../utils/CustomApiError";
+import { refreshToken,selectTokenRefreshState } from "../../redux/reducers/refreshTokenSlice";
+import { store } from "../../redux/store";
 const api: AxiosInstance = axios.create({
   baseURL: CONSTANTS_COMMON.API_BASE_URL,
 });
@@ -48,5 +50,34 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        await store.dispatch(refreshToken());
+        const tokenRefreshState = selectTokenRefreshState(store.getState());
+        if (!tokenRefreshState.isRefreshing) {
+          const newAccessToken = localStorage.getItem('accessToken');
+          if (newAccessToken) {
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            return axios(originalRequest);
+          }
+        }
+      } catch (error) {
+        //todo Handle token refresh failure or other errors
+        // You can redirect to a login page, clear user data, etc.
+        return Promise.reject(error);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 
 export default api;
