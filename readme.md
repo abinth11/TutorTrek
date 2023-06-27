@@ -1,6 +1,6 @@
 ### TutorTrek
 
-A comprehensive online learning platform that connects teachers and students, allowing teachers to upload courses and students to access and watch them. The project is built with Node.js, Express, React, MongoDB, Mongoose, TypeScript, Redux, Tailwind CSS, and Redis Cache.
+The project is a comprehensive online learning platform that connects teachers and students. Teachers can upload courses, and students can access and watch them. The technology stack includes Node.js, Express, React, MongoDB, Mongoose, TypeScript, Redux, Tailwind CSS, and Redis Cache. The project follows the principles of clean architecture to ensure maintainability and scalability.
 
 ## Installation
 

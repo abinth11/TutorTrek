@@ -1,9 +1,10 @@
 import React from 'react'
+import Carousel from '../elements/Carousel'
 
 const StudentHomePage:React.FC = () =>{
     return (
-        <div className='bg-green-500'>
-            <h2>Student Home page</h2>
+        <div className=''>
+            <Carousel/>
         </div>
     )
 }

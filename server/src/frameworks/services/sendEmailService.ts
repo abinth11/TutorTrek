@@ -11,7 +11,7 @@ export const sendEmailService = () => {
   });
   const sendEmail = (email: string, subject: string, text: string) => {
     const mailOptions = {
-      from: 'abinmukkam1@gmail.com',
+      from: configKeys.FROM_EMAIL_NODE_MAILER,
       to: email,
       subject: subject,
       text: text,
