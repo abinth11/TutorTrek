@@ -7,7 +7,7 @@ function GoogleAuthComponent(): JSX.Element {
   const navigate = useNavigate();
 
   const errorMessage = (): void => {
-    console.log("error");
+    console.log("error from google login");
   };
 
   const handleSignInWithGoogle = (credential: string) => {

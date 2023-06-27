@@ -34,27 +34,19 @@ api.interceptors.response.use(
       if (tokenString) {
         token = JSON.parse(tokenString);
       }
-      console.log('ssssssssssssssssssssssssssssssssssss')
-      console.log(token.refreshToken)
       try {
         const newAccessToken = await refreshTokenApi(token.refreshToken);
-        console.log('new access token got')
-        console.log(newAccessToken)
         localStorage.setItem(
           'accessToken',
           JSON.stringify({
               accessToken:newAccessToken,
           })
         )
-        // Update the Authorization header with the new access token
-        // originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-
-        // Retry the original request with the updated headers
         return api(originalRequest);
       } catch (error) {
-        console.log(error)
         // Handle token refresh failure or other errors
         // You can redirect to a login page, clear user data, etc.
+        location.href = '/'
         throw error;
       }
     }
@@ -76,7 +68,6 @@ api.interceptors.response.use(
       } else if (status === 401) {
         throw new CustomApiError("Unauthorized", data);
       } else if (status === 404) {
-        console.log("Not Found:", data);
         throw new CustomApiError("Not Found", data);
       } else if (status === 409) {
         throw new CustomApiError("Conflict", data);
@@ -84,7 +75,7 @@ api.interceptors.response.use(
         throw new CustomApiError(`Request failed with status ${status}`, data);
       }
     } else if (error.request) {
-      console.log("No response received:", error.request);
+      throw new CustomApiError(`No response received`,error.request)
     } else {
       console.log("Error:", error.message);
     }
