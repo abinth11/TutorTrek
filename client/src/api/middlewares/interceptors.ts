@@ -46,7 +46,7 @@ api.interceptors.response.use(
       } catch (error) {
         // Handle token refresh failure or other errors
         // You can redirect to a login page, clear user data, etc.
-        location.href = '/'
+        window.location.href = '/'
         throw error;
       }
     }
