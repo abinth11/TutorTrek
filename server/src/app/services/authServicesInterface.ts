@@ -11,11 +11,14 @@ export const authServiceInterface = (service: AuthServiceReturn) => {
 
   const generateToken = (payload: JwtPayload) => service.generateToken(payload);
 
+  const generateRefreshToken = (payload:JwtPayload)=>service.generateRefreshToken(payload)
+
   return {
     hashPassword,
     comparePassword,
     verifyPassword,
     generateToken,
+    generateRefreshToken
   };
 };
 

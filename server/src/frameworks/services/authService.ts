@@ -22,6 +22,12 @@ export const authService=()=>{
         return token
     }
 
+    const generateRefreshToken=(payload:JwtPayload)=>{
+        const token = jwt.sign({payload},configKeys.JWT_REFRESH_SECRET,{expiresIn:'7d'})
+        return token
+
+    }
+
     const verifyToken=(token:string)=>{
         return jwt.verify(token, configKeys.JWT_SECRET)
     }
@@ -29,6 +35,7 @@ export const authService=()=>{
     return {
         comparePassword,
         generateToken,
+        generateRefreshToken,
         verifyToken,
         hashPassword,
     }

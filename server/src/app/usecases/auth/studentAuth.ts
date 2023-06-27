@@ -25,12 +25,13 @@ export const studentRegister = async (
   }
   const { _id: studentId, email } = await studentRepository.addStudent(student);
   const payload = {
-    Id:studentId,
+    Id: studentId,
     email,
     role: 'student'
   };
   const accessToken = authService.generateToken(payload);
-  return accessToken;
+  const refreshToken = authService.generateRefreshToken(payload);
+  return { accessToken, refreshToken };
 };
 
 export const studentLogin = async (
@@ -60,7 +61,9 @@ export const studentLogin = async (
     role: 'student'
   };
   const accessToken = authService.generateToken(payload);
-  return accessToken;
+  const refreshToken = authService.generateRefreshToken(payload);
+
+  return { accessToken, refreshToken };
 };
 
 export const signInWithGoogle = async (
@@ -72,13 +75,19 @@ export const signInWithGoogle = async (
   const user = await googleAuthService.verify(credential);
   const isUserExist = await studentRepository.getStudentByEmail(user.email);
   if (isUserExist) {
-    const payload = { Id: isUserExist._id, email: isUserExist.email,role: 'student' };
-    const token = authService.generateToken(payload);
-    return token;
+    const payload = {
+      Id: isUserExist._id,
+      email: isUserExist.email,
+      role: 'student'
+    };
+    const accessToken = authService.generateToken(payload);
+    const refreshToken = authService.generateRefreshToken(payload);
+    return { accessToken, refreshToken };
   } else {
     const { _id: userId, email } = await studentRepository.addStudent(user);
-    const payload = { Id:userId, email, role: 'student' };
-    const token = authService.generateToken(payload);
-    return token;
+    const payload = { Id: userId, email, role: 'student' };
+    const accessToken = authService.generateToken(payload);
+    const refreshToken = authService.generateRefreshToken(payload);
+    return { accessToken, refreshToken };
   }
 };

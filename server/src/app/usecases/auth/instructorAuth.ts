@@ -54,6 +54,10 @@ export const instructorLogin = async (
       email:instructor.email,
       role:'instructor'
     }
-    const token = authService.generateToken(payload)
-    return token
+    const accessToken = authService.generateToken(payload)
+    const refreshToken = authService.generateRefreshToken(payload)
+    return {
+      accessToken,
+      refreshToken
+    }
 };
