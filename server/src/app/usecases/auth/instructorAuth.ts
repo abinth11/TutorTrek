@@ -50,8 +50,9 @@ export const instructorLogin = async (
       );
     }
     const payload = {
-      instructorId:instructor._id,
-      email:instructor.email
+      Id:instructor._id,
+      email:instructor.email,
+      role:'instructor'
     }
     const token = authService.generateToken(payload)
     return token

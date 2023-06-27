@@ -3,6 +3,7 @@ import courseController from '../../../adapters/controllers/courseController';
 import { courseRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/courseReposMongoDb';
 import { courseDbRepository } from '../../../app/repositories/courseDbRepository';
 import { uploadImageAndVideo } from '../middlewares/imageUpload';
+import { instructorRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
 
 const courseRouter = () => {
   const router = express.Router();
@@ -11,7 +12,7 @@ const courseRouter = () => {
     courseRepositoryMongodb
   );
   //* Add course 
-  router.post('/instructors/add-course',uploadImageAndVideo,controller.addCourse)
+  router.post('/instructors/add-course',instructorRoleCheckMiddleware,uploadImageAndVideo,controller.addCourse)
 
   router.get('/get-all-courses',controller.getAllCourses)
 

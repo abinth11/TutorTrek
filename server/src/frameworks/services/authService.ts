@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import configKeys from '../../config';
-import { JwtPayload } from 'jsonwebtoken';
+import { JwtPayload } from '@src/types/custom/common';
 
 export const authService=()=>{
 
@@ -17,7 +17,7 @@ export const authService=()=>{
 
     const generateToken=(payload:JwtPayload)=>{
         const token = jwt.sign({payload}, configKeys.JWT_SECRET, {
-            expiresIn: "5d",
+            expiresIn: "1h",
         });
         return token
     }

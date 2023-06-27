@@ -4,10 +4,11 @@ import adminRouter from './admin';
 import courseRouter from './course';
 import { RedisClient } from '../../../app';
 import jwtAuthMiddleware from '../middlewares/userAuth';
+import { adminRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
 
 const routes = (app: Application, redisClient: RedisClient) => {
   app.use('/api/auth', authRouter());
-  app.use('/api/admin',jwtAuthMiddleware, adminRouter());
+  app.use('/api/admin',jwtAuthMiddleware,adminRoleCheckMiddleware,adminRouter());
   app.use('/api/courses',jwtAuthMiddleware,courseRouter())
 };
 

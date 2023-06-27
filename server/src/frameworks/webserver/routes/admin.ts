@@ -4,6 +4,7 @@ import { adminRepoMongoDb } from '../../../frameworks/database/mongodb/repositor
 import { adminDbRepository } from '../../../app/repositories/adminDbRepository';
 import { sendEmailServiceInterface } from '../../../app/services/sendEmailServiceInterface';
 import { sendEmailService } from '../../../frameworks/services/sendEmailService';
+import { adminRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
 
 const adminRouter = () => {
   const router = express.Router();

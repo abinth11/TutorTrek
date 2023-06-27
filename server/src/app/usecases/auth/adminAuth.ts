@@ -25,8 +25,9 @@ export const adminLogin = async (
     );
   }
   const payload = {
-    adminId: admin._id,
+    Id: admin._id,
     email: admin.email,
+    role:'admin'
   };
 
   const token = authService.generateToken(payload);
