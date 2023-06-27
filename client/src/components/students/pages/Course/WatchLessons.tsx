@@ -9,6 +9,7 @@ const WatchLessons: React.FC = () => {
     "https://res.cloudinary.com/dwucedjmy/video/upload/v1687586931/Tutor-Trek/ons1wwwaa1f2ygz8r67e.mp4";
 
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const [isLoading,setIsLoading] = useState(false)
 
   const handleItemClick = (index: number) => {
     setSelectedItemIndex(index);
