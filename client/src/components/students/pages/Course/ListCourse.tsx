@@ -4,7 +4,7 @@ import { getAllCourses } from "../../../../api/endpoints/student/course";
 import { toast } from "react-toastify";
 import { CourseInterface } from "../../../../types/course";
 import { Link } from "react-router-dom";
-import ShimmerCard from "../../../common/ShimmerCard";
+import ShimmerCard from "../../../Shimmers/ShimmerCard";
 
 const ListCourse: React.FC = () => {
   const [courses, setCourses] = useState<CourseInterface[]>([]);

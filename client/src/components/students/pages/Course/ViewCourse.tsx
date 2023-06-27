@@ -8,36 +8,38 @@ import { toast } from "react-toastify";
 import { CourseInterface } from "../../../../types/course";
 import { formatToINR } from "../../../../utils/helpers";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-import { BiVideo} from "react-icons/bi";
+import { BiVideo } from "react-icons/bi";
 import { IoBookSharp } from "react-icons/io5";
-
+import useApiData from "../../../../hooks/useApiCall";
+import ViewCourseShimmer from "../../../Shimmers/ViewCourseShimmer";
 const ViewCourseStudent: React.FC = () => {
-  const [course, setCourse] = useState<CourseInterface>();
   const params = useParams();
   const [expandedIndex, setExpandedIndex] = useState(null);
   const courseId: string | undefined = params.courseId;
-  const fetchCourse = async (courseId: string) => {
+
+  const fetchCourse = async (courseId: string): Promise<CourseInterface> => {
     try {
       const course = await getIndividualCourse(courseId);
-      setCourse(course?.data?.data);
-      console.log(course);
+      return course?.data?.data as CourseInterface;
     } catch (error: any) {
       toast.error(error.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+      throw error;
     }
   };
-  useEffect(() => {
-    if (courseId) {
-      fetchCourse(courseId);
-    }
-  }, []);
+
+  const [data,isLoading] = useApiData(fetchCourse, courseId);
+  const course: CourseInterface | null = data;
 
   const handleToggle = (index: any) => {
     setExpandedIndex(index === expandedIndex ? null : index);
   };
-
   const location = useLocation();
+  if (isLoading) {
+    return <ViewCourseShimmer />;
+  }
+
   return (
     <div className='bg-white'>
       <div className='flex flex-col pr-5 pt-5 pl-80  '>
@@ -86,7 +88,6 @@ const ViewCourseStudent: React.FC = () => {
             <div className='mb-8'>
               <h4 className='text-2xl font-semibold mb-2'>Syllabus</h4>
               <ul className='text-gray-700 bg-white mt-2 rounded-lg shadow-lg border-2'>
-                
                 <li
                   className={` p-6 border-b-2 cursor-pointer ${
                     expandedIndex === 0
@@ -112,11 +113,11 @@ const ViewCourseStudent: React.FC = () => {
                         <IoBookSharp className='mr-2 text-blue-500' />
                         <span className='flex-1'>Important guidelines</span>
                       </li>
-                      <Link to={'watch-lessons/1'}>
-                      <li className='p-6 border-b flex items-center cursor-pointer hover:bg-blue-gray-50'>
-                        <BiVideo className='mr-2 text-blue-500' />
-                        <span className='flex-1'>Introduction video</span>
-                      </li>
+                      <Link to={"watch-lessons/1"}>
+                        <li className='p-6 border-b flex items-center cursor-pointer hover:bg-blue-gray-50'>
+                          <BiVideo className='mr-2 text-blue-500' />
+                          <span className='flex-1'>Introduction video</span>
+                        </li>
                       </Link>
                     </ul>
                   </li>
