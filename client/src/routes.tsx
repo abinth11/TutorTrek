@@ -50,14 +50,6 @@ const AppRouter = createBrowserRouter([
         path: "/courses/:courseId/watch-lessons/:lessonId",
         element: <WatchLessons />,
       },
-      {
-        path: "/instructors/login",
-        element: <InstructorLoginPage />,
-      },
-      {
-        path: "/instructors/register",
-        element: <InstructorRegistrationPage />,
-      },
     ],
   },
   {
@@ -67,6 +59,14 @@ const AppRouter = createBrowserRouter([
   {
     path: "/register",
     element: <StudentRegistrationPage />,
+  },
+  {
+    path: "/instructors/login",
+    element: <InstructorLoginPage />,
+  },
+  {
+    path: "/instructors/register",
+    element: <InstructorRegistrationPage />,
   },
   {
     path: "admin",

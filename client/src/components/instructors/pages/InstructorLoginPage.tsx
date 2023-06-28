@@ -27,8 +27,8 @@ const InstructorLoginPage: React.FC = () => {
   };
 
   return (
-    <div className='flex justify-center items-center mt-16 pb-20 bg-gray-100 text-customFontColorBlack'>
-      <div className='bg-white rounded-lg mx-10 shadow-xl p-8 w-full max-w-md md:mx-auto md:p-10 lg:p-12'>
+    <div className='flex justify-center items-center mt-20 pt-5 pb-20  text-customFontColorBlack'>
+      <div className='bg-white rounded-lg mx-10 shadow-xl border p-8 w-full max-w-md md:mx-auto md:p-10 lg:p-12'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
           <img
             className='mx-auto h-10 w-auto'

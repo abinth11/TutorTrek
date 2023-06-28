@@ -24,12 +24,19 @@ const InstructorRegistrationPage: React.FC = () => {
   
 
   return (
-    <div className='mt-4 pl-32 pr-32 my-3 pb-5   bg-gray-100 text-customFontColorBlack'>
+    <div className='mt-4 pl-32 pr-32 my-3 pb-5  text-customFontColorBlack'>
       <div className='flex items-center justify-center'>
-        <div className=' w-1/2 ml-2 mt-6 mb-8'>
-          <div className='flex items-center justify-center'>
-            <h2 className='font-bold text-xl'>Sign up to post courses</h2>
-          </div>
+        <div className=' w-2/3 ml-2 mt-6 mb-8 border p-10 shadow-xl rounded-lg'>
+        <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
+          <img
+            className='mx-auto h-10 w-auto'
+            src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
+            alt='Your Company'
+          />
+          <h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
+            
+          </h2>
+        </div>
           <Formik
             initialValues={{
               firstName: "",

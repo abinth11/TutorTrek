@@ -1,6 +1,5 @@
 import React,{useEffect} from "react";
 import StudentHeader from "./components/students/partials/StudentHeader";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Outlet} from "react-router-dom";
 import AdminLoginPage from "./components/admin/pages/AdminLoginPage";
@@ -21,7 +20,7 @@ export const Student: React.FC = () => {
   const isOnline = useIsOnline();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const isHeaderVisible = true
-  usePreventBackButton(isLoggedIn);
+  // usePreventBackButton(isLoggedIn);
   const headerClassName = `bg-gray-100 ${
     isHeaderVisible ? 'opacity-100 transition-opacity duration-500 ' : 'opacity-0 '
   }`;
@@ -33,7 +32,6 @@ export const Student: React.FC = () => {
             <StudentHeader />
             </div>
             <Outlet />
-            <ToastContainer />
             <StudentFooter />
           </div>
         ): (
@@ -60,7 +58,6 @@ export const Instructor: React.FC = () => {
                   <Outlet />
                 </div>
               </div>
-              <ToastContainer />
             </div>
           </div>
         </>
@@ -84,13 +81,11 @@ export const Admin: React.FC = () => {
             </div>
             <div className='flex-1'>
               <Outlet />
-              <ToastContainer />
             </div>
           </div>
         ) : (
           <div className='bg-gray-100'>
             <AdminLoginPage />
-            <ToastContainer />
           </div>
         )
       ) : (
