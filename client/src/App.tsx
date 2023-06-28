@@ -1,8 +1,8 @@
-import React,{useState,useEffect} from "react";
+import React,{useEffect} from "react";
 import StudentHeader from "./components/students/partials/StudentHeader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Outlet } from "react-router-dom";
+import { Outlet} from "react-router-dom";
 import AdminLoginPage from "./components/admin/pages/AdminLoginPage";
 import { Sidenav } from "./components/admin/widgets/layout";
 import { routes } from "./components/admin/pages/AdminDashBoardPage";
@@ -14,69 +14,34 @@ import useIsOnline from "./hooks/useOnline";
 import YouAreOffline from "./components/common/YouAreOffline";
 import StudentFooter from "./components/students/partials/StudentFooter";
 import { selectIsLoggedIn } from "./redux/reducers/authSlice";
-import StudentLoginPage from "./components/students/pages/StudentLoginPage";
-import { throttle } from 'lodash';
+import usePreventBackButton from "./hooks/usePrevent";
+
 
 export const Student: React.FC = () => {
   const isOnline = useIsOnline();
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
-  const isStudentLoggedIn = true; // Assuming this value is set correctly
-
-  useEffect(() => {
-    const handleScroll = throttle(() => {
-      const currentScrollPos = window.pageYOffset;
-      const scrollThreshold = 8;
-
-      if (prevScrollPos > currentScrollPos && prevScrollPos - currentScrollPos > scrollThreshold) {
-        setIsHeaderVisible(true);
-      } else if (prevScrollPos < currentScrollPos && currentScrollPos - prevScrollPos > scrollThreshold) {
-        setIsHeaderVisible(false);
-      }
-
-      setPrevScrollPos(currentScrollPos);
-    }, 200); // Adjust the time interval (in milliseconds) as needed
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [prevScrollPos]);
-
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isHeaderVisible = true
+  usePreventBackButton(isLoggedIn);
   const headerClassName = `bg-gray-100 ${
     isHeaderVisible ? 'opacity-100 transition-opacity duration-500 ' : 'opacity-0 '
   }`;
   return (
     <>
       {isOnline ? (
-        isStudentLoggedIn ? (
           <div className="bg-gray-100 ">
-            <div className={`${headerClassName} `}>
+            <div className={`${headerClassName}`}>
             <StudentHeader />
             </div>
             <Outlet />
             <ToastContainer />
             <StudentFooter />
           </div>
-        ) : (
-          <div className="bg-gray-100">
-          <StudentLoginPage />
-          </div>
-        )
-      ) : (
+        ): (
         <YouAreOffline />
       )}
     </>
   );
 };
-
-
-
-
-
-
-
 
 export const Instructor: React.FC = () => {
   const isOnline = useIsOnline();

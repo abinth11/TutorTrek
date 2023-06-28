@@ -23,8 +23,8 @@ const StudentRegistrationPage: React.FC = () => {
   };
 
   return (
-    <div className='mt-20 mb-20 my-3 flex justify-center items-center h-screen bg-gray-100 text-customFontColorBlack'>
-      <div className='bg-white rounded-lg mx-10 shadow-xl p-8 w-full max-w-xl md:mx-auto md:p-10 lg:p-12'>
+    <div className='mt-20 mb-20 my-3 flex justify-center items-center h-screen text-customFontColorBlack'>
+      <div className='bg-white rounded-lg mx-10 shadow-xl p-8 w-full max-w-xl border md:mx-auto md:p-10 lg:p-12'>
       <div className='mb-8 sm:mx-auto sm:w-full sm:max-w-sm'>
           <img
             className='mx-auto h-10 w-auto'

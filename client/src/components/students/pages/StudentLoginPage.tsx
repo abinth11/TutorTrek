@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { loginStudent } from "../../../api/endpoints/student/auth";
 import { studentLoginValidationSchema } from "../../../validations/student/studentLoginValidation";
@@ -7,9 +7,14 @@ import {Link,useNavigate} from 'react-router-dom'
 import GoogleAuthComponent from "../../common/GoogleAuthComponent";
 import { useDispatch } from "react-redux"; 
 import { setToken } from "../../../redux/reducers/authSlice";
+import { useSelector } from "react-redux";
+import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 const StudentLoginPage: React.FC = () => {
   const navigate = useNavigate()
   const dispatch= useDispatch()
+  const isLoggedIn = useSelector(selectIsLoggedIn)
+  
+
   const handleSubmit = async (studentInfo: any) => {
     try {
       const response = await loginStudent(studentInfo);
@@ -22,10 +27,11 @@ const StudentLoginPage: React.FC = () => {
       });
     }
   };
+ 
 
   return (
-    <div className='flex justify-center items-center mt-16 bg-gray-100 text-customFontColorBlack'>
-      <div className='bg-white rounded-lg mx-10 shadow-xl p-8 w-full max-w-md md:mx-auto md:p-10 lg:p-12'>
+    <div className='flex justify-center items-center mt-16  text-customFontColorBlack'>
+      <div className='bg-white rounded-lg mx-10 shadow-xl border p-8 w-full max-w-md md:mx-auto md:p-10 lg:p-12'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
           <img
             className='mx-auto h-10 w-auto'

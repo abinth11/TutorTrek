@@ -19,7 +19,6 @@ import InstructorDashboard from "./components/instructors/pages/InstructorDashbo
 import AddCourse from "./components/instructors/pages/add-course/AddCourse";
 import ViewCourse from "./components/instructors/pages/ViewCourse";
 import ViewCourseStudent from "./components/students/pages/Course/ViewCourse";
-import ListCourses from "./components/students/pages/Course/ListCourse";
 import WatchLessons from "./components/students/pages/Course/WatchLessons";
 const LazyListCourse = lazy(
   () => import("./components/students/pages/Course/ListCourse")
@@ -34,14 +33,6 @@ const AppRouter = createBrowserRouter([
       {
         path: "/",
         element: <StudentHomePage />,
-      },
-      {
-        path: "/login",
-        element: <StudentLoginPage />,
-      },
-      {
-        path: "/register",
-        element: <StudentRegistrationPage />,
       },
       {
         path: "/courses",
@@ -68,6 +59,14 @@ const AppRouter = createBrowserRouter([
         element: <InstructorRegistrationPage />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: (<StudentLoginPage />),
+  },
+  {
+    path: "/register",
+    element: <StudentRegistrationPage />,
   },
   {
     path: "admin",
