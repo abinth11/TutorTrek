@@ -4,6 +4,7 @@ import { courseRepositoryMongodb } from '../../../frameworks/database/mongodb/re
 import { courseDbRepository } from '../../../app/repositories/courseDbRepository';
 import { uploadImageAndVideo } from '../middlewares/imageUpload';
 import { instructorRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
+import jwtAuthMiddleware from '../middlewares/userAuth';
 
 const courseRouter = () => {
   const router = express.Router();

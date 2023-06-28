@@ -18,7 +18,7 @@ const InstructorLoginPage: React.FC = () => {
       toast.success(response?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-      response && navigate('/')
+      response && navigate('/instructors')
     } catch (error:any) {
       toast.error(error.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { AxiosResponse } from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { toast } from "react-toastify";
@@ -7,50 +7,61 @@ import { instructorRegistrationValidationSchema } from "../../../validations/ins
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { ApiResponse } from "../../../api/types/interfaces";
 import { InstructorRegisterDataInterface } from "../../../api/types/instructor/authInterface";
+const initialValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  mobile: "", 
+  qualification: "",
+  subjects: "",
+  experience: "",
+  skills: "",
+  about: "",
+  password: "",
+  confirmPassword: "",
+}
 
 const InstructorRegistrationPage: React.FC = () => {
-  const handleSubmit = async (instructorInfo: InstructorRegisterDataInterface) => {
+  const [profilePhoto,setProfilePhoto] = useState<File|null>(null)
+  const [certificate,setCertificateOne] = useState<File|null>(null)
+  const [certificateTwo,setCertificateTwo] = useState<File|null>(null)
+
+  const handleSubmit = async (
+    instructorInfo: InstructorRegisterDataInterface
+  ) => {
     try {
-      const response: AxiosResponse<ApiResponse> = await registerInstructor(instructorInfo);
+      const formData = new FormData();
+      profilePhoto && formData.append("images", profilePhoto);
+      certificate && formData.append("images", certificate);
+      certificateTwo && formData.append("images", certificateTwo);
+      Object.keys(instructorInfo).forEach((key) =>formData.append(key, instructorInfo[key]));
+      const response = await registerInstructor(
+        formData  
+      );  
       toast.success(response.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      }); 
     } catch (error: any) {
       toast.error(error.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
   };
-  
 
   return (
     <div className='mt-4 pl-32 pr-32 my-3 pb-5  text-customFontColorBlack'>
       <div className='flex items-center justify-center'>
         <div className=' w-2/3 ml-2 mt-6 mb-8 border p-10 shadow-xl rounded-lg'>
-        <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
-          <img
-            className='mx-auto h-10 w-auto'
-            src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
-            alt='Your Company'
-          />
-          <h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
-            
-          </h2>
-        </div>
+          <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
+            <img
+              className='mx-auto h-10 w-auto'
+              src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
+              alt='Your Company'
+            />
+            <h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'></h2>
+          </div>
           <Formik
-            initialValues={{
-              firstName: "",
-              lastName: "",
-              email: "",
-              mobile: "",
-              qualification: "",
-              subjects:"",
-              experience:"",
-              skills:"",
-              about:"",
-              password:"",
-              confirmPassword:""
-            }}
+            initialValues={initialValues}
             validationSchema={instructorRegistrationValidationSchema}
             onSubmit={handleSubmit}
           >
@@ -277,14 +288,19 @@ const InstructorRegistrationPage: React.FC = () => {
                           />
                           <div className='mt-4 flex text-sm leading-6 text-gray-600'>
                             <label
-                              htmlFor='photo'
+                              htmlFor='profile-photo'
                               className='relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500'
                             >
                               <span>Upload a file</span>
                               <Field
-                                id='photo'
-                                name='photo'
+                                id='profile-photo'
+                                name='profile-photo'
                                 type='file'
+                                onChange = {(event:React.ChangeEvent<HTMLInputElement>)=>{
+                                  const file = event.target.files?.[0] || null;
+                                  setProfilePhoto(file)
+                                }}
+                                required
                                 className='sr-only'
                               />
                             </label>
@@ -322,6 +338,100 @@ const InstructorRegistrationPage: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <div className='p-2 mt-4 mb-1'>
+                <h1 className='font-semibold text-md customFontColorBlack'>
+                  Certificates
+                </h1>
+              </div>
+              <div className='flex justify-between border border-gray-200 p-8 rounded-lg '>
+                <div className='flex flex-wrap w-full md:w-1/2 -mx-3 mb-4'>
+                  <div className='w-full px-3 mb-6 md:mb-0'>
+                    <label
+                      htmlFor='photo'
+                      className='mt-2 block text-sm font-medium leading-6 text-gray-900'
+                    >
+                      Certificate 1
+                    </label>
+                    <div className='col-span-full'>
+                      <div className='mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10'>
+                        <div className='text-center'>
+                          <PhotoIcon
+                            className='mx-auto h-12 w-12 text-gray-300'
+                            aria-hidden='true'
+                          />
+                          <div className='mt-4 flex text-sm leading-6 text-gray-600'>
+                            <label
+                              htmlFor='certificate-one'
+                              className='relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500'
+                            >
+                              <span>Upload a file</span>
+                              <Field
+                                id='certificate-one'
+                                name='certificate-one'
+                                type='file'
+                                required
+                                onChange = {(event:React.ChangeEvent<HTMLInputElement>)=>{
+                                  const file = event.target.files?.[0] || null;
+                                  setCertificateOne(file)
+                                }}
+                                className='sr-only'
+                              />
+                            </label>
+                            <p className='pl-1'>or drag and drop</p>
+                          </div>
+                          <p className='text-xs leading-5 text-gray-600'>
+                            PNG, JPG, GIF up to 10MB
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className='flex flex-wrap w-full md:w-1/2 -mx-3 mb-4'>
+                  <div className='w-full px-3 mb-6 md:mb-0'>
+                    <label
+                      htmlFor='photo'
+                      className='mt-2 block text-sm font-medium leading-6 text-gray-900'
+                    >
+                      Certificate 2
+                    </label>
+                    <div className='col-span-full'>
+                      <div className='mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10'>
+                        <div className='text-center'>
+                          <PhotoIcon
+                            className='mx-auto h-12 w-12 text-gray-300'
+                            aria-hidden='true'
+                          />
+                          <div className='mt-4 flex text-sm leading-6 text-gray-600'>
+                            <label
+                              htmlFor='certificate-two'
+                              className='relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500'
+                            >
+                              <span>Upload a file</span>
+                              <Field
+                                id='certificate-two'
+                                name='certificate-two'
+                                type='file'
+                                onChange = {(event:React.ChangeEvent<HTMLInputElement>)=>{
+                                  const file = event.target.files?.[0] || null;
+                                  setCertificateTwo(file)
+                                }}
+                                required
+                                className='sr-only'
+                              />
+                            </label>
+                            <p className='pl-1'>or drag and drop</p>
+                          </div>
+                          <p className='text-xs leading-5 text-gray-600'>
+                            PNG, JPG, GIF up to 10MB
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className='p-2 mt-4 mb-1  '>
                 <h1 className='font-semibold text-md customFontColorBlack'>
                   Account information's

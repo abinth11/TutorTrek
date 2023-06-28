@@ -27,6 +27,7 @@ const CombinedForm: React.FC = () => {
       introduction && formData.append("files", introduction);
       thumbnail && formData.append("files", thumbnail);
       Object.keys(values).forEach((key) => formData.append(key, values[key]));
+      console.log(formData)
       const response = await addCourse(formData);
       toast.success(response.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -42,10 +43,7 @@ const CombinedForm: React.FC = () => {
     setPaid(!paid);
   };
 
-  // function setFieldValue(arg0: string, arg1: File | undefined) {
-  //   throw new Error("Function not implemented.");
-  // }
-
+ 
   return (
     <div className='mb-20'>
       <div className='ml-12 pl-20'>

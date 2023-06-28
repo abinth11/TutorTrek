@@ -2,8 +2,8 @@ import END_POINTS from "../../../constants/endpoints";
 import { register,login } from "../../services/instructor/authServices";
 import { InstructorLoginInfo, InstructorRegisterDataInterface } from "../../types/instructor/authInterface";
 
-export const registerInstructor = (studentData:InstructorRegisterDataInterface)=>{
-  return register(END_POINTS.REGISTER_INSTRUCTOR,studentData)
+export const registerInstructor = (instructorData:FormData)=>{
+  return register(END_POINTS.REGISTER_INSTRUCTOR,instructorData)
 }
 
 export const loginInstructor = (instructorData:InstructorLoginInfo)=>{

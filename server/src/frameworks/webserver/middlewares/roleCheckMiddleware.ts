@@ -25,14 +25,14 @@ export const instructorRoleCheckMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  const role = req.user?.role;
+  const role = req.user?.role
 
   if (role === 'instructor') {
     // User has the instructor role, allow access
     next();
   } else {
     // User does not have the instructor role, deny access
-    throw new AppError('Unauthorized role', HttpStatusCodes.UNAUTHORIZED);
+    throw new AppError('Unauthorized role, you are not a instructor', HttpStatusCodes.UNAUTHORIZED);
   }
 };
 

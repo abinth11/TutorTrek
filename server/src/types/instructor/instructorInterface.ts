@@ -9,6 +9,7 @@ export interface InstructorInterface {
     skills:string;
     about:string;
     password: string;
+    certificates:Array<string>
 }
 export interface SavedInstructorInterface extends InstructorInterface {
     _id:string;

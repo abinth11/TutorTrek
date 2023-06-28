@@ -1,4 +1,5 @@
 export interface InstructorRegisterDataInterface {
+    [key: string]: any;
     firstName: string;
     lastName: string;
     email: string;
@@ -9,6 +10,8 @@ export interface InstructorRegisterDataInterface {
     skills: string;
     about: string;
     password: string;
+    images?: File[]; 
+
   }
 
 export interface InstructorLoginInfo {
