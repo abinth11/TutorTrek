@@ -44,6 +44,11 @@ export const courseRepositoryMongodb = () => {
     await newLesson.save()
   }
 
+  const getLessonsByCourseId = async (courseId:string)=>{
+    const lessons = await Lessons.findOne({courseId})
+    return lessons
+  }
+
 
   return {
     addCourse,
@@ -51,7 +56,8 @@ export const courseRepositoryMongodb = () => {
     getAllCourse,
     getCourseById,
     getCourseByInstructorId,
-    addLesson
+    addLesson,
+    getLessonsByCourseId
   };
 };
 

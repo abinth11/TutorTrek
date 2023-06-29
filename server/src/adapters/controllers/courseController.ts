@@ -9,6 +9,7 @@ import { getAllCourseU, getCourseByIdU } from '../../app/usecases/listCourse';
 import { getCourseByInstructorU } from '../../app/usecases/instructor/viewCourse';
 import { addLessonsU } from '../../app/usecases/instructor/addLesson';
 import { addQuizU } from '../../app/usecases/instructor/addQuiz';
+import { getLessonsByCourseIdU } from '../../app/usecases/instructor/viewLessons';
 const courseController = (
   courseDbRepository: CourseDbRepositoryInterface,
   courseDbRepositoryImpl: CourseRepositoryMongoDbInterface
@@ -90,6 +91,16 @@ const courseController = (
     })
   })
 
+  const getLessonsByCourse = asyncHandler(async(req:Request,res:Response)=>{
+    const courseId = req.params.courseId
+    const lessons = await getLessonsByCourseIdU(courseId,dbRepositoryCourse)
+    res.status(200).json({
+      status:'success',
+      message:'Successfully retrieved lessons based on the course',
+      data:lessons
+    })
+  })
+
   const addQuiz = asyncHandler(async(req:Request,res:Response)=>{
     const lessonId = req.params.lessonId
     const quiz = req.body
@@ -108,6 +119,7 @@ const courseController = (
     getIndividualCourse,
     getCoursesByInstructor,
     addLesson,
+    getLessonsByCourse,
     addQuiz
   };
 };

@@ -22,6 +22,8 @@ const courseRouter = () => {
 
   router.post('/instructors/add-lessons/:courseId',instructorRoleCheckMiddleware,controller.addLesson)
 
+  router.get('/instructors/get-lessons-by-course/:courseId',instructorRoleCheckMiddleware,controller.getLessonsByCourse)
+
   router.post('/instructors/add-quiz/:lessonId',instructorRoleCheckMiddleware,controller.addQuiz)
   
   return router
