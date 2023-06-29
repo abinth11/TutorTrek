@@ -98,14 +98,16 @@ const authController = (
       accessToken,
       refreshToken
     });
-  });
+  }); 
 
   //? INSTRUCTOR
   const registerInstructor = asyncHandler(
     async (req: Request, res: Response) => {
+      const files: Express.Multer.File[] = req.files as Express.Multer.File[];
       const instructor: InstructorInterface = req.body;
       await instructorRegister(
         instructor,
+        files,
         dbRepositoryInstructor,
         authService
       );

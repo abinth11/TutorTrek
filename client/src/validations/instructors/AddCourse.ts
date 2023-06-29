@@ -7,7 +7,7 @@ export const AddCourseValidationSchema = Yup.object().shape({
       .positive("Duration must be a positive number"),
     requirements: Yup.string().required("requirements is required"),
     lessons: Yup.string().required("lessons is required"),
-    description: Yup.string().required("Description is required"),
+    description: Yup.string().min(10,"Description is too short").required("Description is required"),
     category: Yup.string().required("Category is required"),
     // price: Yup.number().when("paid", {
     //   is: true,

@@ -7,7 +7,7 @@ import {
 
 export const register = async (
   endpoint: string,
-  instructorData: InstructorRegisterDataInterface
+  instructorData: FormData
 ) => {
   const response = await api.post(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,

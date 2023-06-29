@@ -12,7 +12,6 @@ const routes = (app: Application, redisClient: RedisClient) => {
   app.use('/api/all/refresh-token',refreshRouter())
   app.use('/api/admin',jwtAuthMiddleware,adminRoleCheckMiddleware,adminRouter());
   app.use('/api/courses',jwtAuthMiddleware,courseRouter())
-  // app.use('/api/courses',courseRouter())
 };
 
 export default routes;

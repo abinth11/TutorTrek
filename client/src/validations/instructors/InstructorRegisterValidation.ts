@@ -14,7 +14,7 @@ export const instructorRegistrationValidationSchema = object().shape({
   subjects:string().trim().required("Subjects is required"),
   experience:string().trim().required("Experience is required"),
   skills:string().trim().required("Skills is required"),
-  about:string().trim().required("About is required"),
+  about:string().min(10,"Too short").trim().required("About is required"),
   password: string().required("Password is required"),
   confirmPassword: string()
     .oneOf([ref("password")], "Passwords must match")

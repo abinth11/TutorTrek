@@ -6,32 +6,9 @@ import { toast } from "react-toastify";
 import Modal from "../../../common/Modal";
 import { Link } from "react-router-dom";
 import useTimeAgo from "../../../../hooks/useTimeAgo";
+import { InstructorApiResponse } from "../../../../api/types/apiResponses/getallinstructor";
 
-export const applicant = {
-  firstName: "John",
-  lastName: "Doe",
-  email: "johndoe@example.com",
-  profilePic:
-    "https://res.cloudinary.com/dwucedjmy/image/upload/v1679288002/cld-sample-3.jpg",
-  mobile: "123-456-7890",
-  qualification: "Bachelor of Science",
-  subjects: ["Mathematics", "Physics"],
-  experience: "3 years",
-  skills: ["JavaScript", "React", "Node.js"],
-  about:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  date: "2023-06-18",
-  certificates: [
-    {
-      name: "Certificate 1",
-      url: "https://res.cloudinary.com/dwucedjmy/image/upload/v1679288002/cld-sample-3.jpg",
-    },
-    {
-      name: "Certificate 2",
-      url: "https://res.cloudinary.com/dwucedjmy/image/upload/v1679288002/cld-sample-3.jpg",
-    },
-  ],
-};
+
 
 const ViewInstructorRequests: React.FC = () => {
   const [requests, setRequests] = useState([]);
@@ -52,7 +29,7 @@ const ViewInstructorRequests: React.FC = () => {
 
   return (
     <ul role='list' className='divide-y divide-gray-100  '>
-      {requests?.map((person: any) => (
+      {requests?.map((person: InstructorApiResponse) => (
         <Link
           to={`/admin/instructors/requests/${person._id}`}
           key={person?._id}
@@ -74,18 +51,16 @@ const ViewInstructorRequests: React.FC = () => {
               </div>
             </div>
             <div className='hidden sm:flex sm:flex-col sm:items-end'>
-              <p className='text-sm leading-6 text-gray-900'>{person?.role}</p>
                 <p className='mt-1 text-xs leading-5 text-gray-500'>
                 Application sent {calculateTimeAgo(person?.dateJoined)}
               </p>
             </div>
             <div className='flex gap-x-4'>
-              <Link
-                to={`/admin/instructors/requests/${person._id}`}
+              <button
                 className='p-1 m-3 rounded-md bg-blue-600 text-white w-20 text-center focus:outline-none focus:ring-2 focus:ring-blue-600 hover:bg-blue-700 hover:shadow-md'
               >
                 View
-              </Link>
+              </button>
             </div>
           </li>
         </Link>

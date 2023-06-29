@@ -17,13 +17,16 @@ export const authServiceInterface = (service: AuthServiceReturn) => {
   const decodedTokenAndReturnExpireDate = (token: string) =>
     service.decodedTokenAndReturnExpireDate(token);
 
+  const decodeToken = (token:string)=> service.decodeToken(token)
+
   return {
     hashPassword,
     comparePassword,
     verifyPassword,
     generateToken,
     generateRefreshToken,
-    decodedTokenAndReturnExpireDate
+    decodedTokenAndReturnExpireDate,
+    decodeToken
   };
 };
 

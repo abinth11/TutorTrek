@@ -42,10 +42,7 @@ const CombinedForm: React.FC = () => {
     setPaid(!paid);
   };
 
-  // function setFieldValue(arg0: string, arg1: File | undefined) {
-  //   throw new Error("Function not implemented.");
-  // }
-
+ 
   return (
     <div className='mb-20'>
       <div className='ml-12 pl-20'>

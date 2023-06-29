@@ -1,5 +1,7 @@
 import mongoose, { Schema, model } from 'mongoose';
 
+import { Certificate } from '../../../../types/instructor/instructorInterface';
+
 const instructorSchema = new Schema({
   firstName: {
     type: String,
@@ -24,7 +26,12 @@ const instructorSchema = new Schema({
   },
   profilePic: {
     type: String,
-    required: false,
+    required: true,
+  },
+  certificates:{
+    type:Array<Certificate>,
+    required:true
+
   },
   mobile: {
     type: String,

@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import configKeys from '../../config';
-import { JwtPayload } from '@src/types/custom/common';
-
+import { JwtPayload } from 'jsonwebtoken';
 export const authService = () => {
   const hashPassword = async (password: string) => {
     const salt = await bcrypt.genSalt(10);
@@ -32,6 +31,11 @@ export const authService = () => {
     return jwt.verify(token, configKeys.JWT_SECRET);
   };
 
+  const decodeToken = (token:string)=>{
+    const decodedToken: jwt.JwtPayload | null = jwt.decode(token) as jwt.JwtPayload | null;
+    return decodedToken
+  }
+
   const decodedTokenAndReturnExpireDate = (token: string): number => {
     const decodedToken: any = jwt.decode(token);
     let expirationTimestamp: number;
@@ -50,7 +54,8 @@ export const authService = () => {
     generateRefreshToken,
     verifyToken,
     hashPassword,
-    decodedTokenAndReturnExpireDate
+    decodedTokenAndReturnExpireDate,
+    decodeToken
   };
 };
 

@@ -12,6 +12,7 @@ import { adminDbRepository } from "../../../../src/app/repositories/adminDbRepos
 import { adminRepoMongoDb } from "../../../../src/frameworks/database/mongodb/repositories/adminRepoMongoDb";
 import { refreshTokenDbRepository } from "../../../app/repositories/refreshTokenDBRepository";
 import { refreshTokenRepositoryMongoDB } from "../../../frameworks/database/mongodb/repositories/refreshTokenRepoMongoDb";
+import { uploadMultipleImages } from "../middlewares/imageUpload";
 const authRouter = () => {     
   const router = express.Router();
   
@@ -35,7 +36,7 @@ const authRouter = () => {
   router.post("/login-with-google",controller.loginWithGoogle)
   
   //* Instructor
-  router.post("/instructor/instructor-register",controller.registerInstructor)
+  router.post("/instructor/instructor-register",uploadMultipleImages, controller.registerInstructor)
   router.post("/instructor/instructor-login",controller.loginInstructor)
 
   //* Admin 

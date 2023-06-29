@@ -9,6 +9,7 @@ import { client_id } from "./constants/common";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { ThemeProvider } from "@material-tailwind/react";
+import { ToastContainer } from "react-toastify";
 import { MaterialTailwindControllerProvider } from "../src/components/admin/widgets/context";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -20,6 +21,7 @@ root.render(
         <ThemeProvider>
           <MaterialTailwindControllerProvider>
             <RouterProvider router={AppRouter} />
+            <ToastContainer />
           </MaterialTailwindControllerProvider>
         </ThemeProvider>
       </Provider>
