@@ -21,6 +21,7 @@ export interface AddCourseInfoInterface {
   
   export interface AddQuizInfoInterface {
     courseId:string;
+    lessonId:string;
     title: string;
     questions: {
       question: string;

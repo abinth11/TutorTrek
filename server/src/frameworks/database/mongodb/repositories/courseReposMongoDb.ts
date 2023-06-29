@@ -15,8 +15,9 @@ export const courseRepositoryMongodb = () => {
     const { _id: courseId } = await newCourse.save();
     return courseId;
   };
-  const addQuiz = async (courseId: string, quiz: AddQuizInfoInterface) => {
+  const addQuiz = async (courseId: string,lessonId:string, quiz: AddQuizInfoInterface) => {
     quiz.courseId = courseId.toString();
+    quiz.lessonId = lessonId
     const newQuiz = new Quiz(quiz);
     const { _id: quizId } = await newQuiz.save();
     return quizId;

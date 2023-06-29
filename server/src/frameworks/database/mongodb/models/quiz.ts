@@ -6,6 +6,11 @@ const quizSchema = new Schema({
     ref: 'Course',
     required: true
   },
+  lessonId: {
+    type: Schema.Types.ObjectId,
+    ref: 'lessons',
+    required: true
+  },
   title: {
     type: String,
     required: true,

@@ -4,7 +4,6 @@ import { courseRepositoryMongodb } from '../../../frameworks/database/mongodb/re
 import { courseDbRepository } from '../../../app/repositories/courseDbRepository';
 import { uploadImageAndVideo } from '../middlewares/imageUpload';
 import { instructorRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
-import jwtAuthMiddleware from '../middlewares/userAuth';
 
 const courseRouter = () => {
   const router = express.Router();
@@ -22,6 +21,8 @@ const courseRouter = () => {
   router.get('/get-course-by-instructor',instructorRoleCheckMiddleware,controller.getCoursesByInstructor)
 
   router.post('/instructors/add-lessons/:courseId',instructorRoleCheckMiddleware,controller.addLesson)
+
+  router.post('/instructors/add-quiz/:lessonId',instructorRoleCheckMiddleware,controller.addQuiz)
   
   return router
 };
