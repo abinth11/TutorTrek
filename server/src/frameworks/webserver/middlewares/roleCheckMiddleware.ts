@@ -9,7 +9,7 @@ export const adminRoleCheckMiddleware = (
   next: NextFunction
 ) => {
   const role = req.user?.role;
-
+   console.log(req.user)
   if (role === 'admin') {
     // User has the admin role, allow access
     next();
@@ -26,6 +26,8 @@ export const instructorRoleCheckMiddleware = (
   next: NextFunction
 ) => {
   const role = req.user?.role
+  console.log(req.user)
+
 
   if (role === 'instructor') {
     // User has the instructor role, allow access
@@ -42,6 +44,8 @@ export const studentRoleCheckMiddleware = (
   next: NextFunction
 ) => {
   const role = req.user?.role;
+  console.log(req.user)
+
 
   if (role === 'instructor') {
     // User has the instructor role, allow access

@@ -6,48 +6,21 @@ import { acceptInstructorRequest } from "../../../../api/endpoints/admin/instruc
 import {toast} from 'react-toastify'
 import Modal from "../../../common/Modal";
 import { Button } from "@material-tailwind/react";
+import { InstructorApiResponse } from "../../../../api/types/apiResponses/getallinstructor";
 
-interface Certificate {
-  name: string;
-  url: string;
-}
 
-interface InstructorInfo {
-  _id:string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  profilePic: string;
-  mobile: string;
-  qualifications: string;
-  subjects: string[];
-  experience: string;
-  skills: string[];
-  about: string;
-  dateJoined: string;
-  certificates: Certificate[];
-}
 
 const ViewMoreInstructorRequest: React.FC = () => {
   const profilePic =
     "https://res.cloudinary.com/dwucedjmy/image/upload/v1679288002/cld-sample-3.jpg";
-  const certificates = [
-    {
-      name: "Certificate 1",
-      url: "https://res.cloudinary.com/dwucedjmy/image/upload/v1679288002/cld-sample-3.jpg",
-    },
-    {
-      name: "Certificate 2",
-      url: "https://res.cloudinary.com/dwucedjmy/image/upload/v1679288002/cld-sample-3.jpg",
-    },
-  ];
 
   const { id } = useParams();
-  const [instructor, setInstructor] = useState<InstructorInfo>();
+  const [instructor, setInstructor] = useState<InstructorApiResponse>();
   const [open, setOpen] = useState<boolean>(false)
   const fetchInfo = async () => {
     try {
       const response = id && await getIndividualInstructors(id);
+      console.log(response)
       response && setInstructor(response.data.data);
     } catch (error) {
       // Handle error
@@ -69,13 +42,13 @@ const ViewMoreInstructorRequest: React.FC = () => {
     email,
     // profilePic,
     mobile,
-    qualifications,
+    qualification,
     subjects,
     experience,
     skills,
     about,
     dateJoined,
-    // certificates,
+    certificates,
   } = instructor;
   const acceptRequest = async () => {
     try {
@@ -119,22 +92,26 @@ const ViewMoreInstructorRequest: React.FC = () => {
               <h4 className="text-lg leading-6 font-medium text-gray-900 mb-2">
                 Certificates
               </h4>
-              <div className="grid grid-cols-3 gap-4 mt-2">
-                {certificates.map((certificate) => (
-                  <div
-                    key={certificate.name}
-                    className="flex flex-col items-center"
-                  >
-                    <img
-                      className="h-20 w-20 text-gray-400 mb-2"
-                      src={certificate.url}
-                      alt={certificate.name}
-                    />
-                    <span className="text-sm font-medium text-indigo-600">
-                      {certificate.name}
-                    </span>
-                  </div>
-                ))}
+              <div className="grid grid-cols-3 gap-4 mt-2 justify-between">
+                {certificates.map((certificate,index) =>{
+                  if(index<2){
+                    return  (
+                      <div
+                        key={index}
+                        className="flex flex-col items-center "
+                      >
+                        <img
+                          className="h-40 w-25 text-gray-400 mb-2"
+                          src={certificate}
+                          alt={"image"}
+                        />
+                        <span className="text-sm font-medium text-indigo-600">
+                          {`Certificate ${index+1}`}
+                        </span>
+                      </div>
+                    )
+                  }
+                })}
               </div>
             </div>
           )}
@@ -153,7 +130,7 @@ const ViewMoreInstructorRequest: React.FC = () => {
                   <dt className="text-sm font-medium text-gray-500">
                     Qualification
                   </dt>
-                  <dd className="mt-1 text-sm text-gray-900">{qualifications}</dd>
+                  <dd className="mt-1 text-sm text-gray-900">{qualification}</dd>
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">Subjects</dt>

@@ -8,6 +8,7 @@ export const refreshTokenU = async (
   refreshDbRepository: ReturnType<RefreshTokenDbInterface>,
   authService: ReturnType<AuthServiceInterface>
 ) => {
+  console.log(refreshToken)
   if (!refreshToken) {
     throw new AppError('Refresh token not found', HttpStatusCodes.NOT_FOUND);
   }
@@ -28,12 +29,17 @@ export const refreshTokenU = async (
       HttpStatusCodes.UNAUTHORIZED
     );
   }
+  const decoded = authService.decodeToken(existingToken.token)
   const payload = {
-    Id: 'id',
-    email: 'email',
-    role: 'role'
+    Id: '',
+    email: '',
+    role: ''
   };
-
+  if(decoded){
+    payload.Id=decoded?.payload?.Id
+    payload.email=decoded.payload?.email
+    payload.role=decoded?.payload?.role
+  }
   const accessToken = authService.generateToken(payload);
 
   return accessToken;
