@@ -20,6 +20,8 @@ const courseRouter = () => {
   router.get('/get-course/:courseId',controller.getIndividualCourse)
 
   router.get('/get-course-by-instructor',instructorRoleCheckMiddleware,controller.getCoursesByInstructor)
+
+  router.post('/instructors/add-lessons/:courseId',instructorRoleCheckMiddleware,controller.addLesson)
   
   return router
 };

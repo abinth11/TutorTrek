@@ -1,6 +1,7 @@
 import { CourseRepositoryMongoDbInterface } from '@src/frameworks/database/mongodb/repositories/courseReposMongoDb';
 import { AddCourseInfoInterface } from '@src/types/instructor/courseInterface';
 import { AddQuizInfoInterface } from '@src/types/instructor/courseInterface';
+import { CreateLessonInterface } from '@src/types/instructor/lesson';
 
 export const courseDbRepository = (
   repository: ReturnType<CourseRepositoryMongoDbInterface>
@@ -16,12 +17,15 @@ export const courseDbRepository = (
 
   const getCourseByInstructorId = async (instructorId:string) => await repository.getCourseByInstructorId(instructorId)
 
+  const addLesson = async (courseId:string,instructorId:string,lesson:CreateLessonInterface)=> await repository.addLesson(courseId,instructorId,lesson)
+
   return {
     addCourse,
     addQuiz,
     getAllCourse,
     getCourseById,
-    getCourseByInstructorId
+    getCourseByInstructorId,
+    addLesson
   };
 };
 export type CourseDbRepositoryInterface = typeof courseDbRepository;

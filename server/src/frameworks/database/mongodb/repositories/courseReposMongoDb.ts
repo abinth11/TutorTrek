@@ -1,10 +1,12 @@
 import Course from '../models/course';
 import Quiz from '../models/quiz';
 import mongoose from 'mongoose';
+import Lessons from '../models/lessons';
 import {
   AddCourseInfoInterface,
   AddQuizInfoInterface
 } from '@src/types/instructor/courseInterface';
+import { CreateLessonInterface } from '@src/types/instructor/lesson';
 
 export const courseRepositoryMongodb = () => {
   const addCourse = async (courseInfo: AddCourseInfoInterface) => {
@@ -33,12 +35,22 @@ export const courseRepositoryMongodb = () => {
     const courses = await Course.find({instructorId: new mongoose.Types.ObjectId(instructorId)})
     return courses
   }
+
+  const addLesson = async (courseId:string,instructorId:string,lesson:CreateLessonInterface)=>{
+    lesson.courseId=courseId
+    lesson.instructorId=instructorId
+    const newLesson = new Lessons(lesson)
+    await newLesson.save()
+  }
+
+
   return {
     addCourse,
     addQuiz,
     getAllCourse,
     getCourseById,
-    getCourseByInstructorId
+    getCourseByInstructorId,
+    addLesson
   };
 };
 

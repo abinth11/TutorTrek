@@ -7,6 +7,7 @@ import { AddCourseInfoInterface } from '../../types/instructor/courseInterface';
 import { CustomRequest } from '../../types/custom/customRequest';
 import { getAllCourseU, getCourseByIdU } from '../../app/usecases/listCourse';
 import { getCourseByInstructorU } from '../../app/usecases/instructor/viewCourse';
+import { addLessonsU } from '../../app/usecases/instructor/addLesson';
 const courseController = (
   courseDbRepository: CourseDbRepositoryInterface,
   courseDbRepositoryImpl: CourseRepositoryMongoDbInterface
@@ -66,7 +67,6 @@ const courseController = (
   })
 
   const getCoursesByInstructor = asyncHandler(async(req:CustomRequest,res:Response)=>{
-
     const instructorId = req.user?.Id
     const courses = await getCourseByInstructorU(instructorId,dbRepositoryCourse)
     res.status(200).json({
@@ -77,11 +77,27 @@ const courseController = (
      
   })
 
+  const addLesson = asyncHandler(async(req:CustomRequest,res:Response)=>{
+    const instructorId = req.user?.Id
+    const courseId = req.params.courseId
+    const lesson = req.body
+    console.log(instructorId)
+    console.log(courseId)
+    console.log(lesson)
+    await addLessonsU(instructorId,courseId,lesson,dbRepositoryCourse)
+    res.status(200).json({
+      status:'success',
+      message:'Successfully added new lesson',
+      data:null
+    })
+  })
+
   return {
     addCourse,
     getAllCourses,
     getIndividualCourse,
-    getCoursesByInstructor
+    getCoursesByInstructor,
+    addLesson
   };
 };
 
