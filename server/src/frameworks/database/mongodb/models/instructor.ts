@@ -26,6 +26,11 @@ const instructorSchema = new Schema({
     type: String,
     required: false,
   },
+  certificates:{
+    type:Array<string>,
+    required:true
+
+  },
   mobile: {
     type: String,
     required: true,

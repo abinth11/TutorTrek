@@ -98,13 +98,12 @@ const authController = (
       accessToken,
       refreshToken
     });
-  });
+  }); 
 
   //? INSTRUCTOR
   const registerInstructor = asyncHandler(
     async (req: Request, res: Response) => {
       const files: Express.Multer.File[] = req.files as Express.Multer.File[];
-      console.log(files)
       const instructor: InstructorInterface = req.body;
       instructor.certificates = []
       if(files){
