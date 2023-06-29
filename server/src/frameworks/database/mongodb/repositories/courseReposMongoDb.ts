@@ -28,11 +28,17 @@ export const courseRepositoryMongodb = () => {
     const course = await Course.findOne({_id:new mongoose.Types.ObjectId(courseId)})
     return course
   }
+
+  const getCourseByInstructorId = async (instructorId:string)=>{
+    const courses = await Course.find({instructorId: new mongoose.Types.ObjectId(instructorId)})
+    return courses
+  }
   return {
     addCourse,
     addQuiz,
     getAllCourse,
-    getCourseById
+    getCourseById,
+    getCourseByInstructorId
   };
 };
 

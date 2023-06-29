@@ -18,6 +18,8 @@ const courseRouter = () => {
   router.get('/get-all-courses',controller.getAllCourses)
 
   router.get('/get-course/:courseId',controller.getIndividualCourse)
+
+  router.get('/get-course-by-instructor',instructorRoleCheckMiddleware,controller.getCoursesByInstructor)
   
   return router
 };

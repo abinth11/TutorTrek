@@ -13,11 +13,15 @@ export const courseDbRepository = (
   const getAllCourse = async ()=> await repository.getAllCourse()
 
   const getCourseById = async (courseId:string) => await repository.getCourseById(courseId)
+
+  const getCourseByInstructorId = async (instructorId:string) => await repository.getCourseByInstructorId(instructorId)
+
   return {
     addCourse,
     addQuiz,
     getAllCourse,
-    getCourseById
+    getCourseById,
+    getCourseByInstructorId
   };
 };
 export type CourseDbRepositoryInterface = typeof courseDbRepository;

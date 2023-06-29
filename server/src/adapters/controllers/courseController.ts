@@ -6,6 +6,7 @@ import { addCourses } from '../../app/usecases/instructor/addCourse';
 import { AddCourseInfoInterface } from '../../types/instructor/courseInterface';
 import { CustomRequest } from '../../types/custom/customRequest';
 import { getAllCourseU, getCourseByIdU } from '../../app/usecases/listCourse';
+import { getCourseByInstructorU } from '../../app/usecases/instructor/viewCourse';
 const courseController = (
   courseDbRepository: CourseDbRepositoryInterface,
   courseDbRepositoryImpl: CourseRepositoryMongoDbInterface
@@ -64,10 +65,23 @@ const courseController = (
     })
   })
 
+  const getCoursesByInstructor = asyncHandler(async(req:CustomRequest,res:Response)=>{
+
+    const instructorId = req.user?.Id
+    const courses = await getCourseByInstructorU(instructorId,dbRepositoryCourse)
+    res.status(200).json({
+      status:'success',
+      message:'Successfully retrieved your courses',
+      data:courses
+    })
+     
+  })
+
   return {
     addCourse,
     getAllCourses,
-    getIndividualCourse
+    getIndividualCourse,
+    getCoursesByInstructor
   };
 };
 
