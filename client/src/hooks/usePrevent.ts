@@ -5,7 +5,6 @@ const usePreventBackButton = (isLoggedIn: boolean): void => {
   const backPressCountRef = useRef(0);
   const navigate = useNavigate()
   const location  = useLocation()
-  console.log(isLoggedIn)
 
   useEffect(() => {
     const handleBackButton = (e: PopStateEvent): void => {

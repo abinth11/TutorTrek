@@ -1,5 +1,6 @@
 export interface InstructorApiResponse {
-    certificates: string[]
+    profilePic:string;
+    certificates: Certificate[]
     isBlocked: boolean
     blockedReason: string
     _id: string
@@ -19,4 +20,9 @@ export interface InstructorApiResponse {
     __v: number
     rejected: boolean
     rejectedReason: string
+}
+
+interface Certificate {
+    name:string;
+    url:string;
 }

@@ -11,16 +11,12 @@ import { InstructorApiResponse } from "../../../../api/types/apiResponses/getall
 
 
 const ViewMoreInstructorRequest: React.FC = () => {
-  const profilePic =
-    "https://res.cloudinary.com/dwucedjmy/image/upload/v1679288002/cld-sample-3.jpg";
-
   const { id } = useParams();
   const [instructor, setInstructor] = useState<InstructorApiResponse>();
   const [open, setOpen] = useState<boolean>(false)
   const fetchInfo = async () => {
     try {
       const response = id && await getIndividualInstructors(id);
-      console.log(response)
       response && setInstructor(response.data.data);
     } catch (error) {
       // Handle error
@@ -40,7 +36,7 @@ const ViewMoreInstructorRequest: React.FC = () => {
     firstName,
     lastName,
     email,
-    // profilePic,
+    profilePic,
     mobile,
     qualification,
     subjects,
@@ -93,25 +89,19 @@ const ViewMoreInstructorRequest: React.FC = () => {
                 Certificates
               </h4>
               <div className="grid grid-cols-3 gap-4 mt-2 justify-between">
-                {certificates.map((certificate,index) =>{
-                  if(index<2){
-                    return  (
-                      <div
+                {certificates.map((certificate,index) => <div
                         key={index}
                         className="flex flex-col items-center "
                       >
                         <img
                           className="h-40 w-25 text-gray-400 mb-2"
-                          src={certificate}
+                          src={certificate.url}
                           alt={"image"}
                         />
                         <span className="text-sm font-medium text-indigo-600">
-                          {`Certificate ${index+1}`}
+                          {certificate.name}
                         </span>
-                      </div>
-                    )
-                  }
-                })}
+                      </div>)}
               </div>
             </div>
           )}

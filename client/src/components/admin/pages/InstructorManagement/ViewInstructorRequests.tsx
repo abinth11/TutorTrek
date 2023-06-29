@@ -38,7 +38,7 @@ const ViewInstructorRequests: React.FC = () => {
             <div className='flex gap-x-4'>
               <img
                 className='h-12 w-12 flex-none rounded-full bg-gray-50'
-                src={person.certificates[0]}
+                src={person.profilePic}
                 alt=''
               />
               <div className='min-w-0 flex-auto'>

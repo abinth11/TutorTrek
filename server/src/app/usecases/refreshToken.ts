@@ -8,7 +8,6 @@ export const refreshTokenU = async (
   refreshDbRepository: ReturnType<RefreshTokenDbInterface>,
   authService: ReturnType<AuthServiceInterface>
 ) => {
-  console.log(refreshToken)
   if (!refreshToken) {
     throw new AppError('Refresh token not found', HttpStatusCodes.NOT_FOUND);
   }

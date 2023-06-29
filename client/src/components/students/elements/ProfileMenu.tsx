@@ -51,24 +51,19 @@ export default function ProfileMenu() {
         switch (action) {
           case "My Profile":
             // Logic for "My Profile" action
-            console.log("My Profile action triggered");
             break;
           case "Edit Profile":
             // Logic for "Edit Profile" action
-            console.log("Edit Profile action triggered");
             break;
           case "Inbox":
             // Logic for "Inbox" action
-            console.log("Inbox action triggered");
             break;
           case "Help":
             // Logic for "Help" action
-            console.log("Help action triggered");
             break;
           case "Sign Out":
             // Logic for "Sign Out" action
             dispatch(clearToken())
-            console.log("Sign Out action triggered");
             break;
           default:
             break;

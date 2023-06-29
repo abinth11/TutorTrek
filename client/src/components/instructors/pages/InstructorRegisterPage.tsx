@@ -37,17 +37,15 @@ const InstructorRegistrationPage: React.FC = () => {
     { resetForm }: FormikHelpers<InstructorRegisterDataInterface>
   ) => {
     try {
-      console.log(instructorInfo);
       setIsUploading(true);
       const formData = new FormData();
-      profilePhoto && formData.append("images", profilePhoto);
-      certificate && formData.append("images", certificate);
-      certificateTwo && formData.append("images", certificateTwo);
+      profilePhoto && formData.append("images", profilePhoto,'profilePic');
+      certificate && formData.append("images", certificate,'certificateOne');
+      certificateTwo && formData.append("images", certificateTwo,'certificateTwo');
       Object.keys(instructorInfo).forEach((key) =>
         formData.append(key, instructorInfo[key])
       );
       const response = await registerInstructor(formData);
-      console.log(response);
       setIsUploading(false);
       setProfilePhoto(null)
       setCertificateOne(null)

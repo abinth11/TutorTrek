@@ -105,13 +105,9 @@ const authController = (
     async (req: Request, res: Response) => {
       const files: Express.Multer.File[] = req.files as Express.Multer.File[];
       const instructor: InstructorInterface = req.body;
-      instructor.certificates = []
-      if(files){
-        files.map((file)=>instructor.certificates.push(file.path))
-      }
-      console.log(instructor)
       await instructorRegister(
         instructor,
+        files,
         dbRepositoryInstructor,
         authService
       );
