@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Modal from "../../../common/Modal";
 import { Link } from "react-router-dom";
 import useTimeAgo from "../../../../hooks/useTimeAgo";
-import { InstructorApiResponse } from "../../../../api/types/apiResponses/getallinstructor";
+import { InstructorApiResponse } from "../../../../api/types/apiResponses/apiResponseInstructors";
 
 
 

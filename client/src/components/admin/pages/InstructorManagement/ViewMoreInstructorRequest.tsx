@@ -6,7 +6,7 @@ import { acceptInstructorRequest } from "../../../../api/endpoints/admin/instruc
 import {toast} from 'react-toastify'
 import Modal from "../../../common/Modal";
 import { Button } from "@material-tailwind/react";
-import { InstructorApiResponse } from "../../../../api/types/apiResponses/getallinstructor";
+import { InstructorApiResponse } from "../../../../api/types/apiResponses/apiResponseInstructors";
 
 
 

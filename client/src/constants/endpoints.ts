@@ -15,7 +15,8 @@ const END_POINTS = {
     ADD_COURSE:'api/courses/instructors/add-course',
     GET_ALL_COURSES:'api/courses/get-all-courses',
     GET_COURSE:'api/courses/get-course',
-    REFRESH_TOKEN:'api/all/refresh-token/refresh'
+    REFRESH_TOKEN:'api/all/refresh-token/refresh',
+    GET_COURSES_BY_INSTRUCTORS:'api/courses/get-course-by-instructor'
 
 }
 export default END_POINTS

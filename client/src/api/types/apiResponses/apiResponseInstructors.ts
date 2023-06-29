@@ -26,3 +26,26 @@ interface Certificate {
     name:string;
     url:string;
 }
+
+export interface GetCourseByInstructorInterface {
+    _id: string
+    title: string
+    thumbnail?: string
+    introductionVideo?: string
+    description: string
+    category: string
+    instructorId: string
+    isPaid: boolean
+    price?: number
+    enrollmentCount: number
+    rating: number
+    lessons: string[]
+    isVerified: boolean
+    duration: number
+    requirements: string[]
+    tags: string[]
+    completionStatus: number
+    createdAt: string
+    reviews: any[]
+    __v: number
+  }
