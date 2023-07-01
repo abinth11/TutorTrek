@@ -28,7 +28,15 @@ const configKeys = {
 
   CLOUDINARY_API_KEY:process.env.CLOUDINARY_API_KEY as string,
 
-  CLOUDINARY_API_SECRET:process.env.CLOUDINARY_API_SECRET as string
+  CLOUDINARY_API_SECRET:process.env.CLOUDINARY_API_SECRET as string,
+
+  AWS_ACCESS_KEY:process.env.AWS_ACCESS_KEY  as string,
+
+  AWS_SECRET_KEY:process.env.AWS_SECRET_KEY as string,
+
+  AWS_BUCKET_REGION:process.env.AWS_BUCKET_REGION as string,
+
+  AWS_BUCKET_NAME:process.env.AWS_BUCKET_NAME as string,
 
 };
 

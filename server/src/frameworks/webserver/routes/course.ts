@@ -4,10 +4,14 @@ import { courseRepositoryMongodb } from '../../../frameworks/database/mongodb/re
 import { courseDbRepository } from '../../../app/repositories/courseDbRepository';
 import { uploadImageAndVideo } from '../middlewares/imageUpload';
 import { instructorRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
+import { CloudServiceInterface, cloudServiceInterface } from '@src/app/services/cloudServiceInterface';
+import { s3Service } from '@src/frameworks/services/s3CloudService';
 
 const courseRouter = () => {
   const router = express.Router();
   const controller = courseController( 
+    cloudServiceInterface,
+    s3Service,
     courseDbRepository,
     courseRepositoryMongodb
   );

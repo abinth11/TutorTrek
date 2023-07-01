@@ -2,11 +2,14 @@ import { CourseDbRepositoryInterface } from '../../../app/repositories/courseDbR
 import HttpStatusCodes from '../../../constants/HttpStatusCodes';
 import AppError from '../../../utils/appError';
 import { CreateLessonInterface } from '../../../types/instructor/lesson';
+import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
 export const addLessonsU = async (
+  media:Express.Multer.File[] | undefined,
   courseId: string|undefined,
   instructorId: string,
   lesson: CreateLessonInterface,
-  courseDbRepository: ReturnType<CourseDbRepositoryInterface>
+  courseDbRepository: ReturnType<CourseDbRepositoryInterface>,
+  cloudService:ReturnType<CloudServiceInterface>,
 ) => {
   if (!courseId) {
     throw new AppError(
@@ -26,6 +29,13 @@ export const addLessonsU = async (
         HttpStatusCodes.BAD_REQUEST
       );
   }
+  if(media){
+    lesson.media = await Promise.all(
+    media.map(async(attachment)=>
+        await cloudService.upload(attachment)
+    )
+  )
+}
   await courseDbRepository.addLesson(courseId,instructorId,lesson)
 
 };

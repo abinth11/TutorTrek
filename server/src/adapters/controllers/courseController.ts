@@ -10,11 +10,16 @@ import { getCourseByInstructorU } from '../../app/usecases/instructor/viewCourse
 import { addLessonsU } from '../../app/usecases/instructor/addLesson';
 import { addQuizU } from '../../app/usecases/instructor/addQuiz';
 import { getLessonsByCourseIdU } from '../../app/usecases/instructor/viewLessons';
+import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
+import { CloudServiceImpl } from '@src/frameworks/services/s3CloudService';
 const courseController = (
+  cloudServiceInterface: CloudServiceInterface,
+  cloudServiceImpl: CloudServiceImpl,
   courseDbRepository: CourseDbRepositoryInterface,
   courseDbRepositoryImpl: CourseRepositoryMongoDbInterface
 ) => {
   const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl());
+  const cloudService = cloudServiceInterface(cloudServiceImpl());
 
   const addCourse = asyncHandler(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -83,7 +88,8 @@ const courseController = (
     const instructorId = req.user?.Id
     const courseId = req.params.courseId
     const lesson = req.body
-    await addLessonsU(instructorId,courseId,lesson,dbRepositoryCourse)
+    const medias = req.files as Express.Multer.File[];
+    await addLessonsU(medias,instructorId,courseId,lesson,dbRepositoryCourse,cloudService)
     res.status(200).json({
       status:'success',
       message:'Successfully added new lesson',
