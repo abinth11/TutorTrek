@@ -10,8 +10,8 @@ import { getCourseByInstructorU } from '../../app/usecases/instructor/viewCourse
 import { addLessonsU } from '../../app/usecases/instructor/addLesson';
 import { addQuizU } from '../../app/usecases/instructor/addQuiz';
 import { getLessonsByCourseIdU } from '../../app/usecases/instructor/viewLessons';
-import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
-import { CloudServiceImpl } from '@src/frameworks/services/s3CloudService';
+import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
+import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
   cloudServiceImpl: CloudServiceImpl,
@@ -89,6 +89,7 @@ const courseController = (
     const courseId = req.params.courseId
     const lesson = req.body
     const medias = req.files as Express.Multer.File[];
+    console.log(medias)
     await addLessonsU(medias,instructorId,courseId,lesson,dbRepositoryCourse,cloudService)
     res.status(200).json({
       status:'success',

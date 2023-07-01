@@ -4,12 +4,12 @@ import AppError from '../../../utils/appError';
 import { CreateLessonInterface } from '../../../types/instructor/lesson';
 import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
 export const addLessonsU = async (
-  media:Express.Multer.File[] | undefined,
-  courseId: string|undefined,
+  media: Express.Multer.File[] | undefined,
+  courseId: string | undefined,
   instructorId: string,
   lesson: CreateLessonInterface,
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>,
-  cloudService:ReturnType<CloudServiceInterface>,
+  cloudService: ReturnType<CloudServiceInterface>
 ) => {
   if (!courseId) {
     throw new AppError(
@@ -23,19 +23,15 @@ export const addLessonsU = async (
       HttpStatusCodes.BAD_REQUEST
     );
   }
-  if(!lesson){
-    throw new AppError(
-        'Data is not provided',
-        HttpStatusCodes.BAD_REQUEST
-      );
+  if (!lesson) {
+    throw new AppError('Data is not provided', HttpStatusCodes.BAD_REQUEST);
   }
-  if(media){
-    lesson.media = await Promise.all(
-    media.map(async(attachment)=>
-        await cloudService.upload(attachment)
-    )
-  )
-}
-  await courseDbRepository.addLesson(courseId,instructorId,lesson)
-
+  if (media) {
+    const uploadedMedia = await Promise.all(
+      media.map(async (attachment) => await cloudService.upload(attachment))
+    );
+    console.log(uploadedMedia);
+  }
+  lesson.videoUrl = 'jskfdk';
+  await courseDbRepository.addLesson(courseId, instructorId, lesson);
 };

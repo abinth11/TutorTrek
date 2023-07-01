@@ -4,8 +4,9 @@ import { courseRepositoryMongodb } from '../../../frameworks/database/mongodb/re
 import { courseDbRepository } from '../../../app/repositories/courseDbRepository';
 import { uploadImageAndVideo } from '../middlewares/imageUpload';
 import { instructorRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
-import { CloudServiceInterface, cloudServiceInterface } from '@src/app/services/cloudServiceInterface';
-import { s3Service } from '@src/frameworks/services/s3CloudService';
+import { cloudServiceInterface } from '../../../app/services/cloudServiceInterface';
+import { s3Service } from '../../../frameworks/services/s3CloudService';
+import upload from '../middlewares/multer';
 
 const courseRouter = () => {
   const router = express.Router();
@@ -24,7 +25,7 @@ const courseRouter = () => {
 
   router.get('/get-course-by-instructor',instructorRoleCheckMiddleware,controller.getCoursesByInstructor)
 
-  router.post('/instructors/add-lessons/:courseId',instructorRoleCheckMiddleware,controller.addLesson)
+  router.post('/instructors/add-lessons/:courseId',instructorRoleCheckMiddleware,upload.array("media"),controller.addLesson)
 
   router.get('/instructors/get-lessons-by-course/:courseId',instructorRoleCheckMiddleware,controller.getLessonsByCourse)
 
