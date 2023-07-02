@@ -45,7 +45,7 @@ export const courseRepositoryMongodb = () => {
   }
 
   const getLessonsByCourseId = async (courseId:string)=>{
-    const lessons = await Lessons.findOne({courseId})
+    const lessons = await Lessons.find({courseId:new mongoose.Types.ObjectId(courseId)})
     return lessons
   }
 

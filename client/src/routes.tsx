@@ -125,14 +125,8 @@ const AppRouter = createBrowserRouter([
         element: <ListCourseForInstructors />,
       },
       {
-        path:"view-lessons",
+        path:"view-lessons/:courseId",
         element:<ViewLessons/>,
-        children:[
-          {
-            path:'add-lessons',
-            element:<AddLessons/>
-          }
-        ]
       }
     ],
   },

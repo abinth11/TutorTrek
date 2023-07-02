@@ -85,12 +85,16 @@ const courseController = (
   })
 
   const addLesson = asyncHandler(async(req:CustomRequest,res:Response)=>{
-    const instructorId = req.user?.Id
+    let instructorId=''
+    if(req.user){
+      instructorId=req.user.Id
+    }
     const courseId = req.params.courseId
     const lesson = req.body
     const medias = req.files as Express.Multer.File[];
+    console.log(courseId)
     console.log(medias)
-    await addLessonsU(medias,instructorId,courseId,lesson,dbRepositoryCourse,cloudService)
+    await addLessonsU(medias,courseId,instructorId,lesson,dbRepositoryCourse,cloudService)
     res.status(200).json({
       status:'success',
       message:'Successfully added new lesson',
@@ -100,7 +104,9 @@ const courseController = (
 
   const getLessonsByCourse = asyncHandler(async(req:Request,res:Response)=>{
     const courseId = req.params.courseId
+    console.log(courseId)
     const lessons = await getLessonsByCourseIdU(courseId,dbRepositoryCourse)
+    console.log(lessons)
     res.status(200).json({
       status:'success',
       message:'Successfully retrieved lessons based on the course',

@@ -49,3 +49,20 @@ export interface GetCourseByInstructorInterface {
     reviews: any[]
     __v: number
   }
+
+
+  export interface ApiResponseLessons{
+    _id: string
+    title: string
+    description: string
+    contents: string[]
+    thumbnail:string
+    videoUrl: string
+    duration: number
+    instructorId: string
+    courseId: string
+    createdAt: string
+    updatedAt: string
+    __v: number
+  }
+  

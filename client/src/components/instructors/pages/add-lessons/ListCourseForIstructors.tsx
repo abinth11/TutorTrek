@@ -94,9 +94,11 @@ const ListCourseForInstructors: React.FC = () => {
             <Button variant='outlined' color='blue-gray' size='sm'>
               view all
             </Button>
+            <Link to="/instructors/add-course">
             <Button className='flex items-center gap-3' color='blue' size='sm'>
               <UserPlusIcon strokeWidth={2} className='h-4 w-4' /> Add course
             </Button>
+            </Link>
           </div>
         </div>
         <div className='flex flex-col items-center justify-between gap-4 md:flex-row'>
@@ -225,7 +227,7 @@ const ListCourseForInstructors: React.FC = () => {
                         </td>
                         <td className={classes}>
                           <Tooltip content='Add lessons'>
-                            <Link to='/instructors/view-lessons'>
+                            <Link to={`/instructors/view-lessons/${_id}`}>
                               <IconButton variant='text' color='blue-gray'>
                                 <SquaresPlusIcon className='h-4 w-4 text-blue-500' />
                               </IconButton>
@@ -235,7 +237,7 @@ const ListCourseForInstructors: React.FC = () => {
                             <IconButton variant='text' color='blue-gray'>
                               <PencilIcon className='h-4 w-4' />
                             </IconButton>
-                          </Tooltip>{" "}
+                          </Tooltip>
                           <Tooltip content='Delete course'>
                             <IconButton variant='text' color='blue-gray'>
                               <TrashIcon className='h-4 w-4 text-red-500' />

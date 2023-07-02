@@ -13,5 +13,12 @@ export const getCoursesByInstructorService = async (endpoint: string) => {
   const response = await api.get(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
   );
-  return response.data
+  return response.data;
+};
+
+export const getLessonsByCourseService = async (endpoint: string,courseId:string) => {
+  const response = await api.get(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${courseId}`
+  );
+  return response.data;
 };
