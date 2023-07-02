@@ -8,7 +8,6 @@ import { CustomRequest } from '../../types/custom/customRequest';
 import { getAllCourseU, getCourseByIdU } from '../../app/usecases/listCourse';
 import { getCourseByInstructorU } from '../../app/usecases/instructor/viewCourse';
 import { addLessonsU } from '../../app/usecases/instructor/addLesson';
-import { addQuizU } from '../../app/usecases/instructor/addQuiz';
 import { getLessonsByCourseIdU } from '../../app/usecases/instructor/viewLessons';
 import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
 import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
@@ -115,18 +114,6 @@ const courseController = (
     })
   })
 
-  const addQuiz = asyncHandler(async(req:Request,res:Response)=>{
-    const lessonId = req.params.lessonId
-    const quiz = req.body
-    const courseId = quiz.courseId
-    await addQuizU(lessonId,courseId,quiz,dbRepositoryCourse)
-    res.status(200).json({
-      status:'success',
-      message:'Successfully added new quiz',
-      data:null
-    })
-  })
-
   return {
     addCourse,
     getAllCourses,
@@ -134,7 +121,6 @@ const courseController = (
     getCoursesByInstructor,
     addLesson,
     getLessonsByCourse,
-    addQuiz
   };
 };
 

@@ -27,10 +27,7 @@ const courseRouter = () => {
 
   router.post('/instructors/add-lesson/:courseId',instructorRoleCheckMiddleware,upload.array("media"),controller.addLesson)
 
-  router.get('/instructors/get-lessons-by-course/:courseId',instructorRoleCheckMiddleware,controller.getLessonsByCourse)
-
-  router.post('/instructors/add-quiz/:lessonId',instructorRoleCheckMiddleware,controller.addQuiz)
-  
+  router.get('/instructors/get-lessons-by-course/:courseId',instructorRoleCheckMiddleware,controller.getLessonsByCourse)  
   return router
 };
 export default courseRouter

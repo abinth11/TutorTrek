@@ -33,5 +33,14 @@ export const addLessonsU = async (
     console.log(uploadedMedia);
   }
   lesson.videoUrl = 'jskfdk';
-  await courseDbRepository.addLesson(courseId, instructorId, lesson);
+  const lessonId = await courseDbRepository.addLesson(courseId, instructorId, lesson);
+  if(!lessonId){
+    throw new AppError('Data is not provided', HttpStatusCodes.BAD_REQUEST);
+  }
+  const quiz = {
+    courseId,
+    lessonId:lessonId.toString(),
+    questions:lesson.questions
+  }
+  await courseDbRepository.addQuiz(quiz)
 };

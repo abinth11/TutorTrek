@@ -9,7 +9,7 @@ export const courseDbRepository = (
   const addCourse = async (courseInfo: AddCourseInfoInterface) =>
     await repository.addCourse(courseInfo);
   
-  const addQuiz = async (courseId:string,lessonId:string,quiz:AddQuizInfoInterface)=>await repository.addQuiz(courseId,lessonId,quiz)
+  const addQuiz = async (quiz:AddQuizInfoInterface)=>await repository.addQuiz(quiz)
 
   const getAllCourse = async ()=> await repository.getAllCourse()
 
