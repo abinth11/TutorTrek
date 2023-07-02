@@ -178,13 +178,13 @@ const ListCourseForInstructors: React.FC = () => {
                               >
                                 {title}
                               </Typography>
-                              <Typography
+                              {/* <Typography
                                 variant='small'
                                 color='blue-gray'
                                 className='font-normal opacity-70'
                               >
-                                {/* {description} */}
-                              </Typography>
+                                {description}
+                              </Typography> */}
                             </div>
                           </div>
                         </td>
@@ -197,13 +197,13 @@ const ListCourseForInstructors: React.FC = () => {
                             >
                               {category}
                             </Typography>
-                            <Typography
+                            {/* <Typography
                               variant='small'
                               color='blue-gray'
                               className='font-normal opacity-70'
                             >
-                              {/* {category} */}
-                            </Typography>
+                              {category}
+                            </Typography> */}
                           </div>
                         </td>
                         <td className={classes}>

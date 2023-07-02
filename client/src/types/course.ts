@@ -18,3 +18,4 @@ export interface CourseInterface {
     title:string;
     _id:string;
 }
+

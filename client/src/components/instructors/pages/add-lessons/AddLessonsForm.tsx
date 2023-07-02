@@ -1,25 +1,30 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
 import { Button } from "@material-tailwind/react";
 import { TiTrash } from "react-icons/ti";
 import * as Yup from "yup";
 import QuizSwitch from "./QuizSwitch";
 import { Tooltip } from "@material-tailwind/react";
 import { QuizzesComponent } from "./QuizesComponent";
+import { addLesson } from "../../../../api/endpoints/instructor/course";
+import { FormValuesLesson } from "../../../../types/lesson";
 
-const AddLessonForm: React.FC = () => {
-  const dispatch = useDispatch();
+interface AddLessonProps {
+    courseId:string
+}
+const AddLessonForm: React.FC<AddLessonProps> = ({courseId}) => {
   const [addQuiz, setAddQuiz] = useState<boolean>(false);
 
   const initialValues = {
     title: "",
     description: "",
     contents: "",
+    assignments:"",
+    studyMaterials:"",
     videoFile: "",
     duration: "",
-    questions: [
+    questions: [ 
       {
         question: "",
         options: [{ option: "", isCorrect: false }],
@@ -31,7 +36,9 @@ const AddLessonForm: React.FC = () => {
     title: Yup.string().required("Title is required"),
     description: Yup.string().required("Description is required"),
     contents: Yup.string().required("Contents are required"),
-    videofile: Yup.string().required("Video file is required"),
+    videoFile: Yup.string().required("Video file is required"),
+    assignments: Yup.string().required("assignments file is required"),
+    // studyMaterials: Yup.string().required("Video file is required"),
     duration: Yup.number()
       .required("Duration is required")
       .positive("Duration must be a positive number"),
@@ -43,25 +50,27 @@ const AddLessonForm: React.FC = () => {
     //         option: Yup.string().required("Option is required"),
     //         isCorrect: Yup.boolean().required("Is Correct is required"),
     //       })
-    //     ),
+    //     ),  
     //   })
     // ),
   });
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (lesson: FormValuesLesson) => {
     try {
-      // Dispatch action to add lesson
-      // await dispatch(addLesson(values));
-      console.log(values);
+      console.log('form submit')
+      console.log(lesson);
+      const response = await addLesson(courseId,lesson)
+      console.log(response)
 
       toast.success("Lesson added successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
 
-      // Clear the form
+      // Clear the form 
       // ...
     } catch (error) {
       // Show error message
+      console.log(error)
       toast.error("Failed to add lesson", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -73,7 +82,7 @@ const AddLessonForm: React.FC = () => {
       <div className='bg-white rounded-lg mx-10 border w-full p-6'>
         <Formik
           initialValues={initialValues}
-          validationSchema={lessonSchema}
+          // validationSchema={lessonSchema}
           onSubmit={handleSubmit}
         >
           {({ values }) => (

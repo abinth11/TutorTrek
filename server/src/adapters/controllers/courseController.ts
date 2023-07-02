@@ -93,7 +93,8 @@ const courseController = (
     const lesson = req.body
     const medias = req.files as Express.Multer.File[];
     console.log(courseId)
-    console.log(medias)
+    console.log(medias) 
+    console.log(lesson)
     await addLessonsU(medias,courseId,instructorId,lesson,dbRepositoryCourse,cloudService)
     res.status(200).json({
       status:'success',

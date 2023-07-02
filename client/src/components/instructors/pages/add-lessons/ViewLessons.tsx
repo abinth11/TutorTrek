@@ -109,7 +109,7 @@ const ViewLessons: React.FC = () => {
         </div>
       </CardHeader>
       {formVisible ? (
-        <AddLessonForm />
+        <AddLessonForm  courseId={courseId??''}/>
       ) : (
         <>
           <CardBody className='overflow-scroll px-0'>
@@ -136,22 +136,22 @@ const ViewLessons: React.FC = () => {
                             >
                               {title}
                             </Typography>
-                            <Typography
+                            {/* <Typography
                               variant='small'
                               color='blue-gray'
                               className='font-normal opacity-70'
                             >
-                              {/* {description} */}
-                            </Typography>
+                              {description}
+                            </Typography> */}
                           </div>
                           <div className='flex items-center gap-3'>
-                            <Typography
+                            {/* <Typography
                               variant='small'
                               color='blue-gray'
                               className='font-normal'
                             >
-                              {/* {description} */}
-                            </Typography>
+                              {description}
+                            </Typography> */}
                             <Typography
                               variant='small'
                               color='blue-gray'
