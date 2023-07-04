@@ -27,12 +27,10 @@ export const addLessonsU = async (
     throw new AppError('Data is not provided', HttpStatusCodes.BAD_REQUEST);
   }
   if (media) {
-    const uploadedMedia = await Promise.all(
-      media.map(async (attachment) => await cloudService.upload(attachment))
+    lesson.media = await Promise.all(
+      media.map(async files => await cloudService.upload(files))
     );
-    console.log(uploadedMedia);
   }
-  lesson.videoUrl = 'jskfdk';
   const lessonId = await courseDbRepository.addLesson(courseId, instructorId, lesson);
   if(!lessonId){
     throw new AppError('Data is not provided', HttpStatusCodes.BAD_REQUEST);

@@ -11,28 +11,27 @@ const quizSchema = new Schema({
     ref: 'lessons',
     required: true
   },
-  title: {
-    type: String,
-    required: true,
-    minlength: 2,
-    maxlength: 100
-  },
-  questions: [{
-    question: {
-      type: String,
-      required: true,
-      minlength: 5
-    },
-    options: [{
-      type: String,
-      required: true
-    }],
-    correctOptionIndex: {
-      type: Number,
-      required: true,
-      min: 0
+  questions: [
+    {
+      question: {
+        type: String,
+        required: true,
+        minlength: 5
+      },
+      options: [
+        {
+          option: {
+            type: String,
+            required: true
+          },
+          isCorrect: {
+            type: Boolean,
+            required: true
+          }
+        }
+      ]
     }
-  }],
+  ],
   createdAt: {
     type: Date,
     default: Date.now

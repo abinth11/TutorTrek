@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
+import React, { useState, ChangeEvent } from "react";
+import {
+  Formik,
+  FormikHelpers,
+  Form,
+  Field,
+  ErrorMessage,
+  FieldArray,
+} from "formik";
 import { toast } from "react-toastify";
 import { Button } from "@material-tailwind/react";
 import { TiTrash } from "react-icons/ti";
@@ -11,20 +18,22 @@ import { addLesson } from "../../../../api/endpoints/instructor/course";
 import { FormValuesLesson } from "../../../../types/lesson";
 
 interface AddLessonProps {
-    courseId:string
+  courseId: string;
 }
-const AddLessonForm: React.FC<AddLessonProps> = ({courseId}) => {
+const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
   const [addQuiz, setAddQuiz] = useState<boolean>(false);
+  const [lessonVideo, setLessonVideo] = useState<File | null>(null);
+  const [materialFile, setMaterialFile] = useState<File | null>(null);
 
   const initialValues = {
     title: "",
     description: "",
     contents: "",
-    assignments:"",
-    studyMaterials:"",
+    assignments: "",
+    studyMaterials: "",
     videoFile: "",
     duration: "",
-    questions: [ 
+    questions: [
       {
         question: "",
         options: [{ option: "", isCorrect: false }],
@@ -36,7 +45,7 @@ const AddLessonForm: React.FC<AddLessonProps> = ({courseId}) => {
     title: Yup.string().required("Title is required"),
     description: Yup.string().required("Description is required"),
     contents: Yup.string().required("Contents are required"),
-    videoFile: Yup.string().required("Video file is required"),
+    // videoFile: Yup.string().required("Video file is required"),
     assignments: Yup.string().required("assignments file is required"),
     // studyMaterials: Yup.string().required("Video file is required"),
     duration: Yup.number()
@@ -50,39 +59,59 @@ const AddLessonForm: React.FC<AddLessonProps> = ({courseId}) => {
     //         option: Yup.string().required("Option is required"),
     //         isCorrect: Yup.boolean().required("Is Correct is required"),
     //       })
-    //     ),  
+    //     ),
     //   })
     // ),
   });
 
-  const handleSubmit = async (lesson: FormValuesLesson) => {
-    try {
-      console.log('form submit')
-      console.log(lesson);
-      const response = await addLesson(courseId,lesson)
-      console.log(response)
+  const handleVideoFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    setLessonVideo(file);
+  };
 
+  const handleMaterialFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    setMaterialFile(file);
+  };
+
+  const handleSubmit = async (
+    lesson: FormValuesLesson,
+  ): Promise<void> => {
+    try {
+      const formData = new FormData();
+      lessonVideo && formData.append("media", lessonVideo, "lessonVideo");
+      materialFile && formData.append("media", materialFile, "materialFile");
+      Object.keys(lesson).forEach((key) => {
+        if (key === 'questions') {
+          const questionsJSON = JSON.stringify(lesson[key]);
+          formData.append(key, questionsJSON);
+        } else {
+          formData.append(key, lesson[key]);
+        }
+      });
+      const response = await addLesson(courseId, formData);
+      console.log(response);
       toast.success("Lesson added successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
 
-      // Clear the form 
+      // Clear the form
       // ...
     } catch (error) {
       // Show error message
-      console.log(error)
+      console.log(error);
       toast.error("Failed to add lesson", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
   };
 
-  return (
+  return ( 
     <div className='flex justify-center items-center mt-10 pt-5 pb-10 text-customFontColorBlack'>
       <div className='bg-white rounded-lg mx-10 border w-full p-6'>
         <Formik
           initialValues={initialValues}
-          // validationSchema={lessonSchema}
+          validationSchema={lessonSchema}
           onSubmit={handleSubmit}
         >
           {({ values }) => (
@@ -192,14 +221,21 @@ const AddLessonForm: React.FC<AddLessonProps> = ({courseId}) => {
                     Video file
                   </label>
                   <div className='mt-2'>
-                    <Field
+                    <input
                       id='videoFile'
                       name='videoFile'
-                      type='text'
+                      type='file'
+                      onChange={handleVideoFileChange}
                       autoComplete='off'
-                      required
                       className='pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                     />
+                    {lessonVideo && (
+                      <video
+                        src={URL.createObjectURL(lessonVideo)}
+                        className='h-52 w-full rounded-md p-2 mt-3'
+                        controls
+                      />
+                    )}
                     <ErrorMessage
                       name='videoFile'
                       component='div'
@@ -215,14 +251,20 @@ const AddLessonForm: React.FC<AddLessonProps> = ({courseId}) => {
                     Materials
                   </label>
                   <div className='mt-2'>
-                    <Field
+                    <input
                       id='studyMaterials'
                       name='studyMaterials'
-                      type='text'
+                      type='file'
+                      onChange={handleMaterialFileChange}
                       autoComplete='off'
-                      required
                       className='pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                     />
+                    {materialFile && (
+                      <img
+                        src={URL.createObjectURL(materialFile)}
+                        className='h-52 w-full rounded-md p-2 mt-3'
+                      />
+                    )}
                     <ErrorMessage
                       name='studyMaterials'
                       component='div'

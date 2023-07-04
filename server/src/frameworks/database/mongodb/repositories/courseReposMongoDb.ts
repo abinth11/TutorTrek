@@ -49,6 +49,7 @@ export const courseRepositoryMongodb = () => {
     lesson.courseId = courseId;
     lesson.instructorId = instructorId;
     const newLesson = new Lessons(lesson);
+    console.log(newLesson)
     const { _id } = await newLesson.save();
     return _id;
   };

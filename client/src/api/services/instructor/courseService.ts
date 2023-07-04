@@ -30,7 +30,7 @@ export const getLessonsByCourseService = async (
 export const addLessonsService = async (
   endpoint: string,
   courseId: string,
-  lesson: FormValuesLesson
+  lesson: FormData
 ) => {
   const response = await api.post(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${courseId}`,

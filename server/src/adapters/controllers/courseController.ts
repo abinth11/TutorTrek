@@ -91,6 +91,8 @@ const courseController = (
     const courseId = req.params.courseId
     const lesson = req.body
     const medias = req.files as Express.Multer.File[];
+    const questions = JSON.parse(lesson.questions);
+    lesson.questions = questions
     console.log(courseId)
     console.log(medias) 
     console.log(lesson)

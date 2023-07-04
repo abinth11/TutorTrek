@@ -1,5 +1,19 @@
 import { Schema, model } from 'mongoose';
 
+const MediaSchema = new Schema({
+  key: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  }
+});
+
+
 const LessonSchema = new Schema({
   title: {
     type: String,
@@ -13,10 +27,6 @@ const LessonSchema = new Schema({
   },
   contents: {
     type: Array<string>,
-    required: true
-  },
-  videoUrl: {
-    type: String,
     required: true
   },
   duration: {
@@ -33,6 +43,9 @@ const LessonSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'course',
     required: true
+  },
+  media: {
+    type: [MediaSchema]
   },
   createdAt: {
     type: Date,

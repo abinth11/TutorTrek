@@ -1,5 +1,6 @@
 export interface FormValuesLesson {
-    title: string;
+  [key: string]: any;
+   title: string;
     description: string;
     contents: string;
     videoFile: string;
