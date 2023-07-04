@@ -9,7 +9,7 @@ export const addLessonsU = async (
   instructorId: string,
   lesson: CreateLessonInterface,
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>,
-  cloudService: ReturnType<CloudServiceInterface>
+  cloudService: ReturnType<CloudServiceInterface>,
 ) => {
   if (!courseId) {
     throw new AppError(
@@ -26,6 +26,7 @@ export const addLessonsU = async (
   if (!lesson) {
     throw new AppError('Data is not provided', HttpStatusCodes.BAD_REQUEST);
   }
+  
   if (media) {
     lesson.media = await Promise.all(
       media.map(async files => await cloudService.upload(files))

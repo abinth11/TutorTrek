@@ -1,4 +1,5 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState,useEffect, ChangeEvent } from "react";
+import { useSelector } from "react-redux";
 import {
   Formik,
   FormikHelpers,
@@ -17,55 +18,60 @@ import { QuizzesComponent } from "./QuizesComponent";
 import { addLesson } from "../../../../api/endpoints/instructor/course";
 import { FormValuesLesson } from "../../../../types/lesson";
 import VideoUploader from "../../../common/UploadProgress";
-import { AxiosRequestConfig,AxiosProgressEvent } from "axios";
+
 
 interface AddLessonProps {
   courseId: string;
 }
+
+const initialValues = {
+  title: "",
+  description: "",
+  contents: "",
+  assignments: "",
+  studyMaterials: "",
+  videoFile: "",
+  duration: "",
+  questions: [
+    {
+      question: "",
+      options: [{ option: "", isCorrect: false }],
+    },
+  ],
+};
+
+
+const lessonSchema = Yup.object().shape({
+  title: Yup.string().required("Title is required"),
+  description: Yup.string().required("Description is required"),
+  contents: Yup.string().required("Contents are required"),
+  // videoFile: Yup.string().required("Video file is required"),
+  assignments: Yup.string().required("assignments file is required"),
+  // studyMaterials: Yup.string().required("Video file is required"),
+  duration: Yup.number()
+    .required("Duration is required")
+    .positive("Duration must be a positive number"),
+  // questions: Yup.array().of(
+  //   Yup.object().shape({
+  //     question: Yup.string().required("Question is required"),
+  //     options: Yup.array().of(
+  //       Yup.object().shape({
+  //         option: Yup.string().required("Option is required"),
+  //         isCorrect: Yup.boolean().required("Is Correct is required"),
+  //       })
+  //     ),
+  //   })
+  // ),
+});
+
 const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
+ 
   const [addQuiz, setAddQuiz] = useState<boolean>(false);
   const [lessonVideo, setLessonVideo] = useState<File | null>(null);
   const [materialFile, setMaterialFile] = useState<File | null>(null);
-  const [uploadProgress, setUploadProgress] = useState(0);
 
-  const initialValues = {
-    title: "",
-    description: "",
-    contents: "",
-    assignments: "",
-    studyMaterials: "",
-    videoFile: "",
-    duration: "",
-    questions: [
-      {
-        question: "",
-        options: [{ option: "", isCorrect: false }],
-      },
-    ],
-  };
+  
 
-  const lessonSchema = Yup.object().shape({
-    title: Yup.string().required("Title is required"),
-    description: Yup.string().required("Description is required"),
-    contents: Yup.string().required("Contents are required"),
-    // videoFile: Yup.string().required("Video file is required"),
-    assignments: Yup.string().required("assignments file is required"),
-    // studyMaterials: Yup.string().required("Video file is required"),
-    duration: Yup.number()
-      .required("Duration is required")
-      .positive("Duration must be a positive number"),
-    // questions: Yup.array().of(
-    //   Yup.object().shape({
-    //     question: Yup.string().required("Question is required"),
-    //     options: Yup.array().of(
-    //       Yup.object().shape({
-    //         option: Yup.string().required("Option is required"),
-    //         isCorrect: Yup.boolean().required("Is Correct is required"),
-    //       })
-    //     ),
-    //   })
-    // ),
-  });
 
   const handleVideoFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -79,7 +85,6 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
 
   const handleSubmit = async (lesson: FormValuesLesson): Promise<void> => {
     try {
-      setUploadProgress(0);
       const formData = new FormData();
       lessonVideo && formData.append("media", lessonVideo, "lessonVideo");
       materialFile && formData.append("media", materialFile, "materialFile");
@@ -91,27 +96,16 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
           formData.append(key, lesson[key]);
         }
       });
-  
-      const config: AxiosRequestConfig = {
-        onUploadProgress: (progressEvent: AxiosProgressEvent) => {
-          const progress = Math.round((progressEvent.loaded * 100) / (progressEvent.total ?? 0));
-          setUploadProgress(progress);
-        },
-      };
-  
-      const response = await addLesson(courseId, formData, config);
+
+      const response = await addLesson(courseId, formData);
       console.log(response);
       toast.success("Lesson added successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-  
-      setUploadProgress(100); // Set progress to 100% after the upload is complete
-  
       // Clear the form
       // ...
     } catch (error) {
       // Show error message
-      console.log(error);
       toast.error("Failed to add lesson", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -122,7 +116,7 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
   return ( 
     <div className='flex justify-center items-center mt-10 pt-5 pb-10 text-customFontColorBlack'>
       <div className='bg-white rounded-lg mx-10 border w-full p-6'>
-      <VideoUploader uploadProgress={uploadProgress} />
+      
         <Formik
           initialValues={initialValues} 
           validationSchema={lessonSchema}

@@ -74,9 +74,11 @@ api.interceptors.response.use(
       } else {
         throw new CustomApiError(`Request failed with status ${status}`, data);
       }
-    } else if (error.request) {
+    }
+     else if (error.request) {
       throw new CustomApiError(`No response received`,error.request)
-    } else {
+    }
+     else {
       console.log("Error:", error.message);
     }
 

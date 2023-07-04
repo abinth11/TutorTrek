@@ -15,6 +15,7 @@ const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex'
 
 
 export const s3Service= ()=>{
+
     const uploadFile = async(file:Express.Multer.File) => {
         const key = randomImageName() 
        const params = {

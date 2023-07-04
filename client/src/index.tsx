@@ -20,10 +20,10 @@ root.render(
       <Provider store={store}>
         <ThemeProvider>
           <MaterialTailwindControllerProvider>
-            <RouterProvider router={AppRouter} />
+            <RouterProvider router={AppRouter} /> 
             <ToastContainer />
           </MaterialTailwindControllerProvider>
-        </ThemeProvider>
+        </ThemeProvider> 
       </Provider>
     </GoogleOAuthProvider>
   </React.StrictMode>

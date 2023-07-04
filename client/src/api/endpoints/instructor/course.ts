@@ -5,7 +5,6 @@ import {
   getLessonsByCourseService,
 } from "../../services/instructor/courseService";
 import { getCoursesByInstructorService } from "../../services/instructor/courseService";
-import  { AxiosRequestConfig} from 'axios';
 
 
 export const addCourse = (courseInfo: any) => {
@@ -20,6 +19,6 @@ export const getLessonsByCourse = (courseId: string) => {
   return getLessonsByCourseService(END_POINTS.GET_LESSONS_BY_COURSE, courseId);
 };
 
-export const addLesson = (courseId: string, lesson: FormData, config: AxiosRequestConfig) => {
-  return addLessonsService(END_POINTS.ADD_LESSON, courseId, lesson,config);
+export const addLesson = (courseId: string, lesson: FormData) => {
+  return addLessonsService(END_POINTS.ADD_LESSON, courseId, lesson);
 };

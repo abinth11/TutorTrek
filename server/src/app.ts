@@ -24,12 +24,12 @@ const io = new Server<ClientToServerEvents,ServerToClientEvents,InterServerEvent
   cors:{
       origin:configKeys.ORIGIN_PORT,
       methods:["GET","POST"]
-  }
+  } 
 });
 
 socketConfig(io,authService())  
 
-//* connecting mongoDb
+//* connecting mongoDb 
 connectToMongoDb();
 
 //* connection to redis
