@@ -1,5 +1,4 @@
-import React, { useState,useEffect, ChangeEvent } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, ChangeEvent } from "react";
 import {
   Formik,
   FormikHelpers,
@@ -9,7 +8,7 @@ import {
   FieldArray,
 } from "formik";
 import { toast } from "react-toastify";
-import { Button } from "@material-tailwind/react";
+import { Button, Spinner } from "@material-tailwind/react";
 import { TiTrash } from "react-icons/ti";
 import * as Yup from "yup";
 import QuizSwitch from "./QuizSwitch";
@@ -17,8 +16,7 @@ import { Tooltip } from "@material-tailwind/react";
 import { QuizzesComponent } from "./QuizesComponent";
 import { addLesson } from "../../../../api/endpoints/instructor/course";
 import { FormValuesLesson } from "../../../../types/lesson";
-import VideoUploader from "../../../common/UploadProgress";
-
+import SpinnerDialog from "../../../common/spinner";
 
 interface AddLessonProps {
   courseId: string;
@@ -27,19 +25,17 @@ interface AddLessonProps {
 const initialValues = {
   title: "",
   description: "",
-  contents: "",
   assignments: "",
   studyMaterials: "",
-  videoFile: "",
-  duration: "",
+  contents: "",
+  duration:"",
   questions: [
     {
       question: "",
       options: [{ option: "", isCorrect: false }],
     },
-  ],
+  ], 
 };
-
 
 const lessonSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
@@ -65,13 +61,10 @@ const lessonSchema = Yup.object().shape({
 });
 
 const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
- 
   const [addQuiz, setAddQuiz] = useState<boolean>(false);
   const [lessonVideo, setLessonVideo] = useState<File | null>(null);
   const [materialFile, setMaterialFile] = useState<File | null>(null);
-
-  
-
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const handleVideoFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -83,8 +76,12 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
     setMaterialFile(file);
   };
 
-  const handleSubmit = async (lesson: FormValuesLesson): Promise<void> => {
+  const handleSubmit = async (
+    lesson: FormValuesLesson,
+    {resetForm}: FormikHelpers<FormValuesLesson>
+    )=> {
     try {
+      setIsUploading(true);
       const formData = new FormData();
       lessonVideo && formData.append("media", lessonVideo, "lessonVideo");
       materialFile && formData.append("media", materialFile, "materialFile");
@@ -98,27 +95,27 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
       });
 
       const response = await addLesson(courseId, formData);
-      console.log(response);
-      toast.success("Lesson added successfully", {
+      setIsUploading(false);
+      setLessonVideo(null)
+      setMaterialFile(null)
+      resetForm()
+      toast.success(response.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-      // Clear the form
-      // ...
     } catch (error) {
-      // Show error message
+      setIsUploading(false);
       toast.error("Failed to add lesson", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
   };
-  
 
-  return ( 
+  return (
     <div className='flex justify-center items-center mt-10 pt-5 pb-10 text-customFontColorBlack'>
       <div className='bg-white rounded-lg mx-10 border w-full p-6'>
-      
+        <SpinnerDialog isUploading={isUploading} />
         <Formik
-          initialValues={initialValues} 
+          initialValues={initialValues}
           validationSchema={lessonSchema}
           onSubmit={handleSubmit}
         >
@@ -233,6 +230,7 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
                       id='videoFile'
                       name='videoFile'
                       type='file'
+                      required
                       onChange={handleVideoFileChange}
                       autoComplete='off'
                       className='pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
@@ -263,6 +261,7 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
                       id='studyMaterials'
                       name='studyMaterials'
                       type='file'
+                      required
                       onChange={handleMaterialFileChange}
                       autoComplete='off'
                       className='pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'

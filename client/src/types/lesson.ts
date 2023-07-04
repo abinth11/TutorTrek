@@ -2,8 +2,9 @@ export interface FormValuesLesson {
   [key: string]: any;
    title: string;
     description: string;
+    assignments:string;
+    studyMaterials:string;
     contents: string;
-    videoFile: string;
     duration: string;
     questions: Question[];
   }

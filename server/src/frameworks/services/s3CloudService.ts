@@ -11,7 +11,7 @@ const s3 = new S3Client({
    region:configKeys.AWS_BUCKET_REGION,
 }) 
 
-const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
+const randomImageName = (bytes=32) => crypto.randomBytes(bytes).toString('hex')
 
 
 export const s3Service= ()=>{
