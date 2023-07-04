@@ -16,6 +16,8 @@ import { Tooltip } from "@material-tailwind/react";
 import { QuizzesComponent } from "./QuizesComponent";
 import { addLesson } from "../../../../api/endpoints/instructor/course";
 import { FormValuesLesson } from "../../../../types/lesson";
+import VideoUploader from "../../../common/UploadProgress";
+import { AxiosRequestConfig,AxiosProgressEvent } from "axios";
 
 interface AddLessonProps {
   courseId: string;
@@ -24,6 +26,7 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
   const [addQuiz, setAddQuiz] = useState<boolean>(false);
   const [lessonVideo, setLessonVideo] = useState<File | null>(null);
   const [materialFile, setMaterialFile] = useState<File | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const initialValues = {
     title: "",
@@ -74,27 +77,36 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
     setMaterialFile(file);
   };
 
-  const handleSubmit = async (
-    lesson: FormValuesLesson,
-  ): Promise<void> => {
+  const handleSubmit = async (lesson: FormValuesLesson): Promise<void> => {
     try {
+      setUploadProgress(0);
       const formData = new FormData();
       lessonVideo && formData.append("media", lessonVideo, "lessonVideo");
       materialFile && formData.append("media", materialFile, "materialFile");
       Object.keys(lesson).forEach((key) => {
-        if (key === 'questions') {
+        if (key === "questions") {
           const questionsJSON = JSON.stringify(lesson[key]);
           formData.append(key, questionsJSON);
         } else {
           formData.append(key, lesson[key]);
         }
       });
-      const response = await addLesson(courseId, formData);
+  
+      const config: AxiosRequestConfig = {
+        onUploadProgress: (progressEvent: AxiosProgressEvent) => {
+          const progress = Math.round((progressEvent.loaded * 100) / (progressEvent.total ?? 0));
+          setUploadProgress(progress);
+        },
+      };
+  
+      const response = await addLesson(courseId, formData, config);
       console.log(response);
       toast.success("Lesson added successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-
+  
+      setUploadProgress(100); // Set progress to 100% after the upload is complete
+  
       // Clear the form
       // ...
     } catch (error) {
@@ -105,12 +117,14 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
       });
     }
   };
+  
 
   return ( 
     <div className='flex justify-center items-center mt-10 pt-5 pb-10 text-customFontColorBlack'>
       <div className='bg-white rounded-lg mx-10 border w-full p-6'>
+      <VideoUploader uploadProgress={uploadProgress} />
         <Formik
-          initialValues={initialValues}
+          initialValues={initialValues} 
           validationSchema={lessonSchema}
           onSubmit={handleSubmit}
         >

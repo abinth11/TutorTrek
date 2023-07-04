@@ -1,5 +1,5 @@
 // Admin Role Middleware
-import { CustomRequest } from '../../../types/custom/customRequest';
+import { CustomRequest } from '../../../types/customRequest';
 import { NextFunction,Response } from 'express';
 import AppError from '../../../utils/appError';
 import HttpStatusCodes from '../../../constants/HttpStatusCodes';

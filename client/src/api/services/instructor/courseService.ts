@@ -1,6 +1,6 @@
 import CONSTANTS_COMMON from "../../../constants/common";
 import api from "../../middlewares/interceptors";
-import { FormValuesLesson } from "../../../types/lesson";
+import { AxiosRequestConfig } from "axios";
 
 export const addCourseService = async (endpoint: string, courseInfo: any) => {
   const response = await api.post(
@@ -30,11 +30,13 @@ export const getLessonsByCourseService = async (
 export const addLessonsService = async (
   endpoint: string,
   courseId: string,
-  lesson: FormData
+  lesson: FormData,
+  config: AxiosRequestConfig
 ) => {
   const response = await api.post(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${courseId}`,
-    lesson
+    lesson,
+    config
   );
   return response.data;
 };

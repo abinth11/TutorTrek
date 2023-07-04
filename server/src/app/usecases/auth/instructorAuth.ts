@@ -2,12 +2,12 @@ import HttpStatusCodes from '../../../../src/constants/HttpStatusCodes';
 import {
   SavedInstructorInterface,
   InstructorInterface
-} from '@src/types/instructor/instructorInterface';
+} from '@src/types/instructorInterface';
 import AppError from '../../../../src/utils/appError';
 import { InstructorDbInterface } from '../../../app/repositories/instructorDbRepository';
 import { AuthServiceInterface } from '../../../app/services/authServicesInterface';
 import { RefreshTokenDbInterface } from '../../../app/repositories/refreshTokenDBRepository';
-import { UploadedFileInterface } from '@src/types/custom/common';
+import { UploadedFileInterface } from '@src/types/common';
 
 export const instructorRegister = async (
   instructor: InstructorInterface,

@@ -21,7 +21,6 @@ import ViewCourseStudent from "./components/students/pages/Course/ViewCourse";
 import WatchLessons from "./components/students/pages/Course/WatchLessons";
 import ListCourseForInstructors from "./components/instructors/pages/add-lessons/ListCourseForIstructors";
 import ViewLessons from "./components/instructors/pages/add-lessons/ViewLessons";
-import AddLessons from "./components/instructors/pages/add-lessons/AddLessons";
 const LazyListCourse = lazy(
   () => import("./components/students/pages/Course/ListCourse")
 );

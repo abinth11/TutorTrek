@@ -1,7 +1,7 @@
 import { CourseRepositoryMongoDbInterface } from '@src/frameworks/database/mongodb/repositories/courseReposMongoDb';
-import { AddCourseInfoInterface } from '@src/types/instructor/courseInterface';
-import { AddQuizInfoInterface } from '@src/types/instructor/courseInterface';
-import { CreateLessonInterface } from '@src/types/instructor/lesson';
+import { AddCourseInfoInterface } from '@src/types/courseInterface';
+import { AddQuizInfoInterface } from '@src/types/courseInterface';
+import { CreateLessonInterface } from '@src/types/lesson';
 
 export const courseDbRepository = (
   repository: ReturnType<CourseRepositoryMongoDbInterface>

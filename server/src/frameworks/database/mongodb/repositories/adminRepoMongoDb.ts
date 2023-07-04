@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import Admin from '../models/admin';
-import { AdminSavedDbInterface } from '@src/types/admin/adminAuthInterface';
-import { SavedInstructorInterface } from '@src/types/instructor/instructorInterface';
+import { AdminSavedDbInterface } from '@src/types/adminAuthInterface';
+import { SavedInstructorInterface } from '@src/types/instructorInterface';
 import Instructor from '../models/instructor';
 export const adminRepoMongoDb = () => {
   const getAdminByEmail = async (email: string) => {

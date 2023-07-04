@@ -5,8 +5,8 @@ import Lessons from '../models/lessons';
 import {
   AddCourseInfoInterface,
   AddQuizInfoInterface
-} from '@src/types/instructor/courseInterface';
-import { CreateLessonInterface } from '@src/types/instructor/lesson';
+} from '@src/types/courseInterface';
+import { CreateLessonInterface } from '@src/types/lesson';
 
 export const courseRepositoryMongodb = () => {
   const addCourse = async (courseInfo: AddCourseInfoInterface) => {

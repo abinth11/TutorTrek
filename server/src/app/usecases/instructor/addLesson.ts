@@ -1,7 +1,7 @@
 import { CourseDbRepositoryInterface } from '../../../app/repositories/courseDbRepository';
 import HttpStatusCodes from '../../../constants/HttpStatusCodes';
 import AppError from '../../../utils/appError';
-import { CreateLessonInterface } from '../../../types/instructor/lesson';
+import { CreateLessonInterface } from '../../../types/lesson';
 import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
 export const addLessonsU = async (
   media: Express.Multer.File[] | undefined,

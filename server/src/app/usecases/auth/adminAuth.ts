@@ -1,7 +1,7 @@
 import { AdminDbInterface } from '../../../app/repositories/adminDbRepository';
 import { AuthServiceInterface } from '../../../app/services/authServicesInterface';
 import HttpStatusCodes from '../../../../src/constants/HttpStatusCodes';
-import { AdminSavedDbInterface } from '../../../types/admin/adminAuthInterface';
+import { AdminSavedDbInterface } from '../../../types/adminAuthInterface';
 import AppError from '../../../../src/utils/appError';
 import { RefreshTokenDbInterface} from '../../../app/repositories/refreshTokenDBRepository';
 export const adminLogin = async (

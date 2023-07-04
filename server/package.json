@@ -32,7 +32,8 @@
     "multer-s3": "^3.0.1",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^6.9.3",
-    "redis": "^4.6.7"
+    "redis": "^4.6.7",
+    "socket.io": "^4.7.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -43,6 +44,7 @@
     "@types/morgan": "^1.9.4",
     "@types/multer": "^1.4.7",
     "@types/multer-s3": "^3.0.0",
+    "@types/socket.io": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
     "eslint": "^8.42.0",

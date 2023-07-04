@@ -1,9 +1,9 @@
 import HttpStatusCodes from '../../../constants/HttpStatusCodes';
-import { StudentInterface } from '../../../types/student/studentInterface';
+import { StudentInterface } from '../../../types/studentInterface';
 import AppError from '../../../utils/appError';
 import { StudentsDbInterface } from '../../repositories/studentDbRepository';
 import { AuthServiceInterface } from '../../services/authServicesInterface';
-import { StudentRegisterInterface } from '../../../types/student/studentRegisterInterface';
+import { StudentRegisterInterface } from '../../../types/studentRegisterInterface';
 import { GoogleAuthServiceInterface } from '../../../app/services/googleAuthServicesInterface';
 import { RefreshTokenDbInterface } from '../../../app/repositories/refreshTokenDBRepository';
 export const studentRegister = async (

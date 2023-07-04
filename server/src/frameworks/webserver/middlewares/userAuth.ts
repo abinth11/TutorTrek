@@ -2,8 +2,8 @@ import { NextFunction, Response } from "express";
 import HttpStatusCodes from "../../../constants/HttpStatusCodes";
 import AppError from "../../../utils/appError";
 import { authService } from "../../services/authService";
-import { CustomRequest } from "@src/types/custom/customRequest";
-import { JwtPayload } from "@src/types/custom/common";
+import { CustomRequest } from "@src/types/customRequest";
+import { JwtPayload } from "@src/types/common";
 
 const  jwtAuthMiddleware=(req:CustomRequest,res:Response,next:NextFunction)=>{
     let token:string | null='';
