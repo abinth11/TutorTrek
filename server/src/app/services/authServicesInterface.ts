@@ -1,5 +1,5 @@
 import { AuthServiceReturn } from '../../frameworks/services/authService';
-import { JwtPayload } from '@src/types/custom/common';
+import { JwtPayload } from '@src/types/common';
 
 export const authServiceInterface = (service: AuthServiceReturn) => {
   const hashPassword = (password: string) => service.hashPassword(password);

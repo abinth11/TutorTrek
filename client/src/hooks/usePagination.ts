@@ -8,7 +8,7 @@ interface PaginationResult<T> {
   goToPreviousPage: () => void;
   goToNextPage: () => void;
 }
-
+//todo change the type
 const usePagination = <T>(data: T[], itemsPerPage: number): PaginationResult<T> => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);

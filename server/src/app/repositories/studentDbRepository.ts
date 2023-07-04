@@ -1,5 +1,5 @@
 import { StudentRepositoryMongoDB } from "../../frameworks/database/mongodb/repositories/studentsRepoMongoDb";
-import { StudentRegisterInterface } from "@src/types/student/studentRegisterInterface";
+import { StudentRegisterInterface } from "@src/types/studentRegisterInterface";
 
 export const studentDbRepository=(repository:ReturnType<StudentRepositoryMongoDB>)=>{
   

@@ -1,3 +1,4 @@
+import { Question } from "./lesson";
 export interface AddCourseInfoInterface {
     title: string;
     thumbnail: string;
@@ -21,11 +22,7 @@ export interface AddCourseInfoInterface {
   
   export interface AddQuizInfoInterface {
     courseId:string;
-    title: string;
-    questions: {
-      question: string;
-      options: string[];
-      correctOptionIndex: number;
-    }[];
+    lessonId:string;
+    questions: Question[];
   }
   

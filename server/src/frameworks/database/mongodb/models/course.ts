@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { AddCourseInfoInterface } from '@src/types/instructor/courseInterface';
+import { AddCourseInfoInterface } from '@src/types/courseInterface';
 const courseSchema = new Schema({
   title: {
     type: String,

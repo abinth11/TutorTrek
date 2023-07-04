@@ -17,9 +17,10 @@ import ViewMoreInstructorRequest from "./components/admin/pages/InstructorManage
 import { Instructor } from "./App";
 import InstructorDashboard from "./components/instructors/pages/InstructorDashboard";
 import AddCourse from "./components/instructors/pages/add-course/AddCourse";
-import ViewCourse from "./components/instructors/pages/ViewCourse";
 import ViewCourseStudent from "./components/students/pages/Course/ViewCourse";
 import WatchLessons from "./components/students/pages/Course/WatchLessons";
+import ListCourseForInstructors from "./components/instructors/pages/add-lessons/ListCourseForIstructors";
+import ViewLessons from "./components/instructors/pages/add-lessons/ViewLessons";
 const LazyListCourse = lazy(
   () => import("./components/students/pages/Course/ListCourse")
 );
@@ -120,8 +121,12 @@ const AppRouter = createBrowserRouter([
       },
       {
         path: "view-course",
-        element: <ViewCourse />,
+        element: <ListCourseForInstructors />,
       },
+      {
+        path:"view-lessons/:courseId",
+        element:<ViewLessons/>,
+      }
     ],
   },
 ]);

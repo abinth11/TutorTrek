@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-const accessToken = localStorage.getItem("accessToken");
-// const refreshToken = localStorage.getItem('refreshToken')
+const accessToken = localStorage.getItem("accessToken")
+const refreshToken = localStorage.getItem('refreshToken')
+
 const initialState = {
   data: {
-    accessToken: "",
-    refreshToken: "",
+    accessToken:accessToken,
+    refreshToken,
   },
   isLoggedIn: accessToken ? true : false,
 };
@@ -52,8 +53,15 @@ const authSlice = createSlice({
 export const { setToken, clearToken } = authSlice.actions;
 
 export const selectAuth = (state: RootState) => state.auth.data;
+
+export const selectAccessToken = (state:RootState)=> {
+  const accessTokenString: string | null = state.auth.data.accessToken;
+  const accessToken = JSON.parse(accessTokenString ?? "")?.accessToken || "";
+  return accessToken;
+}
+
 export const selectIsLoggedIn = () => {
-  const accessToken = localStorage.getItem("accessToken");
+  const  accessToken = localStorage.getItem("accessToken");
   return accessToken ? true : false;
 };
 

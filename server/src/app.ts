@@ -7,14 +7,29 @@ import routes from './frameworks/webserver/routes';
 import connection from './frameworks/database/redis/connection';
 import colors from 'colors.ts';
 import errorHandlingMiddleware from './frameworks/webserver/middlewares/errorHandling';
+import configKeys from './config';
 import AppError from './utils/appError';
-   
+import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from './types/socketInterfaces';
+import { Server } from 'socket.io';
+import socketConfig from './frameworks/websocket/socket';
+import { authService } from './frameworks/services/authService';
+
 colors?.enable();
 
 const app: Application = express();
 const server = http.createServer(app);
 
-//* connecting mongoDb
+//* web socket connection
+const io = new Server<ClientToServerEvents,ServerToClientEvents,InterServerEvents,SocketData>(server,{
+  cors:{
+      origin:configKeys.ORIGIN_PORT,
+      methods:["GET","POST"]
+  } 
+});
+
+socketConfig(io,authService())  
+
+//* connecting mongoDb 
 connectToMongoDb();
 
 //* connection to redis

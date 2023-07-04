@@ -1,6 +1,6 @@
 import { CourseDbRepositoryInterface } from '../../../app/repositories/courseDbRepository';
 import HttpStatusCodes from '../../../constants/HttpStatusCodes';
-import { AddCourseInfoInterface } from '../../../types/instructor/courseInterface';
+import { AddCourseInfoInterface } from '../../../types/courseInterface';
 import AppError from '../../../utils/appError';
 
 export const addCourses = async (

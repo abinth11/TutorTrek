@@ -1,5 +1,5 @@
 import Instructor from "../models/instructor"
-import { InstructorInterface, SavedInstructorInterface } from "@src/types/instructor/instructorInterface"
+import { InstructorInterface, SavedInstructorInterface } from "@src/types/instructorInterface"
 export const instructorRepoMongoDb = () =>{
     const addInstructor= async (instructor:InstructorInterface)=>{
         

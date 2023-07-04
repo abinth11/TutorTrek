@@ -1,6 +1,6 @@
 import mongoose, { Schema, model } from 'mongoose';
 
-import { Certificate } from '../../../../types/instructor/instructorInterface';
+import { Certificate } from '../../../../types/instructorInterface';
 
 const instructorSchema = new Schema({
   firstName: {

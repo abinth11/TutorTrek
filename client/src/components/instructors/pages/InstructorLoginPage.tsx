@@ -17,7 +17,7 @@ const InstructorLoginPage: React.FC = () => {
       dispatch(setToken({accessToken,refreshToken}))
       toast.success(response?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      }); 
       response && navigate('/instructors')
     } catch (error:any) {
       toast.error(error.data?.message, {

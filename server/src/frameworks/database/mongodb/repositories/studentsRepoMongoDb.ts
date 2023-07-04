@@ -1,6 +1,6 @@
-import { StudentInterface } from "../../../../types/student/studentInterface";
+import { StudentInterface } from "../../../../types/studentInterface";
 import Student from "../models/student";
-import { StudentRegisterInterface } from "@src/types/student/studentRegisterInterface";
+import { StudentRegisterInterface } from "@src/types/studentRegisterInterface";
 
 export const studentRepositoryMongoDB = () => {
   const addStudent = async (student:StudentRegisterInterface) => {

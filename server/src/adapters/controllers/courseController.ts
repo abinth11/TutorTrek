@@ -3,14 +3,22 @@ import asyncHandler from 'express-async-handler';
 import { CourseRepositoryMongoDbInterface } from '../../frameworks/database/mongodb/repositories/courseReposMongoDb';
 import { CourseDbRepositoryInterface } from '../../app/repositories/courseDbRepository';
 import { addCourses } from '../../app/usecases/instructor/addCourse';
-import { AddCourseInfoInterface } from '../../types/instructor/courseInterface';
-import { CustomRequest } from '../../types/custom/customRequest';
+import { AddCourseInfoInterface } from '../../types/courseInterface';
+import { CustomRequest } from '../../types/customRequest';
 import { getAllCourseU, getCourseByIdU } from '../../app/usecases/listCourse';
+import { getCourseByInstructorU } from '../../app/usecases/instructor/viewCourse';
+import { addLessonsU } from '../../app/usecases/instructor/addLesson';
+import { getLessonsByCourseIdU } from '../../app/usecases/instructor/viewLessons';
+import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
+import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
 const courseController = (
+  cloudServiceInterface: CloudServiceInterface,
+  cloudServiceImpl: CloudServiceImpl,
   courseDbRepository: CourseDbRepositoryInterface,
   courseDbRepositoryImpl: CourseRepositoryMongoDbInterface
 ) => {
   const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl());
+  const cloudService = cloudServiceInterface(cloudServiceImpl());
 
   const addCourse = asyncHandler(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -64,10 +72,52 @@ const courseController = (
     })
   })
 
+  const getCoursesByInstructor = asyncHandler(async(req:CustomRequest,res:Response)=>{
+    const instructorId = req.user?.Id
+    const courses = await getCourseByInstructorU(instructorId,dbRepositoryCourse)
+    res.status(200).json({
+      status:'success',
+      message:'Successfully retrieved your courses',
+      data:courses
+    })
+     
+  })
+
+  const addLesson = asyncHandler(async(req:CustomRequest,res:Response)=>{
+    let instructorId=''
+    if(req.user){
+      instructorId=req.user.Id
+    }
+    const courseId = req.params.courseId
+    const lesson = req.body
+    const medias = req.files as Express.Multer.File[];
+    const questions = JSON.parse(lesson.questions);
+    lesson.questions = questions
+    await addLessonsU(medias,courseId,instructorId,lesson,dbRepositoryCourse,cloudService)
+    res.status(200).json({
+      status:'success',
+      message:'Successfully added new lesson',
+      data:null
+    })
+  })
+
+  const getLessonsByCourse = asyncHandler(async(req:Request,res:Response)=>{
+    const courseId = req.params.courseId
+    const lessons = await getLessonsByCourseIdU(courseId,dbRepositoryCourse)
+    res.status(200).json({
+      status:'success',
+      message:'Successfully retrieved lessons based on the course',
+      data:lessons
+    })
+  })
+
   return {
     addCourse,
     getAllCourses,
-    getIndividualCourse
+    getIndividualCourse,
+    getCoursesByInstructor,
+    addLesson,
+    getLessonsByCourse,
   };
 };
 
