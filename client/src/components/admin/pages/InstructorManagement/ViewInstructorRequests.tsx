@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   getAllInstructorRequests,
-} from "../../../../api/endpoints/admin/instructorManagement";
+} from "../../../../api/endpoints/instructorManagement";
 import { toast } from "react-toastify";
 import Modal from "../../../common/Modal";
 import { Link } from "react-router-dom";

@@ -1,7 +1,7 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { googleLogin } from "../../api/endpoints/student/auth";
+import { googleLogin } from "../../api/endpoints/auth/studentAuth";
 
 function GoogleAuthComponent(): JSX.Element {
   const navigate = useNavigate();

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CustomBreadCrumbs from "../../../common/BreadCrumbs";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
-import { getIndividualCourse } from "../../../../api/endpoints/student/course";
+import { getIndividualCourse } from "../../../../api/endpoints/course/courseStudents";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CourseInterface } from "../../../../types/course";
@@ -29,7 +29,10 @@ const ViewCourseStudent: React.FC = () => {
     }
   };
 
+  // const fetchLessons = await
+
   const [data,isLoading] = useApiData(fetchCourse, courseId);
+  // const [lessoninfo,isLoadingLesson] = useApiData()
   const course: CourseInterface | null = data;
 
   const handleToggle = (index: any) => {

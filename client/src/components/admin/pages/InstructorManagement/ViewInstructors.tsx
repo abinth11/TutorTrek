@@ -20,7 +20,7 @@ import {
 import {
   getAllInstructors,
   unblockInstructors,
-} from "../../../../api/endpoints/admin/instructorManagement";
+} from "../../../../api/endpoints/instructorManagement";
 import { toast } from "react-toastify";
 import { formatDate } from "../../../../utils/helpers";
 import BlockReasonModal from "./BlockReasonModal";

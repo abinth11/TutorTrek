@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { registerStudent } from "../../../api/endpoints/student/auth";
+import { registerStudent } from "../../../api/endpoints/auth/studentAuth";
 import { handleApiError } from "../../../api/utils/apiError";
 import { studentRegistrationValidationSchema } from "../../../validations/student/studentRegisterValidation";
 import { toast } from "react-toastify";

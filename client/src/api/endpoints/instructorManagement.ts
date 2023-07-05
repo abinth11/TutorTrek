@@ -1,4 +1,4 @@
-import END_POINTS from "../../../constants/endpoints";
+import END_POINTS from "../../constants/endpoints";
 import {
   getInstructors,
   acceptRequest,
@@ -8,7 +8,7 @@ import {
   unblockInstructor,
   getBlockedInstructor,
   getIndividualInstructor
-} from "../../services/admin/instructorManageService";
+} from "../services/admin/instructorManageService";
 
 export const getAllInstructorRequests = () => {
   return getInstructors(END_POINTS.GET_INSTRUCTOR_REQUESTS);

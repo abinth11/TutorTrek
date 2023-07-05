@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { SetStateAction, Dispatch } from "react";
 import {toast} from 'react-toastify'
-import { rejectInstructorRequest } from "../../api/endpoints/admin/instructorManagement";
+import { rejectInstructorRequest } from "../../api/endpoints/instructorManagement";
 interface ModalProps {
   open:boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;

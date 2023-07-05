@@ -14,7 +14,7 @@ import * as Yup from "yup";
 import QuizSwitch from "./QuizSwitch";
 import { Tooltip } from "@material-tailwind/react";
 import { QuizzesComponent } from "./QuizesComponent";
-import { addLesson } from "../../../../api/endpoints/instructor/course";
+import { addLesson } from "../../../../api/endpoints/course/course";
 import { FormValuesLesson } from "../../../../types/lesson";
 import SpinnerDialog from "../../../common/spinner";
 

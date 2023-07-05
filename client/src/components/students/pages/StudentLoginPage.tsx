@@ -1,6 +1,6 @@
 import React,{useEffect} from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { loginStudent } from "../../../api/endpoints/student/auth";
+import { loginStudent } from "../../../api/endpoints/auth/studentAuth";
 import { studentLoginValidationSchema } from "../../../validations/student/studentLoginValidation";
 import { toast } from "react-toastify";
 import {Link,useNavigate} from 'react-router-dom'
