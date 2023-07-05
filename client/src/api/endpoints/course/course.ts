@@ -3,8 +3,8 @@ import {
   addCourseService,
   addLessonsService,
   getLessonsByCourseService,
-} from "../../services/instructor/courseService";
-import { getCoursesByInstructorService } from "../../services/instructor/courseService";
+} from "../../services/course/courseService";
+import { getCoursesByInstructorService } from "../../services/course/courseService";
 
 
 export const addCourse = (courseInfo: any) => {

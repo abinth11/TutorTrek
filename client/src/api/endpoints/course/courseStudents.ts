@@ -2,7 +2,7 @@ import END_POINTS from "../../../constants/endpoints";
 import {
   getAllCoursesService,
   getIndividualCourseService,
-} from "../../services/student/course";
+} from "../../services/course/course";
 
 export const getAllCourses = () => {
   return getAllCoursesService(END_POINTS.GET_ALL_COURSES);

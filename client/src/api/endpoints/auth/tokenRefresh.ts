@@ -1,4 +1,4 @@
-import { refreshTokenService } from "../../services/tokenRefreshService";
+import { refreshTokenService } from "../../services/auth/tokenRefreshService";
 import END_POINTS from "../../../constants/endpoints";
 
 export const refreshTokenApi = (refreshToken:string) => {

@@ -1,5 +1,5 @@
 import END_POINTS from "../../../constants/endpoints";
-import { register,login } from "../../services/instructor/authServices";
+import { register,login } from "../../services/auth/instructorAuthServices";
 import { InstructorLoginInfo, InstructorRegisterDataInterface } from "../../types/instructor/authInterface";
 
 export const registerInstructor = (instructorData:FormData)=>{
