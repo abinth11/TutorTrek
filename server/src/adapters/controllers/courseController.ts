@@ -2,15 +2,16 @@ import { Request, Response, NextFunction } from 'express';
 import asyncHandler from 'express-async-handler';
 import { CourseRepositoryMongoDbInterface } from '../../frameworks/database/mongodb/repositories/courseReposMongoDb';
 import { CourseDbRepositoryInterface } from '../../app/repositories/courseDbRepository';
-import { addCourses } from '../../app/usecases/instructor/addCourse';
+import { addCourses } from '../../app/usecases/course/addCourse';
 import { AddCourseInfoInterface } from '../../types/courseInterface';
 import { CustomRequest } from '../../types/customRequest';
-import { getAllCourseU, getCourseByIdU } from '../../app/usecases/listCourse';
-import { getCourseByInstructorU } from '../../app/usecases/instructor/viewCourse';
-import { addLessonsU } from '../../app/usecases/instructor/addLesson';
-import { getLessonsByCourseIdU } from '../../app/usecases/instructor/viewLessons';
+import { getAllCourseU, getCourseByIdU } from '../../app/usecases/course/listCourse';
+import { getCourseByInstructorU } from '../../app/usecases/course/viewCourse';
+import { addLessonsU } from '../../app/usecases/lessons/addLesson';
+import { getLessonsByCourseIdU } from '../../app/usecases/lessons/viewLessons';
 import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
 import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
+import { getLessonByIdU } from '../../app/usecases/lessons/getLesson';
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
   cloudServiceImpl: CloudServiceImpl,
@@ -111,6 +112,16 @@ const courseController = (
     })
   })
 
+  const getLessonById = asyncHandler(async(req:Request,res:Response)=>{
+    const lessonId = req.params.lessonId
+    const lesson = await getLessonByIdU(lessonId,dbRepositoryCourse)
+    res.status(200).json({
+      status:'success',
+      message:'Successfully retrieved lessons based on the course',
+      data:lesson
+    })
+  })
+
   return {
     addCourse,
     getAllCourses,
@@ -118,6 +129,7 @@ const courseController = (
     getCoursesByInstructor,
     addLesson,
     getLessonsByCourse,
+    getLessonById
   };
 };
 

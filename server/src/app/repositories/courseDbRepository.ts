@@ -21,6 +21,8 @@ export const courseDbRepository = (
 
   const getLessonsByCourseId = async (courseId:string)=> await repository.getLessonsByCourseId(courseId)
 
+  const getLessonById = async (lessonId:string)=> await repository.getLessonById(lessonId)
+
   return {
     addCourse,
     addQuiz,
@@ -28,7 +30,8 @@ export const courseDbRepository = (
     getCourseById,
     getCourseByInstructorId,
     addLesson,
-    getLessonsByCourseId
+    getLessonsByCourseId,
+    getLessonById
   };
 };
 export type CourseDbRepositoryInterface = typeof courseDbRepository;

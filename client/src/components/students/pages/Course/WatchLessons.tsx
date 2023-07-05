@@ -3,6 +3,9 @@ import VideoPlayer from "./VideoPlayer";
 import AboutLesson from "./AboutLesson";
 import Quizzes from "./Quizzes";
 import Discussion from "./Discussion";
+import { getLessonById } from "../../../../api/endpoints/course/course";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const WatchLessons: React.FC = () => {
   const videoSrc =
@@ -10,15 +13,27 @@ const WatchLessons: React.FC = () => {
 
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const [isLoading,setIsLoading] = useState(false)
+  const {lessonId} = useParams()
 
   const handleItemClick = (index: number) => {
     setSelectedItemIndex(index);
   };
+
+  const fetchLesson = async (lessonId:string)=>{
+    try {
+      const response = await getLessonById(lessonId)
+      console.log(response)
+    } catch(error:any){
+      toast.error(error.data.message,{position:toast.POSITION.BOTTOM_RIGHT})
+    }
+  }
     useEffect(() => {
       window.scrollTo(0, 0);
       // Hide the browser's scroll bar on component mount
       document.body.style.overflow = "hidden";
-
+      if(lessonId){
+        fetchLesson(lessonId)
+      }
       return () => {
         // Restore the browser's scroll bar on component unmount
         document.body.style.overflow = "auto";
@@ -75,8 +90,8 @@ const WatchLessons: React.FC = () => {
           </ul>
         </div>
         <div className=' p-5'>
-          <p>{content}</p>
-          <p>
+          <h2>{content}</h2>
+          <h3>
             t is a long established fact that a reader will be distracted by the
             readable content of a page when looking at its layout. The point of
             using Lorem Ipsum is that it has a more-or-less normal distribution
@@ -105,7 +120,7 @@ const WatchLessons: React.FC = () => {
             uncover many web sites still in their infancy. Various versions have
             evolved over the years, sometimes by accident, sometimes on purpose
             (injected humour and the like).
-          </p>
+          </h3>
         </div>
       </div>
       <div className='w-1/4 flex-grow overflow-y-scroll  scrollbar-thumb-gray-400  scrollbar-rounded scrollbar-track-gray-200 scrollbar-thin'>

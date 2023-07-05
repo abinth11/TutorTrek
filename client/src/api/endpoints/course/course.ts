@@ -3,6 +3,7 @@ import {
   addCourseService,
   addLessonsService,
   getLessonsByCourseService,
+  getLessonsByIdService,
 } from "../../services/course/courseService";
 import { getCoursesByInstructorService } from "../../services/course/courseService";
 
@@ -22,3 +23,7 @@ export const getLessonsByCourse = (courseId: string) => {
 export const addLesson = (courseId: string, lesson: FormData) => {
   return addLessonsService(END_POINTS.ADD_LESSON, courseId, lesson);
 };
+
+export const getLessonById = (lessonId:string)=>{
+  return getLessonsByIdService(END_POINTS.GET_LESSONS_BY_ID,lessonId)
+}

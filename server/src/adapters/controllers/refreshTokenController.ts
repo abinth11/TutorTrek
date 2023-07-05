@@ -4,7 +4,7 @@ import { AuthService } from '../../frameworks/services/authService';
 import { AuthServiceInterface } from '../../app/services/authServicesInterface';
 import { RefreshTokenDbInterface } from '../../app/repositories/refreshTokenDBRepository';
 import { RefreshTokenRepositoryMongoDb } from '../../frameworks/database/mongodb/repositories/refreshTokenRepoMongoDb';
-import { refreshTokenU } from '../../app/usecases/refreshToken';
+import { refreshTokenU } from '../../app/usecases/auth/refreshToken';
 
 const refreshTokenController = (
   authServiceInterface: AuthServiceInterface,

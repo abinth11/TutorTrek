@@ -60,6 +60,11 @@ export const courseRepositoryMongodb = () => {
     return lessons;
   };
 
+  const getLessonById = async (lessonId:string)=>{
+    const lesson = await Lessons.find({_id: new mongoose.Types.ObjectId(lessonId)})
+    return lesson
+  }
+
   return {
     addCourse,
     addQuiz,
@@ -67,7 +72,8 @@ export const courseRepositoryMongodb = () => {
     getCourseById,
     getCourseByInstructorId,
     addLesson,
-    getLessonsByCourseId
+    getLessonsByCourseId,
+    getLessonById
   };
 };
 
