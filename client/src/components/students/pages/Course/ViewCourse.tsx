@@ -13,10 +13,13 @@ import { IoBookSharp } from "react-icons/io5";
 import useApiData from "../../../../hooks/useApiCall";
 import ViewCourseShimmer from "../../../Shimmers/ViewCourseShimmer";
 import { getLessonsByCourse } from "../../../../api/endpoints/course/course";
+import { useDispatch } from "react-redux";
+import { setCourseId } from "../../../../redux/reducers/courseSlice";
 const ViewCourseStudent: React.FC = () => {
   const params = useParams();
   const [expandedIndex, setExpandedIndex] = useState(null);
   const courseId: string | undefined = params.courseId;
+  const dispatch = useDispatch()
 
   const fetchCourse = async (courseId: string): Promise<CourseInterface> => {
     try {
@@ -46,6 +49,7 @@ const ViewCourseStudent: React.FC = () => {
   const [lessons, isLessonsLoading] = useApiData(fetchLessons, courseId);
 
   const course: CourseInterface | null = data;
+  courseId && dispatch(setCourseId({courseId}))
 
   const handleToggle = (index: any) => {
     setExpandedIndex(index === expandedIndex ? null : index);

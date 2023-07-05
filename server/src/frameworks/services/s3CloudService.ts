@@ -41,6 +41,18 @@ export const s3Service= ()=>{
         return await getSignedUrl(s3,command,{expiresIn:60000}) 
     };
 
+    const getVideoStream = async (key: string): Promise<NodeJS.ReadableStream> => {
+        const s3Params = {
+          Bucket: configKeys.AWS_BUCKET_NAME,
+          Key: key,
+        };
+    
+        const command = new GetObjectCommand(s3Params);
+        const { Body } = await s3.send(command);
+    
+        return Body as NodeJS.ReadableStream;
+      };
+
     const removeFile = async (fileKey:string) => {
         const params = {
             Bucket:configKeys.AWS_BUCKET_NAME,
@@ -53,6 +65,7 @@ export const s3Service= ()=>{
     return {
         uploadFile,
         getFile,
+        getVideoStream,
         removeFile
     }
 }

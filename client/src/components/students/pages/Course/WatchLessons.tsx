@@ -6,39 +6,58 @@ import Discussion from "./Discussion";
 import { getLessonById } from "../../../../api/endpoints/course/course";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { getLessonsByCourse } from "../../../../api/endpoints/course/course";
+import { useSelector } from "react-redux";
+import { selectCourseId } from "../../../../redux/reducers/courseSlice";
+import { ApiResponseLesson } from "../../../../api/types/apiResponses/apResponseLesson";
 
 const WatchLessons: React.FC = () => {
   const videoSrc =
     "https://res.cloudinary.com/dwucedjmy/video/upload/v1687586931/Tutor-Trek/ons1wwwaa1f2ygz8r67e.mp4";
 
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
-  const [isLoading,setIsLoading] = useState(false)
-  const {lessonId} = useParams()
+  const [isLoading, setIsLoading] = useState(false);
+  const [lesson,setLesson]= useState<ApiResponseLesson|null>(null)
+  const [allLessons,setAllLessons] = useState<Array<ApiResponseLesson>>([])
+  const { lessonId } = useParams();
+  const courseId = useSelector(selectCourseId)
 
   const handleItemClick = (index: number) => {
     setSelectedItemIndex(index);
   };
 
-  const fetchLesson = async (lessonId:string)=>{
+  const fetchLessonsByCourse = async (courseId: string) => {
     try {
-      const response = await getLessonById(lessonId)
-      console.log(response)
-    } catch(error:any){
-      toast.error(error.data.message,{position:toast.POSITION.BOTTOM_RIGHT})
+      const response = await getLessonsByCourse(courseId);
+      console.log(response);
+    } catch (error: any) {
+      toast.error(error.data.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     }
-  }
-    useEffect(() => {
-      window.scrollTo(0, 0);
-      // Hide the browser's scroll bar on component mount
-      document.body.style.overflow = "hidden";
-      if(lessonId){
-        fetchLesson(lessonId)
-      }
-      return () => {
-        // Restore the browser's scroll bar on component unmount
-        document.body.style.overflow = "auto";
-      };
-    }, []);
+  };
+  const fetchLesson = async (lessonId: string) => {
+    try {
+      const response = await getLessonById(lessonId);
+      setLesson(response.data)
+    } catch (error: any) {
+      toast.error(error.data.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
+  };
+  console.log(lesson)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // Hide the browser's scroll bar on component mount
+    document.body.style.overflow = "hidden";
+    lessonId && fetchLesson(lessonId)
+    courseId && fetchLessonsByCourse(courseId)
+    return () => {
+      // Restore the browser's scroll bar on component unmount
+      document.body.style.overflow = "auto";
+    };
+  }, []);
 
   let content = null;
 
@@ -56,6 +75,7 @@ const WatchLessons: React.FC = () => {
           <VideoPlayer src={videoSrc} />
         </div>
         <div className=''>
+          {/* {lesson?.title} */}
           <ul className='flex p-3'>
             <li
               className={`ml-5 cursor-pointer ${
