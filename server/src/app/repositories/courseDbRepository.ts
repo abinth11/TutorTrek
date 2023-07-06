@@ -1,6 +1,5 @@
 import { CourseRepositoryMongoDbInterface } from '@src/frameworks/database/mongodb/repositories/courseReposMongoDb';
 import { AddCourseInfoInterface } from '@src/types/courseInterface';
-import { CreateLessonInterface } from '@src/types/lesson';
 
 export const courseDbRepository = (
   repository: ReturnType<CourseRepositoryMongoDbInterface>
