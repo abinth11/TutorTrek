@@ -1,50 +1,38 @@
-import React from 'react';
+import React from "react";
 
-const WatchLessonsShimmer: React.FC = () => {
+const ShimmerEffectWatchLessons: React.FC = () => {
   return (
-    <div className='flex h-screen pb-16'>
-      <div className='w-3/4 overflow-y-scroll scrollbar-track-blue-gray-50 scrollbar-thumb-gray-400 scrollbar-thin scrollbar-h-md'>
-        <div className='h-3/4'>
-          {/* Add shimmer effect to the video player */}
-          <div className='h-16 w-full animate-pulse bg-blue-gray-200'></div>
-        </div>
-        <div className=''>
-          <ul className='flex p-3'>
-            {/* Add shimmer effect to each list item */}
-            <li className='ml-5 cursor-pointer border-b-4 rounded-b-md border-blue-gray-700 animate-pulse'>
-              About
-            </li>
-            <li className='ml-6 cursor-pointer border-b-4 rounded-b-md border-blue-gray-700 animate-pulse'>
-              Discussion
-            </li>
-            <li className='ml-6 cursor-pointer border-b-4 rounded-b-md border-blue-gray-700 animate-pulse'>
-              Quizzes
-            </li>
+    <div className="flex h-screen pb-16">
+      <div className="w-3/4 overflow-y-scroll scrollbar-track-blue-gray-50 scrollbar-thumb-gray-400 scrollbar-thin scrollbar-h-md">
+        <div className="h-3/4 bg-gray-200 rounded-lg p-4"></div>
+        <div className="bg-gray-200 p-3">
+          <ul className="flex p-3">
+            <li className="ml-5 cursor-pointer w-20 h-4 bg-gray-300 rounded-md"></li>
+            <li className="ml-6 cursor-pointer w-20 h-4 bg-gray-300 rounded-md"></li>
+            <li className="ml-6 cursor-pointer w-20 h-4 bg-gray-300 rounded-md"></li>
           </ul>
         </div>
-        <div className=' p-5'>
-          {/* Add shimmer effect to the content */}
-          <div className='h-4 w-full animate-pulse bg-blue-gray-200 mb-4'></div>
-          <div className='h-4 w-full animate-pulse bg-blue-gray-200'></div>
+        <div className="p-5 ">
+          <h2 className="w-1/4 h-4 mb-3 bg-gray-300 rounded-md"></h2>
+          <h3 className="w-full h-20 bg-gray-300 rounded"></h3>
         </div>
       </div>
-      <div className='w-1/4 flex-grow overflow-y-scroll scrollbar-thumb-gray-400 scrollbar-rounded scrollbar-track-gray-200 scrollbar-thin'>
-        <h1 className='font-semibold text-blue-gray-800 text-2xl border-b border-gray-300 p-2'>
-          Lessons
-        </h1>
+      <div className="w-1/4 flex-grow overflow-y-scroll scrollbar-thumb-gray-400 scrollbar-rounded scrollbar-track-gray-200 scrollbar-thin">
+        <h1 className="font-semibold text-blue-gray-800 text-2xl border-b border-gray-300 p-2 bg-gray-200 rounded"></h1>
         <ul>
-          {/* Add shimmer effect to each list item */}
-          <li className='p-3 pt-6 pb-6 cursor-pointer hover:bg-blue-gray-50 border-b border-gray-300 text-blue-gray-700 animate-pulse'>
-            Lesson 1
+          <li className="p-6 border-b flex items-center cursor-pointer hover:bg-blue-gray-50">
+            <span className="flex-1 w-2/3 h-4 bg-gray-300 rounded"></span>
           </li>
-          <li className='p-3 pt-6 pb-6 cursor-pointer hover:bg-blue-gray-50 border-b border-gray-300 text-blue-gray-700 animate-pulse'>
-            Lesson 2
+          <li className="p-6 border-b flex items-center cursor-pointer hover:bg-blue-gray-50">
+            <span className="flex-1 w-2/3 h-4 bg-gray-300 rounded"></span>
           </li>
-          {/* Add more shimmering list items */}
+          <li className="p-6 border-b flex items-center cursor-pointer hover:bg-blue-gray-50">
+            <span className="flex-1 w-2/3 h-4 bg-gray-300 rounded"></span>
+          </li>
         </ul>
       </div>
     </div>
   );
 };
 
-export default WatchLessonsShimmer;
+export default ShimmerEffectWatchLessons;

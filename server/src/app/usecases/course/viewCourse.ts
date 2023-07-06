@@ -1,4 +1,4 @@
-import { CourseDbRepositoryInterface } from '../../../app/repositories/courseDbRepository';
+import { CourseDbRepositoryInterface } from '../../repositories/courseDbRepository';
 import HttpStatusCodes from '../../../constants/HttpStatusCodes';
 import AppError from '../../../utils/appError';
 

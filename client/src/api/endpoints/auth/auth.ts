@@ -1,5 +1,5 @@
 import END_POINTS from "../../../constants/endpoints";
-import { login } from "../../services/admin/authService";
+import { login } from "../../services/auth/authService";
 import { AdminLoginInfo } from "../../types/admin/authInterface";
 
 export const loginAdmin = (adminInfo:AdminLoginInfo)=>{

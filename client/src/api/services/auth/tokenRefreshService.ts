@@ -1,5 +1,5 @@
-import api from "../middlewares/interceptors";
-import CONSTANTS_COMMON from "../../constants/common";
+import api from "../../middlewares/interceptors";
+import CONSTANTS_COMMON from "../../../constants/common";
 
 export const refreshTokenService = async (
   endpoint: string,

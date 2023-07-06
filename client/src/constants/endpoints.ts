@@ -18,6 +18,9 @@ const END_POINTS = {
     REFRESH_TOKEN:'api/all/refresh-token/refresh',
     GET_COURSES_BY_INSTRUCTORS:'api/courses/get-course-by-instructor',
     GET_LESSONS_BY_COURSE:'api/courses/instructors/get-lessons-by-course',
-    ADD_LESSON:'api/courses/instructors/add-lesson'
+    ADD_LESSON:'api/courses/instructors/add-lesson',
+    GET_LESSONS_BY_ID:'api/courses/get-lessons-by-id',
+    STREAM_VIDEO:'api/video-streaming/stream-video',
+    GET_QUIZZES_BY_LESSON:'api/courses/get-quizzes-by-lesson'
 }
 export default END_POINTS

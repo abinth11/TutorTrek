@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { AddCourseValidationSchema } from "../../../../validations/instructors/AddCourse";
 import { Switch } from "@material-tailwind/react";
-import { addCourse } from "../../../../api/endpoints/instructor/course";
+import { addCourse } from "../../../../api/endpoints/course/course";
 import { toast } from "react-toastify";
 const initialValues = {
   title: "",

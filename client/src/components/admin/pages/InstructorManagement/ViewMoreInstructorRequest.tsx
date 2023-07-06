@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getIndividualInstructors } from "../../../../api/endpoints/admin/instructorManagement";
+import { getIndividualInstructors } from "../../../../api/endpoints/instructorManagement";
 import { formatDate } from "../../../../utils/helpers";
-import { acceptInstructorRequest } from "../../../../api/endpoints/admin/instructorManagement";
+import { acceptInstructorRequest } from "../../../../api/endpoints/instructorManagement";
 import {toast} from 'react-toastify'
 import Modal from "../../../common/Modal";
 import { Button } from "@material-tailwind/react";

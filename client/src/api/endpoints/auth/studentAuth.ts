@@ -1,4 +1,4 @@
-import { login,register,googleLoginStudent } from "../../services/student/authServices";
+import { login,register,googleLoginStudent } from "../../services/auth/studentAuthServices";
 import END_POINTS from "../../../constants/endpoints";
 
 export const loginStudent = (studentData: any) => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CustomBreadCrumbs from "../../../common/BreadCrumbs";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
-import { getIndividualCourse } from "../../../../api/endpoints/student/course";
+import { getIndividualCourse } from "../../../../api/endpoints/course/courseStudents";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CourseInterface } from "../../../../types/course";
@@ -12,10 +12,14 @@ import { BiVideo } from "react-icons/bi";
 import { IoBookSharp } from "react-icons/io5";
 import useApiData from "../../../../hooks/useApiCall";
 import ViewCourseShimmer from "../../../Shimmers/ViewCourseShimmer";
+import { getLessonsByCourse } from "../../../../api/endpoints/course/course";
+import { useDispatch } from "react-redux";
+import { setCourseId } from "../../../../redux/reducers/courseSlice";
 const ViewCourseStudent: React.FC = () => {
   const params = useParams();
   const [expandedIndex, setExpandedIndex] = useState(null);
   const courseId: string | undefined = params.courseId;
+  const dispatch = useDispatch()
 
   const fetchCourse = async (courseId: string): Promise<CourseInterface> => {
     try {
@@ -29,14 +33,29 @@ const ViewCourseStudent: React.FC = () => {
     }
   };
 
-  const [data,isLoading] = useApiData(fetchCourse, courseId);
+  const fetchLessons = async (courseId: string) => {
+    try {
+      const lessons = await getLessonsByCourse(courseId);
+      return lessons.data;
+    } catch (error: any) {
+      toast.error(error.data.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+      throw error;
+    }
+  };
+
+  const [data, isLoading] = useApiData(fetchCourse, courseId);
+  const [lessons, isLessonsLoading] = useApiData(fetchLessons, courseId);
+
   const course: CourseInterface | null = data;
+  courseId && dispatch(setCourseId({courseId}))
 
   const handleToggle = (index: any) => {
     setExpandedIndex(index === expandedIndex ? null : index);
   };
   const location = useLocation();
-  if (isLoading) {
+  if (isLoading || isLessonsLoading) {
     return <ViewCourseShimmer />;
   }
 
@@ -109,12 +128,12 @@ const ViewCourseStudent: React.FC = () => {
                 {expandedIndex === 0 && (
                   <li className=''>
                     <ul>
-                      <li className='p-6 border-b flex items-center cursor-pointer hover:bg-blue-gray-50'>
+                      <li className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'>
                         <IoBookSharp className='mr-2 text-blue-500' />
                         <span className='flex-1'>Important guidelines</span>
                       </li>
                       <Link to={"watch-lessons/1"}>
-                        <li className='p-6 border-b flex items-center cursor-pointer hover:bg-blue-gray-50'>
+                        <li className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'>
                           <BiVideo className='mr-2 text-blue-500' />
                           <span className='flex-1'>Introduction video</span>
                         </li>
@@ -122,18 +141,18 @@ const ViewCourseStudent: React.FC = () => {
                     </ul>
                   </li>
                 )}
-                <li
-                  className={` p-6  cursor-pointer ${
+                 <li
+                  className={` p-6 border-b-2 cursor-pointer ${
                     expandedIndex === 1
                       ? "bg-blue-gray-50"
                       : "hover:bg-blue-gray-50"
-                  } parent-li`}
+                  }`}
                   onClick={() => handleToggle(1)}
                 >
                   <div className='flex items-center'>
                     <span className='text-blue-500 mr-2'>&#9679;</span>
                     <span>Module 2: Advanced Techniques</span>
-                    {expandedIndex === 1 ? (
+                    {expandedIndex === 0 ? (
                       <FaAngleUp className='ml-auto' />
                     ) : (
                       <FaAngleDown className='ml-auto' />
@@ -141,17 +160,20 @@ const ViewCourseStudent: React.FC = () => {
                   </div>
                 </li>
                 {expandedIndex === 1 && (
-                  <li className='p-6 child-li'>
+                  <li className=''>
                     <ul>
-                      <li className='w-full'>
-                        <p>It contains various topics and subtopics.</p>
-                      </li>
-                      <li className='w-full'>
-                        <p>It contains various topics and subtopics.</p>
-                      </li>
-                      <li className='w-full'>
-                        <p>It contains various topics and subtopics.</p>
-                      </li>
+                      {
+                        lessons.map((lesson:any)=>{
+                          return (
+                            <Link to={`watch-lessons/${lesson._id}`} key={lesson._id}>
+                            <li className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'>
+                              <BiVideo className='mr-2 text-blue-500' />
+                              <span className='flex-1'>{lesson.title}</span>
+                            </li>
+                          </Link>
+                          )
+                        })
+                      }    
                     </ul>
                   </li>
                 )}
@@ -160,7 +182,7 @@ const ViewCourseStudent: React.FC = () => {
 
             <div className='mb-8'>
               <h4 className='text-2xl font-semibold mb-2'>About this course</h4>
-              <p className='text-gray-700 mb-2 bg-white p-6 rounded-lg shadow-lg border-2'>
+              <h3 className='text-gray-700 mb-2 bg-white p-6 rounded-lg shadow-lg border-2'>
                 This course requires basic knowledge of JavaScript, familiarity
                 with HTML and CSS, and access to a computer with an internet
                 connection.Lorem ipsum dolor sit amet, consectetur adipiscing
@@ -171,7 +193,7 @@ const ViewCourseStudent: React.FC = () => {
                 dolore eu fugiat nulla pariatur. Excepteur sint occaecat
                 cupidatat non proident, sunt in culpa qui officia deserunt
                 mollit anim id est laborum.
-              </p>
+              </h3>
             </div>
 
             <div className='mb-8'>

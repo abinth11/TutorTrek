@@ -1,7 +1,7 @@
-import HttpStatusCodes from '../../constants/HttpStatusCodes';
-import AppError from '../../utils/appError';
-import { RefreshTokenDbInterface } from '../repositories/refreshTokenDBRepository';
-import { AuthServiceInterface } from '../services/authServicesInterface';
+import HttpStatusCodes from '../../../constants/HttpStatusCodes';
+import AppError from '../../../utils/appError';
+import { RefreshTokenDbInterface } from '../../repositories/refreshTokenDBRepository';
+import { AuthServiceInterface } from '../../services/authServicesInterface';
 
 export const refreshTokenU = async (
   refreshToken: string,

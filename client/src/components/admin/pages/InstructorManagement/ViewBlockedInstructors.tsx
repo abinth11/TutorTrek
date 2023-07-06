@@ -18,11 +18,11 @@ import {
 } from "@material-tailwind/react";
 import {
   unblockInstructors,
-} from "../../../../api/endpoints/admin/instructorManagement";
+} from "../../../../api/endpoints/instructorManagement";
 import { toast } from "react-toastify";
 import { formatDate } from "../../../../utils/helpers";
 import usePagination from "../../../../hooks/usePagination";
-import { getBlockedInstructors } from "../../../../api/endpoints/admin/instructorManagement";
+import { getBlockedInstructors } from "../../../../api/endpoints/instructorManagement";
 
 const TABLE_HEAD = ["Name", "Email", "Date Joined", "Status", "Actions", ""];
 

@@ -3,8 +3,11 @@ import {
   addCourseService,
   addLessonsService,
   getLessonsByCourseService,
-} from "../../services/instructor/courseService";
-import { getCoursesByInstructorService } from "../../services/instructor/courseService";
+  getLessonsByIdService,
+  getCloudFrontVideoUrlService,
+  getQuizzesByLessonService
+} from "../../services/course/courseService";
+import { getCoursesByInstructorService } from "../../services/course/courseService";
 
 
 export const addCourse = (courseInfo: any) => {
@@ -22,3 +25,15 @@ export const getLessonsByCourse = (courseId: string) => {
 export const addLesson = (courseId: string, lesson: FormData) => {
   return addLessonsService(END_POINTS.ADD_LESSON, courseId, lesson);
 };
+
+export const getLessonById = (lessonId:string)=>{
+  return getLessonsByIdService(END_POINTS.GET_LESSONS_BY_ID,lessonId)
+}
+
+export const getCloudFrontUrl = (key:string)=>{
+  return getCloudFrontVideoUrlService(END_POINTS.STREAM_VIDEO,key)
+}
+
+export const getQuizzesByLesson = (lessonId:string)=>{
+  return getQuizzesByLessonService(END_POINTS.GET_QUIZZES_BY_LESSON,lessonId)
+}

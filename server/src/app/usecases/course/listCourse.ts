@@ -1,6 +1,6 @@
-import HttpStatusCodes from '../../constants/HttpStatusCodes';
-import AppError from '../../utils/appError';
-import { CourseDbRepositoryInterface } from '../repositories/courseDbRepository';
+import HttpStatusCodes from '../../../constants/HttpStatusCodes';
+import AppError from '../../../utils/appError';
+import { CourseDbRepositoryInterface } from '../../repositories/courseDbRepository';
 
 export const getAllCourseU = async (
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>

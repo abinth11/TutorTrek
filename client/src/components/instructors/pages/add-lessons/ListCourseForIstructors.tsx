@@ -26,7 +26,7 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
-import { getCourseByInstructor } from "../../../../api/endpoints/instructor/course";
+import { getCourseByInstructor } from "../../../../api/endpoints/course/course";
 import { GetCourseByInstructorInterface } from "../../../../api/types/apiResponses/apiResponseInstructors";
 import { formatDate } from "../../../../utils/helpers";
 import { Link } from "react-router-dom";
