@@ -5,7 +5,10 @@ import { CourseDbRepositoryInterface } from '../../app/repositories/courseDbRepo
 import { addCourses } from '../../app/usecases/course/addCourse';
 import { AddCourseInfoInterface } from '../../types/courseInterface';
 import { CustomRequest } from '../../types/customRequest';
-import { getAllCourseU, getCourseByIdU } from '../../app/usecases/course/listCourse';
+import {
+  getAllCourseU,
+  getCourseByIdU
+} from '../../app/usecases/course/listCourse';
 import { getCourseByInstructorU } from '../../app/usecases/course/viewCourse';
 import { addLessonsU } from '../../app/usecases/lessons/addLesson';
 import { getLessonsByCourseIdU } from '../../app/usecases/lessons/viewLessons';
@@ -21,12 +24,12 @@ const courseController = (
   cloudServiceImpl: CloudServiceImpl,
   courseDbRepository: CourseDbRepositoryInterface,
   courseDbRepositoryImpl: CourseRepositoryMongoDbInterface,
-  quizDbRepository:QuizDbInterface,
-  quizDbRepositoryImpl:QuizRepositoryMongoDbInterface
+  quizDbRepository: QuizDbInterface,
+  quizDbRepositoryImpl: QuizRepositoryMongoDbInterface
 ) => {
   const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl());
   const cloudService = cloudServiceInterface(cloudServiceImpl());
-  const dbRepositoryQuiz = quizDbRepository(quizDbRepositoryImpl())
+  const dbRepositoryQuiz = quizDbRepository(quizDbRepositoryImpl());
 
   const addCourse = asyncHandler(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -62,7 +65,7 @@ const courseController = (
   );
 
   const getAllCourses = asyncHandler(async (req: Request, res: Response) => {
-    const courses = await getAllCourseU(dbRepositoryCourse)
+    const courses = await getAllCourseU(dbRepositoryCourse);
     res.status(200).json({
       status: 'success',
       message: 'Successfully retrieved all courses',
@@ -70,75 +73,93 @@ const courseController = (
     });
   });
 
-  const getIndividualCourse = asyncHandler(async(req:Request,res:Response)=>{
-    const courseId:string = req.params.courseId
-    const course = await getCourseByIdU(courseId,dbRepositoryCourse)
-    res.status(200).json({
-      status:'success',
-      message:'Successfully retrieved the course',
-      data:course
-    })
-  })
-
-  const getCoursesByInstructor = asyncHandler(async(req:CustomRequest,res:Response)=>{
-    const instructorId = req.user?.Id
-    const courses = await getCourseByInstructorU(instructorId,dbRepositoryCourse)
-    res.status(200).json({
-      status:'success',
-      message:'Successfully retrieved your courses',
-      data:courses
-    })
-     
-  })
-
-  const addLesson = asyncHandler(async(req:CustomRequest,res:Response)=>{
-    let instructorId=''
-    if(req.user){
-      instructorId=req.user.Id
+  const getIndividualCourse = asyncHandler(
+    async (req: Request, res: Response) => {
+      const courseId: string = req.params.courseId;
+      const course = await getCourseByIdU(courseId, dbRepositoryCourse);
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully retrieved the course',
+        data: course
+      });
     }
-    const courseId = req.params.courseId
-    const lesson = req.body
+  );
+
+  const getCoursesByInstructor = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const instructorId = req.user?.Id;
+      const courses = await getCourseByInstructorU(
+        instructorId,
+        dbRepositoryCourse
+      );
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully retrieved your courses',
+        data: courses
+      });
+    }
+  );
+
+  const addLesson = asyncHandler(async (req: CustomRequest, res: Response) => {
+    let instructorId = '';
+    if (req.user) {
+      instructorId = req.user.Id;
+    }
+    const courseId = req.params.courseId;
+    const lesson = req.body;
     const medias = req.files as Express.Multer.File[];
     const questions = JSON.parse(lesson.questions);
-    lesson.questions = questions
-    await addLessonsU(medias,courseId,instructorId,lesson,dbRepositoryCourse,cloudService)
+    lesson.questions = questions;
+    await addLessonsU(
+      medias,
+      courseId,
+      instructorId,
+      lesson,
+      dbRepositoryCourse,
+      cloudService,
+      dbRepositoryQuiz
+    );
     res.status(200).json({
-      status:'success',
-      message:'Successfully added new lesson',
-      data:null
-    })
-  })
+      status: 'success',
+      message: 'Successfully added new lesson',
+      data: null
+    });
+  });
 
-  const getLessonsByCourse = asyncHandler(async(req:Request,res:Response)=>{
-    const courseId = req.params.courseId
-    const lessons = await getLessonsByCourseIdU(courseId,dbRepositoryCourse)
-    res.status(200).json({
-      status:'success',
-      message:'Successfully retrieved lessons based on the course',
-      data:lessons
-    })
-  })
+  const getLessonsByCourse = asyncHandler(
+    async (req: Request, res: Response) => {
+      const courseId = req.params.courseId;
+      const lessons = await getLessonsByCourseIdU(courseId, dbRepositoryCourse);
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully retrieved lessons based on the course',
+        data: lessons
+      });
+    }
+  );
 
-  const getLessonById = asyncHandler(async(req:Request,res:Response)=>{
-    const lessonId = req.params.lessonId
-    const lesson = await getLessonByIdU(lessonId,dbRepositoryCourse)
+  const getLessonById = asyncHandler(async (req: Request, res: Response) => {
+    const lessonId = req.params.lessonId;
+    const lesson = await getLessonByIdU(lessonId, dbRepositoryCourse);
     res.status(200).json({
-      status:'success',
-      message:'Successfully retrieved lessons based on the course',
-      data:lesson
-    })
-  })
+      status: 'success',
+      message: 'Successfully retrieved lessons based on the course',
+      data: lesson
+    });
+  });
 
-  const getQuizzesByLesson = asyncHandler(async(req:Request,res:Response)=>{
-    const lessonId = req.params.lessonId
-    const quizzes = await getQuizzesLessonU(lessonId,dbRepositoryQuiz)
-    res.status(200).json({
-      status:'success',
-      message:'Successfully retrieved quizzes based on the lesson',
-      data:quizzes
-    })
-  })
-  
+  const getQuizzesByLesson = asyncHandler(
+    async (req: Request, res: Response) => {
+      const lessonId = req.params.lessonId;
+      const quizzes = await getQuizzesLessonU(lessonId, dbRepositoryQuiz);
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully retrieved quizzes based on the lesson',
+        data: quizzes
+      });
+    }
+  );
+
   return {
     addCourse,
     getAllCourses,

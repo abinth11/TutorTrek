@@ -3,6 +3,7 @@ import HttpStatusCodes from '../../../constants/HttpStatusCodes';
 import AppError from '../../../utils/appError';
 import { CreateLessonInterface } from '../../../types/lesson';
 import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
+import { QuizDbInterface } from '@src/app/repositories/quizDbRepository';
 export const addLessonsU = async (
   media: Express.Multer.File[] | undefined,
   courseId: string | undefined,
@@ -10,6 +11,7 @@ export const addLessonsU = async (
   lesson: CreateLessonInterface,
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>,
   cloudService: ReturnType<CloudServiceInterface>,
+  quizDbRepository:ReturnType<QuizDbInterface>,
 ) => {
   if (!courseId) {
     throw new AppError(
@@ -41,5 +43,5 @@ export const addLessonsU = async (
     lessonId:lessonId.toString(),
     questions:lesson.questions
   }
-  await courseDbRepository.addQuiz(quiz)
+  await quizDbRepository.addQuiz(quiz)
 };

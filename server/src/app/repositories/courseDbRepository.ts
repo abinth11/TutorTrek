@@ -1,6 +1,5 @@
 import { CourseRepositoryMongoDbInterface } from '@src/frameworks/database/mongodb/repositories/courseReposMongoDb';
 import { AddCourseInfoInterface } from '@src/types/courseInterface';
-import { AddQuizInfoInterface } from '@src/types/courseInterface';
 import { CreateLessonInterface } from '@src/types/lesson';
 
 export const courseDbRepository = (
@@ -9,8 +8,6 @@ export const courseDbRepository = (
   const addCourse = async (courseInfo: AddCourseInfoInterface) =>
     await repository.addCourse(courseInfo);
   
-  const addQuiz = async (quiz:AddQuizInfoInterface)=>await repository.addQuiz(quiz)
-
   const getAllCourse = async ()=> await repository.getAllCourse()
 
   const getCourseById = async (courseId:string) => await repository.getCourseById(courseId)
@@ -25,7 +22,6 @@ export const courseDbRepository = (
 
   return {
     addCourse,
-    addQuiz,
     getAllCourse,
     getCourseById,
     getCourseByInstructorId,
