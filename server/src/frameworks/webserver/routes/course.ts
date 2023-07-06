@@ -7,14 +7,17 @@ import { instructorRoleCheckMiddleware } from '../middlewares/roleCheckMiddlewar
 import { cloudServiceInterface } from '../../../app/services/cloudServiceInterface';
 import { s3Service } from '../../../frameworks/services/s3CloudService';
 import upload from '../middlewares/multer';
-
+import { quizDbRepository } from '../../../app/repositories/quizDbRepository';
+import { quizRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/quizzDbRepository';
 const courseRouter = () => {
   const router = express.Router();
   const controller = courseController( 
     cloudServiceInterface,
     s3Service,
     courseDbRepository,
-    courseRepositoryMongodb
+    courseRepositoryMongodb,
+    quizDbRepository,
+    quizRepositoryMongodb
   );
   //* Add course 
   router.post('/instructors/add-course',instructorRoleCheckMiddleware,uploadImageAndVideo,controller.addCourse)
@@ -30,6 +33,8 @@ const courseRouter = () => {
   router.get('/instructors/get-lessons-by-course/:courseId',controller.getLessonsByCourse)
 
   router.get('/get-lessons-by-id/:lessonId',controller.getLessonById)
+
+  router.get('/get-quizzes-by-lesson/:lessonId',controller.getQuizzesByLesson)
 
   return router
 };

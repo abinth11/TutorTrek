@@ -92,7 +92,7 @@ const WatchLessons: React.FC = () => {
   } else if (selectedItemIndex === 1) {
     content = <Discussion />;
   } else {
-    content = <Quizzes />;
+    content = <Quizzes lessonId={lessonId} />;
   }
   if (isLoadingAllLessons && isLoadingLesson) {
     return <ShimmerEffectWatchLessons />;

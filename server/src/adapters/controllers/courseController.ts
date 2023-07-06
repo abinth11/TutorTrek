@@ -11,15 +11,22 @@ import { addLessonsU } from '../../app/usecases/lessons/addLesson';
 import { getLessonsByCourseIdU } from '../../app/usecases/lessons/viewLessons';
 import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
 import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
+import { getQuizzesLessonU } from '../../app/usecases/auth/quiz/getQuiz';
 import { getLessonByIdU } from '../../app/usecases/lessons/getLesson';
+import { QuizDbInterface } from '../../app/repositories/quizDbRepository';
+import { QuizRepositoryMongoDbInterface } from '../../frameworks/database/mongodb/repositories/quizzDbRepository';
+
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
   cloudServiceImpl: CloudServiceImpl,
   courseDbRepository: CourseDbRepositoryInterface,
-  courseDbRepositoryImpl: CourseRepositoryMongoDbInterface
+  courseDbRepositoryImpl: CourseRepositoryMongoDbInterface,
+  quizDbRepository:QuizDbInterface,
+  quizDbRepositoryImpl:QuizRepositoryMongoDbInterface
 ) => {
   const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl());
   const cloudService = cloudServiceInterface(cloudServiceImpl());
+  const dbRepositoryQuiz = quizDbRepository(quizDbRepositoryImpl())
 
   const addCourse = asyncHandler(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -121,6 +128,16 @@ const courseController = (
       data:lesson
     })
   })
+
+  const getQuizzesByLesson = asyncHandler(async(req:Request,res:Response)=>{
+    const lessonId = req.params.lessonId
+    const quizzes = await getQuizzesLessonU(lessonId,dbRepositoryQuiz)
+    res.status(200).json({
+      status:'success',
+      message:'Successfully retrieved quizzes based on the lesson',
+      data:quizzes
+    })
+  })
   
   return {
     addCourse,
@@ -129,7 +146,8 @@ const courseController = (
     getCoursesByInstructor,
     addLesson,
     getLessonsByCourse,
-    getLessonById
+    getLessonById,
+    getQuizzesByLesson
   };
 };
 

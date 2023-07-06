@@ -4,7 +4,8 @@ import {
   addLessonsService,
   getLessonsByCourseService,
   getLessonsByIdService,
-  getCloudFrontVideoUrlService
+  getCloudFrontVideoUrlService,
+  getQuizzesByLessonService
 } from "../../services/course/courseService";
 import { getCoursesByInstructorService } from "../../services/course/courseService";
 
@@ -31,4 +32,8 @@ export const getLessonById = (lessonId:string)=>{
 
 export const getCloudFrontUrl = (key:string)=>{
   return getCloudFrontVideoUrlService(END_POINTS.STREAM_VIDEO,key)
+}
+
+export const getQuizzesByLesson = (lessonId:string)=>{
+  return getQuizzesByLessonService(END_POINTS.GET_QUIZZES_BY_LESSON,lessonId)
 }
