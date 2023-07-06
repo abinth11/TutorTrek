@@ -1,10 +1,10 @@
 import HttpStatusCodes from '../../../constants/HttpStatusCodes';
 import AppError from '../../../utils/appError';
-import { CourseDbRepositoryInterface } from '../../repositories/courseDbRepository';
+import { LessonDbRepositoryInterface } from '@src/app/repositories/lessonDbRepository';
 
 export const getLessonsByCourseIdU = async (
   courseId: string,
-  courseDbRepository: ReturnType<CourseDbRepositoryInterface>
+  lessonDbRepository: ReturnType<LessonDbRepositoryInterface>
 ) => {
   if (!courseId) {
     throw new AppError(
@@ -12,6 +12,6 @@ export const getLessonsByCourseIdU = async (
       HttpStatusCodes.BAD_REQUEST
     );
   }
-  const lessons = await courseDbRepository.getLessonsByCourseId(courseId);
-  return lessons
+  const lessons = await lessonDbRepository.getLessonsByCourseId(courseId);
+  return lessons;
 };

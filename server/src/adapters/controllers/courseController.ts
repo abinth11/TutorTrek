@@ -18,6 +18,8 @@ import { getQuizzesLessonU } from '../../app/usecases/auth/quiz/getQuiz';
 import { getLessonByIdU } from '../../app/usecases/lessons/getLesson';
 import { QuizDbInterface } from '../../app/repositories/quizDbRepository';
 import { QuizRepositoryMongoDbInterface } from '../../frameworks/database/mongodb/repositories/quizzDbRepository';
+import { LessonDbRepositoryInterface } from '@src/app/repositories/lessonDbRepository';
+import { LessonRepositoryMongoDbInterface } from '@src/frameworks/database/mongodb/repositories/lessonRepoMongodb';
 
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
@@ -25,11 +27,14 @@ const courseController = (
   courseDbRepository: CourseDbRepositoryInterface,
   courseDbRepositoryImpl: CourseRepositoryMongoDbInterface,
   quizDbRepository: QuizDbInterface,
-  quizDbRepositoryImpl: QuizRepositoryMongoDbInterface
+  quizDbRepositoryImpl: QuizRepositoryMongoDbInterface,
+  lessonDbRepository:LessonDbRepositoryInterface,
+  lessonDbRepositoryImpl:LessonRepositoryMongoDbInterface
 ) => {
   const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl());
   const cloudService = cloudServiceInterface(cloudServiceImpl());
   const dbRepositoryQuiz = quizDbRepository(quizDbRepositoryImpl());
+  const dbRepositoryLesson = lessonDbRepository(lessonDbRepositoryImpl())
 
   const addCourse = asyncHandler(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -115,7 +120,7 @@ const courseController = (
       courseId,
       instructorId,
       lesson,
-      dbRepositoryCourse,
+      dbRepositoryLesson,
       cloudService,
       dbRepositoryQuiz
     );
@@ -129,7 +134,7 @@ const courseController = (
   const getLessonsByCourse = asyncHandler(
     async (req: Request, res: Response) => {
       const courseId = req.params.courseId;
-      const lessons = await getLessonsByCourseIdU(courseId, dbRepositoryCourse);
+      const lessons = await getLessonsByCourseIdU(courseId, dbRepositoryLesson);
       res.status(200).json({
         status: 'success',
         message: 'Successfully retrieved lessons based on the course',
@@ -140,7 +145,7 @@ const courseController = (
 
   const getLessonById = asyncHandler(async (req: Request, res: Response) => {
     const lessonId = req.params.lessonId;
-    const lesson = await getLessonByIdU(lessonId, dbRepositoryCourse);
+    const lesson = await getLessonByIdU(lessonId, dbRepositoryLesson);
     res.status(200).json({
       status: 'success',
       message: 'Successfully retrieved lessons based on the course',
