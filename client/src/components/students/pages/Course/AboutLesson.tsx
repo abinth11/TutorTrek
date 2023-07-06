@@ -1,9 +1,6 @@
-import React from 'react' 
-const AboutLesson:React.FC = () =>{
-    return (<div>
-        about lesson 
-    </div>)
+import React from "react";
+const AboutLesson: React.FC<{ about: string }> = ({ about }) => {
+  return <div>{about}</div>;
+};
 
-}
-
-export default AboutLesson
+export default AboutLesson;
