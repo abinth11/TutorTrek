@@ -12,15 +12,13 @@ const videoStreamController = (
 
   const streamVideo = asyncHandler(async (req: Request, res: Response) => {
     const videoFileId = req.params.videoFileId;
-    const ReadableStream = await streamVideoU(videoFileId, cloudService);
-    console.log(ReadableStream);
-    // Set the appropriate headers for video streaming
-    res.setHeader('Content-Type', 'video/mp4');
-    res.setHeader('Content-Disposition', `inline; filename=${videoFileId}`);
-    res.status(206); // Set the status code to 206
-
-    // Pipe the video stream to the response object
-    ReadableStream.pipe(res);
+    const videoUrl = await streamVideoU(videoFileId, cloudService);
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully retrieved video url',
+      data: videoUrl
+    });
+     
   });
   return {
     streamVideo

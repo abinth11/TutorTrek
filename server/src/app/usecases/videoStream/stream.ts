@@ -6,9 +6,9 @@ export const streamVideoU = async (
   fileKey: string,
   cloudService: ReturnType<CloudServiceInterface>
 ) => {
-    if(!fileKey){
-        throw new AppError("File key not found",HttpStatusCodes.BAD_REQUEST)
-    }
-   const stream = await cloudService.getVideoStream(fileKey)
-   return stream
+  if (!fileKey) {
+    throw new AppError('File key not found', HttpStatusCodes.BAD_REQUEST);
+  }
+  const stream = await cloudService.getCloudFrontUrl(fileKey);
+  return stream;
 };

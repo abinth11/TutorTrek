@@ -47,3 +47,11 @@ export const getLessonsByIdService = async (
   );
   return response.data;
 };
+
+export const getCloudFrontVideoUrlService = async (endpoint:string,key:string)=>{
+  console.log(key)
+  const response = await api.get(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${key}`
+  );
+  return response.data;
+}

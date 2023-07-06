@@ -38,6 +38,10 @@ const configKeys = {
 
   AWS_BUCKET_NAME:process.env.AWS_BUCKET_NAME as string,
 
+  CLOUDFRONT_DISTRIBUTION_ID:process.env.CLOUDFRONT_DISTRIBUTION_ID as string,
+
+  CLOUDFRONT_DOMAIN_NAME:process.env.CLOUDFRONT_DOMAIN_NAME as string
+
 };
 
 export default configKeys;

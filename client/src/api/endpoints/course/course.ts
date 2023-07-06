@@ -4,6 +4,7 @@ import {
   addLessonsService,
   getLessonsByCourseService,
   getLessonsByIdService,
+  getCloudFrontVideoUrlService
 } from "../../services/course/courseService";
 import { getCoursesByInstructorService } from "../../services/course/courseService";
 
@@ -26,4 +27,8 @@ export const addLesson = (courseId: string, lesson: FormData) => {
 
 export const getLessonById = (lessonId:string)=>{
   return getLessonsByIdService(END_POINTS.GET_LESSONS_BY_ID,lessonId)
+}
+
+export const getCloudFrontUrl = (key:string)=>{
+  return getCloudFrontVideoUrlService(END_POINTS.STREAM_VIDEO,key)
 }
