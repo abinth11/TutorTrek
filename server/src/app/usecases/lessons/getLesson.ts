@@ -1,12 +1,17 @@
-import { CourseDbRepositoryInterface } from "../../../app/repositories/courseDbRepository";
-import AppError from "../../../utils/appError";
-import HttpStatusCodes from "../../../constants/HttpStatusCodes";
+import AppError from '../../../utils/appError';
+import HttpStatusCodes from '../../../constants/HttpStatusCodes';
+import { LessonDbRepositoryInterface } from '@src/app/repositories/lessonDbRepository';
 
-export const getLessonByIdU = async (lessonId:string,courseDbRepository:ReturnType<CourseDbRepositoryInterface>) =>{
-    if(!lessonId){
-        throw new AppError("Please provide a lesson id",HttpStatusCodes.BAD_REQUEST)
-    }
-    const lesson = await courseDbRepository.getLessonById(lessonId)
-    return lesson
-
-}
+export const getLessonByIdU = async (
+  lessonId: string,
+  lessonDbRepository: ReturnType<LessonDbRepositoryInterface>
+) => {
+  if (!lessonId) {
+    throw new AppError(
+      'Please provide a lesson id',
+      HttpStatusCodes.BAD_REQUEST
+    );
+  }
+  const lesson = await lessonDbRepository.getLessonById(lessonId);
+  return lesson;
+};

@@ -1,15 +1,17 @@
-import { CourseDbRepositoryInterface } from '../../repositories/courseDbRepository';
 import HttpStatusCodes from '../../../constants/HttpStatusCodes';
 import AppError from '../../../utils/appError';
 import { CreateLessonInterface } from '../../../types/lesson';
 import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
+import { QuizDbInterface } from '@src/app/repositories/quizDbRepository';
+import { LessonDbRepositoryInterface } from '@src/app/repositories/lessonDbRepository';
 export const addLessonsU = async (
   media: Express.Multer.File[] | undefined,
   courseId: string | undefined,
   instructorId: string,
   lesson: CreateLessonInterface,
-  courseDbRepository: ReturnType<CourseDbRepositoryInterface>,
+  lessonDbRepository: ReturnType<LessonDbRepositoryInterface>,
   cloudService: ReturnType<CloudServiceInterface>,
+  quizDbRepository:ReturnType<QuizDbInterface>,
 ) => {
   if (!courseId) {
     throw new AppError(
@@ -32,7 +34,7 @@ export const addLessonsU = async (
       media.map(async files => await cloudService.upload(files))
     );
   }
-  const lessonId = await courseDbRepository.addLesson(courseId, instructorId, lesson);
+  const lessonId = await lessonDbRepository.addLesson(courseId, instructorId, lesson);
   if(!lessonId){
     throw new AppError('Data is not provided', HttpStatusCodes.BAD_REQUEST);
   }
@@ -41,5 +43,5 @@ export const addLessonsU = async (
     lessonId:lessonId.toString(),
     questions:lesson.questions
   }
-  await courseDbRepository.addQuiz(quiz)
+  await quizDbRepository.addQuiz(quiz)
 };

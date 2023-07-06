@@ -9,6 +9,8 @@ import { s3Service } from '../../../frameworks/services/s3CloudService';
 import upload from '../middlewares/multer';
 import { quizDbRepository } from '../../../app/repositories/quizDbRepository';
 import { quizRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/quizzDbRepository';
+import { lessonDbRepository } from '../../../app/repositories/lessonDbRepository';
+import { lessonRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/lessonRepoMongodb';
 const courseRouter = () => {
   const router = express.Router();
   const controller = courseController( 
@@ -17,7 +19,9 @@ const courseRouter = () => {
     courseDbRepository,
     courseRepositoryMongodb,
     quizDbRepository,
-    quizRepositoryMongodb
+    quizRepositoryMongodb,
+    lessonDbRepository,
+    lessonRepositoryMongodb
   );
   //* Add course 
   router.post('/instructors/add-course',instructorRoleCheckMiddleware,uploadImageAndVideo,controller.addCourse)
