@@ -11,6 +11,8 @@ import { quizDbRepository } from '../../../app/repositories/quizDbRepository';
 import { quizRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/quizzDbRepository';
 import { lessonDbRepository } from '../../../app/repositories/lessonDbRepository';
 import { lessonRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/lessonRepoMongodb';
+import { discussionDbRepository } from '@src/app/repositories/discussionDbRepository';
+import { discussionRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/discussionsRepoMongodb';
 const courseRouter = () => {
   const router = express.Router();
   const controller = courseController( 
@@ -21,7 +23,9 @@ const courseRouter = () => {
     quizDbRepository,
     quizRepositoryMongodb,
     lessonDbRepository,
-    lessonRepositoryMongodb
+    lessonRepositoryMongodb,
+    discussionDbRepository,
+    discussionRepositoryMongoDb
   );
   //* Add course 
   router.post('/instructors/add-course',instructorRoleCheckMiddleware,uploadImageAndVideo,controller.addCourse)
@@ -39,6 +43,8 @@ const courseRouter = () => {
   router.get('/get-lessons-by-id/:lessonId',controller.getLessonById)
 
   router.get('/get-quizzes-by-lesson/:lessonId',controller.getQuizzesByLesson)
+
+  router.post('/lessons/add-discussion',controller.addDiscussion)
 
   return router
 };
