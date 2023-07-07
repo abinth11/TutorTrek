@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import TopNav from "../../admin/widgets/layout/TopNav";
+import TopNav from "../admin/widgets/layout/TopNav";
 import ViewInstructors from "./ViewInstructors";
 import CustomBreadCrumbs from "../../common/BreadCrumbs";
 const ViewInstructorsIndex: React.FC = () => {

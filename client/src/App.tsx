@@ -3,7 +3,7 @@ import StudentHeader from "./components/partials/StudentHeader";
 import "react-toastify/dist/ReactToastify.css";
 import { Outlet} from "react-router-dom";
 import AdminLoginPage from "./components/pages/admin/AdminLoginPage";
-import { Sidenav } from "./components/admin/widgets/layout";
+import { Sidenav } from "./components/pages/admin/widgets/layout";
 import { routes } from "./components/pages/admin/AdminDashBoardPage";
 import { useSelector } from "react-redux";
 import InstructorSideNav from "./components/partials/SideNav";

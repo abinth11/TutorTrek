@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Field, FieldArray, Form, ErrorMessage } from "formik";
 import { Tooltip } from "@material-tailwind/react";
 import { TiTrash } from "react-icons/ti";
-import { QuizValidationSchema } from "../../../validations/instructors/AddCourse";
+import { QuizValidationSchema } from "../../../validations/course/AddCourse";
 
 export const QuizzesComponent: React.FC = (values:any) => {
 

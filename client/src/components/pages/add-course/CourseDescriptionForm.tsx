@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { AddCourseValidationSchema } from "../../../validations/instructors/AddCourse";
+import { AddCourseValidationSchema } from "../../../validations/course/AddCourse";
 import { Switch } from "@material-tailwind/react";
 
 export interface FormValues {

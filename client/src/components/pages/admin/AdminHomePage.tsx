@@ -19,12 +19,7 @@ import {
   EllipsisVerticalIcon,
   ArrowUpIcon,
 } from "@heroicons/react/24/outline";
-import { StatisticsCard } from "../../admin/widgets/cards";
-import { StatisticsChart } from "../../admin/widgets/charts";
-import { statisticsCardsData } from "../../admin/widgets/data/statistics-cards-data";
-import statisticsChartsData from "../../admin/widgets/data/statistics-charts-data";
-import projectsTableData from "../../admin/widgets/data/projects-table-data";
-import ordersOverviewData from "../../admin/widgets/data/orders-overview-data";
+
 
 const AdminHomePage: React.FC = () => {
   return (

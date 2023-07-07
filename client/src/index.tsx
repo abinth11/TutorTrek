@@ -10,7 +10,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { ThemeProvider } from "@material-tailwind/react";
 import { ToastContainer } from "react-toastify";
-import { MaterialTailwindControllerProvider } from "../src/components/admin/widgets/context";
+import { MaterialTailwindControllerProvider } from "./components/pages/admin/widgets/context";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

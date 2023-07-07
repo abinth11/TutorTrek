@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { instructorLoginValidationSchema } from "../../../validations/instructors/InstructorLoginValidation";
+import { instructorLoginValidationSchema } from "../../../validations/auth/InstructorLoginValidation";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { loginInstructor } from "../../../api/endpoints/auth/instructorAuth";

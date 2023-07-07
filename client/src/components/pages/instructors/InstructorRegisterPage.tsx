@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from "react";
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import { toast } from "react-toastify";
 import { registerInstructor } from "../../../api/endpoints/auth/instructorAuth";
-import { instructorRegistrationValidationSchema } from "../../../validations/instructors/InstructorRegisterValidation";
+import { instructorRegistrationValidationSchema } from "../../../validations/auth/InstructorRegisterValidation";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { ApiResponse } from "../../../api/types/interfaces";
 import { InstructorRegisterDataInterface } from "../../../api/types/instructor/authInterface";

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { registerStudent } from "../../../api/endpoints/auth/studentAuth";
 import { handleApiError } from "../../../api/utils/apiError";
-import { studentRegistrationValidationSchema } from "../../../validations/student/studentRegisterValidation";
+import { studentRegistrationValidationSchema } from "../../../validations/auth/studentRegisterValidation";
 import { toast } from "react-toastify";
 import {Link} from 'react-router-dom'
 

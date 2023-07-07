@@ -1,9 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { IconButton } from "@material-tailwind/react";
-import {
-  DashboardNavbar,
-  Footer,
-} from "../../admin/widgets/layout";
+import {DashboardNavbar,Footer} from "../admin/widgets/layout";
 import {
   Cog6ToothIcon,
   HomeIcon,
