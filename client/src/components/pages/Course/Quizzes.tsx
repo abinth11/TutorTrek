@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getQuizzesByLesson } from "../../../api/endpoints/course/course";
+import { getQuizzesByLesson } from "../../../api/endpoints/course/quiz";
 import { toast } from "react-toastify";
 import {
   Question,

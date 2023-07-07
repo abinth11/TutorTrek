@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
-import { getAllCourses } from "../../../api/endpoints/course/courseStudents";
+import { getAllCourses } from "../../../api/endpoints/course/course";
 import { toast } from "react-toastify";
 import { CourseInterface } from "../../../types/course";
 import { Link } from "react-router-dom";

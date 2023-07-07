@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CustomBreadCrumbs from "../../common/BreadCrumbs";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
-import { getIndividualCourse } from "../../../api/endpoints/course/courseStudents";
+import { getIndividualCourse } from "../../../api/endpoints/course/course";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CourseInterface } from "../../../types/course";
@@ -12,7 +12,7 @@ import { BiVideo } from "react-icons/bi";
 import { IoBookSharp } from "react-icons/io5";
 import useApiData from "../../../hooks/useApiCall";
 import ViewCourseShimmer from "../../Shimmers/ViewCourseShimmer";
-import { getLessonsByCourse } from "../../../api/endpoints/course/course";
+import { getLessonsByCourse } from "../../../api/endpoints/course/lesson";
 import { useDispatch } from "react-redux";
 import { setCourseId } from "../../../redux/reducers/courseSlice";
 const ViewCourseStudent: React.FC = () => {

@@ -23,7 +23,7 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 import { formatDate } from "../../../utils/helpers";
-import { getLessonsByCourse } from "../../../api/endpoints/course/course";
+import { getLessonsByCourse } from "../../../api/endpoints/course/lesson";
 import { useParams } from "react-router-dom";
 import { ApiResponseLessons } from "../../../api/types/apiResponses/apiResponseInstructors";
 import AddLessonForm from "./AddLessonsForm";
