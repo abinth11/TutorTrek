@@ -18,12 +18,12 @@ import { getQuizzesLessonU } from '../../app/usecases/auth/quiz/getQuiz';
 import { getLessonByIdU } from '../../app/usecases/lessons/getLesson';
 import { QuizDbInterface } from '../../app/repositories/quizDbRepository';
 import { QuizRepositoryMongoDbInterface } from '../../frameworks/database/mongodb/repositories/quizzDbRepository';
-import { LessonDbRepositoryInterface } from '@src/app/repositories/lessonDbRepository';
-import { LessonRepositoryMongoDbInterface } from '@src/frameworks/database/mongodb/repositories/lessonRepoMongodb';
-import { AddDiscussionInterface } from '@src/types/discussion';
-import { DiscussionRepoMongodbInterface } from '@src/frameworks/database/mongodb/repositories/discussionsRepoMongodb';
-import { DiscussionDbInterface } from '@src/app/repositories/discussionDbRepository';
-import { addDiscussionU } from '@src/app/usecases/lessons/discussions';
+import { LessonDbRepositoryInterface } from '../../app/repositories/lessonDbRepository';
+import { LessonRepositoryMongoDbInterface } from '../../frameworks/database/mongodb/repositories/lessonRepoMongodb';
+import { AddDiscussionInterface } from '../../types/discussion';
+import { DiscussionRepoMongodbInterface } from '../../frameworks/database/mongodb/repositories/discussionsRepoMongodb';
+import { DiscussionDbInterface } from '../../app/repositories/discussionDbRepository';
+import { addDiscussionU } from '../../app/usecases/lessons/discussions';
 
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
@@ -172,13 +172,15 @@ const courseController = (
     }
   )
 
-  const addDiscussion = asyncHandler(async(req:Request,res:Response)=>{
+  const addDiscussion = asyncHandler(async(req:CustomRequest,res:Response)=>{
     const lessonId:string=req.params.lessonId
+    const userId = req.user?.Id
     const discussion:AddDiscussionInterface = req.body
-    await addDiscussionU(lessonId,discussion,dbRepositoryDiscussion)
+    console.log(req.body)
+    await addDiscussionU(userId,lessonId,discussion,dbRepositoryDiscussion)
     res.status(200).json({
       status: 'success',
-      message: 'Successfully posted discussion',
+      message: 'Successfully posted your comment',
       data: null
     });
 

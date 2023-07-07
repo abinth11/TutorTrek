@@ -1,9 +1,10 @@
-import HttpStatusCodes from '@src/constants/HttpStatusCodes';
-import AppError from '@src/utils/appError';
-import { AddDiscussionInterface } from '@src/types/discussion';
-import { DiscussionDbInterface } from '@src/app/repositories/discussionDbRepository';
+import HttpStatusCodes from '../../../constants/HttpStatusCodes';
+import AppError from '../../../utils/appError';
+import { AddDiscussionInterface } from '../../../types/discussion';
+import { DiscussionDbInterface } from '../../../app/repositories/discussionDbRepository';
 
 export const addDiscussionU = async (
+  userId:string|undefined,
   lessonId: string,
   discussion: AddDiscussionInterface,
   discussionDbRepository: ReturnType<DiscussionDbInterface>
@@ -11,6 +12,10 @@ export const addDiscussionU = async (
   if (!discussion) {
     throw new AppError('Please provide data', HttpStatusCodes.BAD_REQUEST);
   }
+  if(!userId){
+    throw new AppError('user not found', HttpStatusCodes.BAD_REQUEST);
+  }
   discussion.lessonId=lessonId
+  discussion.userId=userId
   await discussionDbRepository.addDiscussion(discussion);
 };
