@@ -75,14 +75,25 @@ const Quizzes: React.FC<{ lessonId: string | undefined }> = ({ lessonId }) => {
   }
 
   return (
-    <div className=' min-h-screen '>
-      <h2 className='text-xl ml-4 p-1 font-bold mb-4'>Questions({quizzes?.length})</h2>
+    <div className=''>
+      <h2 className='text-xl ml-3 p-1 font-bold mb-4 flex items-center'>
+        Questions
+        <div
+          className='ml-2 w-7 h-5 bg-blue-gray-100 rounded-full flex items-center justify-center text-customFontColorBlack font-light text-sm'
+          style={{ borderRadius: "43% 43%" }}
+        >
+          {quizzes?.length}
+        </div>
+      </h2>
+
       <div className=' mx-auto px-4'>
         {quizzes?.length ? (
           <div className='w-full  shadow-sm border-gray-100 border-2 rounded-lg px-8 py-6'>
             <p className='text-lg mb-6'>
+              <span className='font-bold mr-2' >{currentQuestionIndex + 1}.</span>
               {quizzes[currentQuestionIndex]?.question}
             </p>
+
             <ul className='space-y-4'>
               {quizzes[currentQuestionIndex]?.options.map((option: Option) => (
                 <li

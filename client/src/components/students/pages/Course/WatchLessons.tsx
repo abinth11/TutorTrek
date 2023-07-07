@@ -140,7 +140,7 @@ const WatchLessons: React.FC = () => {
               </li>
             </ul>
           </div>
-          <div className='p-8 mb-12 '>
+          <div className='pl-8 pr-8 pb-12 pt-4'>
             {content}
           </div>
         </div>
