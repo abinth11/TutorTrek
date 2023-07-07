@@ -7,7 +7,7 @@ import routes from './frameworks/webserver/routes';
 import connection from './frameworks/database/redis/connection';
 import colors from 'colors.ts';
 import errorHandlingMiddleware from './frameworks/webserver/middlewares/errorHandling';
-import configKeys from './config';
+import configKeys from './config'; 
 import AppError from './utils/appError';
 import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from './types/socketInterfaces';
 import { Server } from 'socket.io';

@@ -27,7 +27,7 @@ export const Student: React.FC = () => {
   return (
     <>
       {isOnline ? (
-          <div className="bg-gray-100 ">
+          <div className="bg-white">
             <div className={`${headerClassName}`}>
             <StudentHeader />
             </div>

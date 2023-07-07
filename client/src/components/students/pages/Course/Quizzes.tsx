@@ -75,11 +75,11 @@ const Quizzes: React.FC<{ lessonId: string | undefined }> = ({ lessonId }) => {
   }
 
   return (
-    <div className='bg-gray-100 min-h-screen '>
+    <div className=' min-h-screen '>
       <h2 className='text-xl ml-4 p-1 font-bold mb-4'>Questions({quizzes?.length})</h2>
       <div className=' mx-auto px-4'>
         {quizzes?.length ? (
-          <div className='w-full bg-gray-50 shadow-sm border-gray-200 border-2 rounded-lg px-8 py-6'>
+          <div className='w-full  shadow-sm border-gray-100 border-2 rounded-lg px-8 py-6'>
             <p className='text-lg mb-6'>
               {quizzes[currentQuestionIndex]?.question}
             </p>
