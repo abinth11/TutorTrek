@@ -23,7 +23,10 @@ import { LessonRepositoryMongoDbInterface } from '../../frameworks/database/mong
 import { AddDiscussionInterface } from '../../types/discussion';
 import { DiscussionRepoMongodbInterface } from '../../frameworks/database/mongodb/repositories/discussionsRepoMongodb';
 import { DiscussionDbInterface } from '../../app/repositories/discussionDbRepository';
-import { addDiscussionU } from '../../app/usecases/lessons/discussions';
+import {
+  addDiscussionU,
+  getDiscussionsByLessonU
+} from '../../app/usecases/lessons/discussions';
 
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
@@ -32,16 +35,18 @@ const courseController = (
   courseDbRepositoryImpl: CourseRepositoryMongoDbInterface,
   quizDbRepository: QuizDbInterface,
   quizDbRepositoryImpl: QuizRepositoryMongoDbInterface,
-  lessonDbRepository:LessonDbRepositoryInterface,
-  lessonDbRepositoryImpl:LessonRepositoryMongoDbInterface,
-  discussionDbRepository:DiscussionDbInterface,
-  discussionDbRepositoryImpl:DiscussionRepoMongodbInterface
+  lessonDbRepository: LessonDbRepositoryInterface,
+  lessonDbRepositoryImpl: LessonRepositoryMongoDbInterface,
+  discussionDbRepository: DiscussionDbInterface,
+  discussionDbRepositoryImpl: DiscussionRepoMongodbInterface
 ) => {
   const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl());
   const cloudService = cloudServiceInterface(cloudServiceImpl());
   const dbRepositoryQuiz = quizDbRepository(quizDbRepositoryImpl());
-  const dbRepositoryLesson = lessonDbRepository(lessonDbRepositoryImpl())
-  const dbRepositoryDiscussion = discussionDbRepository(discussionDbRepositoryImpl())
+  const dbRepositoryLesson = lessonDbRepository(lessonDbRepositoryImpl());
+  const dbRepositoryDiscussion = discussionDbRepository(
+    discussionDbRepositoryImpl()
+  );
 
   const addCourse = asyncHandler(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -170,21 +175,42 @@ const courseController = (
         data: quizzes
       });
     }
-  )
+  );
 
-  const addDiscussion = asyncHandler(async(req:CustomRequest,res:Response)=>{
-    const lessonId:string=req.params.lessonId
-    const userId = req.user?.Id
-    const discussion:AddDiscussionInterface = req.body
-    console.log(req.body)
-    await addDiscussionU(userId,lessonId,discussion,dbRepositoryDiscussion)
-    res.status(200).json({
-      status: 'success',
-      message: 'Successfully posted your comment',
-      data: null
-    });
+  const addDiscussion = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const lessonId: string = req.params.lessonId;
+      const userId = req.user?.Id;
+      const discussion: AddDiscussionInterface = req.body;
+      console.log(req.body);
+      await addDiscussionU(
+        userId,
+        lessonId,
+        discussion,
+        dbRepositoryDiscussion
+      );
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully posted your comment',
+        data: null
+      });
+    }
+  );
 
-  })
+  const getDiscussionsByLesson = asyncHandler(
+    async (req: Request, res: Response) => {
+      const lessonId: string = req.params.lessonId;
+      const discussion = await getDiscussionsByLessonU(
+        lessonId,
+        dbRepositoryDiscussion
+      );
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully retrieved discussions based on a lesson',
+        data: discussion
+      });
+    }
+  );
 
   return {
     addCourse,
@@ -195,7 +221,8 @@ const courseController = (
     getLessonsByCourse,
     getLessonById,
     getQuizzesByLesson,
-    addDiscussion
+    addDiscussion,
+    getDiscussionsByLesson
   };
 };
 

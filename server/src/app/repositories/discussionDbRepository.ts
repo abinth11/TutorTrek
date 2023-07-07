@@ -7,8 +7,12 @@ export const discussionDbRepository = (
   const addDiscussion = async (discussionInfo: AddDiscussionInterface) =>
     await repository.addDiscussion(discussionInfo);
 
+  const getDiscussionsByLesson = async (lessonId: string) =>
+    await repository.getDiscussionsByLesson(lessonId);
+
   return {
-    addDiscussion
+    addDiscussion,
+    getDiscussionsByLesson
   };
 };
 

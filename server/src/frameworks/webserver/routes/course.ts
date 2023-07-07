@@ -46,6 +46,8 @@ const courseRouter = () => {
 
   router.post('/lessons/add-discussion/:lessonId',controller.addDiscussion)
 
+  router.get('/lessons/get-discussions-by-lesson/:lessonId',controller.getDiscussionsByLesson)
+
   return router
 };
 export default courseRouter
