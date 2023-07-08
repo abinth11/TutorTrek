@@ -8,19 +8,22 @@ import { BeatLoader } from "react-spinners";
 import { getDiscussionsByLesson } from "../../../api/endpoints/course/discussion";
 import { ApiResponseDiscussion } from "../../../api/types/apiResponses/apiResponseDiscussion";
 
-
-const Discussion: React.FC<{lessonId:string}> = ({lessonId}) => {
+const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
   const [discussionText, setDiscussionText] = useState("");
-  const [discussions,setDiscussions]= useState<ApiResponseDiscussion[] |null>(null)
+  const [discussions, setDiscussions] = useState<
+    ApiResponseDiscussion[] | null
+  >(null);
   const [isInputEmpty, setIsInputEmpty] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [updated,setUpdated] = useState(false)
+  const [updated, setUpdated] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(3);
+  const [showViewMore, setShowViewMore] = useState(true);
 
   const handlePostDiscussion = async () => {
     try {
       setIsLoading(true);
       const response = await addDiscussion(lessonId ?? "", discussionText);
-      setUpdated(!updated)
+      setUpdated(!updated);
       toast.success(response?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -36,24 +39,36 @@ const Discussion: React.FC<{lessonId:string}> = ({lessonId}) => {
       });
     }
   };
- const fetchDiscussions = async()=>{
-  try {
-    const response = await getDiscussionsByLesson(lessonId ?? '');
-    setDiscussions(response.data)
-  } catch (error: any) {
-    toast.error("Something went wrong", {
-      position: toast.POSITION.BOTTOM_RIGHT,
-    });
-  }
- }
-  useEffect(()=>{ 
-    fetchDiscussions()
-  },[updated])
+  const fetchDiscussions = async () => {
+    try {
+      const response = await getDiscussionsByLesson(lessonId ?? "");
+      setDiscussions(response.data);
+    } catch (error: any) {
+      toast.error("Something went wrong", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
+  };
+  useEffect(() => {
+    fetchDiscussions();
+  }, [updated]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDiscussionText(e.target.value);
     setIsInputEmpty(e.target.value === "");
   };
+
+  const handleViewMore = () => {
+    setVisibleCount((prevCount) => prevCount + 3);
+  };
+  const handleShowLess = () => {
+    setVisibleCount(3);
+  };
+
+  const totalComments = discussions?.length ?? 0;
+  const visibleCommentsList = discussions?.slice(0, visibleCount);
+  const shouldShowViewMore = visibleCount < totalComments;
+  const shouldShowShowLess = visibleCount > 3;
 
   return (
     <div>
@@ -68,10 +83,33 @@ const Discussion: React.FC<{lessonId:string}> = ({lessonId}) => {
       </h2>
       <div className='ml-3 mb-8'>
         <ul>
-          {discussions?.map((item, index) => {
-            return <DiscussionListEl updated={updated} setUpdated={setUpdated} {...item} key={index} />;
+          {visibleCommentsList?.map((item, index) => {
+            return (
+              <DiscussionListEl
+                updated={updated}
+                setUpdated={setUpdated}
+                {...item}
+                key={index}
+              />
+            );
           })}
         </ul>
+        {shouldShowViewMore && (
+          <button
+            className='text-customFontColorBlack ml-4 mt-1 underline'
+            onClick={handleViewMore}
+          >
+            View More
+          </button>
+        )}
+        {shouldShowShowLess && (
+          <button
+            className='text-customFontColorBlack ml-4 mt-1 underline'
+            onClick={handleShowLess}
+          >
+            Show less  
+          </button>
+        )}
       </div>
       <div className='mx-auto pb-5 flex mt-4 px-4'>
         <div className='w-1/2'>

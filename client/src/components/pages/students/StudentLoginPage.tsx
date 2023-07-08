@@ -20,10 +20,11 @@ const StudentLoginPage: React.FC = () => {
       const response = await loginStudent(studentInfo);
       const {accessToken,refreshToken}:{accessToken:string,refreshToken:string} = response.data
       dispatch(setToken({accessToken,refreshToken}))
-      response &&navigate('/')
-    } catch (error:any) {
+      response.status &&navigate('/')
+    } catch (error:any) { 
+      console.log(error)
       toast.error(error.data?.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
+        position: toast.POSITION.BOTTOM_RIGHT,    
       });
     }
   };
