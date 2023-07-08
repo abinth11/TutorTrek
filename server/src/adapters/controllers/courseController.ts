@@ -26,7 +26,8 @@ import { DiscussionDbInterface } from '../../app/repositories/discussionDbReposi
 import {
   addDiscussionU,
   getDiscussionsByLessonU,
-  editDiscussionU
+  editDiscussionU,
+  deleteDiscussionByIdU
 } from '../../app/usecases/lessons/discussions';
 
 const courseController = (
@@ -224,6 +225,16 @@ const courseController = (
     });
   })
 
+  const deleteDiscussion = asyncHandler(async(req:Request,res:Response)=>{
+    const discussionId:string = req.params.discussionId
+    await deleteDiscussionByIdU(discussionId,dbRepositoryDiscussion)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully deleted your comment',
+      data: null
+    });
+  })
+
   return {
     addCourse,
     getAllCourses,
@@ -235,7 +246,8 @@ const courseController = (
     getQuizzesByLesson,
     addDiscussion,
     getDiscussionsByLesson,
-    editDiscussions
+    editDiscussions,
+    deleteDiscussion
   };
 };
 

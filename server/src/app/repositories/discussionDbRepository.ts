@@ -12,10 +12,13 @@ export const discussionDbRepository = (
 
   const editDiscussion = async (id:string,message:string)=>await repository.editDiscussion(id,message)
 
+  const deleteDiscussionById = async (id:string) => await repository.deleteDiscussionById(id)
+
   return {
     addDiscussion,
     getDiscussionsByLesson,
-    editDiscussion
+    editDiscussion,
+    deleteDiscussionById
   };
 };
 

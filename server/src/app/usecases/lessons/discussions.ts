@@ -56,3 +56,16 @@ export const editDiscussionU = async (
   }
   await discussionDbRepository.editDiscussion(discussionId, message);
 };
+
+export const deleteDiscussionByIdU = async (
+  discussionId: string,
+  discussionDbRepository: ReturnType<DiscussionDbInterface>
+) => {
+  if (!discussionId) {
+    throw new AppError(
+      'Please provide a discussion id',
+      HttpStatusCodes.BAD_REQUEST
+    );
+  }
+  await discussionDbRepository.deleteDiscussionById(discussionId);
+};

@@ -50,10 +50,15 @@ export const discussionRepositoryMongoDb = () => {
     );
   };
 
+  const deleteDiscussionById = async (id:string)=>{
+    await Discussions.deleteOne({_id: new mongoose.Types.ObjectId(id)})
+  }
+
   return {
     addDiscussion,
     getDiscussionsByLesson,
-    editDiscussion
+    editDiscussion,
+    deleteDiscussionById
   };
 };
 

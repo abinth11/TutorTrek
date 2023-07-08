@@ -50,6 +50,8 @@ const courseRouter = () => {
 
   router.patch('/lessons/edit-discussion/:discussionId',controller.editDiscussions)
 
+  router.delete('/lessons/delete-discussion/:discussionId',controller.deleteDiscussion)
+
   return router
 };
 export default courseRouter
