@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IoSend } from "react-icons/io5";
 import { Tooltip } from "@material-tailwind/react";
-import { useParams } from "react-router-dom";
 import DiscussionListEl from "./DiscussionList";
 import { addDiscussion } from "../../../api/endpoints/course/discussion";
 import { toast } from "react-toastify";
@@ -15,13 +14,13 @@ const Discussion: React.FC<{lessonId:string}> = ({lessonId}) => {
   const [discussions,setDiscussions]= useState<ApiResponseDiscussion[] |null>(null)
   const [isInputEmpty, setIsInputEmpty] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [posted,setPosted] = useState(false)
+  const [updated,setUpdated] = useState(false)
 
   const handlePostDiscussion = async () => {
     try {
       setIsLoading(true);
       const response = await addDiscussion(lessonId ?? "", discussionText);
-      setPosted(!posted)
+      setUpdated(!updated)
       toast.success(response?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -49,7 +48,7 @@ const Discussion: React.FC<{lessonId:string}> = ({lessonId}) => {
  }
   useEffect(()=>{ 
     fetchDiscussions()
-  },[posted])
+  },[updated])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDiscussionText(e.target.value);
@@ -70,7 +69,7 @@ const Discussion: React.FC<{lessonId:string}> = ({lessonId}) => {
       <div className='ml-3 mb-8'>
         <ul>
           {discussions?.map((item, index) => {
-            return <DiscussionListEl {...item} key={index} />;
+            return <DiscussionListEl updated={updated} setUpdated={setUpdated} {...item} key={index} />;
           })}
         </ul>
       </div>

@@ -18,6 +18,7 @@ export interface ApiResponseDiscussion {
 }
 
 interface StudentDetails {
+    _id:string;
     firstName: string;
     lastName: string;
     dateJoined: Date;

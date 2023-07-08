@@ -35,3 +35,24 @@ export const getDiscussionsByLessonU = async (
   );
   return discussions;
 };
+
+export const editDiscussionU = async (
+  discussionId: string,
+  message: string,
+  discussionDbRepository: ReturnType<DiscussionDbInterface>
+) => {
+  if (!discussionId) {
+    throw new AppError(
+      'Please provide a discussion id',
+      HttpStatusCodes.BAD_REQUEST
+    );
+  }
+  message=message.trim()
+  if (!message) {
+    throw new AppError(
+      'Please provide a valid message',
+      HttpStatusCodes.BAD_REQUEST
+    );
+  }
+  await discussionDbRepository.editDiscussion(discussionId, message);
+};

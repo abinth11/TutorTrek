@@ -48,6 +48,8 @@ const courseRouter = () => {
 
   router.get('/lessons/get-discussions-by-lesson/:lessonId',controller.getDiscussionsByLesson)
 
+  router.patch('/lessons/edit-discussion/:discussionId',controller.editDiscussions)
+
   return router
 };
 export default courseRouter

@@ -25,7 +25,8 @@ import { DiscussionRepoMongodbInterface } from '../../frameworks/database/mongod
 import { DiscussionDbInterface } from '../../app/repositories/discussionDbRepository';
 import {
   addDiscussionU,
-  getDiscussionsByLessonU
+  getDiscussionsByLessonU,
+  editDiscussionU
 } from '../../app/usecases/lessons/discussions';
 
 const courseController = (
@@ -212,6 +213,17 @@ const courseController = (
     }
   );
 
+  const editDiscussions = asyncHandler(async(req:Request,res:Response)=>{
+    const discussionId:string= req.params.discussionId
+    const message:string = req.body.message
+    await editDiscussionU(discussionId,message,dbRepositoryDiscussion)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully edited your comment',
+      data: null
+    });
+  })
+
   return {
     addCourse,
     getAllCourses,
@@ -222,7 +234,8 @@ const courseController = (
     getLessonById,
     getQuizzesByLesson,
     addDiscussion,
-    getDiscussionsByLesson
+    getDiscussionsByLesson,
+    editDiscussions
   };
 };
 

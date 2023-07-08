@@ -10,9 +10,12 @@ export const discussionDbRepository = (
   const getDiscussionsByLesson = async (lessonId: string) =>
     await repository.getDiscussionsByLesson(lessonId);
 
+  const editDiscussion = async (id:string,message:string)=>await repository.editDiscussion(id,message)
+
   return {
     addDiscussion,
-    getDiscussionsByLesson
+    getDiscussionsByLesson,
+    editDiscussion
   };
 };
 
