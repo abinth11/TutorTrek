@@ -22,6 +22,7 @@ const END_POINTS = {
     GET_LESSONS_BY_ID:'api/courses/get-lessons-by-id',
     STREAM_VIDEO:'api/video-streaming/stream-video',
     GET_QUIZZES_BY_LESSON:'api/courses/get-quizzes-by-lesson',
-    ADD_DISCUSSION:'api/courses/lessons/add-discussion'
+    ADD_DISCUSSION:'api/courses/lessons/add-discussion',
+    GET_DISCUSSIONS_BY_LESSON:'api/courses/lessons/get-discussions-by-lesson'
 }
 export default END_POINTS

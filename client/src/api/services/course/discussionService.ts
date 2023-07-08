@@ -14,3 +14,11 @@ export const addDiscussionService = async (
   );
   return response.data;
 };
+
+export const getDiscussionsByLessonService = async (endpoint:string,lessonId:string)=>{
+  const response = await api.get(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${lessonId}`,
+  );
+  return response.data;
+
+}
