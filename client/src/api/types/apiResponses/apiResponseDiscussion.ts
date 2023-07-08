@@ -3,7 +3,7 @@ interface Replies {
   lessonId: string;
   message: string;
   updatedAt: string;
-  userId: string;
+  studentId: string;
   _id: string;
 }
 
@@ -13,6 +13,13 @@ export interface ApiResponseDiscussion {
   message: string;
   replies: Replies[]; 
   updatedAt: string;
-  userId: string;
+  studentDetails: StudentDetails;
   _id: string;
 }
+
+interface StudentDetails {
+    firstName: string;
+    lastName: string;
+    dateJoined: Date;
+  }
+  

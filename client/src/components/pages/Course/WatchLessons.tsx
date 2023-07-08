@@ -90,7 +90,7 @@ const WatchLessons: React.FC = () => {
   if (selectedItemIndex === 0) {
     content = <AboutLesson about={lesson?.description ??''} />;
   } else if (selectedItemIndex === 1) {
-    content = <Discussion />;
+    content = <Discussion lessonId={currentLessonId??''}/>;
   } else {
     content = <Quizzes lessonId={lessonId} />;
   }

@@ -20,9 +20,10 @@ const replySchema = new Schema({
 });
 
 const discussionsSchema = new Schema({
-  userId: {
+  studentId: {
     type: Schema.Types.ObjectId,
-    required: true
+    required: true,
+    ref: 'students'
   },
   message: {
     type: String,
@@ -43,5 +44,5 @@ const discussionsSchema = new Schema({
   }
 });
 
-const Discussions = model('Discussion', discussionsSchema, 'discussions');
+const Discussions = model('Discussions', discussionsSchema, 'discussions');
 export default Discussions;

@@ -10,51 +10,18 @@ import { getDiscussionsByLesson } from "../../../api/endpoints/course/discussion
 import { ApiResponseDiscussion } from "../../../api/types/apiResponses/apiResponseDiscussion";
 
 
-// const discussion = [
-//   {
-//     name: "Abin",
-//     content: "Nice chapter, very well explained",
-//     profileUrl: profilePic,
-//     date: "10/02/2022",
-//   },
-//   {
-//     name: "John",
-//     content: "Great content! Really helpful.",
-//     profileUrl: profilePic,
-//     date: "11/02/2022",
-//   },
-//   {
-//     name: "Emily",
-//     content: "I have a question regarding a concept.",
-//     profileUrl: profilePic,
-//     date: "12/02/2022",
-//   },
-//   {
-//     name: "Sarah",
-//     content: "I found a typo in the text.",
-//     profileUrl: profilePic,
-//     date: "13/02/2022",
-//   },
-//   {
-//     name: "Mike",
-//     content: "Thank you for the chapter!",
-//     profileUrl: profilePic,
-//     date: "14/02/2022",
-//   },
-// ];
-
-const Discussion: React.FC = () => {
+const Discussion: React.FC<{lessonId:string}> = ({lessonId}) => {
   const [discussionText, setDiscussionText] = useState("");
   const [discussions,setDiscussions]= useState<ApiResponseDiscussion[] |null>(null)
   const [isInputEmpty, setIsInputEmpty] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const { lessonId } = useParams();
+  const [posted,setPosted] = useState(false)
 
   const handlePostDiscussion = async () => {
     try {
       setIsLoading(true);
       const response = await addDiscussion(lessonId ?? "", discussionText);
-      setDiscussions(response?.data)
+      setPosted(!posted)
       toast.success(response?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -73,7 +40,6 @@ const Discussion: React.FC = () => {
  const fetchDiscussions = async()=>{
   try {
     const response = await getDiscussionsByLesson(lessonId ?? '');
-    console.log(response)
     setDiscussions(response.data)
   } catch (error: any) {
     toast.error("Something went wrong", {
@@ -83,7 +49,7 @@ const Discussion: React.FC = () => {
  }
   useEffect(()=>{ 
     fetchDiscussions()
-  },[])
+  },[posted])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDiscussionText(e.target.value);

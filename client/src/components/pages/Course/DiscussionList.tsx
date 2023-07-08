@@ -37,7 +37,7 @@ const DiscussionListEl: React.FC<ApiResponseDiscussion> = ({
   createdAt,
   replies,
   updatedAt,
-  userId,
+  studentDetails,
   message,
 }) => {
   const calculateTimeAgo = useTimeAgo();
@@ -47,7 +47,7 @@ const DiscussionListEl: React.FC<ApiResponseDiscussion> = ({
         <div className='flex'>
           <img className='w-12 h-12' src={profilePic} alt='image' />
           <div className='ml-2'>
-            <h2 className='font-semibold text-customFontColorBlack'>{userId}</h2>
+            <h2 className='font-semibold text-customFontColorBlack'>{studentDetails?.firstName+" "+studentDetails?.lastName}</h2>
             <h2 className='font-light text-xs'>{calculateTimeAgo(createdAt)}</h2>
             <br />
           </div>

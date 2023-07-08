@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Discussions from '../models/discussions';
 import { AddDiscussionInterface } from '@src/types/discussion';
+import Students from '../models/student';
 export const discussionRepositoryMongoDb = () => {
   const addDiscussion = async (discussion: AddDiscussionInterface) => {
     const newDiscussion = new Discussions(discussion);
@@ -8,10 +9,37 @@ export const discussionRepositoryMongoDb = () => {
   };
 
   const getDiscussionsByLesson = async (lessonId: string) => {
-    const discussions = await Discussions.find({
-      lessonId: new mongoose.Types.ObjectId(lessonId)
-    });
-    return discussions;
+    const discussionsWithUserDetails = await Discussions.aggregate([
+      {
+        $match: { lessonId: new mongoose.Types.ObjectId(lessonId) }
+      },
+      {
+        $lookup: {
+          from: 'students',
+          localField: 'studentId',
+          foreignField: '_id',
+          as: 'studentDetails'
+        }
+      },
+      {
+        $unwind: '$studentDetails'
+      },
+      {
+        $project: {
+          _id: 1,
+          message: 1,
+          lessonId: 1,
+          replies: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          'studentDetails.firstName': 1,
+          'studentDetails.lastName': 1,
+          'studentDetails.profilePic': 1,
+          'studentDetails.dateJoined': 1,
+        }
+      }
+    ]);
+    return discussionsWithUserDetails;
   };
 
   return {

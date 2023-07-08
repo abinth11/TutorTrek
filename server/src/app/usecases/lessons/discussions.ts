@@ -4,7 +4,7 @@ import { AddDiscussionInterface } from '../../../types/discussion';
 import { DiscussionDbInterface } from '../../../app/repositories/discussionDbRepository';
 
 export const addDiscussionU = async (
-  userId: string | undefined,
+  studentId: string | undefined,
   lessonId: string,
   discussion: AddDiscussionInterface,
   discussionDbRepository: ReturnType<DiscussionDbInterface>
@@ -12,11 +12,11 @@ export const addDiscussionU = async (
   if (!discussion) {
     throw new AppError('Please provide data', HttpStatusCodes.BAD_REQUEST);
   }
-  if (!userId) {
+  if (!studentId) {
     throw new AppError('user not found', HttpStatusCodes.BAD_REQUEST);
   }
   discussion.lessonId = lessonId;
-  discussion.userId = userId;
+  discussion.studentId = studentId;
   await discussionDbRepository.addDiscussion(discussion);
 };
 

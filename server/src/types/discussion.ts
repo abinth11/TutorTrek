@@ -1,12 +1,12 @@
 export interface Reply  {
-    userId: string;
+   studentId: string;
     message: string;
     createdAt: Date;
     updatedAt: Date;
   }
   
  export interface AddDiscussionInterface  {
-    userId: string;
+    studentId: string;
     message: string;
     lessonId: string;
     replies?: Reply[];
