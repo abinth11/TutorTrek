@@ -11,6 +11,8 @@ import { quizDbRepository } from '../../../app/repositories/quizDbRepository';
 import { quizRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/quizzDbRepository';
 import { lessonDbRepository } from '../../../app/repositories/lessonDbRepository';
 import { lessonRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/lessonRepoMongodb';
+import { discussionDbRepository } from '../../../app/repositories/discussionDbRepository';
+import { discussionRepositoryMongoDb } from '../../../frameworks/database/mongodb/repositories/discussionsRepoMongodb';
 const courseRouter = () => {
   const router = express.Router();
   const controller = courseController( 
@@ -21,7 +23,9 @@ const courseRouter = () => {
     quizDbRepository,
     quizRepositoryMongodb,
     lessonDbRepository,
-    lessonRepositoryMongodb
+    lessonRepositoryMongodb,
+    discussionDbRepository,
+    discussionRepositoryMongoDb
   );
   //* Add course 
   router.post('/instructors/add-course',instructorRoleCheckMiddleware,uploadImageAndVideo,controller.addCourse)
@@ -39,6 +43,18 @@ const courseRouter = () => {
   router.get('/get-lessons-by-id/:lessonId',controller.getLessonById)
 
   router.get('/get-quizzes-by-lesson/:lessonId',controller.getQuizzesByLesson)
+
+  router.post('/lessons/add-discussion/:lessonId',controller.addDiscussion)
+
+  router.get('/lessons/get-discussions-by-lesson/:lessonId',controller.getDiscussionsByLesson)
+
+  router.patch('/lessons/edit-discussion/:discussionId',controller.editDiscussions)
+
+  router.delete('/lessons/delete-discussion/:discussionId',controller.deleteDiscussion)
+
+  router.put('/lessons/reply-discussion/:discussionId',controller.replyDiscussion)
+
+  router.get('/lesson/replies-based-on-discussion/:discussionId',controller.getRepliesByDiscussion)
 
   return router
 };

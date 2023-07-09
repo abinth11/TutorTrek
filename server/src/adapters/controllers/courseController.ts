@@ -18,8 +18,19 @@ import { getQuizzesLessonU } from '../../app/usecases/auth/quiz/getQuiz';
 import { getLessonByIdU } from '../../app/usecases/lessons/getLesson';
 import { QuizDbInterface } from '../../app/repositories/quizDbRepository';
 import { QuizRepositoryMongoDbInterface } from '../../frameworks/database/mongodb/repositories/quizzDbRepository';
-import { LessonDbRepositoryInterface } from '@src/app/repositories/lessonDbRepository';
-import { LessonRepositoryMongoDbInterface } from '@src/frameworks/database/mongodb/repositories/lessonRepoMongodb';
+import { LessonDbRepositoryInterface } from '../../app/repositories/lessonDbRepository';
+import { LessonRepositoryMongoDbInterface } from '../../frameworks/database/mongodb/repositories/lessonRepoMongodb';
+import { AddDiscussionInterface } from '../../types/discussion';
+import { DiscussionRepoMongodbInterface } from '../../frameworks/database/mongodb/repositories/discussionsRepoMongodb';
+import { DiscussionDbInterface } from '../../app/repositories/discussionDbRepository';
+import {
+  addDiscussionU,
+  getDiscussionsByLessonU,
+  editDiscussionU,
+  deleteDiscussionByIdU,
+  replyDiscussionU,
+  getRepliesByDiscussionIdU
+} from '../../app/usecases/lessons/discussions';
 
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
@@ -28,13 +39,18 @@ const courseController = (
   courseDbRepositoryImpl: CourseRepositoryMongoDbInterface,
   quizDbRepository: QuizDbInterface,
   quizDbRepositoryImpl: QuizRepositoryMongoDbInterface,
-  lessonDbRepository:LessonDbRepositoryInterface,
-  lessonDbRepositoryImpl:LessonRepositoryMongoDbInterface
+  lessonDbRepository: LessonDbRepositoryInterface,
+  lessonDbRepositoryImpl: LessonRepositoryMongoDbInterface,
+  discussionDbRepository: DiscussionDbInterface,
+  discussionDbRepositoryImpl: DiscussionRepoMongodbInterface
 ) => {
   const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl());
   const cloudService = cloudServiceInterface(cloudServiceImpl());
   const dbRepositoryQuiz = quizDbRepository(quizDbRepositoryImpl());
-  const dbRepositoryLesson = lessonDbRepository(lessonDbRepositoryImpl())
+  const dbRepositoryLesson = lessonDbRepository(lessonDbRepositoryImpl());
+  const dbRepositoryDiscussion = discussionDbRepository(
+    discussionDbRepositoryImpl()
+  );
 
   const addCourse = asyncHandler(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -165,6 +181,82 @@ const courseController = (
     }
   );
 
+  const addDiscussion = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const lessonId: string = req.params.lessonId;
+      const userId = req.user?.Id;
+      const discussion: AddDiscussionInterface = req.body;
+      await addDiscussionU(
+        userId,
+        lessonId,
+        discussion,
+        dbRepositoryDiscussion
+      );
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully posted your comment',
+        data: null
+      });
+    }
+  );
+
+  const getDiscussionsByLesson = asyncHandler(
+    async (req: Request, res: Response) => {
+      const lessonId: string = req.params.lessonId;
+      const discussion = await getDiscussionsByLessonU(
+        lessonId,
+        dbRepositoryDiscussion
+      );
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully retrieved discussions based on a lesson',
+        data: discussion
+      });
+    }
+  );
+
+  const editDiscussions = asyncHandler(async(req:Request,res:Response)=>{
+    const discussionId:string= req.params.discussionId
+    const message:string = req.body.message
+    await editDiscussionU(discussionId,message,dbRepositoryDiscussion)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully edited your comment',
+      data: null
+    });
+  })
+
+  const deleteDiscussion = asyncHandler(async(req:Request,res:Response)=>{
+    const discussionId:string = req.params.discussionId
+    await deleteDiscussionByIdU(discussionId,dbRepositoryDiscussion)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully deleted your comment',
+      data: null
+    });
+  })
+
+  const replyDiscussion = asyncHandler(async(req:Request,res:Response)=>{
+    const discussionId:string=req.params.discussionId
+    const reply = req.body.reply
+    await replyDiscussionU(discussionId,reply,dbRepositoryDiscussion)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully replied to a comment',
+      data: null
+    });
+  })
+
+  const getRepliesByDiscussion = asyncHandler(async(req:Request,res:Response)=>{
+    const discussionId:string = req.params.discussionId
+    const replies = await getRepliesByDiscussionIdU(discussionId,dbRepositoryDiscussion)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully retrieved replies based on discussion',
+      data: replies
+    });
+  })
+
   return {
     addCourse,
     getAllCourses,
@@ -173,7 +265,13 @@ const courseController = (
     addLesson,
     getLessonsByCourse,
     getLessonById,
-    getQuizzesByLesson
+    getQuizzesByLesson,
+    addDiscussion,
+    getDiscussionsByLesson,
+    editDiscussions,
+    deleteDiscussion,
+    replyDiscussion,
+    getRepliesByDiscussion
   };
 };
 

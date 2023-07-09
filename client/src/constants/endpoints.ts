@@ -21,6 +21,12 @@ const END_POINTS = {
     ADD_LESSON:'api/courses/instructors/add-lesson',
     GET_LESSONS_BY_ID:'api/courses/get-lessons-by-id',
     STREAM_VIDEO:'api/video-streaming/stream-video',
-    GET_QUIZZES_BY_LESSON:'api/courses/get-quizzes-by-lesson'
+    GET_QUIZZES_BY_LESSON:'api/courses/get-quizzes-by-lesson',
+    ADD_DISCUSSION:'api/courses/lessons/add-discussion',
+    GET_DISCUSSIONS_BY_LESSON:'api/courses/lessons/get-discussions-by-lesson',
+    EDIT_DISCUSSION:'api/courses/lessons/edit-discussion',
+    DELETE_DISCUSSION:'api/courses/lessons/delete-discussion',
+    REPLY_TO_DISCUSSION:'api/courses/lessons/reply-discussion',
+    GET_REPLIES_BY_DISCUSSION:'api/courses/lesson/replies-based-on-discussion'
 }
 export default END_POINTS

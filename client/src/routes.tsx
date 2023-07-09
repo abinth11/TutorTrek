@@ -1,28 +1,28 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import StudentLoginPage from "./components/students/pages/StudentLoginPage";
-import StudentRegistrationPage from "./components/students/pages/StudentRegistrationPage";
-import StudentHomePage from "./components/students/pages/StudentHomePage";
-import InstructorRegistrationPage from "./components/instructors/pages/InstructorRegisterPage";
-import InstructorLoginPage from "./components/instructors/pages/InstructorLoginPage";
+import StudentLoginPage from "./components/pages/students/StudentLoginPage";
+import StudentRegistrationPage from "./components/pages/students/StudentRegistrationPage";
+import StudentHomePage from "./components/pages/students/StudentHomePage";
+import InstructorRegistrationPage from "./components/pages/instructors/InstructorRegisterPage";
+import InstructorLoginPage from "./components/pages/instructors/InstructorLoginPage";
 import ErrorElement from "./components/common/ErrorElement";
-import AdminLoginPage from "./components/admin/pages/AdminLoginPage";
-import AdminHomePage from "./components/admin/pages/AdminHomePage";
-import Dashboard from "./components/admin/pages/AdminDashBoardPage";
-import ViewInstructorsIndex from "./components/admin/pages/InstructorManagement/ViewInstructorsIndex";
-import ViewInstructorRequests from "./components/admin/pages/InstructorManagement/ViewInstructorRequests";
-import ViewBlockedInstructors from "./components/admin/pages/InstructorManagement/ViewBlockedInstructors";
+import AdminLoginPage from "./components/pages/admin/AdminLoginPage";
+import AdminHomePage from "./components/pages/admin/AdminHomePage";
+import Dashboard from "./components/pages/admin/AdminDashBoardPage";
+import ViewInstructorsIndex from "./components/pages/InstructorManagement/ViewInstructorsIndex";
+import ViewInstructorRequests from "./components/pages/InstructorManagement/ViewInstructorRequests";
+import ViewBlockedInstructors from "./components/pages/InstructorManagement/ViewBlockedInstructors";
 import { Student, Admin } from "./App";
-import ViewMoreInstructorRequest from "./components/admin/pages/InstructorManagement/ViewMoreInstructorRequest";
+import ViewMoreInstructorRequest from "./components/pages/InstructorManagement/ViewMoreInstructorRequest";
 import { Instructor } from "./App";
-import InstructorDashboard from "./components/instructors/pages/InstructorDashboard";
-import AddCourse from "./components/instructors/pages/add-course/AddCourse";
-import ViewCourseStudent from "./components/students/pages/Course/ViewCourse";
-import WatchLessons from "./components/students/pages/Course/WatchLessons";
-import ListCourseForInstructors from "./components/instructors/pages/add-lessons/ListCourseForIstructors";
-import ViewLessons from "./components/instructors/pages/add-lessons/ViewLessons";
+import InstructorDashboard from "./components/pages/instructors/InstructorDashboard";
+import AddCourse from "./components/pages/add-course/AddCourse";
+import ViewCourseStudent from "./components/pages/Course/ViewCourse";
+import WatchLessons from "./components/pages/Course/WatchLessons";
+import ListCourseForInstructors from "./components/pages/add-lessons/ListCourseForIstructors";
+import ViewLessons from "./components/pages/add-lessons/ViewLessons";
 const LazyListCourse = lazy(
-  () => import("./components/students/pages/Course/ListCourse")
+  () => import("./components/pages/Course/ListCourse")
 );
 
 const AppRouter = createBrowserRouter([

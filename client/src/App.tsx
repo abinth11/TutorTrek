@@ -1,24 +1,25 @@
 import React,{useEffect} from "react";
-import StudentHeader from "./components/students/partials/StudentHeader";
+import StudentHeader from "./components/partials/StudentHeader";
 import "react-toastify/dist/ReactToastify.css";
 import { Outlet} from "react-router-dom";
-import AdminLoginPage from "./components/admin/pages/AdminLoginPage";
-import { Sidenav } from "./components/admin/widgets/layout";
-import { routes } from "./components/admin/pages/AdminDashBoardPage";
+import AdminLoginPage from "./components/pages/admin/AdminLoginPage";
+import { Sidenav } from "./components/pages/admin/widgets/layout";
+import { routes } from "./components/pages/admin/AdminDashBoardPage";
 import { useSelector } from "react-redux";
-import InstructorSideNav from "./components/instructors/partials/SideNav";
+import InstructorSideNav from "./components/partials/SideNav";
 import { selectIsAdminLoggedIn } from "./redux/reducers/adminAuthSlice";
-import InstructorHeader from "./components/instructors/partials/InstructorHeader";
+import InstructorHeader from "./components/partials/InstructorHeader";
 import useIsOnline from "./hooks/useOnline";
 import YouAreOffline from "./components/common/YouAreOffline";
-import StudentFooter from "./components/students/partials/StudentFooter";
+import StudentFooter from "./components/partials/StudentFooter";
 import { selectIsLoggedIn } from "./redux/reducers/authSlice";
 import usePreventBackButton from "./hooks/usePrevent";
-
+import { selectIsFooterVisible } from "./redux/reducers/helperSlice";
 
 export const Student: React.FC = () => {
   const isOnline = useIsOnline();
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const footerVisible = useSelector(selectIsFooterVisible)
   const isHeaderVisible = true
   // usePreventBackButton(isLoggedIn);
   const headerClassName = `bg-gray-100 ${
@@ -32,7 +33,9 @@ export const Student: React.FC = () => {
             <StudentHeader />
             </div>
             <Outlet />
-            <StudentFooter />
+            {
+              footerVisible&&<StudentFooter />
+            }
           </div>
         ): (
         <YouAreOffline />
