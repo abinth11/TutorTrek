@@ -186,7 +186,6 @@ const courseController = (
       const lessonId: string = req.params.lessonId;
       const userId = req.user?.Id;
       const discussion: AddDiscussionInterface = req.body;
-      console.log(req.body);
       await addDiscussionU(
         userId,
         lessonId,
@@ -249,7 +248,7 @@ const courseController = (
   })
 
   const getRepliesByDiscussion = asyncHandler(async(req:Request,res:Response)=>{
-    const discussionId:string = req.params.discussionsWithUserDetails
+    const discussionId:string = req.params.discussionId
     const replies = await getRepliesByDiscussionIdU(discussionId,dbRepositoryDiscussion)
     res.status(200).json({
       status: 'success',

@@ -58,7 +58,6 @@ export const discussionRepositoryMongoDb = () => {
     id: string,
     reply: { studentId: string; message: string }
   ) => {
-    console.log(reply);
     await Discussions.updateOne(
       { _id: new mongoose.Types.ObjectId(id) },
       { $push: { replies: reply } }
@@ -66,10 +65,62 @@ export const discussionRepositoryMongoDb = () => {
   };
 
   const getRepliesByDiscussionId = async (id: string) => {
-    const replies = await Discussions.findOne(
-      { _id: new mongoose.Types.ObjectId(id) },
-      { replies: 1 }
-    );
+    const pipeline = [
+      {
+        $match: { _id: new mongoose.Types.ObjectId(id) }
+      },
+      {
+        $project: {
+          replies: 1
+        }
+      },
+      {
+        $unwind: '$replies'
+      },
+      {
+        $lookup: {
+          from: 'students', 
+          localField: 'replies.studentId',
+          foreignField: '_id',
+          as: 'repliesWithStudent'
+        }
+      },
+      {
+        $unwind: '$repliesWithStudent'
+      },
+      {
+        $group: {
+          _id: '$_id',
+          replies: {
+            $push: {
+              _id: '$replies._id',
+              message: '$replies.message',
+              createdAt: '$replies.createdAt',
+              updatedAt: '$replies.updatedAt',
+              studentDetails: '$repliesWithStudent'
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          'replies._id': 1,
+          'replies.message': 1,
+          'replies.createdAt': 1,
+          'replies.updatedAt': 1,
+          'replies.studentDetails._id': 1,
+          'replies.studentDetails.firstName': 1,
+          'replies.studentDetails.lastName': 1,
+          'replies.studentDetails.dateJoined': 1
+        }
+      }
+    ];
+    
+    const result = await Discussions.aggregate(pipeline);
+    const replies = result.length > 0 ? result[0].replies : [];
+    
+
     return replies;
   };
 

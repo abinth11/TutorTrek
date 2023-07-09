@@ -67,7 +67,6 @@ const WatchLessons: React.FC = () => {
       });
     }
   };
- console.log(lesson)
 
   useEffect(() => {
     currentLessonId && fetchLesson(currentLessonId);

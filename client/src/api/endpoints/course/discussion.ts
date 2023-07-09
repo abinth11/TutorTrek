@@ -4,7 +4,8 @@ import {
   editDiscussionService,
   getDiscussionsByLessonService,
   deleteDiscussionService,
-  replyDiscussionService
+  replyDiscussionService,
+  getRepliesByDiscussionService
 } from "../../services/course/discussionService";
 
 export const addDiscussion = (lessonId: string, message: string) => {
@@ -29,3 +30,7 @@ export const deleteDiscussions = (id: string) => {
 export const replyDiscussions = (id: string,reply:{studentId:string,message:string}) => {
   return replyDiscussionService(END_POINTS.REPLY_TO_DISCUSSION, id,reply);
 };
+
+export const getRepliesByDiscussion = (id:string)=>{
+  return getRepliesByDiscussionService(END_POINTS.GET_REPLIES_BY_DISCUSSION,id)
+}

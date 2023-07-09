@@ -8,8 +8,6 @@ let decodedToken: { payload: { Id: string } } | null = null;
 if (accessToken) {
   decodedToken = jwt_decode(accessToken);
 }
-console.log(decodedToken)
-console.log('decoded')
 const initialState = {
   data: {
     studentDetails: "",

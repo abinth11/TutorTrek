@@ -24,3 +24,16 @@ interface StudentDetails {
     dateJoined: Date;
   }
   
+  export interface ApiResponseDiscussionReply{
+    _id: string;
+    message: string;
+    createdAt: string;
+    updatedAt: string;
+    studentDetails: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+      dateJoined: string;
+    };
+  }
+  

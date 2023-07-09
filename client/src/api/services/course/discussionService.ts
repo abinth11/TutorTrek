@@ -59,3 +59,13 @@ export const replyDiscussionService = async (
   );
   return response.data;
 };
+
+export const getRepliesByDiscussionService = async (
+  endpoint: string,
+  id: string,
+) => {
+  const response = await api.get(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${id}`
+  );
+  return response.data;
+};

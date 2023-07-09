@@ -7,9 +7,7 @@ import { toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
 import { getDiscussionsByLesson } from "../../../api/endpoints/course/discussion";
 import { ApiResponseDiscussion } from "../../../api/types/apiResponses/apiResponseDiscussion";
-import { useDispatch } from "react-redux";
-import { setFooterVisible } from "../../../redux/reducers/helperSlice";
-import { replyDiscussions } from "../../../api/endpoints/course/discussion";
+
 const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
   const [discussionText, setDiscussionText] = useState("");
   const [discussions, setDiscussions] = useState<
@@ -19,28 +17,7 @@ const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [visibleCount, setVisibleCount] = useState(3);
-  const [replyContent, setReplyContent] = useState<{
-    name: string;
-    id: string;
-    studentId: string;
-  }>();
-  const [replyText, setReplyText] = useState<string>("");
-  const [isReply, setIsReply] = useState<boolean>(false);
-  const [type, setType] = useState("POST");
-  const inputRef = useRef<HTMLInputElement>(null);
-  const dispatch = useDispatch();
 
-  const handleReply = (data: {
-    name: string;
-    id: string;
-    studentId: string;
-  }) => {
-    setReplyContent(data);
-    console.log(data);
-    setIsReply(true);
-    setType("REPLY");
-    dispatch(setFooterVisible(false));
-  };
   const handlePostDiscussion = async () => {
     try {
       setIsLoading(true);
@@ -62,42 +39,6 @@ const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
     }
   };
 
-  const handlePostReply = async () => {
-    try {
-      setIsLoading(true);
-      const response = await replyDiscussions(replyContent?.id ?? "", {
-        studentId: replyContent?.studentId ?? "",
-        message: replyText,
-      });
-      setUpdated(!updated);
-      toast.success(response?.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-      setReplyText("");
-      setIsInputEmpty(true);
-      setIsReply(false)
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
-    } catch (error) {
-      toast.error("Something went wrong", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-    }
-  };
-
-  const handleDiscussionReplyAndPost = (action: string) => {
-    switch (action) {
-      case "POST":
-        handlePostDiscussion();
-        break;
-      case "REPLY":
-        handlePostReply();
-        break;
-      default:
-        break;
-    }
-  };
   const fetchDiscussions = async () => {
     try {
       const response = await getDiscussionsByLesson(lessonId ?? "");
@@ -108,28 +49,15 @@ const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
       });
     }
   };
-  useEffect(() => { 
+  useEffect(() => {
     fetchDiscussions();
   }, [updated]);
-
-  useEffect(() => {
-    if (isReply && inputRef.current) {
-      inputRef.current.focus();
-      // setIsReply(false);
-    }
-  }, [isReply]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDiscussionText(e.target.value);
     setIsInputEmpty(e.target.value === "");
   };
-  const handleReplyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value)
-    setReplyText(e.target.value);
-    setIsInputEmpty(e.target.value === "");
 
-  }; 
- 
   const handleViewMore = () => {
     setVisibleCount((prevCount) => prevCount + 3);
   };
@@ -141,8 +69,7 @@ const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
   const visibleCommentsList = discussions?.slice(0, visibleCount);
   const shouldShowViewMore = visibleCount < totalComments;
   const shouldShowShowLess = visibleCount > 3;
-  console.log(replyText,isReply);
- 
+
   return (
     <div>
       <h2 className='text-xl ml-2 p-1 font-bold mb-4 flex items-center'>
@@ -161,7 +88,6 @@ const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
               <DiscussionListEl
                 updated={updated}
                 setUpdated={setUpdated}
-                handleReply={handleReply}
                 {...item}
                 key={index}
               />
@@ -170,7 +96,7 @@ const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
         </ul>
         {shouldShowViewMore && (
           <button
-            className='text-customFontColorBlack ml-4 mt-1 underline'
+            className='text-blue-gray-400 ml-4 mt-1 underline'
             onClick={handleViewMore}
           >
             View More
@@ -178,7 +104,7 @@ const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
         )}
         {shouldShowShowLess && (
           <button
-            className='text-customFontColorBlack ml-4 mt-1 underline'
+            className='text-blue-gray-400 ml-4 mt-1 underline'
             onClick={handleShowLess}
           >
             Show less
@@ -187,26 +113,14 @@ const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
       </div>
       <div className='mx-auto pb-5 flex mt-4 px-4'>
         <div className='w-1/2'>
-          {isReply ? (
-            <input
-              type='text'        
-              ref={inputRef}
-              value={replyText}
-              onChange={handleReplyChange}
-              className=' border border-gray-400 w-full rounded-md px-4 py-2 focus:outline-none focus:border-blue-500'
-              placeholder='Enter your reply'
-            /> 
-          ) : (
-            <input
-              type='text'
-              value={discussionText}
-              onChange={handleInputChange}
-              className='border  border-gray-400 w-full rounded-md px-4 py-2 focus:outline-none focus:border-blue-500'
-              placeholder='Enter your discussion'
-            />
-          )}
+          <input
+            type='text'
+            value={discussionText}
+            onChange={handleInputChange}
+            className='border  border-gray-400 w-full rounded-md px-4 py-2 focus:outline-none focus:border-blue-500'
+            placeholder='Enter your discussion'
+          />
         </div>
-
         <div>
           {isLoading ? (
             <div className='flex p-3 justify-center items-center'>
@@ -222,9 +136,7 @@ const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
               }}
             >
               <button
-                onClick={() => {
-                  handleDiscussionReplyAndPost(type);
-                }}
+                onClick={handlePostDiscussion}
                 disabled={isInputEmpty}
                 className={`bg-blue ${
                   isInputEmpty
