@@ -157,7 +157,7 @@ const WatchLessons: React.FC = () => {
                 setCurrentLessonId(lesson._id);
               }}
               className={`p-6 border-b-2 flex items-center cursor-pointer 
-              ${lesson._id === currentLessonId ? "bg-gray-300 hover:bg-gray-300" : "hover:bg-gray-200"}
+              ${lesson._id === currentLessonId ? "bg-gray-200 hover:bg-gray-200" : "hover:bg-gray-100"}
               `}
             >
               <BiVideo className='mr-2 text-blue-500' />

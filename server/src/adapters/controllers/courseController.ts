@@ -27,7 +27,8 @@ import {
   addDiscussionU,
   getDiscussionsByLessonU,
   editDiscussionU,
-  deleteDiscussionByIdU
+  deleteDiscussionByIdU,
+  replyDiscussionU
 } from '../../app/usecases/lessons/discussions';
 
 const courseController = (
@@ -235,6 +236,17 @@ const courseController = (
     });
   })
 
+  const replyDiscussion = asyncHandler(async(req:Request,res:Response)=>{
+    const discussionId:string=req.params.discussionId
+    const reply = req.body.reply
+    await replyDiscussionU(discussionId,reply,dbRepositoryDiscussion)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully replied to a comment',
+      data: null
+    });
+  })
+
   return {
     addCourse,
     getAllCourses,
@@ -247,7 +259,8 @@ const courseController = (
     addDiscussion,
     getDiscussionsByLesson,
     editDiscussions,
-    deleteDiscussion
+    deleteDiscussion,
+    replyDiscussion
   };
 };
 

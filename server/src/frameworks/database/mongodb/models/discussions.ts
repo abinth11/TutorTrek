@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 const replySchema = new Schema({
-  userId: {
+  studentId: {
     type: Schema.Types.ObjectId,
     required: true
   },

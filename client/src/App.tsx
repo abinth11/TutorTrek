@@ -14,11 +14,12 @@ import YouAreOffline from "./components/common/YouAreOffline";
 import StudentFooter from "./components/partials/StudentFooter";
 import { selectIsLoggedIn } from "./redux/reducers/authSlice";
 import usePreventBackButton from "./hooks/usePrevent";
-
+import { selectIsFooterVisible } from "./redux/reducers/helperSlice";
 
 export const Student: React.FC = () => {
   const isOnline = useIsOnline();
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const footerVisible = useSelector(selectIsFooterVisible)
   const isHeaderVisible = true
   // usePreventBackButton(isLoggedIn);
   const headerClassName = `bg-gray-100 ${
@@ -32,7 +33,9 @@ export const Student: React.FC = () => {
             <StudentHeader />
             </div>
             <Outlet />
-            <StudentFooter />
+            {
+              footerVisible&&<StudentFooter />
+            }
           </div>
         ): (
         <YouAreOffline />

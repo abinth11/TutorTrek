@@ -50,15 +50,27 @@ export const discussionRepositoryMongoDb = () => {
     );
   };
 
-  const deleteDiscussionById = async (id:string)=>{
-    await Discussions.deleteOne({_id: new mongoose.Types.ObjectId(id)})
-  }
+  const deleteDiscussionById = async (id: string) => {
+    await Discussions.deleteOne({ _id: new mongoose.Types.ObjectId(id) });
+  };
+
+  const replyDiscussion = async (
+    id: string,
+    reply: { studentId: string; message: string }
+  ) => {
+    console.log(reply)
+    await Discussions.updateOne(
+      { _id: new mongoose.Types.ObjectId(id) },
+      { $push: { replies: reply } }
+    );
+  };
 
   return {
     addDiscussion,
     getDiscussionsByLesson,
     editDiscussion,
-    deleteDiscussionById
+    deleteDiscussionById,
+    replyDiscussion
   };
 };
 

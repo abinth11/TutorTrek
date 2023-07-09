@@ -52,6 +52,8 @@ const courseRouter = () => {
 
   router.delete('/lessons/delete-discussion/:discussionId',controller.deleteDiscussion)
 
+  router.put('/lessons/reply-discussion/:discussionId',controller.replyDiscussion)
+
   return router
 };
 export default courseRouter
