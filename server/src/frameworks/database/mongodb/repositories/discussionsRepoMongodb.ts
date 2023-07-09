@@ -58,11 +58,19 @@ export const discussionRepositoryMongoDb = () => {
     id: string,
     reply: { studentId: string; message: string }
   ) => {
-    console.log(reply)
+    console.log(reply);
     await Discussions.updateOne(
       { _id: new mongoose.Types.ObjectId(id) },
       { $push: { replies: reply } }
     );
+  };
+
+  const getRepliesByDiscussionId = async (id: string) => {
+    const replies = await Discussions.findOne(
+      { _id: new mongoose.Types.ObjectId(id) },
+      { replies: 1 }
+    );
+    return replies;
   };
 
   return {
@@ -70,7 +78,8 @@ export const discussionRepositoryMongoDb = () => {
     getDiscussionsByLesson,
     editDiscussion,
     deleteDiscussionById,
-    replyDiscussion
+    replyDiscussion,
+    getRepliesByDiscussionId
   };
 };
 

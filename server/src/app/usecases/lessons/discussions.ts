@@ -47,7 +47,7 @@ export const editDiscussionU = async (
       HttpStatusCodes.BAD_REQUEST
     );
   }
-  message=message.trim()
+  message = message.trim();
   if (!message) {
     throw new AppError(
       'Please provide a valid message',
@@ -72,7 +72,7 @@ export const deleteDiscussionByIdU = async (
 
 export const replyDiscussionU = async (
   discussionId: string,
-  reply:{studentId:string,message:string},
+  reply: { studentId: string; message: string },
   discussionDbRepository: ReturnType<DiscussionDbInterface>
 ) => {
   if (!discussionId) {
@@ -81,13 +81,27 @@ export const replyDiscussionU = async (
       HttpStatusCodes.BAD_REQUEST
     );
   }
-  if(!reply){
+  if (!reply) {
     throw new AppError(
       'Please provide valid data',
       HttpStatusCodes.BAD_REQUEST
     );
   }
-  await discussionDbRepository.replyDiscussion(discussionId,reply);
+  await discussionDbRepository.replyDiscussion(discussionId, reply);
 };
 
-
+export const getRepliesByDiscussionIdU = async (
+  discussionId: string,
+  discussionDbRepository: ReturnType<DiscussionDbInterface>
+) => {
+  if (!discussionId) {
+    throw new AppError(
+      'Please provide a discussion id',
+      HttpStatusCodes.BAD_REQUEST
+    );
+  }
+  const replies = await discussionDbRepository.getRepliesByDiscussionId(
+    discussionId
+  );
+  return replies;
+};

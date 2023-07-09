@@ -28,7 +28,8 @@ import {
   getDiscussionsByLessonU,
   editDiscussionU,
   deleteDiscussionByIdU,
-  replyDiscussionU
+  replyDiscussionU,
+  getRepliesByDiscussionIdU
 } from '../../app/usecases/lessons/discussions';
 
 const courseController = (
@@ -247,6 +248,16 @@ const courseController = (
     });
   })
 
+  const getRepliesByDiscussion = asyncHandler(async(req:Request,res:Response)=>{
+    const discussionId:string = req.params.discussionsWithUserDetails
+    const replies = await getRepliesByDiscussionIdU(discussionId,dbRepositoryDiscussion)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully retrieved replies based on discussion',
+      data: replies
+    });
+  })
+
   return {
     addCourse,
     getAllCourses,
@@ -260,7 +271,8 @@ const courseController = (
     getDiscussionsByLesson,
     editDiscussions,
     deleteDiscussion,
-    replyDiscussion
+    replyDiscussion,
+    getRepliesByDiscussion
   };
 };
 

@@ -16,12 +16,15 @@ export const discussionDbRepository = (
 
   const replyDiscussion = async (id:string,reply:{studentId:string,message:string})=> await repository.replyDiscussion(id,reply)
 
+  const getRepliesByDiscussionId = async (id:string)=>await repository.getRepliesByDiscussionId(id)
+
   return {
     addDiscussion,
     getDiscussionsByLesson,
     editDiscussion,
     deleteDiscussionById,
-    replyDiscussion
+    replyDiscussion,
+    getRepliesByDiscussionId
   };
 };
 

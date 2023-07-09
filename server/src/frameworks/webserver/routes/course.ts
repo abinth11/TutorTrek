@@ -54,6 +54,8 @@ const courseRouter = () => {
 
   router.put('/lessons/reply-discussion/:discussionId',controller.replyDiscussion)
 
+  router.get('/lesson/replies-based-on-discussion/:discussionId',controller.getRepliesByDiscussion)
+
   return router
 };
 export default courseRouter
