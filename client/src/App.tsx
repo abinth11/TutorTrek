@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React from "react";
 import StudentHeader from "./components/partials/StudentHeader";
 import "react-toastify/dist/ReactToastify.css";
 import { Outlet} from "react-router-dom";
@@ -15,6 +15,7 @@ import StudentFooter from "./components/partials/StudentFooter";
 import { selectIsLoggedIn } from "./redux/reducers/authSlice";
 import usePreventBackButton from "./hooks/usePrevent";
 import { selectIsFooterVisible } from "./redux/reducers/helperSlice";
+
 
 export const Student: React.FC = () => {
   const isOnline = useIsOnline();

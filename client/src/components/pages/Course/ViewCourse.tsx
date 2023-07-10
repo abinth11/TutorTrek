@@ -15,6 +15,7 @@ import ViewCourseShimmer from "../../Shimmers/ViewCourseShimmer";
 import { getLessonsByCourse } from "../../../api/endpoints/course/lesson";
 import { useDispatch } from "react-redux";
 import { setCourseId } from "../../../redux/reducers/courseSlice";
+import PaymentForm from "../payment-stripe/PaymentForm";
 const ViewCourseStudent: React.FC = () => {
   const params = useParams();
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -58,12 +59,11 @@ const ViewCourseStudent: React.FC = () => {
   if (isLoading || isLessonsLoading) {
     return <ViewCourseShimmer />;
   }
-
   return (
     <div className='bg-white'>
       <div className='flex flex-col pr-5 pt-5 pl-80  '>
         <CustomBreadCrumbs paths={location.pathname} />
-      </div>
+      </div> 
       <div className='flex flex-col items-center '>
         <div className='max-w-4xl overflow-hidden'>
           <div className='relative p-4 '>

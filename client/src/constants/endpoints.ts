@@ -27,6 +27,7 @@ const END_POINTS = {
     EDIT_DISCUSSION:'api/courses/lessons/edit-discussion',
     DELETE_DISCUSSION:'api/courses/lessons/delete-discussion',
     REPLY_TO_DISCUSSION:'api/courses/lessons/reply-discussion',
-    GET_REPLIES_BY_DISCUSSION:'api/courses/lesson/replies-based-on-discussion'
+    GET_REPLIES_BY_DISCUSSION:'api/courses/lesson/replies-based-on-discussion',
+    PAY_USING_STRIPE:'api/payment/stripe'
 }
 export default END_POINTS
