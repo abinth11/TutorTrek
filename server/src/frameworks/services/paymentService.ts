@@ -9,13 +9,10 @@ const stripe = new Stripe(configKeys.STRIPE_SECRET_KEY || '', {
 });
 
 export const paymentService = () => {
-  const createPaymentIntent = async (paymentInfo: {
-    id: string;
-    amount: number;
-  }) => {
+  const createPaymentIntent = async (amount:number) => {
     const paymentIntent = await stripe.paymentIntents.create({
       currency: 'INR',
-      amount: 100,
+      amount: amount*100,
       automatic_payment_methods: { enabled: true }
     });
     console.log('Payment', paymentIntent);

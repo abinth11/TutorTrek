@@ -13,6 +13,8 @@ import { lessonDbRepository } from '../../../app/repositories/lessonDbRepository
 import { lessonRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/lessonRepoMongodb';
 import { discussionDbRepository } from '../../../app/repositories/discussionDbRepository';
 import { discussionRepositoryMongoDb } from '../../../frameworks/database/mongodb/repositories/discussionsRepoMongodb';
+import { paymentRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/paymentRepoMongodb';
+import { paymentInterface } from '../../../app/repositories/paymentDbRepository';
 const courseRouter = () => {
   const router = express.Router();
   const controller = courseController( 
@@ -25,7 +27,9 @@ const courseRouter = () => {
     lessonDbRepository,
     lessonRepositoryMongodb,
     discussionDbRepository,
-    discussionRepositoryMongoDb
+    discussionRepositoryMongoDb,
+    paymentInterface,
+    paymentRepositoryMongodb
   );
   //* Add course 
   router.post('/instructors/add-course',instructorRoleCheckMiddleware,uploadImageAndVideo,controller.addCourse)
@@ -55,6 +59,8 @@ const courseRouter = () => {
   router.put('/lessons/reply-discussion/:discussionId',controller.replyDiscussion)
 
   router.get('/lesson/replies-based-on-discussion/:discussionId',controller.getRepliesByDiscussion)
+
+  router.post('/enroll-student/:courseId',controller.enrollStudent)
 
   return router
 };

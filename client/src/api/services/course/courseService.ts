@@ -1,5 +1,6 @@
 import CONSTANTS_COMMON from "../../../constants/common";
 import api from "../../middlewares/interceptors";
+import { PaymentIntent } from "@stripe/stripe-js";
 
 export const addCourseService = async (endpoint: string, courseInfo: any) => {
   const response = await api.post(
@@ -33,6 +34,15 @@ export const getIndividualCourseService = async (
   return response;
 };
 
-
+export const enrollStudentService = async (
+  endpoint:string,
+  courseId:string,
+  paymentInfo:PaymentIntent,
+) => {
+  const response = await api.post(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${courseId}`,paymentInfo
+  );
+  return response.data
+};
 
 

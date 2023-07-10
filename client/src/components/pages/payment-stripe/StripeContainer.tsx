@@ -6,11 +6,13 @@ import {
   getConfig,
   createStripePayment,
 } from "../../../api/endpoints/payment/stripe";
+import { useParams } from "react-router-dom";
 
 function StripeContainer() {
   const [stripePromise, setStripePromise] =
     useState<Promise<Stripe | null> | null>(null);
   const [clientSecret, setClientSecret] = useState<string>("");
+  const {courseId} = useParams()
 
   const fetchConfig = async () => {
     try {
@@ -24,7 +26,7 @@ function StripeContainer() {
   };
   const paymentIntentHandler = async () => {
     try {
-      const response = await createStripePayment({ id: "abin", amount: 1000 });
+      const response = await createStripePayment(courseId??"");
       const { clientSecret } = response.data;
       console.log(clientSecret);
       setClientSecret(clientSecret);

@@ -31,6 +31,10 @@ import {
   replyDiscussionU,
   getRepliesByDiscussionIdU
 } from '../../app/usecases/lessons/discussions';
+import { enrollStudentU } from '../../app/usecases/course/enroll';
+import { PaymentInfo } from '../../types/payment';
+import { PaymentInterface } from '../../app/repositories/paymentDbRepository';
+import { PaymentImplInterface } from '../../frameworks/database/mongodb/repositories/paymentRepoMongodb';
 
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
@@ -42,7 +46,9 @@ const courseController = (
   lessonDbRepository: LessonDbRepositoryInterface,
   lessonDbRepositoryImpl: LessonRepositoryMongoDbInterface,
   discussionDbRepository: DiscussionDbInterface,
-  discussionDbRepositoryImpl: DiscussionRepoMongodbInterface
+  discussionDbRepositoryImpl: DiscussionRepoMongodbInterface,
+  paymentDbRepository:PaymentInterface,
+  paymentDbRepositoryImpl:PaymentImplInterface
 ) => {
   const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl());
   const cloudService = cloudServiceInterface(cloudServiceImpl());
@@ -51,6 +57,8 @@ const courseController = (
   const dbRepositoryDiscussion = discussionDbRepository(
     discussionDbRepositoryImpl()
   );
+
+  const dbRepositoryPayment = paymentDbRepository(paymentDbRepositoryImpl())
 
   const addCourse = asyncHandler(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -215,47 +223,70 @@ const courseController = (
     }
   );
 
-  const editDiscussions = asyncHandler(async(req:Request,res:Response)=>{
-    const discussionId:string= req.params.discussionId
-    const message:string = req.body.message
-    await editDiscussionU(discussionId,message,dbRepositoryDiscussion)
+  const editDiscussions = asyncHandler(async (req: Request, res: Response) => {
+    const discussionId: string = req.params.discussionId;
+    const message: string = req.body.message;
+    await editDiscussionU(discussionId, message, dbRepositoryDiscussion);
     res.status(200).json({
       status: 'success',
       message: 'Successfully edited your comment',
       data: null
     });
-  })
+  });
 
-  const deleteDiscussion = asyncHandler(async(req:Request,res:Response)=>{
-    const discussionId:string = req.params.discussionId
-    await deleteDiscussionByIdU(discussionId,dbRepositoryDiscussion)
+  const deleteDiscussion = asyncHandler(async (req: Request, res: Response) => {
+    const discussionId: string = req.params.discussionId;
+    await deleteDiscussionByIdU(discussionId, dbRepositoryDiscussion);
     res.status(200).json({
       status: 'success',
       message: 'Successfully deleted your comment',
       data: null
     });
-  })
+  });
 
-  const replyDiscussion = asyncHandler(async(req:Request,res:Response)=>{
-    const discussionId:string=req.params.discussionId
-    const reply = req.body.reply
-    await replyDiscussionU(discussionId,reply,dbRepositoryDiscussion)
+  const replyDiscussion = asyncHandler(async (req: Request, res: Response) => {
+    const discussionId: string = req.params.discussionId;
+    const reply = req.body.reply;
+    await replyDiscussionU(discussionId, reply, dbRepositoryDiscussion);
     res.status(200).json({
       status: 'success',
       message: 'Successfully replied to a comment',
       data: null
     });
-  })
+  });
 
-  const getRepliesByDiscussion = asyncHandler(async(req:Request,res:Response)=>{
-    const discussionId:string = req.params.discussionId
-    const replies = await getRepliesByDiscussionIdU(discussionId,dbRepositoryDiscussion)
-    res.status(200).json({
-      status: 'success',
-      message: 'Successfully retrieved replies based on discussion',
-      data: replies
-    });
-  })
+  const getRepliesByDiscussion = asyncHandler(
+    async (req: Request, res: Response) => {
+      const discussionId: string = req.params.discussionId;
+      const replies = await getRepliesByDiscussionIdU(
+        discussionId,
+        dbRepositoryDiscussion
+      );
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully retrieved replies based on discussion',
+        data: replies
+      });
+    }
+  );
+
+  const enrollStudent = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const paymentInfo:PaymentInfo = req.body;
+      const { courseId }: { courseId?: string } = req.params;
+      const { Id }: { Id?: string } = req.user || {}
+      const courseIdValue: string = courseId ?? '';
+      const studentId: string = Id ?? '';
+
+      const response = await enrollStudentU(courseIdValue,studentId,paymentInfo,dbRepositoryCourse,dbRepositoryPayment)
+      console.log(response)
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully enrolled into the course',
+        data: response
+      });
+    }
+  );
 
   return {
     addCourse,
@@ -271,7 +302,8 @@ const courseController = (
     editDiscussions,
     deleteDiscussion,
     replyDiscussion,
-    getRepliesByDiscussion
+    getRepliesByDiscussion,
+    enrollStudent
   };
 };
 

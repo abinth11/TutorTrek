@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import { AddCourseInfoInterface } from '@src/types/courseInterface';
 const courseSchema = new Schema({
   title: {
@@ -39,12 +39,12 @@ const courseSchema = new Schema({
     },
     min: 0
   },
-  enrollmentCount: {
-    type: Number,
-    required: true,
-    min: 0,
-    default:0
-  },
+  coursesEnrolled: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'students'
+    }
+  ],
   rating: {
     type: Number,
     min: 0,

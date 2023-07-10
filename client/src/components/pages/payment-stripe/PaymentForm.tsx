@@ -1,11 +1,12 @@
 import { PaymentElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PaymentModal from "./PaymentSuccessModal";
+import { enrollStudent } from "../../../api/endpoints/course/course";
 
 const PaymentFrom: React.FC = () => {
-  const stripe = useStripe();   
+  const stripe = useStripe();
   const elements = useElements();
   const { courseId } = useParams();
 
@@ -38,6 +39,7 @@ const PaymentFrom: React.FC = () => {
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       setMessage("Payment status:" + paymentIntent.status);
       console.log(paymentIntent);
+      await enrollStudent(courseId ?? "", paymentIntent);
       setOpen(true);
       // navigate(`/courses/${courseId}`)
       console.log(message);
@@ -47,17 +49,17 @@ const PaymentFrom: React.FC = () => {
 
     setIsProcessing(false);
   };
-  console.log(open)
+  console.log(open);
 
-  return ( 
+  return (
     <div>
-      <PaymentModal open={open} setOpen={setOpen}/>
+      <PaymentModal open={open} setOpen={setOpen} />
       <form
         id='payment-form'
         onSubmit={handleSubmit}
         className='border-solid border-gray-300 rounded-lg p-4 my-4 shadow-md'
       >
-        <PaymentElement id='payment-element' /> 
+        <PaymentElement id='payment-element' />
 
         <button
           disabled={isProcessing || !stripe || !elements}

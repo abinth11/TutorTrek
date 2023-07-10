@@ -29,6 +29,7 @@ const END_POINTS = {
     REPLY_TO_DISCUSSION:'api/courses/lessons/reply-discussion',
     GET_REPLIES_BY_DISCUSSION:'api/courses/lesson/replies-based-on-discussion',
     PAY_USING_STRIPE:'api/payments/stripe/create-payment-intent',
-    GET_CONFIG:'api/payments/stripe/get-config'
+    GET_CONFIG:'api/payments/stripe/get-config',
+    ENROLL_STUDENT:'api/courses/enroll-student'
 }
 export default END_POINTS

@@ -3,12 +3,9 @@ import { PaymentServiceImpl } from '../../frameworks/services/paymentService';
 export const paymentServiceInterface = (
   service: ReturnType<PaymentServiceImpl>
 ) => {
-  const createPaymentIntent = async (paymentInfo: {
-    id: string;
-    amount: number;
-  }) => await service.createPaymentIntent(paymentInfo);
+  const createPaymentIntent = async (amount:number) => await service.createPaymentIntent(amount);
 
-  const getConfig = () => service.getConfig();
+  const getConfig = () => service.getConfig()
 
   return {
     createPaymentIntent,
