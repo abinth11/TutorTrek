@@ -4,7 +4,6 @@ import {
   CardBody,
   Typography,
   Tooltip,
-  IconButton,
   Rating
 } from "@material-tailwind/react";
 import {
@@ -13,45 +12,31 @@ import {
 import { formatToINR } from "../../../utils/helpers";
 import { CourseInterface } from "../../../types/course";
 
-interface CourseCardProps {
-  course: CourseInterface;
-}
-
-const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
+const CourseCard = ({ course }: { course: CourseInterface }) => {
   return (
-    <Card className='w-[20rem] shadow-lg'>
-    <CardHeader floated={false} color='blue-gray'>
-      <img src={course.thumbnail} alt='ui/ux review check' />
-      <div className='to-bg-black-10 absolute inset-0 h-[10rem] w-full bg-gradient-to-tr from-transparent via-transparent to-black/60' />
-    </CardHeader>
-    <CardBody>
-      <div className='mb-3 flex items-center justify-between'>
-        <Typography variant='h5' color='blue-gray' className='font-medium'>
-          {course?.title}
-        </Typography>
+    <div className="w-[18.5rem] p-5 text-customTextColor  hover:shadow-md hover:border hover:border-gray-300">
+      <div className="relative">
+        <img src={course.thumbnail} className="h-1/2" alt="ui/ux review check" />
+        <div className="absolute inset-0 h-[10rem] bg-gradient-to-tr from-transparent via-transparent to-black/60" />
       </div>
-      <Typography color='gray' className='text-sm'>
-        {course.description}
-      </Typography>
-      <div className='group mt-4 flex justify-between gap-3'>
-        <Tooltip content={`Price: ${formatToINR(course.price)}`}>
-          <Typography color='blue-gray' className='font-normal text-sm'>
-            {formatToINR(course.price)}
-          </Typography>
-        </Tooltip>
-        <Tooltip content={`Rating: ${course.rating}/5`}>
-          <div className='flex items-center gap-1.5'>
-            {/* <StarIcon className='-mt-0.5 h-4 w-4 text-yellow-700' /> */}
-            <Rating value={course.rating} readonly />
-            <Typography color='blue-gray' className='font-normal text-sm'>
-              {course.rating}
-            </Typography>
+      <div className="pt-4">
+        <div className="mb-3">
+          <h5 className="text-blue-gray text-xl font-medium">{course.title}</h5>
+        </div>
+        <p className="text-gray text-sm line-clamp-1">{course.description}</p>
+        <div className="mt-4 flex justify-between items-center">
+          <div className="group">
+          <p className={`text-sm font-normal ${course.isPaid ? "text-blue-gray" : "text-white p-1 text-xs rounded-tl-lg rounded-br-lg  font-extrabold bg-green-400"}`}>
+              {course.isPaid ? formatToINR(course.price) : "Free"}
+            </p>
           </div>
-        </Tooltip>
+          <div className="flex items-center gap-1.5">
+            <Rating value={course.rating} readonly />
+            <p className="text-blue-gray text-sm font-normal">{course.rating}</p>
+          </div>
+        </div>
       </div>
-    </CardBody>
-  </Card>
-  
+    </div>
   );
 };
 

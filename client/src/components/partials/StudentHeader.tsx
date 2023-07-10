@@ -31,11 +31,11 @@ const StudentHeader: React.FC = () => {
   };
 
   return (
-    <div className='bg-gray-100 z-10 w-full  border-b-2'>
+    <div className='bg-gray-100  z-10 w-full  border-b-2'>
       <Disclosure as='nav' className='bg-white p-1 flex justify-center pl-10 pr-10'>
         {({ open }) => (
           <>
-            <div className='max-w-full sm:px-6 lg:px-2  w-full'>
+            <div className='max-w-full sm:px-6 lg:px-2 w-11/12'>
               <div className='flex items-center justify-between h-16  '>
                 <div className='flex items-center'>
                   <div className='flex-shrink-0'>
