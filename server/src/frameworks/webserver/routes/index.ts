@@ -8,15 +8,21 @@ import jwtAuthMiddleware from '../middlewares/userAuth';
 import { adminRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
 import videoStreamRouter from './videoStream';
 import refreshRouter from './refresh';
+import paymentRouter from './payment';
 
 const routes = (app: Application, redisClient: RedisClient) => {
   app.use('/api/auth', authRouter());
-  app.use('/api/all/refresh-token',refreshRouter())
-  app.use('/api/admin',jwtAuthMiddleware,adminRoleCheckMiddleware,adminRouter());
-  app.use('/api/courses',jwtAuthMiddleware,courseRouter())
-  app.use('/api/video-streaming',videoStreamRouter())
-  app.use('/api/instructors',instructorRouter())
-
+  app.use('/api/all/refresh-token', refreshRouter());
+  app.use(
+    '/api/admin',
+    jwtAuthMiddleware,
+    adminRoleCheckMiddleware,
+    adminRouter()
+  );
+  app.use('/api/courses', jwtAuthMiddleware, courseRouter());
+  app.use('/api/video-streaming', videoStreamRouter());
+  app.use('/api/instructors', instructorRouter());
+  app.use('/api/payments', jwtAuthMiddleware, paymentRouter());
 };
 
 export default routes;
