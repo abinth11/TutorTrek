@@ -15,12 +15,16 @@ import ViewCourseShimmer from "../../Shimmers/ViewCourseShimmer";
 import { getLessonsByCourse } from "../../../api/endpoints/course/lesson";
 import { useDispatch } from "react-redux";
 import { setCourseId } from "../../../redux/reducers/courseSlice";
-import PaymentForm from "../payment-stripe/PaymentForm";
+import PaymentModal from "../payment-stripe/PaymentSuccessModal";
+import StripeContainer from "../payment-stripe/StripeContainer";
+import { useNavigate } from "react-router-dom";
 const ViewCourseStudent: React.FC = () => {
   const params = useParams();
   const [expandedIndex, setExpandedIndex] = useState(null);
   const courseId: string | undefined = params.courseId;
+  const [pay,setPay] =useState<boolean>(false)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const fetchCourse = async (courseId: string): Promise<CourseInterface> => {
     try {
@@ -44,7 +48,7 @@ const ViewCourseStudent: React.FC = () => {
       });
       throw error;
     }
-  };
+  }; 
 
   const [data, isLoading] = useApiData(fetchCourse, courseId);
   const [lessons, isLessonsLoading] = useApiData(fetchLessons, courseId);
@@ -55,21 +59,26 @@ const ViewCourseStudent: React.FC = () => {
   const handleToggle = (index: any) => {
     setExpandedIndex(index === expandedIndex ? null : index);
   };
-  const location = useLocation();
-  if (isLoading || isLessonsLoading) {
+  const handleEnroll = () =>{
+    navigate(`/courses/${courseId}/payment`);
+    setPay(!pay)
+  }
+  // pay && navigate('/payment')
+  const location = useLocation(); 
+  if (isLoading || isLessonsLoading) {   
     return <ViewCourseShimmer />;
   }
-  return (
+  return ( 
     <div className='bg-white'>
       <div className='flex flex-col pr-5 pt-5 pl-80  '>
         <CustomBreadCrumbs paths={location.pathname} />
       </div> 
       <div className='flex flex-col items-center '>
         <div className='max-w-4xl overflow-hidden'>
-          <div className='relative p-4 '>
+          <div className='relative p-4 '> 
             <img
               className='w-full h-64 object-cover'
-              src={course?.thumbnail}
+              src={course?.thumbnail} 
               alt='Course Title'
             />
             <div className='absolute top-3 right-3 shadow-md bg-blue-500 text-white px-4 py-2 text-sm rounded-tl-lg rounded-br-lg'>
@@ -214,7 +223,7 @@ const ViewCourseStudent: React.FC = () => {
               </ul>
             </div>
             <div className='flex items-center justify-end'>
-              <Button className='rounded-full mr-2'>Enroll now</Button>
+              <Button className='rounded-full mr-2' onClick={handleEnroll}>Enroll now</Button>
             </div>
           </div>
         </div>

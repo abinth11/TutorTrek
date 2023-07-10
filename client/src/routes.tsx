@@ -21,6 +21,7 @@ import ViewCourseStudent from "./components/pages/Course/ViewCourse";
 import WatchLessons from "./components/pages/Course/WatchLessons";
 import ListCourseForInstructors from "./components/pages/add-lessons/ListCourseForIstructors";
 import ViewLessons from "./components/pages/add-lessons/ViewLessons";
+import StripeContainer from "./components/pages/payment-stripe/StripeContainer";
 const LazyListCourse = lazy(
   () => import("./components/pages/Course/ListCourse")
 );
@@ -52,6 +53,9 @@ const AppRouter = createBrowserRouter([
         element: <WatchLessons />,
       },
     ],
+  },{
+    path:"courses/:courseId/payment",
+    element:<StripeContainer/>
   },
   {
     path: "/login",

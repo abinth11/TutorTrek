@@ -1,30 +1,32 @@
 import configKeys from '../../config';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(configKeys.STRIPE_SECRET_KEY || "", {
-    apiVersion: "2022-11-15",
-    maxNetworkRetries: 2,
-    timeout: 3000,
-    telemetry: false,
-  });
-  
+const stripe = new Stripe(configKeys.STRIPE_SECRET_KEY || '', {
+  apiVersion: '2022-11-15',
+  // maxNetworkRetries: 2,
+  // timeout: 3000,
+  // telemetry: false
+});
+
 export const paymentService = () => {
-  const payUsingStripe = async (paymentInfo: {
+  const createPaymentIntent = async (paymentInfo: {
     id: string;
     amount: number;
   }) => {
-    const payment = await stripe.paymentIntents.create({
-      amount: paymentInfo.amount,
+    const paymentIntent = await stripe.paymentIntents.create({
       currency: 'INR',
-      description: 'TutorTrek',
-      payment_method: paymentInfo.id,
-      confirm: true
+      amount: 100,
+      automatic_payment_methods: { enabled: true }
     });
-    console.log('Payment', payment);
-    return payment;
+    console.log('Payment', paymentIntent);
+    return paymentIntent;
   };
+
+  const getConfig = () => configKeys.STRIPE_PUBLISHABLE_KEY;
+
   return {
-    payUsingStripe
+    createPaymentIntent,
+    getConfig
   };
 };
 

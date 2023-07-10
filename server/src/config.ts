@@ -42,7 +42,9 @@ const configKeys = {
 
   CLOUDFRONT_DOMAIN_NAME:process.env.CLOUDFRONT_DOMAIN_NAME as string,
 
-  STRIPE_SECRET_KEY:process.env.STRIPE_SECRET_KEY  as string
+  STRIPE_SECRET_KEY:process.env.STRIPE_SECRET_KEY  as string,
+
+  STRIPE_PUBLISHABLE_KEY:process.env.STRIPE_PUBLISHABLE_KEY as string
 
 };
 

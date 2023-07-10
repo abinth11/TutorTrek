@@ -1,19 +1,56 @@
-import React from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import { STRIPE_PUBLISHABLE_KEY } from "../../../constants/common";
+import React, { useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe, Stripe } from "@stripe/stripe-js";
 import PaymentForm from "./PaymentForm";
+import {
+  getConfig,
+  createStripePayment,
+} from "../../../api/endpoints/payment/stripe";
 
-const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
+function StripeContainer() {
+  const [stripePromise, setStripePromise] =
+    useState<Promise<Stripe | null> | null>(null);
+  const [clientSecret, setClientSecret] = useState<string>("");
 
-type Props = {};
+  const fetchConfig = async () => {
+    try {
+      const response = await getConfig();
+      const publishableKey = response.data;
+      console.log(publishableKey);
+      setStripePromise(() => loadStripe(publishableKey));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const paymentIntentHandler = async () => {
+    try {
+      const response = await createStripePayment({ id: "abin", amount: 1000 });
+      const { clientSecret } = response.data;
+      console.log(clientSecret);
+      setClientSecret(clientSecret);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchConfig();
+  }, []);
 
-const StripeContainer: React.FC = (props: Props) => {
+  useEffect(() => {
+    paymentIntentHandler();
+  }, []);
+
   return (
-    <Elements stripe={stripePromise}>
-      <PaymentForm />
-    </Elements>
+    <div className='p-5 flex items-center h-screen justify-center '>
+      <div className=" w-1/2">
+        {clientSecret && stripePromise && (
+          <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <PaymentForm />
+          </Elements>
+        )}
+      </div>
+    </div>
   );
-};
+}
 
 export default StripeContainer;
