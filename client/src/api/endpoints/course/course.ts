@@ -1,10 +1,12 @@
 import END_POINTS from "../../../constants/endpoints";
 import {
   addCourseService,
+  enrollStudentService,
   getAllCoursesService,
   getIndividualCourseService
 } from "../../services/course/courseService";
 import { getCoursesByInstructorService } from "../../services/course/courseService";
+import { PaymentIntent } from "@stripe/stripe-js";
      
 
 export const addCourse = (courseInfo: any) => {
@@ -23,4 +25,6 @@ export const getIndividualCourse = (courseId: string) => {
   return getIndividualCourseService(END_POINTS.GET_COURSE, courseId);
 };
 
-
+export const enrollStudent = (courseId:string,paymentInfo?:PaymentIntent)=>{
+  return enrollStudentService(END_POINTS.ENROLL_STUDENT,courseId,paymentInfo)
+}

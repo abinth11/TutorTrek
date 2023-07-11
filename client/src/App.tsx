@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React from "react";
 import StudentHeader from "./components/partials/StudentHeader";
 import "react-toastify/dist/ReactToastify.css";
 import { Outlet} from "react-router-dom";
@@ -13,22 +13,22 @@ import useIsOnline from "./hooks/useOnline";
 import YouAreOffline from "./components/common/YouAreOffline";
 import StudentFooter from "./components/partials/StudentFooter";
 import { selectIsLoggedIn } from "./redux/reducers/authSlice";
-import usePreventBackButton from "./hooks/usePrevent";
 import { selectIsFooterVisible } from "./redux/reducers/helperSlice";
+
 
 export const Student: React.FC = () => {
   const isOnline = useIsOnline();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const footerVisible = useSelector(selectIsFooterVisible)
   const isHeaderVisible = true
-  // usePreventBackButton(isLoggedIn);
+  // usePreventBackButton(isLoggedIn);     
   const headerClassName = `bg-gray-100 ${
     isHeaderVisible ? 'opacity-100 transition-opacity duration-500 ' : 'opacity-0 '
   }`;
   return (
     <>
       {isOnline ? (
-          <div className="bg-white">
+          <div className="bg-white font-sans">
             <div className={`${headerClassName}`}>
             <StudentHeader />
             </div>

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CustomBreadCrumbs from "../../common/BreadCrumbs";
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "@material-tailwind/react";
+import { Button, Chip } from "@material-tailwind/react";
 import { getIndividualCourse } from "../../../api/endpoints/course/course";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,11 +15,20 @@ import ViewCourseShimmer from "../../Shimmers/ViewCourseShimmer";
 import { getLessonsByCourse } from "../../../api/endpoints/course/lesson";
 import { useDispatch } from "react-redux";
 import { setCourseId } from "../../../redux/reducers/courseSlice";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectStudentId } from "../../../redux/reducers/studentSlice";
+import { MdDone } from "react-icons/md";
+import PaymentConfirmationModal from "./PaymentConfirmationModal";
 const ViewCourseStudent: React.FC = () => {
   const params = useParams();
   const [expandedIndex, setExpandedIndex] = useState(null);
   const courseId: string | undefined = params.courseId;
-  const dispatch = useDispatch()
+  const [openPaymentConfirmation, setOpenPaymentConfirmation] =
+    useState<boolean>(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const studentId = useSelector(selectStudentId);
 
   const fetchCourse = async (courseId: string): Promise<CourseInterface> => {
     try {
@@ -45,23 +54,46 @@ const ViewCourseStudent: React.FC = () => {
     }
   };
 
-  const [data, isLoading] = useApiData(fetchCourse, courseId);
-  const [lessons, isLessonsLoading] = useApiData(fetchLessons, courseId);
+  const { data, isLoading, refreshData } = useApiData(fetchCourse, courseId);
+  const { data: lessons, isLoading: isLessonsLoading } = useApiData(
+    fetchLessons,
+    courseId
+  );
 
   const course: CourseInterface | null = data;
-  courseId && dispatch(setCourseId({courseId}))
+  courseId && dispatch(setCourseId({ courseId }));
 
   const handleToggle = (index: any) => {
     setExpandedIndex(index === expandedIndex ? null : index);
+  };
+  const handleEnroll = () => {
+    setOpenPaymentConfirmation(true);
   };
   const location = useLocation();
   if (isLoading || isLessonsLoading) {
     return <ViewCourseShimmer />;
   }
-
+  // if (location.hash === "#success") {
+  //   toast.success("Successfully enrolled into the course", {
+  //     position: toast.POSITION.BOTTOM_RIGHT,
+  //   });
+  // }
+  const enrolled = course?.coursesEnrolled.includes(studentId ?? "");
   return (
     <div className='bg-white'>
+      <PaymentConfirmationModal
+        open={openPaymentConfirmation}
+        setUpdated={refreshData}
+        courseDetails={{
+          price: course?.price ?? 0,
+          overview: course?.description ?? "",
+          isPaid: course?.isPaid ?? false,
+        }}
+        setOpen={setOpenPaymentConfirmation}
+      />
+      ;
       <div className='flex flex-col pr-5 pt-5 pl-80  '>
+        <h2>{location.hash}</h2>
         <CustomBreadCrumbs paths={location.pathname} />
       </div>
       <div className='flex flex-col items-center '>
@@ -98,9 +130,21 @@ const ViewCourseStudent: React.FC = () => {
               </div>
               <div>
                 <h4 className='text-xl font-semibold'>Price</h4>
-                <p className='text-gray-700'>
-                  {formatToINR(course?.price ?? 0)}
-                </p>
+                {course?.isPaid ? (
+                  <p className='text-gray-700'>
+                    {formatToINR(course?.price ?? 0)}
+                  </p>
+                ) : (
+                  <Chip
+                    variant='ghost'
+                    color='green'
+                    size='sm'
+                    value='Free'
+                    // icon={
+                    //   <span className="content-[''] block w-1 h-1 rounded-full mx-auto mt-1 bg-green-900" />
+                    // }
+                  />
+                )}
               </div>
             </div>
 
@@ -141,7 +185,7 @@ const ViewCourseStudent: React.FC = () => {
                     </ul>
                   </li>
                 )}
-                 <li
+                <li
                   className={` p-6 border-b-2 cursor-pointer ${
                     expandedIndex === 1
                       ? "bg-blue-gray-50"
@@ -162,18 +206,19 @@ const ViewCourseStudent: React.FC = () => {
                 {expandedIndex === 1 && (
                   <li className=''>
                     <ul>
-                      {
-                        lessons.map((lesson:any)=>{
-                          return (
-                            <Link to={`watch-lessons/${lesson._id}`} key={lesson._id}>
+                      {lessons.map((lesson: any) => {
+                        return (
+                          <Link
+                            to={`watch-lessons/${lesson._id}`}
+                            key={lesson._id}
+                          >
                             <li className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'>
                               <BiVideo className='mr-2 text-blue-500' />
                               <span className='flex-1'>{lesson.title}</span>
                             </li>
                           </Link>
-                          )
-                        })
-                      }    
+                        );
+                      })}
                     </ul>
                   </li>
                 )}
@@ -214,7 +259,21 @@ const ViewCourseStudent: React.FC = () => {
               </ul>
             </div>
             <div className='flex items-center justify-end'>
-              <Button className='rounded-full mr-2'>Enroll now</Button>
+              <Button
+                disabled={enrolled}
+                color={enrolled ? `green` : "blue"}
+                className='rounded-full flex items-center justify-center mr-2'
+                onClick={handleEnroll}
+              >
+                {enrolled ? (
+                  <>
+                    <span className='mr-1'>Enrolled</span>
+                    <MdDone className='text-lg' />
+                  </>
+                ) : (
+                  <span>Enroll Now</span>
+                )}
+              </Button>
             </div>
           </div>
         </div>

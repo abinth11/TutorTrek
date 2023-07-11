@@ -51,12 +51,6 @@ const studentSchema = new Schema<IStudent>({
     },
     minlength: 8
   },
-  coursesEnrolled: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Courses'
-    }
-  ],
   dateJoined: {
     type: Date,
     default: Date.now
