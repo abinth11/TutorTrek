@@ -15,7 +15,6 @@ export const paymentService = () => {
       amount: amount*100,
       automatic_payment_methods: { enabled: true }
     });
-    console.log('Payment', paymentIntent);
     return paymentIntent;
   };
 

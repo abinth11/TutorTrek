@@ -16,7 +16,6 @@ export const createPaymentIntentU = async (
   }
 
   const amount =  await courseDbRepository.getAmountByCourseId(courseId)
-  console.log(amount?.price)
   let price:number;
   if(amount?.price){
     price=amount?.price

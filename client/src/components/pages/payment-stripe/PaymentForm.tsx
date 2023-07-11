@@ -38,18 +38,14 @@ const PaymentFrom: React.FC = () => {
       setMessage(error.message ?? "Something went wrong");
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       setMessage("Payment status:" + paymentIntent.status);
-      console.log(paymentIntent);
       await enrollStudent(courseId ?? "", paymentIntent);
       setOpen(true);
-      // navigate(`/courses/${courseId}`)
-      console.log(message);
     } else {
       setMessage("An unexpected error occurred.");
     }
 
     setIsProcessing(false);
   };
-  console.log(open);
 
   return (
     <div>

@@ -20,7 +20,6 @@ const paymentController = (
 
   const getConfig = asyncHandler(async (req: Request, res: Response) => {
     const config = getConfigU(paymentService);
-    console.log(config);
     res.status(200).json({
       status: 'success',
       message: 'Successfully completed payment',
@@ -36,7 +35,6 @@ const paymentController = (
         dbRepositoryCourse,
         paymentService
       );
-      console.log(response);
       const { client_secret } = response;
       res.status(200).json({
         status: 'success',

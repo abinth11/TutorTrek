@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe, Stripe } from "@stripe/stripe-js";
 import PaymentForm from "./PaymentForm";
+import { toast } from "react-toastify";
 import {
   getConfig,
   createStripePayment,
@@ -18,20 +19,18 @@ function StripeContainer() {
     try {
       const response = await getConfig();
       const publishableKey = response.data;
-      console.log(publishableKey);
       setStripePromise(() => loadStripe(publishableKey));
     } catch (error) {
-      console.log(error);
+      toast.error("Something went wrong",{position:toast.POSITION.BOTTOM_RIGHT})
     }
   };
   const paymentIntentHandler = async () => {
     try {
       const response = await createStripePayment(courseId??"");
       const { clientSecret } = response.data;
-      console.log(clientSecret);
       setClientSecret(clientSecret);
     } catch (error) {
-      console.log(error);
+      toast.error("Something went wrong",{position:toast.POSITION.BOTTOM_RIGHT})
     }
   };
   useEffect(() => {

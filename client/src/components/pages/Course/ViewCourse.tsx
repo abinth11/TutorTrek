@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CustomBreadCrumbs from "../../common/BreadCrumbs";
 import { Link, useLocation } from "react-router-dom";
-import { Button,Chip } from "@material-tailwind/react";
+import { Button, Chip } from "@material-tailwind/react";
 import { getIndividualCourse } from "../../../api/endpoints/course/course";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -54,8 +54,11 @@ const ViewCourseStudent: React.FC = () => {
     }
   };
 
-  const {data,isLoading,refreshData} = useApiData(fetchCourse, courseId);
-  const {data:lessons,isLoading:isLessonsLoading} = useApiData(fetchLessons, courseId);
+  const { data, isLoading, refreshData } = useApiData(fetchCourse, courseId);
+  const { data: lessons, isLoading: isLessonsLoading } = useApiData(
+    fetchLessons,
+    courseId
+  );
 
   const course: CourseInterface | null = data;
   courseId && dispatch(setCourseId({ courseId }));
@@ -65,14 +68,16 @@ const ViewCourseStudent: React.FC = () => {
   };
   const handleEnroll = () => {
     setOpenPaymentConfirmation(true);
-    if (course?.isPaid) {
-      // navigate(`/courses/${courseId}/payment`)
-    }
   };
   const location = useLocation();
   if (isLoading || isLessonsLoading) {
     return <ViewCourseShimmer />;
   }
+  // if (location.hash === "#success") {
+  //   toast.success("Successfully enrolled into the course", {
+  //     position: toast.POSITION.BOTTOM_RIGHT,
+  //   });
+  // }
   const enrolled = course?.coursesEnrolled.includes(studentId ?? "");
   return (
     <div className='bg-white'>
@@ -88,6 +93,7 @@ const ViewCourseStudent: React.FC = () => {
       />
       ;
       <div className='flex flex-col pr-5 pt-5 pl-80  '>
+        <h2>{location.hash}</h2>
         <CustomBreadCrumbs paths={location.pathname} />
       </div>
       <div className='flex flex-col items-center '>
@@ -128,12 +134,12 @@ const ViewCourseStudent: React.FC = () => {
                   <p className='text-gray-700'>
                     {formatToINR(course?.price ?? 0)}
                   </p>
-                ) : (   
-                  <Chip  
-                    variant='ghost' 
+                ) : (
+                  <Chip
+                    variant='ghost'
                     color='green'
-                    size='sm' 
-                    value='Free' 
+                    size='sm'
+                    value='Free'
                     // icon={
                     //   <span className="content-[''] block w-1 h-1 rounded-full mx-auto mt-1 bg-green-900" />
                     // }

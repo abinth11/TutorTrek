@@ -44,7 +44,7 @@ const PaymentConfirmationModal: React.FC<PaymentModalProps> = ({
       const response = await enrollStudent(courseId ?? "");
       setTimeout(() => {
         setUpdated();
-        // setIsLoading(false);
+        setIsLoading(false);
         setOpen(false);
         toast.success(response?.message, {
           position: toast.POSITION.BOTTOM_RIGHT,

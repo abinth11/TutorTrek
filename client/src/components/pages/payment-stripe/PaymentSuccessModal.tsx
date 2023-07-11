@@ -23,7 +23,7 @@ const PaymentSuccessModal: React.FC<PaymentModalProps> = ({
   const navigate = useNavigate()
   const handleClose = ()=>{
     setOpen(!open)
-    navigate(`/courses/${courseId}`)
+    navigate(`/courses/${courseId}/#success`)
   }
 
   return (
