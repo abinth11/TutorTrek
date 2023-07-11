@@ -1,19 +1,28 @@
-import { CategoryRepoMongodbInterface } from "../../frameworks/database/mongodb/repositories/categoryRepoMongoDb";
-import { CategoryInterface } from "../../types/category";
+import { CategoryRepoMongodbInterface } from '../../frameworks/database/mongodb/repositories/categoryRepoMongoDb';
+import { CategoryInterface } from '../../types/category';
 
-export const categoryDbInterface = (repository:ReturnType<CategoryRepoMongodbInterface>)=>{
-    const addCategory =async(category:CategoryInterface)=>await repository.addCategory(category)
-    
-    const getCategoryById = async(categoryId:string)=> await repository.getCategoryById(categoryId)
+export const categoryDbInterface = (
+  repository: ReturnType<CategoryRepoMongodbInterface>
+) => {
+  const addCategory = async (category: CategoryInterface) =>
+    await repository.addCategory(category);
 
-    const getAllCategory = async ()=> await repository.getAllCategory()
-    
-    return {
-        addCategory,
-        getCategoryById,
-        getAllCategory
-    }
+  const getCategoryById = async (categoryId: string) =>
+    await repository.getCategoryById(categoryId);
 
-}
+  const getAllCategory = async () => await repository.getAllCategory();
 
-export type CategoryDbInterface = typeof categoryDbInterface
+  const editCategory = async (
+    categoryId: string,
+    categoryInfo: { name: string; description: string }
+  ) => await repository.editCategory(categoryId, categoryInfo);
+
+  return {
+    addCategory,
+    getCategoryById,
+    getAllCategory,
+    editCategory
+  };
+};
+
+export type CategoryDbInterface = typeof categoryDbInterface;

@@ -38,3 +38,23 @@ export const getAllCategoryU = async (
   const allCategories = await categoryDbRepository.getAllCategory();
   return allCategories;
 };
+
+export const editCategoryU = async (
+  categoryId: string,
+  categoryInfo: { name: string; description: string },
+  categoryDbRepository: ReturnType<CategoryDbInterface>
+) => {
+  if (!categoryId) {
+    throw new AppError(
+      'Please provide valid category id',
+      HttpStatusCodes.BAD_REQUEST
+    );
+  }
+  if (!categoryInfo) {
+    throw new AppError(
+      'Please provide valid data for editing a category',
+      HttpStatusCodes.BAD_REQUEST
+    );
+  }
+  await categoryDbRepository.editCategory(categoryId, categoryInfo);
+};

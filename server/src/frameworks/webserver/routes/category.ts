@@ -16,6 +16,9 @@ const categoryRouter = () => {
   router.get('/get-category/:categoryId', controller.getCategoryById);
 
   router.get('/get-all-categories', controller.getAllCategory);
+
+  router.put('/edit-category/:categoryId',controller.editCategory)
+
   return router;
 };
 

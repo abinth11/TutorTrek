@@ -1,7 +1,8 @@
 import {
   addCategoryU,
   getAllCategoryU,
-  getCategoryByIdU
+  getCategoryByIdU,
+  editCategoryU
 } from '../../app/usecases/category';
 import { CategoryDbInterface } from '../../app/repositories/categoryDbRepository';
 import { CategoryRepoMongodbInterface } from '../../frameworks/database/mongodb/repositories/categoryRepoMongoDb';
@@ -44,10 +45,22 @@ const categoryController = (
     });
   });
 
+  const editCategory = asyncHandler(async (req: Request, res: Response) => {
+    const categoryId: string = req.params.categoryId;
+    const categoryInfo = req.body;
+    await editCategoryU(categoryId, categoryInfo, dbRepositoryCategory);
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully edited the category',
+      data: null
+    });
+  });
+
   return {
     addCategory,
     getCategoryById,
-    getAllCategory
+    getAllCategory,
+    editCategory
   };
 };
 
