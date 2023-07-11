@@ -9,6 +9,7 @@ import { adminRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
 import videoStreamRouter from './videoStream';
 import refreshRouter from './refresh';
 import paymentRouter from './payment';
+import categoryRouter from './category';
 
 const routes = (app: Application, redisClient: RedisClient) => {
   app.use('/api/auth', authRouter());
@@ -19,6 +20,7 @@ const routes = (app: Application, redisClient: RedisClient) => {
     adminRoleCheckMiddleware,
     adminRouter()
   );
+  app.use('/api/category',categoryRouter())
   app.use('/api/courses', jwtAuthMiddleware, courseRouter());
   app.use('/api/video-streaming', videoStreamRouter());
   app.use('/api/instructors', instructorRouter());
