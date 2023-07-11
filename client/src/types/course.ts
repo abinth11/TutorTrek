@@ -1,5 +1,6 @@
 export interface CourseInterface {
     category:string;
+    coursesEnrolled:Array<string>;
     completionStatus:number;
     createdAt:Date;
     description:string;

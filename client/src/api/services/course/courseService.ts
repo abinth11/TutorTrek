@@ -37,7 +37,7 @@ export const getIndividualCourseService = async (
 export const enrollStudentService = async (
   endpoint:string,
   courseId:string,
-  paymentInfo:PaymentIntent,
+  paymentInfo?:PaymentIntent,
 ) => {
   const response = await api.post(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${courseId}`,paymentInfo

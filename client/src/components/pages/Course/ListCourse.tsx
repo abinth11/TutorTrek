@@ -26,11 +26,11 @@ const ListCourse: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchCourse();
+    fetchCourse(); 
   }, []);
   if (isLoading) {
     return (
-      <div className='text-customFontColorBlack'>
+      <div className='text-customFontColorBlack  '>
         <div className='pt-5 pb-5 pl-9 pr-9 mt-5 mx-auto flex justify-center'>
           <div className='w-10/12 ml-2 pl-1 animate-pulse'>
             <h1 className='text-3xl font-bold bg-gradient-to-r from-gray-300 to-gray-100 h-8 rounded'></h1>
@@ -63,7 +63,8 @@ const ListCourse: React.FC = () => {
     );
   }
   return (
-    <div className='text-customFontColorBlack'>
+    <div className='text-customFontColorBlack '>
+      
       <div className=' pt-5 pb-5 pl-9 pr-9 mt-5 mx-auto flex justify-center'>
         <div className='w-10/12 ml-2 pl-1 '>
           <h1 className='text-3xl font-bold'>A broad selection of courses</h1>
@@ -72,7 +73,7 @@ const ListCourse: React.FC = () => {
             published every month
           </p>
         </div>
-      </div>
+      </div> 
       <div className=' mx-auto pl-10 pr-10 flex justify-center'>
         <div className='w-10/12 border-b-gray-100 border-b-2 mx-auto  '>
           <div className='flex  flex-wrap'>

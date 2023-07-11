@@ -47,8 +47,8 @@ const courseController = (
   lessonDbRepositoryImpl: LessonRepositoryMongoDbInterface,
   discussionDbRepository: DiscussionDbInterface,
   discussionDbRepositoryImpl: DiscussionRepoMongodbInterface,
-  paymentDbRepository:PaymentInterface,
-  paymentDbRepositoryImpl:PaymentImplInterface
+  paymentDbRepository: PaymentInterface,
+  paymentDbRepositoryImpl: PaymentImplInterface
 ) => {
   const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl());
   const cloudService = cloudServiceInterface(cloudServiceImpl());
@@ -58,7 +58,7 @@ const courseController = (
     discussionDbRepositoryImpl()
   );
 
-  const dbRepositoryPayment = paymentDbRepository(paymentDbRepositoryImpl())
+  const dbRepositoryPayment = paymentDbRepository(paymentDbRepositoryImpl());
 
   const addCourse = asyncHandler(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -272,18 +272,23 @@ const courseController = (
 
   const enrollStudent = asyncHandler(
     async (req: CustomRequest, res: Response) => {
-      const paymentInfo:PaymentInfo = req.body;
+      const paymentInfo: PaymentInfo = req.body;
       const { courseId }: { courseId?: string } = req.params;
-      const { Id }: { Id?: string } = req.user || {}
+      const { Id }: { Id?: string } = req.user || {};
       const courseIdValue: string = courseId ?? '';
       const studentId: string = Id ?? '';
 
-      const response = await enrollStudentU(courseIdValue,studentId,paymentInfo,dbRepositoryCourse,dbRepositoryPayment)
-      console.log(response)
+      await enrollStudentU(
+        courseIdValue,
+        studentId,
+        paymentInfo,
+        dbRepositoryCourse,
+        dbRepositoryPayment
+      );
       res.status(200).json({
         status: 'success',
         message: 'Successfully enrolled into the course',
-        data: response
+        data: null
       });
     }
   );

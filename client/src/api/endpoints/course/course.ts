@@ -25,6 +25,6 @@ export const getIndividualCourse = (courseId: string) => {
   return getIndividualCourseService(END_POINTS.GET_COURSE, courseId);
 };
 
-export const enrollStudent = (courseId:string,paymentInfo:PaymentIntent)=>{
+export const enrollStudent = (courseId:string,paymentInfo?:PaymentIntent)=>{
   return enrollStudentService(END_POINTS.ENROLL_STUDENT,courseId,paymentInfo)
 }

@@ -5,7 +5,7 @@ export default withMT({
   content: ["./src/**/*.{html,js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
-      'sans': ['Roboto', 'sans-serif'],
+      sans: ["Open Sans", "sans-serif"],
     },
     extend: {
       scrollbar: ["rounded"],

@@ -1,13 +1,28 @@
 import { useState, useEffect } from 'react';
 
-const useApiData = <T>(apiCall: (...args: any[]) => Promise<T>, ...args: any[]): [T | null, boolean, boolean, any] => {
+type RefreshDataFunction = () => void;
+
+interface ApiDataResult<T> {
+  data: T | null;
+  isLoading: boolean;
+  isError: boolean;
+  error: any;
+  refreshData: RefreshDataFunction;
+}
+
+const useApiData = <T>(apiCall: (...args: any[]) => Promise<T>, ...args: any[]): ApiDataResult<T> => {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState<any>(null);
+  const [refreshFlag, setRefreshFlag] = useState(false);
+  
+  const refreshData = () => {
+    setRefreshFlag(!refreshFlag);
+  };
 
   useEffect(() => {
-    let timerId:any;
+    let timerId:NodeJS.Timeout;
     const fetchData = async (): Promise<void> => {
       setIsLoading(true);
       try {
@@ -23,9 +38,15 @@ const useApiData = <T>(apiCall: (...args: any[]) => Promise<T>, ...args: any[]):
     };
 
     fetchData();
-  }, []);
+  }, [refreshFlag, ...args]); // Include the refreshFlag and args in the dependency array
 
-  return [data, isLoading, isError, error];
+  return {
+    data,
+    isLoading,
+    isError,
+    error,
+    refreshData,
+  };
 };
 
 export default useApiData;

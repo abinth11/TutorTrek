@@ -4,7 +4,7 @@ import AppError from '../../../utils/appError';
 import { PaymentInterface } from '@src/app/repositories/paymentDbRepository';
 import { PaymentInfo } from '@src/types/payment';
 
-export const enrollStudentU= async (
+export const enrollStudentU = async (
   courseId: string,
   studentId: string,
   paymentInfo: PaymentInfo,
@@ -23,13 +23,18 @@ export const enrollStudentU= async (
       HttpStatusCodes.BAD_REQUEST
     );
   }
-  const paymentId = paymentInfo.id
-  const amount = paymentInfo.amount/100
-  paymentInfo.courseId=courseId
-  paymentInfo.paymentId=paymentId
-  paymentInfo.amount=amount
-  const response = await courseDbRepository.enrollStudent(courseId, studentId);
-  await paymentDbRepository.savePayment(paymentInfo);
-
-  return response;
+  const course = await courseDbRepository.getCourseById(courseId);
+  if (course?.isPaid) {
+    const paymentId = paymentInfo.id;
+    const amount = paymentInfo.amount / 100;
+    paymentInfo.courseId = courseId;
+    paymentInfo.paymentId = paymentId;
+    paymentInfo.amount = amount;
+    await Promise.all([
+      courseDbRepository.enrollStudent(courseId, studentId),
+      paymentDbRepository.savePayment(paymentInfo)
+    ]);
+  } else {
+    await courseDbRepository.enrollStudent(courseId, studentId);
+  }
 };

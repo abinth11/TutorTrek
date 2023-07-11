@@ -5,11 +5,8 @@ import {
   DialogHeader,
   DialogBody,
   DialogFooter,
-  IconButton,
   Typography,
-  MenuItem,
 } from "@material-tailwind/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate,useParams } from "react-router-dom";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 interface PaymentModalProps {
@@ -52,7 +49,7 @@ const PaymentSuccessModal: React.FC<PaymentModalProps> = ({
             variant="gradient"
             color="green"
             onClick={handleClose}
-            className="w-full"
+            className="w-full"   
           >
             <span>Close</span>
           </Button>
