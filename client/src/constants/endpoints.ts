@@ -30,6 +30,10 @@ const END_POINTS = {
     GET_REPLIES_BY_DISCUSSION:'api/courses/lesson/replies-based-on-discussion',
     PAY_USING_STRIPE:'api/payments/stripe/create-payment-intent',
     GET_CONFIG:'api/payments/stripe/get-config',
-    ENROLL_STUDENT:'api/courses/enroll-student'
+    ENROLL_STUDENT:'api/courses/enroll-student',
+    ADD_CATEGORY:'api/category/add-category',
+    GET_ALL_CATEGORY:'api/category/get-all-categories',
+    GET_CATEGORY_BY_ID:'api/category/get-category',
+    EDIT_CATEGORY:'api/category/edit-category'
 }
 export default END_POINTS

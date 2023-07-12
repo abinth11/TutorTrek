@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import {
-  ArrowDownTrayIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import {
@@ -33,7 +32,7 @@ const ViewInstructors: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [id, setId] = useState("");
-  const ITEMS_PER_PAGE = 6;
+  const ITEMS_PER_PAGE = 4; 
   const {
     currentPage,
     totalPages,

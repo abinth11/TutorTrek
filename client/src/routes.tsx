@@ -22,6 +22,11 @@ import WatchLessons from "./components/pages/Course/WatchLessons";
 import ListCourseForInstructors from "./components/pages/add-lessons/ListCourseForIstructors";
 import ViewLessons from "./components/pages/add-lessons/ViewLessons";
 import StripeContainer from "./components/pages/payment-stripe/StripeContainer";
+import Categories from "./components/pages/categories/Categories";
+import AddCategory from "./components/pages/categories/AddCategory";
+import EditCategory from "./components/pages/categories/EditCategory";
+import ListCategories from "./components/pages/categories/ListCategory";    
+
 const LazyListCourse = lazy(
   () => import("./components/pages/Course/ListCourse")
 );
@@ -101,6 +106,24 @@ const AppRouter = createBrowserRouter([
           {
             path: "blocked",
             element: <ViewBlockedInstructors />,
+          },
+        ],
+      },
+      {
+        path: "categories",
+        element: <Categories />,
+        children: [
+          {
+            path: "",
+            element: <ListCategories/>,
+          },
+          {
+            path: "add-category",     
+            element: <AddCategory/>,   
+          },
+          {
+            path: "edit-category/:categoryId",
+            element: <EditCategory/>,
           },
         ],
       },

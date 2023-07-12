@@ -7,7 +7,7 @@ import { FaBan, FaEye } from "react-icons/fa";
 const TopNav: React.FC = () => {
 
   return (
-    <Card className="mx-3 mb-5 lg:mx-4 justify-center items-center">
+    <Card className="mx-3 mb-5 lg:mx-4  justify-center items-center">
       <CardBody className="p-2">
         <div className="w-96 bg-gray-100 rounded-lg">
           <Tabs >
