@@ -19,7 +19,7 @@ export const getAllCategories = () => {
 };
 
 export const getCategory = (categoryId: string) => {
-  return getCategoryByIdService(END_POINTS.ADD_CATEGORY, categoryId);
+  return getCategoryByIdService(END_POINTS.GET_CATEGORY_BY_ID, categoryId);
 };
 
 export const editCategory = (
@@ -30,7 +30,7 @@ export const editCategory = (
   }
 ) => {
   return editCategoryByIdService(
-    END_POINTS.ADD_CATEGORY,
+    END_POINTS.EDIT_CATEGORY,
     categoryId,
     categoryInfo
   );

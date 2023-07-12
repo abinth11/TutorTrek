@@ -44,7 +44,6 @@ const ListCategories: React.FC = () => {
   useEffect(() => {
     fetchCategories();
   }, []);
-  console.log(categories);
 
   const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
     setSearchQuery(e.currentTarget.value);
@@ -147,7 +146,7 @@ const ListCategories: React.FC = () => {
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <Link to={`/admin/categories/edit-category`}>
+                      <Link to={`/admin/categories/edit-category/${_id}`}>
                         <Typography
                           variant='small'
                           color='blue'

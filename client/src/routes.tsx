@@ -122,7 +122,7 @@ const AppRouter = createBrowserRouter([
             element: <AddCategory/>,   
           },
           {
-            path: "edit-category",
+            path: "edit-category/:categoryId",
             element: <EditCategory/>,
           },
         ],

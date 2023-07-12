@@ -34,6 +34,6 @@ const END_POINTS = {
     ADD_CATEGORY:'api/category/add-category',
     GET_ALL_CATEGORY:'api/category/get-all-categories',
     GET_CATEGORY_BY_ID:'api/category/get-category',
-    EDIT_CATEGORY:'api/category/category/edit-category'
+    EDIT_CATEGORY:'api/category/edit-category'
 }
 export default END_POINTS
