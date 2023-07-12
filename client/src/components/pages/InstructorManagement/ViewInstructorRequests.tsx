@@ -3,10 +3,11 @@ import {
   getAllInstructorRequests,
 } from "../../../api/endpoints/instructorManagement";
 import { toast } from "react-toastify";
-import Modal from "../../common/Modal";
 import { Link } from "react-router-dom";
 import useTimeAgo from "../../../hooks/useTimeAgo";
 import { InstructorApiResponse } from "../../../api/types/apiResponses/apiResponseInstructors";
+import { Button,CardFooter } from "@material-tailwind/react";
+import {IconButton} from "@material-tailwind/react";
 
 
 
@@ -26,9 +27,10 @@ const ViewInstructorRequests: React.FC = () => {
   useEffect(() => {
     handleApiCall();
   }, []);
+  const totalPages = 10,currentPage =1
 
   return (
-    <ul role='list' className='divide-y divide-gray-100  '>
+    <ul role='list' className=' divide-gray-100  '>
       {requests?.map((person: InstructorApiResponse) => (
         <Link
           to={`/admin/instructors/requests/${person._id}`}
@@ -64,7 +66,42 @@ const ViewInstructorRequests: React.FC = () => {
             </div>
           </li>
         </Link>
-      ))}
+      ))} 
+      {/* <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4'>
+        <Button
+          variant='outlined'
+          color='blue-gray'
+          size='sm'
+          // onClick={goToPreviousPage}
+          // disabled={currentPage === 1}
+        >
+          Previous
+        </Button>
+        <div className='flex items-center gap-2'>
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+            (pageNumber) => (
+              <IconButton
+                key={pageNumber}
+                variant={pageNumber === currentPage ? "outlined" : "text"}
+                color='blue-gray'
+                size='sm'
+                // onClick={() => goToPage(pageNumber)}
+              >
+                {pageNumber}
+              </IconButton>
+            )
+          )}
+        </div>
+        <Button
+          variant='outlined'
+          color='blue-gray'
+          size='sm'
+          // onClick={goToNextPage}
+          // disabled={currentPage === totalPages}
+        >
+          Next
+        </Button>
+      </CardFooter> */}
     </ul>
   );
 };

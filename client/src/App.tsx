@@ -50,7 +50,7 @@ export const Instructor: React.FC = () => {
     <>
       {isOnline ? (
         <>
-          <div className='fixed inset-x-0 top-0 flex flex-col '>
+          <div className='fixed inset-x-0 top-0 flex flex-col font-sans'>
             <InstructorHeader />
             <div className='flex flex-1'>
               <div className='w-64 h-screen overflow-y-auto'>
@@ -78,11 +78,11 @@ export const Admin: React.FC = () => {
     <>
       {isOnline ? (
         isAdminLoggedIn ? (
-          <div className='bg-gray-100 flex'>
+          <div className='bg-gray-100 pb-6 flex items-center justify-center font-sans'>
             <div className='w-80'>
               <Sidenav routes={routes} brandImg='/img/logo-ct-dark.png' />
-            </div>
-            <div className='flex-1'>
+            </div> 
+            <div className='flex-1 h-full  mt-5'>
               <Outlet />
             </div>
           </div>

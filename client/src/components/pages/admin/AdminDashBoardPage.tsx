@@ -6,6 +6,8 @@ import {
   HomeIcon,
   UserGroupIcon,
   AcademicCapIcon,
+  BookOpenIcon,
+  Square3Stack3DIcon,
   BellIcon,
 } from "@heroicons/react/24/solid";
 import AdminHomePage from "./AdminHomePage";
@@ -33,6 +35,18 @@ export const routes = [
         icon: <UserGroupIcon {...icon} />,
         name: "Students",
         path: "/students",
+        element: <AdminHomePage />,
+      },
+      {
+        icon: <BookOpenIcon {...icon} />,
+        name: "Categories",
+        path: "/categories",
+        element: <AdminHomePage />,
+      },
+      {
+        icon: <Square3Stack3DIcon {...icon} />,
+        name: "Courses",
+        path: "/courses",
         element: <AdminHomePage />,
       },
       {
