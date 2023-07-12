@@ -6,9 +6,9 @@ import CustomBreadCrumbs from "../../common/BreadCrumbs";
 const ViewInstructorsIndex: React.FC = () => {
   const location = useLocation();
   return (
-    <div className='pt-6'>
-      <TopNav />
-      <div className="pl-5 pr-5 pb-5 pt-1">
+    <div className=''> 
+      <TopNav  />  
+      <div className="pl-5 pr-5 pt-3 ">
       <CustomBreadCrumbs  paths={location.pathname}/>
       {location.pathname === "/admin/instructors" && <ViewInstructors />}
       <Outlet />
