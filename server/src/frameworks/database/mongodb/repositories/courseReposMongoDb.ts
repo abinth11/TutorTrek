@@ -1,5 +1,6 @@
 import Course from '../models/course';
 import mongoose from 'mongoose';
+import Students from '../models/student';
 import { AddCourseInfoInterface } from '@src/types/courseInterface';
 
 export const courseRepositoryMongodb = () => {
@@ -40,9 +41,42 @@ export const courseRepositoryMongodb = () => {
   const enrollStudent = async (courseId: string, studentId: string) => {
     const response = await Course.updateOne(
       { _id: new mongoose.Types.ObjectId(courseId) },
-      { $push: { coursesEnrolled:studentId } }
+      { $push: { coursesEnrolled: studentId } }
     );
-    return response
+    return response;
+  };
+
+  const getRecommendedCourseByStudentInterest = async (studentId: string) => {
+    const pipeline = [
+      { $match: { _id: new mongoose.Types.ObjectId(studentId) } },
+      { $unwind: '$interests' },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'interests',
+          foreignField: 'name',
+          as: 'category'
+        }
+      },
+      { $unwind: '$category' },
+      {
+        $lookup: {
+          from: 'course',
+          localField: 'category._id',
+          foreignField: 'categoryId',
+          as: 'courses'
+        }
+      },
+      { $unwind: '$courses' },
+      { $replaceRoot: { newRoot: '$courses' } }
+    ];
+    const courses = await Students.aggregate(pipeline);
+    return courses;
+  };
+
+  const getTrendingCourses = async () => {
+    const courses = await Course.find({}).sort({ enrolledCount: -1 }).limit(1);
+    return courses;
   };
 
   return {
@@ -51,7 +85,9 @@ export const courseRepositoryMongodb = () => {
     getCourseById,
     getCourseByInstructorId,
     getAmountByCourseId,
-    enrollStudent
+    enrollStudent,
+    getRecommendedCourseByStudentInterest,
+    getTrendingCourses
   };
 };
 

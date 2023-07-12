@@ -17,7 +17,7 @@ import { paymentRepositoryMongodb } from '../../../frameworks/database/mongodb/r
 import { paymentInterface } from '../../../app/repositories/paymentDbRepository';
 const courseRouter = () => {
   const router = express.Router();
-  const controller = courseController( 
+  const controller = courseController(
     cloudServiceInterface,
     s3Service,
     courseDbRepository,
@@ -31,37 +31,76 @@ const courseRouter = () => {
     paymentInterface,
     paymentRepositoryMongodb
   );
-  //* Add course 
-  router.post('/instructors/add-course',instructorRoleCheckMiddleware,uploadImageAndVideo,controller.addCourse)
+  //* Add course
+  router.post(
+    '/instructors/add-course',
+    instructorRoleCheckMiddleware,
+    uploadImageAndVideo,
+    controller.addCourse
+  );
 
-  router.get('/get-all-courses',controller.getAllCourses)
+  router.get('/get-all-courses', controller.getAllCourses);
 
-  router.get('/get-course/:courseId',controller.getIndividualCourse)
+  router.get('/get-course/:courseId', controller.getIndividualCourse);
 
-  router.get('/get-course-by-instructor',instructorRoleCheckMiddleware,controller.getCoursesByInstructor)
+  router.get(
+    '/get-course-by-instructor',
+    instructorRoleCheckMiddleware,
+    controller.getCoursesByInstructor
+  );
 
-  router.post('/instructors/add-lesson/:courseId',instructorRoleCheckMiddleware,upload.array("media"),controller.addLesson)
+  router.post(
+    '/instructors/add-lesson/:courseId',
+    instructorRoleCheckMiddleware,
+    upload.array('media'),
+    controller.addLesson
+  );
 
-  router.get('/instructors/get-lessons-by-course/:courseId',controller.getLessonsByCourse)
+  router.get(
+    '/instructors/get-lessons-by-course/:courseId',
+    controller.getLessonsByCourse
+  );
 
-  router.get('/get-lessons-by-id/:lessonId',controller.getLessonById)
+  router.get('/get-lessons-by-id/:lessonId', controller.getLessonById);
 
-  router.get('/get-quizzes-by-lesson/:lessonId',controller.getQuizzesByLesson)
+  router.get('/get-quizzes-by-lesson/:lessonId', controller.getQuizzesByLesson);
 
-  router.post('/lessons/add-discussion/:lessonId',controller.addDiscussion)
+  router.post('/lessons/add-discussion/:lessonId', controller.addDiscussion);
 
-  router.get('/lessons/get-discussions-by-lesson/:lessonId',controller.getDiscussionsByLesson)
+  router.get(
+    '/lessons/get-discussions-by-lesson/:lessonId',
+    controller.getDiscussionsByLesson
+  );
 
-  router.patch('/lessons/edit-discussion/:discussionId',controller.editDiscussions)
+  router.patch(
+    '/lessons/edit-discussion/:discussionId',
+    controller.editDiscussions
+  );
 
-  router.delete('/lessons/delete-discussion/:discussionId',controller.deleteDiscussion)
+  router.delete(
+    '/lessons/delete-discussion/:discussionId',
+    controller.deleteDiscussion
+  );
 
-  router.put('/lessons/reply-discussion/:discussionId',controller.replyDiscussion)
+  router.put(
+    '/lessons/reply-discussion/:discussionId',
+    controller.replyDiscussion
+  );
 
-  router.get('/lesson/replies-based-on-discussion/:discussionId',controller.getRepliesByDiscussion)
+  router.get(
+    '/lesson/replies-based-on-discussion/:discussionId',
+    controller.getRepliesByDiscussion
+  );
 
-  router.post('/enroll-student/:courseId',controller.enrollStudent)
+  router.post('/enroll-student/:courseId', controller.enrollStudent);
 
-  return router
+  router.get(
+    '/get-recommended-courses',
+    controller.getRecommendedCourseByStudentInterest
+  );
+
+  router.get('/get-trending-courses', controller.getTrendingCourses);
+
+  return router;
 };
-export default courseRouter
+export default courseRouter;

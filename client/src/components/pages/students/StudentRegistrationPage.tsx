@@ -1,24 +1,16 @@
-import React, { useState } from "react";
-import { Formik, Form, FieldArray, Field, ErrorMessage } from "formik";
-import { registerStudent } from "../../../api/endpoints/auth/studentAuth";
-import { handleApiError } from "../../../api/utils/apiError";
-import { studentRegistrationValidationSchema } from "../../../validations/auth/studentRegisterValidation";
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { registerStudent } from "../../../api/endpoints/auth/studentAuth";import { studentRegistrationValidationSchema } from "../../../validations/auth/studentRegisterValidation";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import SelectInterest from "./CustomSelectBox";
-
-const interestsOptions = [
-  "Option 1",
-  "Option 2",
-  "Option 3",
-  // Add more options as needed
-];
+import { StudentData } from "../../../types/student";
 
 const StudentRegistrationPage: React.FC = () => {
-  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = async (studentInfo: any) => {
+  const handleSubmit = async (studentInfo: StudentData) => {
     try {
+      console.log(studentInfo)
       const response = await registerStudent(studentInfo);
       toast.success("User registered", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -142,10 +134,11 @@ const StudentRegistrationPage: React.FC = () => {
                   name='mobile'
                   type='number'
                   autoComplete='mobile'
+                  maxLength={10}                   
                   required
                   className=' pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                 />
-                <ErrorMessage
+                <ErrorMessage   
                   name='mobile'
                   component='div'
                   className='text-red-500 text-sm'

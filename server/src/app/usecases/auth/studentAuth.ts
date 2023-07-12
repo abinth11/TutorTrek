@@ -25,6 +25,12 @@ export const studentRegister = async (
   if (student.password) {
     student.password = await authService.hashPassword(student.password);
   }
+  if (student.interests) {
+    const interests: Array<string> = [];
+    student.interests.map((interest: any) => interests.push(interest.label));
+    student.interests = interests;
+  }
+
   const { _id: studentId, email } = await studentRepository.addStudent(student);
   const payload = {
     Id: studentId,

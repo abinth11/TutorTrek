@@ -6,16 +6,25 @@ export const courseDbRepository = (
 ) => {
   const addCourse = async (courseInfo: AddCourseInfoInterface) =>
     await repository.addCourse(courseInfo);
-  
-  const getAllCourse = async ()=> await repository.getAllCourse()
 
-  const getCourseById = async (courseId:string) => await repository.getCourseById(courseId)
+  const getAllCourse = async () => await repository.getAllCourse();
 
-  const getCourseByInstructorId = async (instructorId:string) => await repository.getCourseByInstructorId(instructorId)
+  const getCourseById = async (courseId: string) =>
+    await repository.getCourseById(courseId);
 
-  const getAmountByCourseId = async (courseId:string) => await repository.getAmountByCourseId(courseId)
+  const getCourseByInstructorId = async (instructorId: string) =>
+    await repository.getCourseByInstructorId(instructorId);
 
-  const enrollStudent = async (courseId:string,studentId:string)=> await repository.enrollStudent(courseId,studentId)
+  const getAmountByCourseId = async (courseId: string) =>
+    await repository.getAmountByCourseId(courseId);
+
+  const enrollStudent = async (courseId: string, studentId: string) =>
+    await repository.enrollStudent(courseId, studentId);
+
+  const getRecommendedCourseByStudentInterest = async (studentId: string) =>
+    await repository.getRecommendedCourseByStudentInterest(studentId);
+
+  const getTrendingCourse = async () => await repository.getTrendingCourses();
 
   return {
     addCourse,
@@ -23,7 +32,9 @@ export const courseDbRepository = (
     getCourseById,
     getCourseByInstructorId,
     getAmountByCourseId,
-    enrollStudent
+    enrollStudent,
+    getRecommendedCourseByStudentInterest,
+    getTrendingCourse
   };
 };
 export type CourseDbRepositoryInterface = typeof courseDbRepository;

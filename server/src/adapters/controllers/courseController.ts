@@ -35,6 +35,10 @@ import { enrollStudentU } from '../../app/usecases/course/enroll';
 import { PaymentInfo } from '../../types/payment';
 import { PaymentInterface } from '../../app/repositories/paymentDbRepository';
 import { PaymentImplInterface } from '../../frameworks/database/mongodb/repositories/paymentRepoMongodb';
+import {
+  getRecommendedCourseByStudentU,
+  getTrendingCourseU
+} from '../../app/usecases/course/recommendation';
 
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
@@ -293,6 +297,32 @@ const courseController = (
     }
   );
 
+  const getRecommendedCourseByStudentInterest = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const studentId: string = req.user?.Id ?? '';
+      const courses = await getRecommendedCourseByStudentU(
+        studentId,
+        dbRepositoryCourse
+      );
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully retrieved recommended courses',
+        data: courses
+      });
+    }
+  );
+
+  const getTrendingCourses = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const courses = await getTrendingCourseU(dbRepositoryCourse);
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully retrieved trending courses',
+        data: courses
+      });
+    }
+  );
+
   return {
     addCourse,
     getAllCourses,
@@ -308,7 +338,9 @@ const courseController = (
     deleteDiscussion,
     replyDiscussion,
     getRepliesByDiscussion,
-    enrollStudent
+    enrollStudent,
+    getRecommendedCourseByStudentInterest,
+    getTrendingCourses
   };
 };
 
