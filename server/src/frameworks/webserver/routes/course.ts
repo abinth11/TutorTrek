@@ -15,6 +15,7 @@ import { discussionDbRepository } from '../../../app/repositories/discussionDbRe
 import { discussionRepositoryMongoDb } from '../../../frameworks/database/mongodb/repositories/discussionsRepoMongodb';
 import { paymentRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/paymentRepoMongodb';
 import { paymentInterface } from '../../../app/repositories/paymentDbRepository';
+import jwtAuthMiddleware from '../middlewares/userAuth';
 const courseRouter = () => {
   const router = express.Router();
   const controller = courseController(
@@ -34,6 +35,7 @@ const courseRouter = () => {
   //* Add course
   router.post(
     '/instructors/add-course',
+    jwtAuthMiddleware,
     instructorRoleCheckMiddleware,
     uploadImageAndVideo,
     controller.addCourse
@@ -51,6 +53,7 @@ const courseRouter = () => {
 
   router.post(
     '/instructors/add-lesson/:courseId',
+    jwtAuthMiddleware,
     instructorRoleCheckMiddleware,
     upload.array('media'),
     controller.addLesson
@@ -65,37 +68,51 @@ const courseRouter = () => {
 
   router.get('/get-quizzes-by-lesson/:lessonId', controller.getQuizzesByLesson);
 
-  router.post('/lessons/add-discussion/:lessonId', controller.addDiscussion);
+  router.post(
+    '/lessons/add-discussion/:lessonId',
+    jwtAuthMiddleware,
+    controller.addDiscussion
+  );
 
   router.get(
     '/lessons/get-discussions-by-lesson/:lessonId',
+    jwtAuthMiddleware,
     controller.getDiscussionsByLesson
   );
 
   router.patch(
     '/lessons/edit-discussion/:discussionId',
+    jwtAuthMiddleware,
     controller.editDiscussions
   );
 
   router.delete(
     '/lessons/delete-discussion/:discussionId',
+    jwtAuthMiddleware,
     controller.deleteDiscussion
   );
 
   router.put(
     '/lessons/reply-discussion/:discussionId',
+    jwtAuthMiddleware,
     controller.replyDiscussion
   );
 
   router.get(
     '/lesson/replies-based-on-discussion/:discussionId',
+    jwtAuthMiddleware,
     controller.getRepliesByDiscussion
   );
 
-  router.post('/enroll-student/:courseId', controller.enrollStudent);
+  router.post(
+    '/enroll-student/:courseId',
+    jwtAuthMiddleware,
+    controller.enrollStudent
+  );
 
   router.get(
     '/get-recommended-courses',
+    jwtAuthMiddleware,
     controller.getRecommendedCourseByStudentInterest
   );
 

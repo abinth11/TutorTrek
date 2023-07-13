@@ -21,7 +21,7 @@ const routes = (app: Application, redisClient: RedisClient) => {
     adminRouter()
   );
   app.use('/api/category',categoryRouter())
-  app.use('/api/courses', jwtAuthMiddleware, courseRouter());
+  app.use('/api/courses', courseRouter());
   app.use('/api/video-streaming', videoStreamRouter());
   app.use('/api/instructors', instructorRouter());
   app.use('/api/payments', jwtAuthMiddleware, paymentRouter());

@@ -6,6 +6,7 @@ export const getRecommendedCourseByStudentU = async (
     studentId:string,
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>
 ) => {
+  console.log(studentId)
     if(!studentId){
         throw new AppError("Please provide a valid student id ",HttpStatusCodes.BAD_REQUEST)
     }

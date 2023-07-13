@@ -34,6 +34,8 @@ const END_POINTS = {
     ADD_CATEGORY:'api/category/add-category',
     GET_ALL_CATEGORY:'api/category/get-all-categories',
     GET_CATEGORY_BY_ID:'api/category/get-category',
-    EDIT_CATEGORY:'api/category/edit-category'
+    EDIT_CATEGORY:'api/category/edit-category',
+    GET_RECOMMENDED_COURSES:'api/courses/get-recommended-courses',
+    GET_TRENDING_COURSES:'api/courses/get-trending-courses'
 }
 export default END_POINTS

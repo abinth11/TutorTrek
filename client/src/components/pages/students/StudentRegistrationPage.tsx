@@ -5,16 +5,18 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import SelectInterest from "./CustomSelectBox";
 import { StudentData } from "../../../types/student";
+import { useNavigate } from "react-router-dom";
 
 const StudentRegistrationPage: React.FC = () => {
+  const navigate = useNavigate()
 
   const handleSubmit = async (studentInfo: StudentData) => {
     try {
-      console.log(studentInfo)
       const response = await registerStudent(studentInfo);
       toast.success("User registered", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+      navigate('/login')
     } catch (error: any) {
       toast.error(error?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,

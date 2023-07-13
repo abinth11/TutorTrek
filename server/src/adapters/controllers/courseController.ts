@@ -313,7 +313,7 @@ const courseController = (
   );
 
   const getTrendingCourses = asyncHandler(
-    async (req: CustomRequest, res: Response) => {
+    async (req: Request, res: Response) => {
       const courses = await getTrendingCourseU(dbRepositoryCourse);
       res.status(200).json({
         status: 'success',

@@ -25,10 +25,14 @@ import StripeContainer from "./components/pages/payment-stripe/StripeContainer";
 import Categories from "./components/pages/categories/Categories";
 import AddCategory from "./components/pages/categories/AddCategory";
 import EditCategory from "./components/pages/categories/EditCategory";
-import ListCategories from "./components/pages/categories/ListCategory";    
+import ListCategories from "./components/pages/categories/ListCategory";
 
 const LazyListCourse = lazy(
   () => import("./components/pages/Course/ListCourse")
+);
+
+const LazyInstructorsListing = lazy(
+  () => import("./components/pages/instructors/ListAllInstructors")
 );
 
 const AppRouter = createBrowserRouter([
@@ -57,14 +61,23 @@ const AppRouter = createBrowserRouter([
         path: "/courses/:courseId/watch-lessons/:lessonId",
         element: <WatchLessons />,
       },
+      {
+        path: "/tutors",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyInstructorsListing />
+          </Suspense>
+        ),
+      },
     ],
-  },{
-    path:"courses/:courseId/payment",
-    element:<StripeContainer/>
+  },
+  {
+    path: "courses/:courseId/payment",
+    element: <StripeContainer />,
   },
   {
     path: "/login",
-    element: (<StudentLoginPage />),
+    element: <StudentLoginPage />,
   },
   {
     path: "/register",
@@ -115,15 +128,15 @@ const AppRouter = createBrowserRouter([
         children: [
           {
             path: "",
-            element: <ListCategories/>,
+            element: <ListCategories />,
           },
           {
-            path: "add-category",     
-            element: <AddCategory/>,   
+            path: "add-category",
+            element: <AddCategory />,
           },
           {
             path: "edit-category/:categoryId",
-            element: <EditCategory/>,
+            element: <EditCategory />,
           },
         ],
       },
@@ -151,9 +164,9 @@ const AppRouter = createBrowserRouter([
         element: <ListCourseForInstructors />,
       },
       {
-        path:"view-lessons/:courseId",
-        element:<ViewLessons/>,
-      }
+        path: "view-lessons/:courseId",
+        element: <ViewLessons />,
+      },
     ],
   },
 ]);

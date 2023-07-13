@@ -68,14 +68,65 @@ export const courseRepositoryMongodb = () => {
         }
       },
       { $unwind: '$courses' },
-      { $replaceRoot: { newRoot: '$courses' } }
+      {
+        $lookup: {
+          from: 'instructor',
+          localField: 'courses.instructorId',
+          foreignField: '_id',
+          as: 'instructor'
+        }
+      },
+      {
+        $addFields: {
+          instructor: { $arrayElemAt: ['$instructor', 0] }
+        }
+      },
+      {
+        $project: {
+          course: {
+            _id:'$courses._id',
+            name:'$courses.title',
+            thumbnail:'$courses.thumbnail'
+          },
+          instructor: {
+            _id: '$instructor._id',
+            firstName: '$instructor.firstName',
+            lastName: '$instructor.lastName',
+            email: '$instructor.email'
+          }
+        }
+      }
     ];
     const courses = await Students.aggregate(pipeline);
+    console.log(courses)
     return courses;
   };
 
   const getTrendingCourses = async () => {
-    const courses = await Course.find({}).sort({ enrolledCount: -1 }).limit(1);
+    const courses = await Course.aggregate([
+      {
+        $sort: { enrolledCount: -1 }
+      },
+      {
+        $limit: 10
+      },
+      {
+        $lookup: {
+          from: 'instructor',
+          localField: 'instructorId',
+          foreignField: '_id',
+          as: 'instructor'
+        }
+      },
+      {
+        $project: {
+          title: '$title',
+          thumbnail: '$thumbnail',
+          instructorFirstName: { $arrayElemAt: ['$instructor.firstName', 0] },
+          instructorLastName: { $arrayElemAt: ['$instructor.lastName', 0] }
+        }
+      }      
+    ]);
     return courses;
   };
 
