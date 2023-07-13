@@ -25,7 +25,7 @@ const courseSchema = new Schema({
     required: true
   },
   instructorId: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true
   },
   isPaid: {

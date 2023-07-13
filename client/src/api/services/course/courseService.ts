@@ -45,4 +45,23 @@ export const enrollStudentService = async (
   return response.data
 };
 
+export const getRecommendedCoursesService = async (
+ endpoint:string
+) => {
+  const response = await api.get(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+  );
+  return response.data
+};
+
+export const getTrendingCoursesService = async (
+  endpoint:string,
+) => {
+  const response = await api.get(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+  );
+  return response.data
+};
+
+
 

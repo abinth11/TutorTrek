@@ -1,5 +1,6 @@
 import Course from '../models/course';
 import mongoose from 'mongoose';
+import Students from '../models/student';
 import { AddCourseInfoInterface } from '@src/types/courseInterface';
 
 export const courseRepositoryMongodb = () => {
@@ -40,9 +41,93 @@ export const courseRepositoryMongodb = () => {
   const enrollStudent = async (courseId: string, studentId: string) => {
     const response = await Course.updateOne(
       { _id: new mongoose.Types.ObjectId(courseId) },
-      { $push: { coursesEnrolled:studentId } }
+      { $push: { coursesEnrolled: studentId } }
     );
-    return response
+    return response;
+  };
+
+  const getRecommendedCourseByStudentInterest = async (studentId: string) => {
+    const pipeline = [
+      { $match: { _id: new mongoose.Types.ObjectId(studentId) } },
+      { $unwind: '$interests' },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'interests',
+          foreignField: 'name',
+          as: 'category'
+        }
+      },
+      { $unwind: '$category' },
+      {
+        $lookup: {
+          from: 'course',
+          localField: 'category._id',
+          foreignField: 'categoryId',
+          as: 'courses'
+        }
+      },
+      { $unwind: '$courses' },
+      {
+        $lookup: {
+          from: 'instructor',
+          localField: 'courses.instructorId',
+          foreignField: '_id',
+          as: 'instructor'
+        }
+      },
+      {
+        $addFields: {
+          instructor: { $arrayElemAt: ['$instructor', 0] }
+        }
+      },
+      {
+        $project: {
+          course: {
+            _id:'$courses._id',
+            name:'$courses.title',
+            thumbnail:'$courses.thumbnail'
+          },
+          instructor: {
+            _id: '$instructor._id',
+            firstName: '$instructor.firstName',
+            lastName: '$instructor.lastName',
+            email: '$instructor.email'
+          }
+        }
+      }
+    ];
+    const courses = await Students.aggregate(pipeline);
+    console.log(courses)
+    return courses;
+  };
+
+  const getTrendingCourses = async () => {
+    const courses = await Course.aggregate([
+      {
+        $sort: { enrolledCount: -1 }
+      },
+      {
+        $limit: 10
+      },
+      {
+        $lookup: {
+          from: 'instructor',
+          localField: 'instructorId',
+          foreignField: '_id',
+          as: 'instructor'
+        }
+      },
+      {
+        $project: {
+          title: '$title',
+          thumbnail: '$thumbnail',
+          instructorFirstName: { $arrayElemAt: ['$instructor.firstName', 0] },
+          instructorLastName: { $arrayElemAt: ['$instructor.lastName', 0] }
+        }
+      }      
+    ]);
+    return courses;
   };
 
   return {
@@ -51,7 +136,9 @@ export const courseRepositoryMongodb = () => {
     getCourseById,
     getCourseByInstructorId,
     getAmountByCourseId,
-    enrollStudent
+    enrollStudent,
+    getRecommendedCourseByStudentInterest,
+    getTrendingCourses
   };
 };
 

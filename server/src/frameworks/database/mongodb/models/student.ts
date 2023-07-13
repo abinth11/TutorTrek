@@ -7,6 +7,7 @@ interface IStudent extends Document {
   profilePic:string;
   mobile?: string;
   password?: string;
+  interests:Array<string>;
   coursesEnrolled: mongoose.Schema.Types.ObjectId[];
   dateJoined: Date;
   isGoogleUser: boolean;
@@ -43,6 +44,11 @@ const studentSchema = new Schema<IStudent>({
     trim: true,
     unique: true,
     match: [/^[0-9]{10}$/, 'Please enter a valid 10-digit mobile number']
+  },
+  interests: {
+    type: [String],
+    required:true,
+    default: [] 
   },
   password: {
     type: String,

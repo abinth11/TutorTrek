@@ -3,11 +3,12 @@ import {
   addCourseService,
   enrollStudentService,
   getAllCoursesService,
-  getIndividualCourseService
+  getIndividualCourseService,
+  getRecommendedCoursesService,
+  getTrendingCoursesService,
 } from "../../services/course/courseService";
 import { getCoursesByInstructorService } from "../../services/course/courseService";
 import { PaymentIntent } from "@stripe/stripe-js";
-     
 
 export const addCourse = (courseInfo: any) => {
   return addCourseService(END_POINTS.ADD_COURSE, courseInfo);
@@ -25,6 +26,17 @@ export const getIndividualCourse = (courseId: string) => {
   return getIndividualCourseService(END_POINTS.GET_COURSE, courseId);
 };
 
-export const enrollStudent = (courseId:string,paymentInfo?:PaymentIntent)=>{
-  return enrollStudentService(END_POINTS.ENROLL_STUDENT,courseId,paymentInfo)
-}
+export const enrollStudent = (
+  courseId: string,
+  paymentInfo?: PaymentIntent
+) => {
+  return enrollStudentService(END_POINTS.ENROLL_STUDENT, courseId, paymentInfo);
+};
+
+export const getRecommendedCourses = () => {
+  return getRecommendedCoursesService(END_POINTS.GET_RECOMMENDED_COURSES);
+};
+
+export const getTrendingCourses = () => {
+  return getTrendingCoursesService(END_POINTS.GET_TRENDING_COURSES);
+};
