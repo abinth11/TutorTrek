@@ -6,6 +6,7 @@ const END_POINTS = {
     LOGIN_INSTRUCTOR:'api/auth/instructor/instructor-login',
     LOGIN_ADMIN:'api/auth/admin/admin-login',
     GET_INSTRUCTOR_REQUESTS:'api/instructors/view-instructor-requests',
+    GET_INSTRUCTOR:'api/instructors/view-instructor',
     ACCEPT_INSTRUCTOR_REQUESTS:'api/instructors/accept-instructor-request',
     REJECT_INSTRUCTOR_REQUESTS:'api/instructors/reject-instructor-request',
     GET_INSTRUCTORS:'api/instructors/get-all-instructors',

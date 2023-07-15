@@ -98,7 +98,6 @@ export const courseRepositoryMongodb = () => {
       }
     ];
     const courses = await Students.aggregate(pipeline);
-    console.log(courses)
     return courses;
   };
 

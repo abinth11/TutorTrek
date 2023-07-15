@@ -1,5 +1,5 @@
 
- export const client_id = '626927107662-n6cdvrf87lfrpa8kbhtt285mac9klfmg.apps.googleusercontent.com'
+ export const client_id = "868341844656-jr4d6pb4gro123nbet4d3th7cvogpbpq.apps.googleusercontent.com"
  export const redirect_uri = 'http://localhost:3000'
  export const STRIPE_PUBLISHABLE_KEY='pk_test_51NRzOqSFuPFI6PEIm2JqtP4KzHSXPAzJUGsRziDz2lzr71fjzyebwf6V59coC03n6ZWHtxk51GWUE4x8OnjEzNYG00mLqdPeaG'
  const CONSTANTS_COMMON = {

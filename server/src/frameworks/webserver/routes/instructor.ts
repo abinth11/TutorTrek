@@ -47,8 +47,8 @@ const instructorRouter = () => {
   );
 
   router.get(
-    '/view-instructor-requests/:instructorId',
-    controller.getInstructorById
+    '/view-instructor/:instructorId',
+    controller.getInstructorById    
   );
 
   return router;

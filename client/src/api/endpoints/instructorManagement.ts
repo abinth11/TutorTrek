@@ -50,5 +50,5 @@ export const getBlockedInstructors = ()=>{
 }
 
 export const getIndividualInstructors = (instructorId:string) =>{
-  return getIndividualInstructor(END_POINTS.GET_INSTRUCTOR_REQUESTS,instructorId)
+  return getIndividualInstructor(END_POINTS.GET_INSTRUCTOR,instructorId)
 }

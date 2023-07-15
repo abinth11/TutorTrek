@@ -8,14 +8,14 @@ interface Category {
   name: string;
   description: string;
 }
-
+        
 const SelectInterest: React.FC = () => {
   const [categories, setCategories] = useState<Category[] | null>(null);
 
   const fetchCategories = async () => {
     try {
       const response = await getAllCategories();
-      setCategories(response.data);
+      setCategories(response?.data);
     } catch (error) {
       toast.error("Something went wrong", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -41,8 +41,8 @@ const SelectInterest: React.FC = () => {
           name='interests'
           component={CustomSelect}
           options={categories.map((category) => ({
-            value: category.name,
-            label: category.name,
+            value: category?.name,
+            label: category?.name,
           }))}
         />
       ) : (
@@ -59,7 +59,7 @@ const SelectInterest: React.FC = () => {
 
 const CustomSelect = ({ field, form, options, ...props }: any) => {
   const handleChange = (selectedOption: any) => {
-    form.setFieldValue(field.name, selectedOption);
+    form.setFieldValue(field?.name, selectedOption);
   };
 
   return (
