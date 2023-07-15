@@ -14,7 +14,9 @@ const configKeys = {
 
   NODE_ENV: process.env.NODE_ENV as string,
 
-  GOOGLE_AUTH_CLIENT: process.env.GOOGLE_AUTH_CLIENT as string,
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID as string,
+
+  GOOGLE_CLIENT_SECRET:process.env.GOOGLE_CLIENT_SECRET as string,
 
   ORIGIN_PORT: process.env.ORIGIN_PORT as string,
 

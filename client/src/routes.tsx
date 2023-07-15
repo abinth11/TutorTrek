@@ -26,6 +26,7 @@ import Categories from "./components/pages/categories/Categories";
 import AddCategory from "./components/pages/categories/AddCategory";
 import EditCategory from "./components/pages/categories/EditCategory";
 import ListCategories from "./components/pages/categories/ListCategory";
+import ViewInstructor from "./components/pages/instructors/ViewInstructor";
 
 const LazyListCourse = lazy(
   () => import("./components/pages/Course/ListCourse")
@@ -68,6 +69,11 @@ const AppRouter = createBrowserRouter([
             <LazyInstructorsListing />
           </Suspense>
         ),
+        
+      },
+      {
+        path: "/tutors/:tutorId",
+        element: <ViewInstructor />,
       },
     ],
   },

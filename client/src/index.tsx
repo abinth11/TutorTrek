@@ -11,21 +11,14 @@ import { store } from "./redux/store";
 import { ThemeProvider } from "@material-tailwind/react";
 import { ToastContainer } from "react-toastify";
 import { MaterialTailwindControllerProvider } from "./components/pages/admin/widgets/context";
-import { loadStripe } from "@stripe/stripe-js";
-import { STRIPE_PUBLISHABLE_KEY } from "./constants/common";
-import { Elements } from "@stripe/react-stripe-js";
-import StripeContainer from "./components/pages/payment-stripe/StripeContainer";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
 root.render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={client_id}>
-      {/* <Elements stripe={stripePromise}> */}
-        {/* <StripeContainer> */}
         <Provider store={store}>
           <ThemeProvider>
             <MaterialTailwindControllerProvider>
@@ -34,8 +27,6 @@ root.render(
             </MaterialTailwindControllerProvider>
           </ThemeProvider>
         </Provider>
-      {/* </Elements> */}
-      {/* </StripeContainer> */}
     </GoogleOAuthProvider>
   </React.StrictMode>
 );
