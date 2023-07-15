@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import ShimmerListAllInstructors from "../../Shimmers/ShimmerListAllInstructors";
 import FilterInstructorSelectBox from "./FilterInstructorSelectBox";
 import { RiSearchLine } from "react-icons/ri";
+import { Spinner } from "@material-tailwind/react";
 
 type Props = {};
 
@@ -20,6 +21,7 @@ const ListAllInstructors: React.FC<Props> = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filterValue, setFilterValue] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSearchLoading, setIsSearchLoading] = useState<boolean>(false);
   const [debouncedFilter, setDebouncedFilter] = useState<number | undefined>(
     undefined
   );
@@ -30,12 +32,14 @@ const ListAllInstructors: React.FC<Props> = () => {
       const response = await getAllInstructors();
       setInstructors(response?.data?.data);
       setFilteredInstructors(response?.data?.data);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
     } catch (error) {
+      setIsLoading(false);
       toast.error("Something went wrong", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -63,16 +67,19 @@ const ListAllInstructors: React.FC<Props> = () => {
     const { value } = event.target;
     setSearchQuery(value);
   };
-  console.log(filterValue);
 
   useEffect(() => {
     const debouncedFilterFunc = debounce(() => {
+      setIsSearchLoading(true);
       const searchResult = instructors?.filter(
         (instructor) =>
           instructor.firstName.toLowerCase().trim().includes(searchQuery) ||
           instructor.lastName.toLowerCase().trim().includes(searchQuery)
       );
-      setFilteredInstructors(searchResult);
+      setTimeout(() => {
+        setFilteredInstructors(searchResult);
+        setIsSearchLoading(false);
+      }, 500);
     }, 200);
 
     debouncedFilterFunc();
@@ -89,6 +96,9 @@ const ListAllInstructors: React.FC<Props> = () => {
       filterValue.length === 0 ||
       instructor.subjects.some((category) => filterValue.includes(category))
   );
+  const handleSelect = (value: string) => {
+    setFilterValue(value);
+  };
 
   if (isLoading || instructors === undefined) {
     return <ShimmerListAllInstructors />;
@@ -111,7 +121,7 @@ const ListAllInstructors: React.FC<Props> = () => {
       <div>
         <div className='flex p-3 bg-white justify-center'>
           <div className='p-5 flex w-4/12'>
-            <FilterInstructorSelectBox setFilter={setFilterValue} />
+            <FilterInstructorSelectBox handleSelect={handleSelect} />
             <div className='relative w-1/2'>
               <input
                 type='text'
@@ -127,13 +137,19 @@ const ListAllInstructors: React.FC<Props> = () => {
           </div>
         </div>
         <div className='p-10 flex items-center gap-y-10 bg-gray-50 justify-evenly flex-wrap'>
-          {filteredAndSearchedInstructors?.length
-            ? filteredAndSearchedInstructors?.map((instructor) => (
-                <Link key={instructor._id} to={`/tutors/${instructor._id}`}>
-                  <InstructorCard {...instructor} />
-                </Link>
-              ))
-            : <div className="p-3 text-customFontColorBlack font-light">No results found.</div>}
+          {isSearchLoading ? (
+            <Spinner color='blue-gray' className='h-8 w-8' />
+          ) : filteredAndSearchedInstructors?.length ? (
+            filteredAndSearchedInstructors?.map((instructor) => (
+              <Link key={instructor._id} to={`/tutors/${instructor._id}`}>
+                <InstructorCard {...instructor} />
+              </Link>
+            ))
+          ) : (
+            <div className='p-3 text-customFontColorBlack font-light'>
+              No results found.
+            </div>
+          )}
         </div>
       </div>
     </div>

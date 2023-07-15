@@ -46,7 +46,6 @@ const ViewInstructor: React.FC = (props: Props) => {
   useEffect(() => {
     fetchInstructor();
   }, []);
-  console.log(instructor);
   if (isLoading) {
     return <ViewInstructorShimmer/>
   }

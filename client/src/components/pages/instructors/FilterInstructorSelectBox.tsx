@@ -3,15 +3,12 @@ import { toast } from "react-toastify";
 import { getAllCategories } from "../../../api/endpoints/category";
 import { ApiResponseCategory } from "../../../api/types/apiResponses/apiResponseCategory";
 import Select from "react-select";
-import { InstructorApiResponse } from "../../../api/types/apiResponses/apiResponseInstructors";
 
 interface Props {
-  setFilter:(value:string)=>void,
-  // setFilteredAndSearchedInstructors:(value:InstructorApiResponse[])=>void,
-  // filteredInstructors:InstructorApiResponse[]
+  handleSelect:(value:string)=>void,
 }
 
-const FilterInstructorSelectBox:React.FC<Props> = ({setFilter})=> {
+const FilterInstructorSelectBox:React.FC<Props> = ({handleSelect})=> {
   const [categories, setCategories] = useState<ApiResponseCategory[] | null>(
     null
   );
@@ -19,10 +16,8 @@ const FilterInstructorSelectBox:React.FC<Props> = ({setFilter})=> {
   const fetchAllCategories = async () => {
     try {
       const response = await getAllCategories();
-      console.log(response);
       setCategories(response?.data);
     } catch (error) {
-      console.log(error);
       toast.error("Something went wrong", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -34,8 +29,7 @@ const FilterInstructorSelectBox:React.FC<Props> = ({setFilter})=> {
   }, []);
 
   const handleSelectChange = (selectedOption: any) => {
-    setFilter(selectedOption?.value || "");
-    // filteredInstructors?.filter((instructor=>instructor.subjects.includes(selectedOption)));
+    handleSelect(selectedOption?.value || "");
   };
 
   return (

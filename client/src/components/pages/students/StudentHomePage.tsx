@@ -74,7 +74,6 @@ const StudentHomePage: React.FC = () => {
     setShowMoreRecommended(true);
     setCardsToShow((prevCardsToShow) => prevCardsToShow + 3); // Increment the number of cards to show
   };
-  console.log(recommendedCourses);
   if (isLoadingTrending || isLoadingRecommended) {
     return (
       <div>
