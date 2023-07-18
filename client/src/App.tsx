@@ -1,11 +1,11 @@
-import React from "react";
+import React,{useEffect} from "react";
 import StudentHeader from "./components/partials/StudentHeader";
 import "react-toastify/dist/ReactToastify.css";
 import { Outlet} from "react-router-dom";
 import AdminLoginPage from "./components/pages/admin/AdminLoginPage";
 import { Sidenav } from "./components/pages/admin/widgets/layout";
 import { routes } from "./components/pages/admin/AdminDashBoardPage";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import InstructorSideNav from "./components/partials/SideNav";
 import { selectIsAdminLoggedIn } from "./redux/reducers/adminAuthSlice";
 import InstructorHeader from "./components/partials/InstructorHeader";
@@ -14,17 +14,23 @@ import YouAreOffline from "./components/common/YouAreOffline";
 import StudentFooter from "./components/partials/StudentFooter";
 import { selectIsLoggedIn } from "./redux/reducers/authSlice";
 import { selectIsFooterVisible } from "./redux/reducers/helperSlice";
-
+import { fetchStudentData } from "./redux/reducers/studentSlice";
 
 export const Student: React.FC = () => {
   const isOnline = useIsOnline();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const footerVisible = useSelector(selectIsFooterVisible)
+  const dispatch = useDispatch();
   const isHeaderVisible = true
   // usePreventBackButton(isLoggedIn);     
   const headerClassName = `bg-gray-100 ${
     isHeaderVisible ? 'opacity-100 transition-opacity duration-500 ' : 'opacity-0 '
   }`;
+
+  useEffect(() => {
+    dispatch(fetchStudentData());
+  }, [dispatch])
+  
   return (
     <>
       {isOnline ? (

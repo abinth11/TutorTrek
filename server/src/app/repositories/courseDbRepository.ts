@@ -26,6 +26,8 @@ export const courseDbRepository = (
 
   const getTrendingCourse = async () => await repository.getTrendingCourses();
 
+  const getCourseByStudent = async (studentId:string)=> await repository.getCourseByStudent(studentId)
+
   return {
     addCourse,
     getAllCourse,
@@ -34,7 +36,8 @@ export const courseDbRepository = (
     getAmountByCourseId,
     enrollStudent,
     getRecommendedCourseByStudentInterest,
-    getTrendingCourse
+    getTrendingCourse,
+    getCourseByStudent
   };
 };
 export type CourseDbRepositoryInterface = typeof courseDbRepository;

@@ -1,21 +1,125 @@
+import { useState,useEffect } from "react";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
+import { updateProfile } from "../../../api/endpoints/student";
+import { UpdateProfileInfo } from "../../../api/types/student/student";
+import { Avatar } from "@material-tailwind/react";
+import { useSelector } from "react-redux";
+import {
+  selectStudent,
+  selectIsFetchingStudent,
+  selectStudentError,
+} from "../../../redux/reducers/studentSlice";
 
 const ProfileForm = () => {
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const studentInfo = useSelector(selectStudent)?.studentDetails;
+  let isFetching = useSelector(selectIsFetchingStudent);
+  const [loading,setLoading] = useState(false)
+  const error = useSelector(selectStudentError);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+      formik.setFieldValue("profilePic", file);
+    } else {
+      setPreviewImage(null);
+      formik.setFieldValue("profilePic", null);
+    }
+  };
+  useEffect(()=>{
+  if(!studentInfo){
+    setLoading(true)
+  }else{
+    setLoading(false)
+  }
+  },[studentInfo])
+
+  const handleSubmit = async (profileInfo: UpdateProfileInfo) => {
+    try {
+      const formData = new FormData();
+      if (profileInfo.profilePic) {
+        formData.append("image", profileInfo.profilePic);
+      }
+      formData.append("email", profileInfo.email || "");
+      formData.append("firstName", profileInfo.firstName || "");
+      formData.append("lastName", profileInfo.lastName || "");
+      formData.append("mobile", profileInfo.mobile || "");
+
+      const response = await updateProfile(formData);
+      formik.resetForm();
+      setPreviewImage(null);
+      const fileInput = document.getElementById(
+        "file_input"
+      ) as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = "";
+      }
+      toast.success(response?.data?.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    } catch (error: any) {
+      toast.error(error?.data?.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
-      email: "",
-      firstName: "",
-      lastName: "",
-      mobile: "",
+      email: studentInfo?.email || "",
+      firstName: studentInfo?.firstName || "",
+      lastName: studentInfo?.lastName || "",
+      mobile: studentInfo?.mobile || "",
     },
     onSubmit: (values) => {
-      // Perform form submission logic here
-      console.log(values);
+      handleSubmit(values);
     },
   });
+ 
+
+  // if (isFetching) {
+  //   return <div>Loading...</div>;
+  // }
+  if(loading){
+    return <div>Loading...</div>
+  }
+
+
+  // if (error) {
+  //   return <div>Error: {error}</div>;
+  // }
+
+  // if (!studentInfo) {
+  //   return <div>loading...</div>
+  // }
+  console.log(!studentInfo)
+  console.log(loading)   
 
   return (
     <form onSubmit={formik.handleSubmit}>
+      <div className='p-5 flex '>
+        <Avatar src={previewImage || "../profile.jpg"} alt='avatar' size='xl' />
+        <div className='pl-4'>
+          <label
+            className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+            htmlFor='file_input'
+          >
+            Upload profile photo
+          </label>
+          <input
+            className='block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400'
+            id='file_input'
+            onChange={handleFileChange}
+            type='file'
+          />
+        </div>
+      </div>
       <div className='grid md:grid-cols-2 md:gap-6'>
         <div className='relative z-0 w-full mb-6 group'>
           <input

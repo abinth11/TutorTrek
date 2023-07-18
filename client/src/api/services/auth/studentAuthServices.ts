@@ -35,5 +35,5 @@ export const googleLoginStudent = async (
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
     data
   );
-  return response;
+  return response.data
 };

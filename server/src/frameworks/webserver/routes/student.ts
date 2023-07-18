@@ -22,6 +22,8 @@ const studentRouter = () => {
   
   router.put('/update-profile',upload.single('image'),controller.updateProfile);
 
+  router.get('/get-student-details',controller.getStudentDetails)
+
   return router;
 };
 export default studentRouter;

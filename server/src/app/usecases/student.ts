@@ -71,3 +71,22 @@ export const updateProfileU = async (
   }
   await studentDbRepository.updateProfile(id, studentInfo);
 };
+
+export const getStudentDetailsU = async (
+  id: string | undefined,
+  studentDbRepository: ReturnType<StudentsDbInterface>
+) => {
+  if (!id) {
+    throw new AppError(
+      'Please provide a valid student id',
+      HttpStatusCodes.BAD_REQUEST
+    );
+  }
+  const studentDetails: StudentInterface | null =
+    await studentDbRepository.getStudent(id);
+  console.log(studentDetails);
+  if(studentDetails){
+    studentDetails.password="no password"
+  }
+  return studentDetails;
+};

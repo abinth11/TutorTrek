@@ -5,8 +5,8 @@ import { AuthServiceInterface } from '../../app/services/authServicesInterface';
 import asyncHandler from 'express-async-handler';
 import { Request, Response } from 'express';
 import { CustomRequest } from '../../types/customRequest';
-import { changePasswordU, updateProfileU } from '../../app/usecases/student';
-import { StudentUpdateInfo } from '../../types/studentInterface';
+import { changePasswordU, getStudentDetailsU, updateProfileU } from '../../app/usecases/student';
+import { StudentInterface, StudentUpdateInfo } from '../../types/studentInterface';
 import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
 import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
 
@@ -46,6 +46,8 @@ const studentController = (
       const studentInfo: StudentUpdateInfo = req.body;
       const studentId: string | undefined = req.user?.Id;
       const profilePic: Express.Multer.File = req.file as Express.Multer.File;
+      console.log(profilePic)
+      console.log(studentInfo)
       await updateProfileU(
         studentId,
         studentInfo,
@@ -61,9 +63,21 @@ const studentController = (
     }
   );
 
+  const getStudentDetails = asyncHandler(async(req:CustomRequest,res:Response)=>{
+    const studentId:string|undefined = req.user?.Id
+    const studentDetails = await getStudentDetailsU(studentId,dbRepositoryStudent)
+    console.log(studentDetails)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully retrieved student details',
+      data: studentDetails
+    });
+  })
+
   return {
     changePassword,
-    updateProfile
+    updateProfile,
+    getStudentDetails
   };
 };
 

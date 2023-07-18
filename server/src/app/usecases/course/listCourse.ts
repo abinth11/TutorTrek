@@ -22,3 +22,14 @@ export const getCourseByIdU = async (
   const course = await courseDbRepository.getCourseById(courseId);
   return course;
 };
+
+export const getCourseByStudent = async (
+  studentId: string,
+  courseDbRepository: ReturnType<CourseDbRepositoryInterface>
+) => {
+  if (!studentId) {
+    throw new AppError('Invalid student id ', HttpStatusCodes.BAD_REQUEST);
+  }
+  const course = await courseDbRepository.getCourseByStudent(studentId);
+  return course;
+};
