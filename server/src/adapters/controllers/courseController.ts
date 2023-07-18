@@ -14,7 +14,7 @@ import { addLessonsU } from '../../app/usecases/lessons/addLesson';
 import { getLessonsByCourseIdU } from '../../app/usecases/lessons/viewLessons';
 import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
 import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
-import { getQuizzesLessonU } from '../../app/usecases/auth/quiz/getQuiz';
+import { getQuizzesLessonU } from '../../app/usecases/quiz/getQuiz';
 import { getLessonByIdU } from '../../app/usecases/lessons/getLesson';
 import { QuizDbInterface } from '../../app/repositories/quizDbRepository';
 import { QuizRepositoryMongoDbInterface } from '../../frameworks/database/mongodb/repositories/quizzDbRepository';

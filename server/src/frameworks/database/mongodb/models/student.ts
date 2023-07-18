@@ -1,17 +1,35 @@
 import mongoose, { Schema, model, Document } from 'mongoose';
 
+interface ProfilePic {
+  name: string;
+  key?: string;
+  url?: string;
+}
 interface IStudent extends Document {
   firstName: string;
   lastName: string;
   email: string;
-  profilePic:string;
+  profilePic: ProfilePic;
   mobile?: string;
   password?: string;
-  interests:Array<string>;
+  interests: Array<string>;
   coursesEnrolled: mongoose.Schema.Types.ObjectId[];
   dateJoined: Date;
   isGoogleUser: boolean;
 }
+
+const ProfileSchema = new Schema<ProfilePic>({
+  name: {
+    type: String,
+    required: true
+  },
+  key: {
+    type: String
+  },
+  url: {
+    type: String
+  }
+});
 
 const studentSchema = new Schema<IStudent>({
   firstName: {
@@ -30,15 +48,18 @@ const studentSchema = new Schema<IStudent>({
     trim: true,
     unique: true,
     lowercase: true,
-    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email']
+    match: [
+      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+      'Please enter a valid email'
+    ]
   },
-  profilePic:{
-    type:String,
-    required:false
+  profilePic: {
+    type: ProfileSchema,
+    required: false
   },
   mobile: {
     type: String,
-    required: function(this: IStudent) {
+    required: function (this: IStudent) {
       return !this.isGoogleUser;
     },
     trim: true,
@@ -47,12 +68,12 @@ const studentSchema = new Schema<IStudent>({
   },
   interests: {
     type: [String],
-    required:true,
-    default: [] 
+    required: true,
+    default: []
   },
   password: {
     type: String,
-    required: function(this: IStudent) {
+    required: function (this: IStudent) {
       return !this.isGoogleUser;
     },
     minlength: 8

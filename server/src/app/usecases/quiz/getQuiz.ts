@@ -1,6 +1,6 @@
-import AppError from '../../../../utils/appError';
-import HttpStatusCodes from '../../../../constants/HttpStatusCodes';
-import { QuizDbInterface } from '../../../../app/repositories/quizDbRepository';
+import AppError from '../../../utils/appError';
+import HttpStatusCodes from '../../../constants/HttpStatusCodes';
+import { QuizDbInterface } from '../../repositories/quizDbRepository';
 
 export const getQuizzesLessonU =async (
   lessonId: string,

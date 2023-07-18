@@ -18,6 +18,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { clearToken } from "../../redux/reducers/authSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
  
 // profile menu component
 const profileMenuItems = [
@@ -26,12 +27,12 @@ const profileMenuItems = [
     icon: UserCircleIcon,
   },
   {
-    label: "Edit Profile",
-    icon: Cog6ToothIcon,
-  },
-  {
     label: "Inbox",
     icon: InboxArrowDownIcon,
+  },
+  {
+    label: "Settings",
+    icon: Cog6ToothIcon,
   },
   {
     label: "Help",
@@ -45,15 +46,16 @@ const profileMenuItems = [
  
 export default function ProfileMenu() {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleAction = (action:string) => {
         // Handle different actions based on the action label
         switch (action) {
           case "My Profile":
-            // Logic for "My Profile" action
+            navigate("/dashboard/my-profile")
             break;
-          case "Edit Profile":
-            // Logic for "Edit Profile" action
+          case "Settings":
+            navigate("/dashboard/settings")
             break;
           case "Inbox":
             // Logic for "Inbox" action
@@ -64,6 +66,7 @@ export default function ProfileMenu() {
           case "Sign Out":
             // Logic for "Sign Out" action
             dispatch(clearToken())
+            navigate("/")
             break;
           default:
             break;
