@@ -1,13 +1,13 @@
 import { Carousel, Typography, Button } from "@material-tailwind/react";
-
+  
 export default function CarouselComponent() {
   return (
-    <Carousel className="rounded-none h-screen">
+    <Carousel className="rounded-none h-[30rem]" autoplay={true} autoplayDelay={4000} loop={true}>
       <div className="relative h-full w-full">
         <img
           src="https://res.cloudinary.com/dwucedjmy/image/upload/v1687722374/Tutor-Trek/09206fc2-d0f1-41f6-b714-36242be94ee7_zhgvax.jpg"
           alt="image 2"
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover" 
         />
         <div className="absolute inset-0 grid h-full w-full items-center bg-black/75">
           <div className="w-3/4 pl-12 md:w-2/4 md:pl-20 lg:pl-32">
