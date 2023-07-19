@@ -10,13 +10,14 @@ function GoogleAuthComponent(): JSX.Element {
   const dispatch = useDispatch()
 
   const errorMessage = (): void => {
-    console.log("error from google login");
+    toast.error("error from google login", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
   };
 
   const handleSignInWithGoogle = (credential: string) => {
     googleLogin(credential)
       .then((response: any) => {
-        console.log(response)
         const {
           accessToken,
           refreshToken,

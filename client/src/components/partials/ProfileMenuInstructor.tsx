@@ -1,17 +1,13 @@
-import React, { useState,useEffect} from "react";
+import  { useState,useEffect} from "react";
 import {
-  Typography,
   Button,
-  Menu,
+  Menu,    
   MenuHandler,
   MenuList,
-  MenuItem,
-  Avatar,
+  Avatar,       
 } from "@material-tailwind/react";
 import {
-  UserCircleIcon,
   ChevronDownIcon,
-  Cog6ToothIcon,
   InboxArrowDownIcon,
   LifebuoyIcon,
   PowerIcon,
@@ -32,7 +28,7 @@ const profileMenuItems = [
   {
     label: "Inbox",
     icon: InboxArrowDownIcon,
-  },
+  },   
   {
     label: "Help",
     icon: LifebuoyIcon,
@@ -52,7 +48,6 @@ export function ProfileMenu() {
       setLoading(true)
       const response = await getProfileUrl();
       setProfileUrl(response.data)
-      console.log(response);
       setLoading(false)
     } catch (error) {
       console.log(error);
@@ -77,7 +72,7 @@ export function ProfileMenu() {
             size="sm"
             alt="candice wu"
             className="border border-blue-500 p-0.5"
-            src={profileUrl}
+            src={"../profile.jpg"}
           />
           <ChevronDownIcon
             strokeWidth={2.5}

@@ -84,7 +84,6 @@ export const getStudentDetailsU = async (
   }
   const studentDetails: StudentInterface | null =
     await studentDbRepository.getStudent(id);
-  console.log(studentDetails);
   if (studentDetails) {
     studentDetails.password = 'no password';
   }
