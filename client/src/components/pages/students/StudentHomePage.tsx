@@ -109,7 +109,9 @@ const StudentHomePage: React.FC = () => {
 
   return (
     <div>
+      <div >
       <Carousel />
+      </div>
       <div className='lg:p-10 md:p-7 pt-7 sm:p-8 w-full'>
         <div className='ml-10 flex items-center justify-start w-9/12'>
           <h2 className='p-2 text-customFontColorBlack md:text-4xl sm:text-4xl font-bold'>

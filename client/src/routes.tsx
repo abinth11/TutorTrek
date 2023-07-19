@@ -27,6 +27,10 @@ import AddCategory from "./components/pages/categories/AddCategory";
 import EditCategory from "./components/pages/categories/EditCategory";
 import ListCategories from "./components/pages/categories/ListCategory";
 import ViewInstructor from "./components/pages/instructors/ViewInstructor";
+import UserDashboard from "./components/pages/dash/UserDashboard";
+import MyCourses from "./components/pages/dash/MyCourses";
+import MyProfile from "./components/pages/dash/MyProfile";
+import DashHome from "./components/pages/dash/DashHome";
 
 const LazyListCourse = lazy(
   () => import("./components/pages/Course/ListCourse")
@@ -69,13 +73,29 @@ const AppRouter = createBrowserRouter([
             <LazyInstructorsListing />
           </Suspense>
         ),
-        
       },
       {
         path: "/tutors/:tutorId",
         element: <ViewInstructor />,
       },
     ],
+  },
+  {      
+    path: "/dashboard",
+    element: <UserDashboard />,
+    children:[
+      {
+        path:"",
+        element:<DashHome/>
+      },
+      {
+        path:"my-courses",
+        element:<MyCourses/>
+      },{          
+        path:"my-profile",
+        element:<MyProfile/>
+      }
+    ]
   },
   {
     path: "courses/:courseId/payment",

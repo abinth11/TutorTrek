@@ -8,7 +8,10 @@ export const googleAuthService = () => {
       firstName: "",
       lastName: "",
       email: "",
-      profilePic: "",
+      profilePic: {
+        url:"",
+        name:""
+      },
       isGoogleUser: true,
     };
     const ticket = await client.verifyIdToken({
@@ -16,6 +19,7 @@ export const googleAuthService = () => {
       audience: configKeys.GOOGLE_CLIENT_ID,
     });
     const payload = ticket.getPayload();
+    console.log(payload)
     if (payload?.given_name && payload.email && payload.picture) {
       const nameParts = payload.given_name.trim().split(" ");
       const firstName = nameParts[0];
@@ -23,7 +27,8 @@ export const googleAuthService = () => {
       user.firstName = firstName;
       user.lastName = lastName;
       user.email = payload.email;
-      user.profilePic = payload.picture;
+      user.profilePic.url = payload.picture
+      user.profilePic.name=payload.given_name
     }
     return user;
   };

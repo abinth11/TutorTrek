@@ -84,9 +84,9 @@ export const courseRepositoryMongodb = () => {
       {
         $project: {
           course: {
-            _id:'$courses._id',
-            name:'$courses.title',
-            thumbnail:'$courses.thumbnail'
+            _id: '$courses._id',
+            name: '$courses.title',
+            thumbnail: '$courses.thumbnail'
           },
           instructor: {
             _id: '$instructor._id',
@@ -124,9 +124,19 @@ export const courseRepositoryMongodb = () => {
           instructorFirstName: { $arrayElemAt: ['$instructor.firstName', 0] },
           instructorLastName: { $arrayElemAt: ['$instructor.lastName', 0] }
         }
-      }      
+      }
     ]);
     return courses;
+  };
+
+  const getCourseByStudent = async (id: string) => {
+    const courses = await Course.find({
+      coursesEnrolled: {
+        $in: [new mongoose.Types.ObjectId('648d8672320950d1ec7454ac')]
+      }
+    });
+    console.log(courses)
+    return courses
   };
 
   return {
@@ -137,7 +147,8 @@ export const courseRepositoryMongodb = () => {
     getAmountByCourseId,
     enrollStudent,
     getRecommendedCourseByStudentInterest,
-    getTrendingCourses
+    getTrendingCourses,
+    getCourseByStudent
   };
 };
 

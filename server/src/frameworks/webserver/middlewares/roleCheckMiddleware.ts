@@ -44,7 +44,7 @@ export const studentRoleCheckMiddleware = (
   const role = req.user?.role;
 
 
-  if (role === 'instructor') {
+  if (role === 'student') {
     // User has the instructor role, allow access
     next();
   } else {

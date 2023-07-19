@@ -59,7 +59,7 @@ export const studentLogin = async (
   const student: StudentInterface | null =
     await studentRepository.getStudentByEmail(email);
   if (!student) {
-    throw new AppError("this user doesn't exist", HttpStatusCodes.UNAUTHORIZED);
+    throw new AppError("this user doesn't exist", HttpStatusCodes.NOT_FOUND);
   }
   const isPasswordCorrect = await authService.comparePassword(
     password,

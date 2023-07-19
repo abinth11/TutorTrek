@@ -7,7 +7,11 @@ interface Interest {
   lastName: string;
   interests?:Array<string>,
   email: string;
-  profilePic?:string;
+  profilePic?:{
+    key?:string;
+    name:string;
+    url?:string;
+  };
   mobile?:string;
   password?: string;
   isGoogleUser:boolean

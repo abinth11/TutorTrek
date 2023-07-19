@@ -63,5 +63,13 @@ export const getTrendingCoursesService = async (
   return response.data
 };
 
+export const getCourseByStudentService = async (
+  endpoint:string,
+) => {
+  const response = await api.get(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+  );
+  return response.data
+};
 
 

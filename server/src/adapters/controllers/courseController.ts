@@ -7,14 +7,15 @@ import { AddCourseInfoInterface } from '../../types/courseInterface';
 import { CustomRequest } from '../../types/customRequest';
 import {
   getAllCourseU,
-  getCourseByIdU
+  getCourseByIdU,
+  getCourseByStudentU
 } from '../../app/usecases/course/listCourse';
 import { getCourseByInstructorU } from '../../app/usecases/course/viewCourse';
 import { addLessonsU } from '../../app/usecases/lessons/addLesson';
 import { getLessonsByCourseIdU } from '../../app/usecases/lessons/viewLessons';
 import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
 import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
-import { getQuizzesLessonU } from '../../app/usecases/auth/quiz/getQuiz';
+import { getQuizzesLessonU } from '../../app/usecases/quiz/getQuiz';
 import { getLessonByIdU } from '../../app/usecases/lessons/getLesson';
 import { QuizDbInterface } from '../../app/repositories/quizDbRepository';
 import { QuizRepositoryMongoDbInterface } from '../../frameworks/database/mongodb/repositories/quizzDbRepository';
@@ -323,6 +324,17 @@ const courseController = (
     }
   );
 
+  const getCourseByStudent = asyncHandler(async(req:CustomRequest,res:Response)=>{
+    const studentId:string|undefined = req.user?.Id
+    console.log(studentId)
+    const courses = await getCourseByStudentU(studentId,dbRepositoryCourse)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully retrieved courses based on students',
+      data: courses
+    });
+  })
+
   return {
     addCourse,
     getAllCourses,
@@ -340,7 +352,8 @@ const courseController = (
     getRepliesByDiscussion,
     enrollStudent,
     getRecommendedCourseByStudentInterest,
-    getTrendingCourses
+    getTrendingCourses,
+    getCourseByStudent
   };
 };
 

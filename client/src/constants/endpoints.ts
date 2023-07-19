@@ -37,6 +37,11 @@ const END_POINTS = {
     GET_CATEGORY_BY_ID:'api/category/get-category',
     EDIT_CATEGORY:'api/category/edit-category',
     GET_RECOMMENDED_COURSES:'api/courses/get-recommended-courses',
-    GET_TRENDING_COURSES:'api/courses/get-trending-courses'
+    GET_TRENDING_COURSES:'api/courses/get-trending-courses',
+    CHANGE_PASSWORD:"api/students/change-password",
+    UPDATE_PROFILE:"api/students/update-profile",
+    GET_STUDENT_DETAILS:"api/students/get-student-details",
+    GET_COURSE_BY_STUDENT:"api/courses/get-course-by-student",
+    GET_PROFILE_URL:"api/students/get-profile-url"
 }
 export default END_POINTS

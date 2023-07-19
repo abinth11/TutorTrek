@@ -1,33 +1,40 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { loginStudent } from "../../../api/endpoints/auth/studentAuth";
 import { studentLoginValidationSchema } from "../../../validations/auth/studentLoginValidation";
 import { toast } from "react-toastify";
-import {Link,useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from "react-router-dom";
 import GoogleAuthComponent from "../../common/GoogleAuthComponent";
-import { useDispatch } from "react-redux"; 
+import { useDispatch } from "react-redux";
 import { setToken } from "../../../redux/reducers/authSlice";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 const StudentLoginPage: React.FC = () => {
-  const navigate = useNavigate()
-  const dispatch= useDispatch()
-  const isLoggedIn = useSelector(selectIsLoggedIn)
-  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const handleSubmit = async (studentInfo: any) => {
     try {
       const response = await loginStudent(studentInfo);
-      const {accessToken,refreshToken}:{accessToken:string,refreshToken:string} = response.data
-      dispatch(setToken({accessToken,refreshToken}))
-      response.status &&navigate('/')
-    } catch (error:any) { 
-      toast.error(error.data?.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,    
+      const {
+        accessToken,
+        refreshToken,
+      }: { accessToken: string; refreshToken: string } = response.data;
+      dispatch(setToken({ accessToken, refreshToken }));
+      response.data.status==="success" && navigate("/");
+    } catch (error: any) {  
+      toast.error(error?.data?.errorMessage, {  
+        position: toast.POSITION.BOTTOM_RIGHT,   
       });
     }
   };
- 
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");   
+    }
+  },[isLoggedIn,navigate]);
 
   return (
     <div className='flex justify-center items-center mt-16  text-customFontColorBlack'>
@@ -42,14 +49,17 @@ const StudentLoginPage: React.FC = () => {
             Sign in to your account
           </h2>
         </div>
-         <Formik
-          initialValues={{ email: '', password: '' }}
+        <Formik
+          initialValues={{ email: "", password: "" }}
           validationSchema={studentLoginValidationSchema}
           onSubmit={handleSubmit}
         >
           <Form className='mt-10 space-y-6'>
             <div>
-              <label htmlFor='email' className='block text-sm font-medium leading-6 text-gray-900'>
+              <label
+                htmlFor='email'
+                className='block text-sm font-medium leading-6 text-gray-900'
+              >
                 Email address
               </label>
               <div className='mt-2'>
@@ -71,11 +81,17 @@ const StudentLoginPage: React.FC = () => {
 
             <div>
               <div className='flex items-center justify-between'>
-                <label htmlFor='password' className='block text-sm font-medium leading-6 text-gray-900'>
+                <label
+                  htmlFor='password'
+                  className='block text-sm font-medium leading-6 text-gray-900'
+                >
                   Password
                 </label>
                 <div className='text-sm'>
-                  <a href='/' className='font-semibold text-indigo-600 hover:text-indigo-500'>
+                  <a
+                    href='/'
+                    className='font-semibold text-indigo-600 hover:text-indigo-500'
+                  >
                     Forgot password?
                   </a>
                 </div>
@@ -98,16 +114,16 @@ const StudentLoginPage: React.FC = () => {
             </div>
 
             <div>
-            <GoogleAuthComponent/>
-            <button
-              type='submit'
-              className='flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
-            >
-              Sign in
-            </button>
-          </div>
-        </Form>
-      </Formik>
+              <GoogleAuthComponent />
+              <button
+                type='submit'
+                className='flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+              >
+                Sign in
+              </button>
+            </div>
+          </Form>
+        </Formik>
 
         <p className='mt-10 text-center text-sm text-gray-500'>
           Do not have an account?

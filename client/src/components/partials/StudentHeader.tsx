@@ -7,6 +7,7 @@ import ProfileMenu from "../elements/ProfileMenu";
 import { selectIsLoggedIn } from "../../redux/reducers/authSlice";
 import { useSelector } from "react-redux";
 import { Button } from "@material-tailwind/react";
+import { APP_LOGO } from "../../constants/common";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -41,8 +42,8 @@ const StudentHeader: React.FC = () => {
                   <div className='flex-shrink-0'>
                     <Link to='/'>
                       <img
-                        className='h-8 w-8'
-                        src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500'
+                        className='h-12 w-15'
+                        src={APP_LOGO}
                         alt='Your Company'
                       />
                     </Link>
@@ -72,7 +73,9 @@ const StudentHeader: React.FC = () => {
                 {isLoggedIn ? (
                   <div className='hidden md:flex items-center justify-between'>
                     <div className=''>
+                      <Link to="/dashboard">
                       <Button size="md" color="blue-gray">Dashboard</Button>
+                      </Link>
                     </div>
                     <div className=' pl-3 ml-3 items-end'>
                       <ProfileMenu />

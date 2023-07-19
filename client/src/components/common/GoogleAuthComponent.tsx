@@ -2,9 +2,12 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { googleLogin } from "../../api/endpoints/auth/studentAuth";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../redux/reducers/authSlice";
 
 function GoogleAuthComponent(): JSX.Element {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const errorMessage = (): void => {
     console.log("error from google login");
@@ -13,16 +16,19 @@ function GoogleAuthComponent(): JSX.Element {
   const handleSignInWithGoogle = (credential: string) => {
     googleLogin(credential)
       .then((response: any) => {
-        toast.success(response.message, {
+        console.log(response)
+        const {
+          accessToken,
+          refreshToken,
+        }: { accessToken: string; refreshToken: string } = response
+        dispatch(setToken({ accessToken, refreshToken }));
+        toast.success(response?.message, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
-        // setTimeout(() => {
-        //   navigate("/");
-        // }, 1000);
-         navigate("/");
+        response.status==="success"&&navigate("/");
       })
       .catch((error:any) => {
-        toast.error(error.data.message, {
+        toast.error(error?.data?.message, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
       });

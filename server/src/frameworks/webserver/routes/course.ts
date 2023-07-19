@@ -118,6 +118,8 @@ const courseRouter = () => {
 
   router.get('/get-trending-courses', controller.getTrendingCourses);
 
+  router.get('/get-course-by-student',jwtAuthMiddleware,controller.getCourseByStudent)
+
   return router;
 };
 export default courseRouter;
