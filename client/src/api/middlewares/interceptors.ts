@@ -10,7 +10,7 @@ api.interceptors.request.use(
   (config) => {
     const tokenString = localStorage.getItem("accessToken");
     if (tokenString) {
-      const token = JSON.parse(tokenString);
+      const token = JSON.parse(tokenString);    
       config.headers.Authorization = `Bearer ${token.accessToken}`;
     }
     return config;

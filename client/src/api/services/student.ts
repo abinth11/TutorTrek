@@ -10,7 +10,7 @@ export const changePasswordService = async (
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
     passwordInfo
   );
-  return response;
+  return response;    
 };
 
 export const updateProfileService = async (

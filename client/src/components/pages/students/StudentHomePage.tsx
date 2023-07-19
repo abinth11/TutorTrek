@@ -60,7 +60,9 @@ const StudentHomePage: React.FC = () => {
     }
   };
 
+
   useEffect(() => {
+    console.log(isLoggedIn)
     fetchTrendingCourses();
     isLoggedIn && fetchRecommendedCourses();
   }, []);
