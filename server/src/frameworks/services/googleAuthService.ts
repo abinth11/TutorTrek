@@ -19,7 +19,6 @@ export const googleAuthService = () => {
       audience: configKeys.GOOGLE_CLIENT_ID,
     });
     const payload = ticket.getPayload();
-    console.log(payload)
     if (payload?.given_name && payload.email && payload.picture) {
       const nameParts = payload.given_name.trim().split(" ");
       const firstName = nameParts[0];

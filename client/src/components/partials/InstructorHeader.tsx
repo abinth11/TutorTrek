@@ -19,7 +19,7 @@ import {
   RocketLaunchIcon,
   Bars2Icon,
 } from "@heroicons/react/24/outline";
-import { ProfileMenu } from "./ProfileMenu";
+import { ProfileMenu } from "./ProfileMenuInstructor";
  
  
 // nav list menu

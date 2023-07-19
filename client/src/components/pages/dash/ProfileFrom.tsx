@@ -40,10 +40,11 @@ const ProfileForm = () => {
       setLoading(true)
       const response = await getProfileUrl();
       setProfileUrl(response.data)
-      console.log(response);
       setLoading(false)
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      toast.error(error?.data?.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     }
   };
   useEffect(() => {
@@ -88,7 +89,6 @@ const ProfileForm = () => {
       });
     }
   };
-  console.log(profileUrl)
 
   const formik = useFormik({
     initialValues: {
@@ -116,8 +116,6 @@ const ProfileForm = () => {
   // if (!studentInfo) {
   //   return <div>loading...</div>
   // }
-  console.log(!studentInfo);
-  console.log(loading);
 
   return (
     <form onSubmit={formik.handleSubmit}>

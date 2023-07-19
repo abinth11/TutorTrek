@@ -20,6 +20,7 @@ import { clearToken } from "../../redux/reducers/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getProfileUrl } from "../../api/endpoints/student";
+import { toast } from "react-toastify";
 
 // profile menu component
 const profileMenuItems = [
@@ -55,10 +56,11 @@ export default function ProfileMenu() {
       setLoading(true);
       const response = await getProfileUrl();
       setProfileUrl(response.data);
-      console.log(response);
       setLoading(false);
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      toast.success(error?.data?.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     }
   };
   useEffect(() => {

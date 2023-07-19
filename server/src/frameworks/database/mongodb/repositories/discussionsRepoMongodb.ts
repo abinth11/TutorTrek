@@ -38,6 +38,9 @@ export const discussionRepositoryMongoDb = () => {
           'studentDetails.profilePic': 1,
           'studentDetails.dateJoined': 1
         }
+      },
+      {
+        $sort: { createdAt: -1 }
       }
     ]);
     return discussionsWithUserDetails;
@@ -65,7 +68,7 @@ export const discussionRepositoryMongoDb = () => {
   };
 
   const getRepliesByDiscussionId = async (id: string) => {
-    const pipeline = [
+    const result = await Discussions.aggregate([
       {
         $match: { _id: new mongoose.Types.ObjectId(id) }
       },
@@ -79,7 +82,7 @@ export const discussionRepositoryMongoDb = () => {
       },
       {
         $lookup: {
-          from: 'students', 
+          from: 'students',
           localField: 'replies.studentId',
           foreignField: '_id',
           as: 'repliesWithStudent'
@@ -115,11 +118,8 @@ export const discussionRepositoryMongoDb = () => {
           'replies.studentDetails.dateJoined': 1
         }
       }
-    ];
-    
-    const result = await Discussions.aggregate(pipeline);
+    ]);
     const replies = result.length > 0 ? result[0].replies : [];
-    
 
     return replies;
   };

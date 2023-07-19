@@ -135,7 +135,6 @@ export const courseRepositoryMongodb = () => {
         $in: [new mongoose.Types.ObjectId('648d8672320950d1ec7454ac')]
       }
     });
-    console.log(courses)
     return courses
   };
 

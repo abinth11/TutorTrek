@@ -326,7 +326,6 @@ const courseController = (
 
   const getCourseByStudent = asyncHandler(async(req:CustomRequest,res:Response)=>{
     const studentId:string|undefined = req.user?.Id
-    console.log(studentId)
     const courses = await getCourseByStudentU(studentId,dbRepositoryCourse)
     res.status(200).json({
       status: 'success',
