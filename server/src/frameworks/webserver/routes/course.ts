@@ -113,7 +113,6 @@ const courseRouter = () => {
 
   router.get(
     '/get-recommended-courses',
-    jwtAuthMiddleware,
     controller.getRecommendedCourseByStudentInterest
   );
 

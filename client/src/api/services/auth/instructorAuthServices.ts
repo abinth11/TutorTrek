@@ -1,5 +1,5 @@
 import CONSTANTS_COMMON from "../../../constants/common";
-import authInstanceAxios from "../../middlewares/authInterceptor";
+import authInstanceAxios from "../../middlewares/interceptor";
 import {
   InstructorRegisterDataInterface,
   InstructorLoginInfo,

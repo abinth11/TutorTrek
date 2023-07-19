@@ -4,8 +4,8 @@ import {
   StudentLoginData,
 } from "../../types/student/authInterface";
 import axios from "axios";
-import api from "../../middlewares/interceptors";
-import authInstanceAxios from "../../middlewares/authInterceptor";
+import api from "../../middlewares/protectedInterceptor";
+import authInstanceAxios from "../../middlewares/interceptor";
 
 export const login = async (endpoint: string, data: StudentLoginData) => {
   const response = await authInstanceAxios.post(

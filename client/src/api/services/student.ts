@@ -1,5 +1,5 @@
 import CONSTANTS_COMMON from "../../constants/common";
-import api from "../middlewares/interceptors";
+import api from "../middlewares/protectedInterceptor";
 import { PasswordInfo} from "../types/student/student";
 
 export const changePasswordService = async (

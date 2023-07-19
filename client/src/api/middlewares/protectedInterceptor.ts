@@ -36,18 +36,25 @@ api.interceptors.response.use(
       try {
         const newAccessToken = await refreshTokenApi(token?.refreshToken);
         localStorage.setItem(
-          'accessToken',
+          "accessToken",
           JSON.stringify({
-              accessToken:newAccessToken,
+            accessToken: newAccessToken,
           })
-        )
+        );
         return api(originalRequest);
       } catch (error) {
-        // Handle token refresh failure or other errors
-        // You can redirect to a login page, clear user data, etc.
-        // window.location.href = '/'
-        
-        throw new CustomApiError("Something went wrong",error)
+        // const confirmReLogin = window.confirm(
+        //   "Your session has expired. Do you want to log in again?"
+        // );
+        // localStorage.removeItem("accessToken");
+        // localStorage.removeItem("refreshToken");
+        // if (confirmReLogin) {
+        //   // Perform any necessary cleanup or additional actions
+        //   // Clear user data, redirect to a login page, etc.
+        //   window.location.href="/"
+        //   throw new CustomApiError("Token refresh failed", error);
+        // } 
+        console.log(error)
       }
     }
 
@@ -73,11 +80,9 @@ api.interceptors.response.use(
       } else {
         throw new CustomApiError(`Request failed with status ${status}`, data);
       }
-    }
-     else if (error.request) {
-      throw new CustomApiError(`No response received`,error.request)
-    }
-     else {
+    } else if (error.request) {
+      throw new CustomApiError(`No response received`, error.request);
+    } else {
       console.log("Error:", error.message);
     }
 

@@ -1,6 +1,6 @@
 import CONSTANTS_COMMON from "../../../constants/common";
 import { AdminLoginInfo } from "../../types/admin/authInterface";
-import authInstanceAxios from "../../middlewares/authInterceptor";
+import authInstanceAxios from "../../middlewares/interceptor";
 
 export const login = async (
   endpoint: string,

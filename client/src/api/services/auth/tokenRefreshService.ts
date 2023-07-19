@@ -1,4 +1,4 @@
-import api from "../../middlewares/interceptors";
+import api from "../../middlewares/protectedInterceptor";
 import CONSTANTS_COMMON from "../../../constants/common";
 
 export const refreshTokenService = async (

@@ -22,7 +22,7 @@ export const authService = () => {
 
   const generateRefreshToken = (payload: JwtPayload) => {
     const token = jwt.sign({ payload }, configKeys.JWT_REFRESH_SECRET, {
-      expiresIn: '7d'
+      expiresIn: '10s'
     });
     return token;
   };
