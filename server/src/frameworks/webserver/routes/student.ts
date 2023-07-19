@@ -24,6 +24,8 @@ const studentRouter = () => {
 
   router.get('/get-student-details',controller.getStudentDetails)
 
+  router.get('/get-profile-url',controller.getProfileUrl)
+
   return router;
 };
 export default studentRouter;

@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { updateProfile } from "../../../api/endpoints/student";
@@ -10,13 +10,16 @@ import {
   selectIsFetchingStudent,
   selectStudentError,
 } from "../../../redux/reducers/studentSlice";
+import { getProfileUrl } from "../../../api/endpoints/student";
 
 const ProfileForm = () => {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const studentInfo = useSelector(selectStudent)?.studentDetails;
   let isFetching = useSelector(selectIsFetchingStudent);
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [profileUrl,setProfileUrl]=useState<string>("")
   const error = useSelector(selectStudentError);
+  const [updated,setUpdated] = useState(false)
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -32,13 +35,27 @@ const ProfileForm = () => {
       formik.setFieldValue("profilePic", null);
     }
   };
-  useEffect(()=>{
-  if(!studentInfo){
-    setLoading(true)
-  }else{
-    setLoading(false)
-  }
-  },[studentInfo])
+  const fetchUrl = async () => {
+    try {
+      setLoading(true)
+      const response = await getProfileUrl();
+      setProfileUrl(response.data)
+      console.log(response);
+      setLoading(false)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchUrl();
+  }, [updated]);
+  useEffect(() => {
+    if (!studentInfo) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [studentInfo]);
 
   const handleSubmit = async (profileInfo: UpdateProfileInfo) => {
     try {
@@ -60,15 +77,18 @@ const ProfileForm = () => {
       if (fileInput) {
         fileInput.value = "";
       }
+      setUpdated(true)
       toast.success(response?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     } catch (error: any) {
+      setUpdated(true)
       toast.error(error?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
   };
+  console.log(profileUrl)
 
   const formik = useFormik({
     initialValues: {
@@ -81,15 +101,13 @@ const ProfileForm = () => {
       handleSubmit(values);
     },
   });
- 
 
   // if (isFetching) {
   //   return <div>Loading...</div>;
   // }
-  if(loading){
-    return <div>Loading...</div>
+  if (loading) {
+    return <div>Loading...</div>;
   }
-
 
   // if (error) {
   //   return <div>Error: {error}</div>;
@@ -98,13 +116,13 @@ const ProfileForm = () => {
   // if (!studentInfo) {
   //   return <div>loading...</div>
   // }
-  console.log(!studentInfo)
-  console.log(loading)   
+  console.log(!studentInfo);
+  console.log(loading);
 
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className='p-5 flex '>
-        <Avatar src={previewImage || "../profile.jpg"} alt='avatar' size='xl' />
+        <Avatar src={previewImage||profileUrl || "../profile.jpg"} alt='avatar' size='xl' />
         <div className='pl-4'>
           <label
             className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'

@@ -23,8 +23,8 @@ export const getCourseByIdU = async (
   return course;
 };
 
-export const getCourseByStudent = async (
-  studentId: string,
+export const getCourseByStudentU = async (
+  studentId: string|undefined,
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>
 ) => {
   if (!studentId) {

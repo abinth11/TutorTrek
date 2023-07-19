@@ -2,6 +2,11 @@ export interface StudentInterface {
   _id: string;
   firstName: string;
   lastName: string;
+  profilePic?: {
+    key?: string;
+    name: string;
+    url?: string;
+  };
   email: string;
   mobile: number;
   password: string;
@@ -14,8 +19,8 @@ export interface StudentUpdateInfo {
   email?: string;
   mobile?: string;
   profilePic?: {
-    name:string;
-    key?:string;
-    url?:string;
+    name: string;
+    key?: string;
+    url?: string;
   };
 }

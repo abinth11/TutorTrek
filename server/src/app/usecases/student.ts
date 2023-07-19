@@ -85,8 +85,29 @@ export const getStudentDetailsU = async (
   const studentDetails: StudentInterface | null =
     await studentDbRepository.getStudent(id);
   console.log(studentDetails);
-  if(studentDetails){
-    studentDetails.password="no password"
+  if (studentDetails) {
+    studentDetails.password = 'no password';
   }
   return studentDetails;
+};
+
+export const getProfileUrlU = async (
+  id: string | undefined,
+  cloudService: ReturnType<CloudServiceInterface>,
+  studentDbRepository: ReturnType<StudentsDbInterface>
+) => {
+  if (!id) {
+    throw new AppError(
+      'Please provide a valid student id',
+      HttpStatusCodes.BAD_REQUEST
+    );
+  }
+  const studentDetails: StudentInterface | null =
+    await studentDbRepository.getStudent(id);
+  if (studentDetails?.isGoogleUser) {
+    return studentDetails.profilePic?.url;
+  }
+  if (studentDetails?.profilePic?.key) {
+    return await cloudService.getFile(studentDetails.profilePic.key);
+  }
 };

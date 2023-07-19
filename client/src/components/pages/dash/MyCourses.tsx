@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MyCourseCard from "./MyCourseCard";
-
+import { getCourseByStudent } from "../../../api/endpoints/course/course";
+import { toast } from "react-toastify";
+import { CourseInterface } from "../../../types/course";
+import { Link } from "react-router-dom";
+import ProfileCardShimmer from "../../Shimmers/ProfileCardShimmer";
 type Props = {};
 
 const MyCourses: React.FC = (props: Props) => {
+  const [courses, setCourse] = useState<CourseInterface[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const fetchCourses = async () => {
+    try {
+      setLoading(true);
+      const response = await getCourseByStudent();
+      setCourse(response.data);
+      setTimeout(()=>{
+        setLoading(false);
+      },1000)
+    } catch (error: any) {
+      setLoading(false);
+      toast.success(error?.data?.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
+  };
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
   return (
     <div className='w-full flex justify-center items-center '>
       <div className='w-11/12'>
@@ -21,13 +46,16 @@ const MyCourses: React.FC = (props: Props) => {
         </div>
         <div className='flex gap-x-10 h-full pb-10'>
           <div className=' w-full h-full   bg-white rounded-md '>
-            <div className='flex pt-10 pb-10 flex-wrap border border-gray-300 rounded-md items-center bg-white  justify-center gap-x-10 gap-y-5'>
-              <MyCourseCard />
-              <MyCourseCard />
-              <MyCourseCard />
-              <MyCourseCard />
-              <MyCourseCard />
-              <MyCourseCard />
+            <div className='flex pt-10  pb-10 flex-wrap border border-gray-300 rounded-md items-center bg-white  justify-center gap-x-10 gap-y-5'>
+              {loading
+                ? Array.from({ length: 4 }).map((_, index) => {
+                    return <ProfileCardShimmer key={index} />;
+                  })
+                : courses?.map((course) => (
+                    <Link to={`/courses/${course._id}`} key={course._id}>
+                      <MyCourseCard {...course} />
+                    </Link>
+                  ))}
             </div>
           </div>
         </div>

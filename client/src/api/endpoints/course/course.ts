@@ -3,6 +3,7 @@ import {
   addCourseService,
   enrollStudentService,
   getAllCoursesService,
+  getCourseByStudentService,
   getIndividualCourseService,
   getRecommendedCoursesService,
   getTrendingCoursesService,
@@ -39,4 +40,8 @@ export const getRecommendedCourses = () => {
 
 export const getTrendingCourses = () => {
   return getTrendingCoursesService(END_POINTS.GET_TRENDING_COURSES);
+};
+
+export const getCourseByStudent = () => {
+  return getCourseByStudentService(END_POINTS.GET_COURSE_BY_STUDENT);
 };
