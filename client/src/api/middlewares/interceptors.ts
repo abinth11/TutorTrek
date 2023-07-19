@@ -24,7 +24,6 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
     // Check if the response status is 401 (unauthorized) and it's not a retry request
     if (error?.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
@@ -35,7 +34,7 @@ api.interceptors.response.use(
         token = JSON.parse(tokenString);
       }
       try {
-        const newAccessToken = await refreshTokenApi(token.refreshToken);
+        const newAccessToken = await refreshTokenApi(token?.refreshToken);
         localStorage.setItem(
           'accessToken',
           JSON.stringify({
@@ -63,7 +62,6 @@ api.interceptors.response.use(
   (error: AxiosError) => {
     if (error.response) {
       const { data, status } = error.response;
-
       if (status === 400) {
         throw new CustomApiError("Bad request", data);
       } else if (status === 401) {

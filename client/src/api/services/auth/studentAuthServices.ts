@@ -3,10 +3,12 @@ import {
   StudentRegisterData,
   StudentLoginData,
 } from "../../types/student/authInterface";
+import axios from "axios";
 import api from "../../middlewares/interceptors";
+import authInstanceAxios from "../../middlewares/authInterceptor";
 
 export const login = async (endpoint: string, data: StudentLoginData) => {
-  const response = await api.post(
+  const response = await authInstanceAxios.post(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
     data
   );
@@ -17,7 +19,7 @@ export const register = async (
   endpoint: string,
   studentData: StudentRegisterData
 ) => {
-  const response = await api.post(
+  const response = await authInstanceAxios.post(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
     studentData
   );
@@ -31,7 +33,7 @@ export const googleLoginStudent = async (
   const data = {
     credential,
   };
-  const response = await api.post(
+  const response = await authInstanceAxios.post(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
     data
   );

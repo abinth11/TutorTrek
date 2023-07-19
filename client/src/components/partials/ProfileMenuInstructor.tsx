@@ -13,6 +13,7 @@ import {
   PowerIcon,
 } from "@heroicons/react/24/outline";
 import { getProfileUrl } from "../../api/endpoints/student";
+import { toast } from "react-toastify";
 
 
 // profile menu component
@@ -49,8 +50,10 @@ export function ProfileMenu() {
       const response = await getProfileUrl();
       setProfileUrl(response.data)
       setLoading(false)
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      toast.error(error?.data?.message, {  
+        position: toast.POSITION.BOTTOM_RIGHT,   
+      });
     }
   };
   useEffect(() => {

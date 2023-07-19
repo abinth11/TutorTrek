@@ -28,7 +28,7 @@ const errorHandlingMiddleware = (
   } else if (err.statusCode === 404) {
     res
       .status(err.statusCode)
-      .json({ errors: err.status, errorMessage: err.message });
+      .json({ errors: err.status, message: err.message });
   } else {
     res.status(err.statusCode).json({
       status: err.status,
