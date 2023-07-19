@@ -1,11 +1,13 @@
 import mongoose from 'mongoose';
 import Quiz from '../models/quiz';
+import { QuizInterface } from '@src/types/quiz';
+
 import { AddQuizInfoInterface } from '@src/types/courseInterface';
 
 export const quizRepositoryMongodb = () => {
 
   const getQuizByLessonId = async (lessonId: string) => {
-    const quiz = await Quiz.findOne({
+    const quiz:QuizInterface|null = await Quiz.findOne({
       lessonId: new mongoose.Types.ObjectId(lessonId)
     });
     return quiz;
