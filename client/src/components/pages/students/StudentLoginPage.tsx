@@ -24,7 +24,7 @@ const StudentLoginPage: React.FC = () => {
       dispatch(setToken({ accessToken, refreshToken }));
       response.data.status==="success" && navigate("/");
     } catch (error: any) {  
-      toast.error(error?.data?.errorMessage, {  
+      toast.error(error?.data?.message, {  
         position: toast.POSITION.BOTTOM_RIGHT,   
       });
     }

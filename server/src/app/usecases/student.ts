@@ -27,7 +27,7 @@ export const changePasswordU = async (
     id
   );
   if (!student) {
-    throw new AppError('Unauthorized user', HttpStatusCodes.UNAUTHORIZED);
+    throw new AppError('Unauthorized user', HttpStatusCodes.NOT_FOUND);
   }
   const isPasswordCorrect = await authService.comparePassword(
     password.currentPassword,
@@ -36,7 +36,7 @@ export const changePasswordU = async (
   if (!isPasswordCorrect) {
     throw new AppError(
       'Sorry, your current password is incorrect.',
-      HttpStatusCodes.UNAUTHORIZED
+      HttpStatusCodes.BAD_REQUEST
     );
   }
   if (!password.newPassword) {

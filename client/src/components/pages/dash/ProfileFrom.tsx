@@ -4,11 +4,12 @@ import { toast } from "react-toastify";
 import { updateProfile } from "../../../api/endpoints/student";
 import { UpdateProfileInfo } from "../../../api/types/student/student";
 import { Avatar } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import {
   selectStudent,
   selectIsFetchingStudent,
   selectStudentError,
+  fetchStudentData,
 } from "../../../redux/reducers/studentSlice";
 import { getProfileUrl } from "../../../api/endpoints/student";
 
@@ -20,6 +21,7 @@ const ProfileForm = () => {
   const [profileUrl,setProfileUrl]=useState<string>("")
   const error = useSelector(selectStudentError);
   const [updated,setUpdated] = useState(false)
+  const dispatch = useDispatch()
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -49,7 +51,9 @@ const ProfileForm = () => {
   };
   useEffect(() => {
     fetchUrl();
+    dispatch(fetchStudentData())
   }, [updated]);
+
   useEffect(() => {
     if (!studentInfo) {
       setLoading(true);
@@ -70,7 +74,7 @@ const ProfileForm = () => {
       formData.append("mobile", profileInfo.mobile || "");
 
       const response = await updateProfile(formData);
-      formik.resetForm();
+      // formik.resetForm();
       setPreviewImage(null);
       const fileInput = document.getElementById(
         "file_input"
@@ -78,12 +82,12 @@ const ProfileForm = () => {
       if (fileInput) {
         fileInput.value = "";
       }
-      setUpdated(true)
+      setUpdated(!updated)
       toast.success(response?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     } catch (error: any) {
-      setUpdated(true)
+      setUpdated(!updated)
       toast.error(error?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });

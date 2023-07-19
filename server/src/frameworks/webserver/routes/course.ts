@@ -47,6 +47,7 @@ const courseRouter = () => {
 
   router.get(
     '/get-course-by-instructor',
+    jwtAuthMiddleware,
     instructorRoleCheckMiddleware,
     controller.getCoursesByInstructor
   );
