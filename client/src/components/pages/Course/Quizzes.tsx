@@ -5,6 +5,9 @@ import {
   Question,
   Option,
 } from "../../../api/types/apiResponses/apiResponseQuizzes";
+import { Link } from "react-router-dom";
+import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
+import { useSelector } from "react-redux";
 
 const Quizzes: React.FC<{ lessonId: string | undefined }> = ({ lessonId }) => {
   const [quizzes, setQuizzes] = useState<Question[]>();
@@ -12,6 +15,7 @@ const Quizzes: React.FC<{ lessonId: string | undefined }> = ({ lessonId }) => {
   const [selectedOptionId, setSelectedOptionId] = useState<string | undefined>(
     undefined
   );
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const [nextClicked, setNextClicked] = useState(false);
   const [answeredCorrectly, setAnsweredCorrectly] = useState<
     boolean | undefined
@@ -62,6 +66,19 @@ const Quizzes: React.FC<{ lessonId: string | undefined }> = ({ lessonId }) => {
     }, 1000);
   };
 
+  if (!isLoggedIn) {
+    return (
+      <div className='flex flex-col items-center justify-center h-auto mb-5'>
+        <div className="pt-10 pb-10 flex justify-center items-center">
+          <h2 className='text-xl font-semibold mt-3'>
+            Please login to solve quizzes
+          </h2>
+          <Link to="/login" className="ml-2 mt-3.5 text-blue-600 underline">Login</Link>
+        </div>
+      </div>
+    );
+  }
+
   if (currentQuestionIndex === quizzes?.length) {
     return (
       <div className='flex flex-col items-center justify-center h-auto mb-5'>
@@ -90,7 +107,9 @@ const Quizzes: React.FC<{ lessonId: string | undefined }> = ({ lessonId }) => {
         {quizzes?.length ? (
           <div className='w-full  shadow-sm border-gray-100 border-2 rounded-lg px-8 py-6'>
             <p className='text-lg mb-6'>
-              <span className='font-bold mr-2' >{currentQuestionIndex + 1}.</span>
+              <span className='font-bold mr-2'>
+                {currentQuestionIndex + 1}.
+              </span>
               {quizzes[currentQuestionIndex]?.question}
             </p>
 

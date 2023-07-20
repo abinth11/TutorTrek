@@ -1,12 +1,12 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 import CONSTANTS_COMMON from "../../constants/common";
 import CustomApiError from "../../utils/CustomApiError";
-const authInstanceAxios: AxiosInstance = axios.create({
+const axiosInstance: AxiosInstance = axios.create({
   baseURL: CONSTANTS_COMMON.API_BASE_URL,
 });
 
 
-authInstanceAxios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },
@@ -37,4 +37,4 @@ authInstanceAxios.interceptors.response.use(
   }
 );
 
-export default authInstanceAxios;
+export default axiosInstance;

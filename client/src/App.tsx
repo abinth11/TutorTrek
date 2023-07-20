@@ -28,7 +28,9 @@ export const Student: React.FC = () => {
   }`;
 
   useEffect(() => {
-    dispatch(fetchStudentData());
+    if(isLoggedIn){
+      dispatch(fetchStudentData());
+    }
   }, [dispatch])
   
   return (

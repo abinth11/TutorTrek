@@ -12,18 +12,18 @@ import { Media } from "../../../api/types/apiResponses/apResponseLesson";
 import { BiVideo } from "react-icons/bi";
 import ShimmerEffectWatchLessons from "../../Shimmers/WatchLessonsShimmer";
 import ShimmerVideoPlayer from "../../Shimmers/ShimmerVideoPlayer";
+import { useSelector } from "react-redux";
+import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 
 const WatchLessons: React.FC = () => {
-  const videoSrc =
-    "https://res.cloudinary.com/dwucedjmy/video/upload/v1687586931/Tutor-Trek/ons1wwwaa1f2ygz8r67e.mp4";
-
-  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+ const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const [isLoadingAllLessons, setIsLoadingAllLessons] = useState(false);
   const [isLoadingLesson, setIsLoadingLesson] = useState(false);
   const [lesson, setLesson] = useState<ApiResponseLesson | null>(null);
   const [allLessons, setAllLessons] = useState<Array<ApiResponseLesson>>([]);
   const [videoKey, setVideoKey] = useState<string | null>(null);
   const { lessonId } = useParams();
+  const isLoggedIn = useSelector(selectIsLoggedIn)
   const [currentLessonId, setCurrentLessonId] = useState<string | undefined>(
     lessonId
   );

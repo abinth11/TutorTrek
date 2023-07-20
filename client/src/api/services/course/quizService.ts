@@ -1,5 +1,5 @@
 import CONSTANTS_COMMON from "../../../constants/common";
-import api from "../../middlewares/interceptors";
+import api from "../../middlewares/protectedInterceptor";
 
 export const getCloudFrontVideoUrlService = async (endpoint:string,key:string)=>{
     const response = await api.get(

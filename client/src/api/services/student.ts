@@ -1,5 +1,5 @@
 import CONSTANTS_COMMON from "../../constants/common";
-import api from "../middlewares/interceptors";
+import api from "../middlewares/protectedInterceptor";
 import { PasswordInfo} from "../types/student/student";
 
 export const changePasswordService = async (
@@ -10,7 +10,7 @@ export const changePasswordService = async (
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
     passwordInfo
   );
-  return response;
+  return response;    
 };
 
 export const updateProfileService = async (
