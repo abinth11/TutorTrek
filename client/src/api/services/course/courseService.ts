@@ -49,7 +49,7 @@ export const enrollStudentService = async (
 export const getRecommendedCoursesService = async (
  endpoint:string
 ) => {
-  const response = await axiosInstance.get(
+  const response = await api.get(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
   );
   return response.data

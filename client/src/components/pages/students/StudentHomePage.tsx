@@ -12,7 +12,6 @@ import {
   getRecommendedCourses,
 } from "../../../api/endpoints/course/course";
 import { ApiResponseTrending } from "../../../api/types/apiResponses/apiResponseHomePageListing";
-import { Link } from "react-router-dom";
 
 const StudentHomePage: React.FC = () => {
   const [trendingCourses, setTrendingCourses] = useState<
@@ -35,12 +34,12 @@ const StudentHomePage: React.FC = () => {
       setTrendingCourses(response.data);
       setTimeout(() => {
         setIsLoadingTrending(false);
-      }, 2000);
+      }, 1000);
     } catch (error) {
       setIsLoadingTrending(false);
-      toast.error("Something went wrong", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      // toast.error("Something went wrong", {
+      //   position: toast.POSITION.BOTTOM_RIGHT,
+      // });
     }
   };
 
@@ -51,12 +50,12 @@ const StudentHomePage: React.FC = () => {
       setRecommendedCourses(response.data);
       setTimeout(() => {
         selectIsLoadingRecommended(false);
-      }, 2000);
+      }, 1000);
     } catch (error) {
       selectIsLoadingRecommended(false);
-      toast.error("Something went wrong", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      // toast.error("Something went wrong", {
+      //   position: toast.POSITION.BOTTOM_RIGHT,
+      // });
     }
   };
 
