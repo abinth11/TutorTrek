@@ -22,6 +22,7 @@ interface TabData {
 
 export default function StudentsTab() {
   const [activeTab, setActiveTab] = useState("all");
+  const [updated,setUpdated] = useState(false)
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
@@ -41,20 +42,20 @@ export default function StudentsTab() {
   ];
 
   const tabComponents: { [key: string]: JSX.Element } = {
-    all: <ViewStudents />, // Replace with the component you want to show for "All students"
-    blocked: <BlockedStudents />, // Replace with the component you want to show for "Blocked"
+    all: <ViewStudents updated={updated} setUpdated={setUpdated}/>, // Replace with the component you want to show for "All students"
+    blocked: <BlockedStudents updated={updated} setUpdated={setUpdated} />, // Replace with the component you want to show for "Blocked"
     // Add more components for other tabs if needed
   };
 
   return (
     <Tabs value={activeTab} onChange={handleTabChange} className="p-0.5">
-      <TabsHeader>  
+      <TabsHeader className="ml-3.5 mr-3.5">  
         {data.map(({ label, value, icon: Icon }) => (
-          <Tab key={value} value={value} className="ml-3.5 mr-3.5">
+          <Tab key={value} value={value} >
             <div className="flex items-center  gap-2">
               <Icon className="w-5 h-5" />
               {label}
-            </div>
+            </div> 
           </Tab>
         ))}
       </TabsHeader>

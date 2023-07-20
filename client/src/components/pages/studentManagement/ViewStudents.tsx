@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { Dispatch,SetStateAction } from "react";
 import {
   Card,
   CardHeader,
@@ -28,10 +29,14 @@ import BlockStudentModal from "./BlockStudentModal";
 
 const TABLE_HEAD = ["Name", "Email", "Date Joined", "Status", "Actions"];
 
-const ViewStudents: React.FC = () => {
+interface Props {
+  updated:boolean;
+  setUpdated:Dispatch<SetStateAction<boolean>>
+}
+const ViewStudents: React.FC<Props> = ({updated,setUpdated}) => {
   const [students, setStudents] = useState([]);   
   const [open, setOpen] = useState(false);
-  const [updated, setUpdated] = useState(false);
+  // const [updated, setUpdated] = useState(false);
   const [id, setId] = useState("");
   const ITEMS_PER_PAGE = 4;  
   const {  
@@ -46,7 +51,6 @@ const ViewStudents: React.FC = () => {
   const fetchStudents = async () => {
     try {
       const response = await getAllStudents();
-      console.log(response);
       setStudents(response?.data);
     } catch (error: any) {
       toast.error(error.data.message, {  
@@ -72,7 +76,7 @@ const ViewStudents: React.FC = () => {
     }
   };   
   return (
-    <Card className='h-full w-full'>    
+    <Card className='h-full w-full'>          
       {open && (
         <BlockStudentModal
           open={open}

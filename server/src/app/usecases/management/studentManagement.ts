@@ -11,14 +11,17 @@ export const getAllStudentsU = async (
 
 export const blockStudentU = async (
   studentId: string,
-  reason:string,
+  reason: string,
   studentRepository: ReturnType<StudentsDbInterface>
 ) => {
   if (!studentId) {
     throw new AppError('Invalid student details', HttpStatusCodes.BAD_REQUEST);
   }
   if (!reason) {
-    throw new AppError('Please give a reason to block a student', HttpStatusCodes.BAD_REQUEST);
+    throw new AppError(
+      'Please give a reason to block a student',
+      HttpStatusCodes.BAD_REQUEST
+    );
   }
   const student = await studentRepository.getStudent(studentId);
   if (student?.isBlocked) {
@@ -27,7 +30,7 @@ export const blockStudentU = async (
       HttpStatusCodes.CONFLICT
     );
   }
-  await studentRepository.blockStudent(studentId,reason);
+  await studentRepository.blockStudent(studentId, reason);
 };
 
 export const unblockStudentU = async (
@@ -38,4 +41,12 @@ export const unblockStudentU = async (
     throw new AppError('Invalid student details', HttpStatusCodes.BAD_REQUEST);
   }
   await studentRepository.unblockStudent(studentId);
+};
+
+
+export const getAllBlockedStudentsU = async (
+  studentRepository: ReturnType<StudentsDbInterface>
+) => {
+  const blockedStudents = await studentRepository.getAllBlockedStudents();
+  return blockedStudents;
 };

@@ -25,6 +25,8 @@ export const studentDbRepository = (
 
   const unblockStudent = async(id:string) => await repository.unblockStudent(id)
 
+  const getAllBlockedStudents =async () => await repository.getAllBlockedStudents()
+
   return {
     addStudent,
     getStudentByEmail,
@@ -34,6 +36,7 @@ export const studentDbRepository = (
     getAllStudents,
     blockStudent,
     unblockStudent,
+    getAllBlockedStudents
   };
 };
 

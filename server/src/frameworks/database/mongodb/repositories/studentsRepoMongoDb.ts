@@ -54,6 +54,11 @@ export const studentRepositoryMongoDB = () => {
     );
   };
 
+  const getAllBlockedStudents = async ()=>{
+   const blockedStudents =  await Student.find({isBlocked:true})
+   return blockedStudents
+  }
+
   return {
     addStudent,
     getStudentByEmail,
@@ -62,7 +67,8 @@ export const studentRepositoryMongoDB = () => {
     updateProfile,
     getAllStudents,
     blockStudent,
-    unblockStudent
+    unblockStudent,
+    getAllBlockedStudents
   };
 };
 

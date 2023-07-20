@@ -17,7 +17,7 @@ import {
 } from '../../types/studentInterface';
 import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
 import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
-import { blockStudentU, getAllStudentsU, unblockStudentU } from '../../app/usecases/management/studentManagement';
+import { blockStudentU, getAllBlockedStudentsU, getAllStudentsU, unblockStudentU } from '../../app/usecases/management/studentManagement';
 
 const studentController = (
   authServiceInterface: AuthServiceInterface,
@@ -38,7 +38,7 @@ const studentController = (
       const studentId: string | undefined = req.user?.Id;
       await changePasswordU(
         studentId,
-        passwordInfo,
+        passwordInfo,   
         authService,
         dbRepositoryStudent
       );
@@ -113,7 +113,6 @@ const studentController = (
   const blockStudent = asyncHandler(async (req:Request,res:Response)=>{
     const studentId:string = req.params.studentId
     const reason:string = req.body.reason
-    console.log(reason)
     await blockStudentU(studentId,reason,dbRepositoryStudent)
     res.status(200).json({
       status: 'success',
@@ -132,6 +131,15 @@ const studentController = (
     });
   })
 
+  const getAllBlockedStudents = asyncHandler(async(req:Request,res:Response)=>{
+    const students = await getAllBlockedStudentsU(dbRepositoryStudent)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully unblocked student ',
+      data: students
+    });
+  })
+
   return {
     changePassword,
     updateProfile,
@@ -139,7 +147,8 @@ const studentController = (
     getProfileUrl,
     blockStudent,
     unblockStudent,
-    getAllStudents
+    getAllStudents,
+    getAllBlockedStudents
   };
 };
 

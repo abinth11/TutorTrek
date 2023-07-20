@@ -6,9 +6,9 @@ export const blockStudentService = async (
   studentId: string,
   reason: string
 ) => {
-    console.log(reason)
   const response = await api.patch(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${studentId}`,{reason}
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${studentId}`,
+    { reason }
   );
   return response.data;
 };
@@ -24,6 +24,13 @@ export const unblockStudentService = async (
 };
 
 export const getAllStudentsService = async (endpoint: string) => {
+  const response = await api.get(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+  );
+  return response.data;
+};
+
+export const getAllBlockedStudentsService = async (endpoint: string) => {
   const response = await api.get(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
   );

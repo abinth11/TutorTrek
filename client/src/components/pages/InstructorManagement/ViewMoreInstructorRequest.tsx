@@ -10,7 +10,7 @@ import { InstructorApiResponse } from "../../../api/types/apiResponses/apiRespon
 
 
 
-const ViewMoreInstructorRequest: React.FC = () => {
+  const ViewMoreInstructorRequest: React.FC = () => {
   const { id } = useParams();
   const [instructor, setInstructor] = useState<InstructorApiResponse>();
   const [open, setOpen] = useState<boolean>(false)

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PencilIcon } from "@heroicons/react/24/solid";
-import {
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import {
   Card,
   CardHeader,
@@ -16,20 +14,25 @@ import {
   Tooltip,
   Input,
 } from "@material-tailwind/react";
-import {
-  unblockInstructors,
-} from "../../../api/endpoints/instructorManagement";
+import { unblockInstructors } from "../../../api/endpoints/instructorManagement";
 import { toast } from "react-toastify";
 import { formatDate } from "../../../utils/helpers";
 import usePagination from "../../../hooks/usePagination";
-import { getBlockedInstructors } from "../../../api/endpoints/instructorManagement";
+import {
+  getAllBlockedStudents,
+  unblockStudent,
+} from "../../../api/endpoints/studentManagement";
 
 const TABLE_HEAD = ["Name", "Email", "Date Joined", "Status", "Actions", ""];
 
-const BlockedStudents: React.FC = () => {
-  const [instructors, setInstructors] = useState([]);
-  const [updated, setUpdated] = useState(false);
-  const ITEMS_PER_PAGE = 6;
+interface Props {
+  updated:boolean;
+  setUpdated:(val:boolean)=>void
+}
+const BlockedStudents: React.FC<Props> = ({updated,setUpdated}) => {
+  const [students, setStudents] = useState([]);
+  // const [updated, setUpdated] = useState(false);
+  const ITEMS_PER_PAGE = 4;  
   const {
     currentPage,
     totalPages,
@@ -37,13 +40,13 @@ const BlockedStudents: React.FC = () => {
     goToPage,
     goToPreviousPage,
     goToNextPage,
-  } = usePagination(instructors, ITEMS_PER_PAGE);
+  } = usePagination(students, ITEMS_PER_PAGE);
   const fetchBlockedInstructors = async () => {
     try {
-      const response = await getBlockedInstructors();
-      setInstructors(response?.data?.data);
+      const response = await getAllBlockedStudents();
+      setStudents(response?.data);
     } catch (error: any) {
-      toast.error(error.data.message, {
+      toast.error(error?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
@@ -52,15 +55,15 @@ const BlockedStudents: React.FC = () => {
     fetchBlockedInstructors();
   }, [updated]);
 
-  const handleUnblock = async (instructorId: string) => {
+  const handleUnblock = async (studentId: string) => {
     try {
-      const response = await unblockInstructors(instructorId);
-      toast.success(response.data.message, {
+      const response = await unblockStudent(studentId);
+      toast.success(response?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
       setUpdated(!updated);
     } catch (error: any) {
-      toast.error(error.data.message, {
+      toast.error(error?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
@@ -107,107 +110,105 @@ const BlockedStudents: React.FC = () => {
               ))}
             </tr>
           </thead>
-          <tbody>
-            {currentData.map(
-              (
-                {
-                  _id,
-                  img,
-                  firstName,
-                  lastName,
-                  email,
-                  dateJoined,
-                  isBlocked,
-                },
-                index
-              ) => {
-                const isLast = index === instructors.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
+          <tbody className="">
+            {currentData.length === 0 ? (
+              <tr className='p-5'>
+                <Typography color='gray' variant="h6" className='mt-1 p-2 font-normal'>
+                  No blocked students found
+                </Typography>
+              </tr>
+            ) : (
+              currentData.map(
+                (
+                  {
+                    _id,
+                    img,
+                    firstName,
+                    lastName,
+                    email,
+                    dateJoined,
+                    isBlocked,
+                  },
+                  index
+                ) => {
+                  const isLast = index === students?.length - 1;
+                  const classes = isLast
+                    ? "p-4"
+                    : "p-4 border-b border-blue-gray-50";
 
-                return (
-                  <tr key={_id}>
-                    <td className={classes}>
-                      <div className='flex items-center gap-3'>
-                        <Avatar
-                          src={img}
-                          alt='image'
-                          size='md'
-                          className='border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1'
-                        />
+                  return (
+                    <tr key={_id}>
+                      <td className={classes}>
+                        <div className='flex items-center gap-3'>
+                          <Avatar
+                            src={img}
+                            alt='image'
+                            size='md'
+                            className='border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1'
+                          />
+                          <Typography
+                            variant='small'
+                            color='blue-gray'
+                            className='font-bold'
+                          >
+                            {`${firstName} ${lastName}`}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td className={classes}>
                         <Typography
                           variant='small'
                           color='blue-gray'
-                          className='font-bold'
+                          className='font-normal'
                         >
-                          {`${firstName} ${lastName}`}
+                          {email}
                         </Typography>
-                      </div>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant='small'
-                        color='blue-gray'
-                        className='font-normal'
-                      >
-                        {email}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant='small'
-                        color='blue-gray'
-                        className='font-normal'
-                      >
-                        {formatDate(dateJoined)}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <div className='w-max'>
-                        <Chip
-                          size='sm'
-                          variant='ghost'
-                          value={
-                            isBlocked
-                              ? "Blocked"
-                              : "Active"
-                          }
-                          color={
-                            isBlocked
-                              ? "red"
-                              : "green"
-                          }
-                        />
-                      </div>
-                    </td>
-                    <td className={classes}>
-                      <div className='flex items-center '>
-                        {isBlocked ? (
-                          <div>
-                            <button
-                              onClick={() => {
-                                handleUnblock(_id);
-                              }}
-                              className='w-[80px] px-1 py-1.5 text-xs bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-md transform-gpu transition-transform duration-300 ease-in-out active:scale-95'
-                            >
-                              Unblock
-                            </button>
-                          </div>
-                        ) : (
-                          <div>
-                            <button
-                              className='w-[80px] px-1 py-1.5 text-xs bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-md transform-gpu transition-transform duration-300 ease-in-out active:scale-95'
-                            >
-                              Block
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              }
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant='small'
+                          color='blue-gray'
+                          className='font-normal'
+                        >
+                          {formatDate(dateJoined)}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <div className='w-max'>
+                          <Chip
+                            size='sm'
+                            variant='ghost'
+                            value={isBlocked ? "Blocked" : "Active"}
+                            color={isBlocked ? "red" : "green"}
+                          />
+                        </div>
+                      </td>
+                      <td className={classes}>
+                        <div className='flex items-center '>
+                          {isBlocked ? (
+                            <div>
+                              <button
+                                onClick={() => {
+                                  handleUnblock(_id);
+                                }}
+                                className='w-[80px] px-1 py-1.5 text-xs bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-md transform-gpu transition-transform duration-300 ease-in-out active:scale-95'
+                              >
+                                Unblock
+                              </button>
+                            </div>
+                          ) : (
+                            <div>
+                              <button className='w-[80px] px-1 py-1.5 text-xs bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-md transform-gpu transition-transform duration-300 ease-in-out active:scale-95'>
+                                Block
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
+              )
             )}
           </tbody>
         </table>

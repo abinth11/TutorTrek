@@ -32,6 +32,8 @@ const studentRouter = () => {
 
   router.patch('/unblock-student/:studentId',controller.unblockStudent)
 
+  router.get('/get-all-blocked-students',controller.getAllBlockedStudents)
+
   return router;
 };
 export default studentRouter;
