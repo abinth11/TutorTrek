@@ -32,6 +32,7 @@ import MyCourses from "./components/pages/dash/MyCourses";
 import MyProfile from "./components/pages/dash/MyProfile";
 import DashHome from "./components/pages/dash/DashHome";
 import ViewStudents from "./components/pages/studentManagement/ViewStudents";
+import StudentsTab from "./components/pages/studentManagement/StudentsTab";
 
 const LazyListCourse = lazy(
   () => import("./components/pages/Course/ListCourse")
@@ -151,11 +152,11 @@ const AppRouter = createBrowserRouter([
       },
       {
         path:"students",
-        element:<ViewStudents/>
+        element:<StudentsTab/>
       },
       {
         path: "categories",
-        element: <Categories />,
+        element: <Categories />,   
         children: [
           {
             path: "",

@@ -42,6 +42,9 @@ const END_POINTS = {
     UPDATE_PROFILE:"api/students/update-profile",
     GET_STUDENT_DETAILS:"api/students/get-student-details",
     GET_COURSE_BY_STUDENT:"api/courses/get-course-by-student",
-    GET_PROFILE_URL:"api/students/get-profile-url"
+    GET_PROFILE_URL:"api/students/get-profile-url",
+    GET_ALL_STUDENTS:"api/students/get-all-students",
+    BLOCK_STUDENT:"api/students/block-student",
+    UNBLOCK_STUDENT:"api/students/unblock-student"
 }
 export default END_POINTS

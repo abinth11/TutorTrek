@@ -113,6 +113,7 @@ const studentController = (
   const blockStudent = asyncHandler(async (req:Request,res:Response)=>{
     const studentId:string = req.params.studentId
     const reason:string = req.body.reason
+    console.log(reason)
     await blockStudentU(studentId,reason,dbRepositoryStudent)
     res.status(200).json({
       status: 'success',

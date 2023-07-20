@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { PencilIcon } from "@heroicons/react/24/solid";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import {
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
 import {
   Card,
   CardHeader,
@@ -15,81 +17,64 @@ import {
   Input,
 } from "@material-tailwind/react";
 import {
-  getAllStudents,
-  unblockStudent,
-} from "../../../api/endpoints/studentManagement";
-
+  unblockInstructors,
+} from "../../../api/endpoints/instructorManagement";
 import { toast } from "react-toastify";
 import { formatDate } from "../../../utils/helpers";
-import BlockReasonModal from "../InstructorManagement/BlockReasonModal";
 import usePagination from "../../../hooks/usePagination";
-import StudentsTab from "./StudentsTab";
-import BlockStudentModal from "./BlockStudentModal";
+import { getBlockedInstructors } from "../../../api/endpoints/instructorManagement";
 
-const TABLE_HEAD = ["Name", "Email", "Date Joined", "Status", "Actions"];
+const TABLE_HEAD = ["Name", "Email", "Date Joined", "Status", "Actions", ""];
 
-const ViewStudents: React.FC = () => {
-  const [students, setStudents] = useState([]);   
-  const [open, setOpen] = useState(false);
+const BlockedStudents: React.FC = () => {
+  const [instructors, setInstructors] = useState([]);
   const [updated, setUpdated] = useState(false);
-  const [id, setId] = useState("");
-  const ITEMS_PER_PAGE = 4;  
-  const {  
-    currentPage,   
-    totalPages,  
+  const ITEMS_PER_PAGE = 6;
+  const {
+    currentPage,
+    totalPages,
     currentData,
     goToPage,
-    goToPreviousPage,  
+    goToPreviousPage,
     goToNextPage,
-  } = usePagination(students, ITEMS_PER_PAGE);
-
-  const fetchStudents = async () => {
+  } = usePagination(instructors, ITEMS_PER_PAGE);
+  const fetchBlockedInstructors = async () => {
     try {
-      const response = await getAllStudents();
-      console.log(response);
-      setStudents(response?.data);
+      const response = await getBlockedInstructors();
+      setInstructors(response?.data?.data);
     } catch (error: any) {
-      toast.error(error.data.message, {  
+      toast.error(error.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
   };
   useEffect(() => {
-    fetchStudents();
+    fetchBlockedInstructors();
   }, [updated]);
 
-  const handleUnblock = async (studentId: string) => {
+  const handleUnblock = async (instructorId: string) => {
     try {
-      const response = await unblockStudent(studentId);
-      toast.success(response?.data?.message, {
+      const response = await unblockInstructors(instructorId);
+      toast.success(response.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
       setUpdated(!updated);
     } catch (error: any) {
-      toast.error(error?.data?.message, {
+      toast.error(error.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
-  };   
+  };
   return (
-    <Card className='h-full w-full'>    
-      {open && (
-        <BlockStudentModal
-          open={open}
-          setOpen={setOpen}
-          updated={updated}
-          setUpdated={setUpdated}
-          id={id}
-        />
-      )}
+    <Card className='h-full w-full'>
       <CardHeader floated={false} shadow={false} className='rounded-none'>
         <div className='mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center'>
           <div>
             <Typography variant='h5' color='blue-gray'>
-              Manage Students
+              Unblock students
             </Typography>
             <Typography color='gray' className='mt-1 font-normal'>
-              These are details about the students
+              These are details about blocked students
             </Typography>
           </div>
           <div className='flex w-full shrink-0 gap-2 md:w-max'>
@@ -123,12 +108,20 @@ const ViewStudents: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {currentData?.map(
+            {currentData.map(
               (
-                { _id, img, firstName, lastName, email, dateJoined, isBlocked },
+                {
+                  _id,
+                  img,
+                  firstName,
+                  lastName,
+                  email,
+                  dateJoined,
+                  isBlocked,
+                },
                 index
               ) => {
-                const isLast = index === students?.length - 1;
+                const isLast = index === instructors.length - 1;
                 const classes = isLast
                   ? "p-4"
                   : "p-4 border-b border-blue-gray-50";
@@ -175,8 +168,16 @@ const ViewStudents: React.FC = () => {
                         <Chip
                           size='sm'
                           variant='ghost'
-                          value={isBlocked ? "Blocked" : "Active"}
-                          color={isBlocked ? "red" : "green"}
+                          value={
+                            isBlocked
+                              ? "Blocked"
+                              : "Active"
+                          }
+                          color={
+                            isBlocked
+                              ? "red"
+                              : "green"
+                          }
                         />
                       </div>
                     </td>
@@ -196,10 +197,6 @@ const ViewStudents: React.FC = () => {
                         ) : (
                           <div>
                             <button
-                              onClick={() => {
-                                setOpen(true);
-                                setId(_id);
-                              }}
                               className='w-[80px] px-1 py-1.5 text-xs bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-md transform-gpu transition-transform duration-300 ease-in-out active:scale-95'
                             >
                               Block
@@ -254,4 +251,4 @@ const ViewStudents: React.FC = () => {
   );
 };
 
-export default ViewStudents;
+export default BlockedStudents;
