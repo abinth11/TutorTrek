@@ -7,8 +7,11 @@ import { toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
 import { getDiscussionsByLesson } from "../../../api/endpoints/course/discussion";
 import { ApiResponseDiscussion } from "../../../api/types/apiResponses/apiResponseDiscussion";
+import { useSelector } from "react-redux";
+import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 
 const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const [discussionText, setDiscussionText] = useState("");
   const [discussions, setDiscussions] = useState<
     ApiResponseDiscussion[] | null
@@ -111,51 +114,53 @@ const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
           </button>
         )}
       </div>
-      <div className='mx-auto pb-5 flex mt-4 px-4'>
-        <div className='w-1/2'>
-          <input
-            type='text'
-            value={discussionText}
-            onChange={handleInputChange}
-            className='border  border-gray-400 w-full rounded-md px-4 py-2 focus:outline-none focus:border-blue-500'
-            placeholder='Enter your discussion'
-          />
-        </div>
-        <div>
-          {isLoading ? (
-            <div className='flex p-3 justify-center items-center'>
-              <BeatLoader className='mt-1' color='	#808080' size={8} />
-            </div>
-          ) : (
-            <Tooltip
-              content='Post message'
-              placement='bottom'
-              animate={{
-                mount: { scale: 1, y: 0 },
-                unmount: { scale: 0, y: 25 },
-              }}
-            >
-              <button
-                onClick={handlePostDiscussion}
-                disabled={isInputEmpty}
-                className={`bg-blue ${
-                  isInputEmpty
-                    ? "text-gray-500"
-                    : "hover:text-white bg-blue-500"
-                }    ml-2 font-bold py-2 px-4 rounded-md h-full`}
+      {isLoggedIn && (
+        <div className='mx-auto pb-5 flex mt-4 px-4'>
+          <div className='w-1/2'>
+            <input
+              type='text'
+              value={discussionText}
+              onChange={handleInputChange}
+              className='border  border-gray-400 w-full rounded-md px-4 py-2 focus:outline-none focus:border-blue-500'
+              placeholder='Enter your discussion'
+            />
+          </div>
+          <div>
+            {isLoading ? (
+              <div className='flex p-3 justify-center items-center'>
+                <BeatLoader className='mt-1' color='	#808080' size={8} />
+              </div>
+            ) : (
+              <Tooltip
+                content='Post message'
+                placement='bottom'
+                animate={{
+                  mount: { scale: 1, y: 0 },
+                  unmount: { scale: 0, y: 25 },
+                }}
               >
-                <IoSend
-                  className={`h-full text-2xl ${
+                <button
+                  onClick={handlePostDiscussion}
+                  disabled={isInputEmpty}
+                  className={`bg-blue ${
                     isInputEmpty
-                      ? "text-gray-500 "
-                      : "hover:text-white text-white"
-                  }`}
-                />
-              </button>
-            </Tooltip>
-          )}
+                      ? "text-gray-500"
+                      : "hover:text-white bg-blue-500"
+                  }    ml-2 font-bold py-2 px-4 rounded-md h-full`}
+                >
+                  <IoSend
+                    className={`h-full text-2xl ${
+                      isInputEmpty
+                        ? "text-gray-500 "
+                        : "hover:text-white text-white"
+                    }`}
+                  />
+                </button>
+              </Tooltip>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

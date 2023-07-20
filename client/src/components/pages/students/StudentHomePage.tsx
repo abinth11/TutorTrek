@@ -60,9 +60,7 @@ const StudentHomePage: React.FC = () => {
     }
   };
 
-
   useEffect(() => {
-    console.log(isLoggedIn)
     fetchTrendingCourses();
     isLoggedIn && fetchRecommendedCourses();
   }, []);
@@ -92,27 +90,28 @@ const StudentHomePage: React.FC = () => {
             ))}
           </div>
         </div>
-
-        <div className='lg:p-10 md:p-7 pt-5 sm:p-8 w-full'>
-          <div className='ml-10 flex items-center justify-start w-9/12'>
-            <h2 className='p-2 text-customFontColorBlack md:text-4xl sm:text-3xl font-bold'>
-              Recommended courses
-            </h2>
+        {isLoggedIn && (
+          <div className='lg:p-10 md:p-7 pt-5 sm:p-8 w-full'>
+            <div className='ml-10 flex items-center justify-start w-9/12'>
+              <h2 className='p-2 text-customFontColorBlack md:text-4xl sm:text-3xl font-bold'>
+                Recommended courses
+              </h2>
+            </div>
+            <div className='flex items-center justify-between pt-2 px-10 flex-wrap'>
+              {Array.from({ length: 3 }).map((_, index) => (
+                <TrendingCardShimmer key={index} />
+              ))}
+            </div>
           </div>
-          <div className='flex items-center justify-between pt-2 px-10 flex-wrap'>
-            {Array.from({ length: 3 }).map((_, index) => (
-              <TrendingCardShimmer key={index} />
-            ))}
-          </div>
-        </div>
+        )}
       </div>
     );
   }
 
   return (
     <div>
-      <div >
-      <Carousel />
+      <div>
+        <Carousel />
       </div>
       <div className='lg:p-10 md:p-7 pt-7 sm:p-8 w-full'>
         <div className='ml-10 flex items-center justify-start w-9/12'>

@@ -77,7 +77,6 @@ const courseRouter = () => {
 
   router.get(
     '/lessons/get-discussions-by-lesson/:lessonId',
-    jwtAuthMiddleware,
     controller.getDiscussionsByLesson
   );
 
@@ -101,7 +100,6 @@ const courseRouter = () => {
 
   router.get(
     '/lesson/replies-based-on-discussion/:discussionId',
-    jwtAuthMiddleware,
     controller.getRepliesByDiscussion
   );
 

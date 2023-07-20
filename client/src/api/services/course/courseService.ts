@@ -19,7 +19,7 @@ export const getCoursesByInstructorService = async (endpoint: string) => {
 };
 
 export const getAllCoursesService = async (endpoint: string) => {
-  const response = await api.get(
+  const response = await axiosInstance.get(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
   );
   return response;
@@ -29,7 +29,7 @@ export const getIndividualCourseService = async (
   endpoint: string,
   courseId: string
 ) => {
-  const response = await api.get(
+  const response = await axiosInstance.get(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${courseId}`
   );
   return response;
