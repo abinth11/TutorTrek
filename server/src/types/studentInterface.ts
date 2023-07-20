@@ -11,6 +11,7 @@ export interface StudentInterface {
   mobile: number;
   password: string;
   isGoogleUser: boolean;
+  isBlocked:boolean
 }
 
 export interface StudentUpdateInfo {

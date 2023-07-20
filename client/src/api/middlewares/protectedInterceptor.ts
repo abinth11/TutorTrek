@@ -44,7 +44,6 @@ api.interceptors.response.use(
         );
         return api(originalRequest);
       } catch (err) {
-        console.log(err);
         return Promise.reject(err);
       }
     }

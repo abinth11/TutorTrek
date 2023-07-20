@@ -17,6 +17,7 @@ import {
 } from '../../types/studentInterface';
 import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
 import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
+import { blockStudentU, getAllBlockedStudentsU, getAllStudentsU, unblockStudentU } from '../../app/usecases/management/studentManagement';
 
 const studentController = (
   authServiceInterface: AuthServiceInterface,
@@ -37,7 +38,7 @@ const studentController = (
       const studentId: string | undefined = req.user?.Id;
       await changePasswordU(
         studentId,
-        passwordInfo,
+        passwordInfo,   
         authService,
         dbRepositoryStudent
       );
@@ -100,11 +101,54 @@ const studentController = (
     }
   );
 
+  const getAllStudents = asyncHandler(async (req:Request,res:Response)=>{
+    const students = await getAllStudentsU(dbRepositoryStudent)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully retrieved all student details',
+      data: students
+    });
+  })
+
+  const blockStudent = asyncHandler(async (req:Request,res:Response)=>{
+    const studentId:string = req.params.studentId
+    const reason:string = req.body.reason
+    await blockStudentU(studentId,reason,dbRepositoryStudent)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully blocked student ',
+      data: null
+    });
+  })
+
+  const unblockStudent = asyncHandler(async (req:Request,res:Response)=>{
+    const studentId:string = req.params.studentId
+    await unblockStudentU(studentId,dbRepositoryStudent)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully unblocked student ',
+      data: null
+    });
+  })
+
+  const getAllBlockedStudents = asyncHandler(async(req:Request,res:Response)=>{
+    const students = await getAllBlockedStudentsU(dbRepositoryStudent)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully unblocked student ',
+      data: students
+    });
+  })
+
   return {
     changePassword,
     updateProfile,
     getStudentDetails,
-    getProfileUrl
+    getProfileUrl,
+    blockStudent,
+    unblockStudent,
+    getAllStudents,
+    getAllBlockedStudents
   };
 };
 
