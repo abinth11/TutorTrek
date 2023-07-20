@@ -3,7 +3,7 @@ import courseController from '../../../adapters/controllers/courseController';
 import { courseRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/courseReposMongoDb';
 import { courseDbRepository } from '../../../app/repositories/courseDbRepository';
 import { uploadImageAndVideo } from '../middlewares/imageUpload';
-import { instructorRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
+import { instructorRoleCheckMiddleware, studentRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
 import { cloudServiceInterface } from '../../../app/services/cloudServiceInterface';
 import { s3Service } from '../../../frameworks/services/s3CloudService';
 import upload from '../middlewares/multer';
@@ -111,6 +111,8 @@ const courseRouter = () => {
 
   router.get(
     '/get-recommended-courses',
+    jwtAuthMiddleware,
+    studentRoleCheckMiddleware,
     controller.getRecommendedCourseByStudentInterest
   );
 

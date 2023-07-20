@@ -15,11 +15,12 @@ import ViewCourseShimmer from "../../Shimmers/ViewCourseShimmer";
 import { getLessonsByCourse } from "../../../api/endpoints/course/lesson";
 import { useDispatch } from "react-redux";
 import { setCourseId } from "../../../redux/reducers/courseSlice";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectStudentId } from "../../../redux/reducers/studentSlice";
 import { MdDone } from "react-icons/md";
 import PaymentConfirmationModal from "./PaymentConfirmationModal";
+import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
+import LoginConfirmation from "../../common/LoginConfirmationModal";
 const ViewCourseStudent: React.FC = () => {
   const params = useParams();
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -27,8 +28,9 @@ const ViewCourseStudent: React.FC = () => {
   const [openPaymentConfirmation, setOpenPaymentConfirmation] =
     useState<boolean>(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const studentId = useSelector(selectStudentId);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const [loginConfirmation, setLoginConfirmation] = useState(false);
 
   const fetchCourse = async (courseId: string): Promise<CourseInterface> => {
     try {
@@ -67,7 +69,11 @@ const ViewCourseStudent: React.FC = () => {
     setExpandedIndex(index === expandedIndex ? null : index);
   };
   const handleEnroll = () => {
-    setOpenPaymentConfirmation(true);
+    if (!isLoggedIn) {
+      setLoginConfirmation(true);
+    } else {
+      setOpenPaymentConfirmation(true);
+    }
   };
   const location = useLocation();
   if (isLoading || isLessonsLoading) {
@@ -81,6 +87,10 @@ const ViewCourseStudent: React.FC = () => {
   const enrolled = course?.coursesEnrolled.includes(studentId ?? "");
   return (
     <div className='bg-white'>
+      <LoginConfirmation
+        confirm={loginConfirmation}
+        setConfirm={setLoginConfirmation}
+      />
       <PaymentConfirmationModal
         open={openPaymentConfirmation}
         setUpdated={refreshData}

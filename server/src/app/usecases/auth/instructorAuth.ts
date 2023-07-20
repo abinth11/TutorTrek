@@ -66,7 +66,7 @@ export const instructorLogin = async (
   if (!instructor.isVerified) {
     throw new AppError(
       'Your details is under verification please try again later',
-      HttpStatusCodes.FORBIDDEN
+      HttpStatusCodes.UNAUTHORIZED
     );
   }
   const isPasswordCorrect = await authService.comparePassword(

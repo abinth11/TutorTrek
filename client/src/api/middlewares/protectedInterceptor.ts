@@ -10,7 +10,7 @@ api.interceptors.request.use(
   (config) => {
     const tokenString = localStorage.getItem("accessToken");
     if (tokenString) {
-      const token = JSON.parse(tokenString);    
+      const token = JSON.parse(tokenString);
       config.headers.Authorization = `Bearer ${token.accessToken}`;
     }
     return config;
@@ -24,6 +24,7 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
     // Check if the response status is 401 (unauthorized) and it's not a retry request
     if (error?.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
@@ -42,20 +43,17 @@ api.interceptors.response.use(
           })
         );
         return api(originalRequest);
-      } catch (error) {
-        // const confirmReLogin = window.confirm(
-        //   "Your session has expired. Do you want to log in again?"
-        // );
-        // localStorage.removeItem("accessToken");
-        // localStorage.removeItem("refreshToken");
-        // if (confirmReLogin) {
-        //   // Perform any necessary cleanup or additional actions
-        //   // Clear user data, redirect to a login page, etc.
-        //   window.location.href="/"
-        //   throw new CustomApiError("Token refresh failed", error);
-        // } 
-        console.log(error)
+      } catch (err) {
+        console.log(err);
+        return Promise.reject(err);
       }
+    }
+
+    // Check if the response status is 403 (forbidden)
+    if (error?.response?.status === 403) {
+      window.dispatchEvent(new Event("sessionExpired"));
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
     }
 
     return Promise.reject(error);

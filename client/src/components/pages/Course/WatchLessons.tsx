@@ -103,7 +103,7 @@ const WatchLessons: React.FC = () => {
       ) : (
         <div className='w-3/4  overflow-y-scroll scrollbar-track-blue-gray-50 scrollbar-thumb-gray-400 scrollbar-thin scrollbar-h-md'>
           <div className='h-3/4'>
-            <VideoPlayer videoKey={videoKey} />
+            <VideoPlayer videoKey={videoKey} isCoursePurchased={false}  />
           </div>
           <div className=''>
             <ul className='flex p-3'>
