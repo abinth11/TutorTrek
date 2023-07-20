@@ -19,12 +19,21 @@ export const studentDbRepository = (
   const updateProfile = async (id: string, studentInfo: StudentUpdateInfo) =>
     await repository.updateProfile(id, studentInfo);
 
+  const getAllStudents = async() => await repository.getAllStudents()
+
+  const blockStudent = async(id:string,reason:string) => await repository.blockStudent(id,reason)
+
+  const unblockStudent = async(id:string) => await repository.unblockStudent(id)
+
   return {
     addStudent,
     getStudentByEmail,
     getStudent,
     changePassword,
-    updateProfile
+    updateProfile,
+    getAllStudents,
+    blockStudent,
+    unblockStudent,
   };
 };
 

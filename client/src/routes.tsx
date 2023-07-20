@@ -31,6 +31,7 @@ import UserDashboard from "./components/pages/dash/UserDashboard";
 import MyCourses from "./components/pages/dash/MyCourses";
 import MyProfile from "./components/pages/dash/MyProfile";
 import DashHome from "./components/pages/dash/DashHome";
+import ViewStudents from "./components/pages/studentManagement/ViewStudents";
 
 const LazyListCourse = lazy(
   () => import("./components/pages/Course/ListCourse")
@@ -147,6 +148,10 @@ const AppRouter = createBrowserRouter([
             element: <ViewBlockedInstructors />,
           },
         ],
+      },
+      {
+        path:"students",
+        element:<ViewStudents/>
       },
       {
         path: "categories",

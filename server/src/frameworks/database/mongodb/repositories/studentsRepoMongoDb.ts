@@ -35,12 +35,34 @@ export const studentRepositoryMongoDB = () => {
     );
   };
 
+  const getAllStudents = async () => {
+    const students = await Student.find({});
+    return students;
+  };
+
+  const blockStudent = async (id: string, reason: string) => {
+    await Student.updateOne(
+      { _id: new mongoose.Types.ObjectId(id) },
+      { isBlocked: true, blockedReason: reason }
+    );
+  };
+
+  const unblockStudent = async (id: string) => {
+    await Student.updateOne(
+      { _id: new mongoose.Types.ObjectId(id) },
+      { isBlocked: false, blockedReason: '' }
+    );
+  };
+
   return {
     addStudent,
     getStudentByEmail,
     getStudent,
     changePassword,
-    updateProfile
+    updateProfile,
+    getAllStudents,
+    blockStudent,
+    unblockStudent
   };
 };
 

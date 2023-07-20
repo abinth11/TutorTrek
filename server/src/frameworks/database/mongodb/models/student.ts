@@ -16,6 +16,8 @@ interface IStudent extends Document {
   coursesEnrolled: mongoose.Schema.Types.ObjectId[];
   dateJoined: Date;
   isGoogleUser: boolean;
+  isBlocked: boolean;
+  blockedReason: string;
 }
 
 const ProfileSchema = new Schema<ProfilePic>({
@@ -85,6 +87,14 @@ const studentSchema = new Schema<IStudent>({
   isGoogleUser: {
     type: Boolean,
     default: false
+  },
+  isBlocked: {
+    type: Boolean,
+    default: false
+  },
+  blockedReason: {
+    type: String,
+    default: ''
   }
 });
 

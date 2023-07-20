@@ -26,6 +26,12 @@ const studentRouter = () => {
 
   router.get('/get-profile-url',controller.getProfileUrl)
 
+  router.get('/get-all-students',controller.getAllStudents)
+
+  router.patch('/block-student/:studentId',controller.blockStudent)
+
+  router.patch('/unblock-student/:studentId',controller.unblockStudent)
+
   return router;
 };
 export default studentRouter;
