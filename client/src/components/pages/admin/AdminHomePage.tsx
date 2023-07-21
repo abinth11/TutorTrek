@@ -1,253 +1,122 @@
 import React from "react";
-import {
-  Typography,
-  Card,
-  CardHeader,
-  CardBody,
-  IconButton,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Avatar,
-  Tooltip,
-  Progress,
-} from "@material-tailwind/react";
-import {
-  ClockIcon,
-  CheckIcon,
-  EllipsisVerticalIcon,
-  ArrowUpIcon,
-} from "@heroicons/react/24/outline";
+import RevenueChart from "./RevenueChart";
+import TrendingCoursesChart from "./TrendingChart";
+import EnrollmentAndProgressChart from "./ProgressChart";
+import { Typography } from "@material-tailwind/react";
+import { FaRupeeSign } from 'react-icons/fa';
+import { AiOutlineUser, AiOutlineBook, AiOutlineUsergroupAdd } from 'react-icons/ai';
 
 
 const AdminHomePage: React.FC = () => {
-  return (
-    <div className='mt-12'>
-      <div className="p-8 flex items-center justify-center">
-        <h1 className="text-4xl font-bold text-gray-700"> Welcome back...!</h1>
-      </div>
-      {/* <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
-        {statisticsCardsData.map(({ icon, title, footer, ...rest }) => (
-          <StatisticsCard
-            key={title}
-            {...rest}
-            title={title}
-            icon={React.createElement(icon, {
-              className: "w-6 h-6 text-white",
-            })}
-            footer={
-              <Typography className="font-normal text-blue-gray-600">
-                <strong className={footer.color}>{footer.value}</strong>
-                &nbsp;{footer.label}
-              </Typography>
-            }
-          />
-        ))}
-      </div>
-      <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
-        {statisticsChartsData.map((props) => (
-          <StatisticsChart
-            key={props.title}
-            {...props}
-            footer={
-              <Typography
-                variant="small"
-                className="flex items-center font-normal text-blue-gray-600"
-              >
-                <ClockIcon strokeWidth={2} className="h-4 w-4 text-inherit" />
-                &nbsp;{props.footer}
-              </Typography>
-            }
-          />
-        ))}
-      </div>
-      <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
-        <Card className="overflow-hidden xl:col-span-2">
-          <CardHeader
-            floated={false}
-            shadow={false}
-            color="transparent"
-            className="m-0 flex items-center justify-between p-6"
-          >
-            <div>
-              <Typography variant="h6" color="blue-gray" className="mb-1">
-                Projects
-              </Typography>
-              <Typography
-                variant="small"
-                className="flex items-center gap-1 font-normal text-blue-gray-600"
-              >
-                <CheckIcon strokeWidth={3} className="h-4 w-4 text-blue-500" />
-                <strong>30 done</strong> this month
-              </Typography>
-            </div>
-            <Menu placement="left-start">
-              <MenuHandler>
-                <IconButton size="sm" variant="text" color="blue-gray">
-                  <EllipsisVerticalIcon
-                    strokeWidth={3}
-                    fill="currenColor"
-                    className="h-6 w-6"
-                  />
-                </IconButton>
-              </MenuHandler>
-              <MenuList>
-                <MenuItem>Action</MenuItem>
-                <MenuItem>Another Action</MenuItem>
-                <MenuItem>Something else here</MenuItem>
-              </MenuList>
-            </Menu>
-          </CardHeader>
-          <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
-            <table className="w-full min-w-[640px] table-auto">
-              <thead>
-                <tr>
-                  {["companies", "members", "budget", "completion"].map(
-                    (el) => (
-                      <th
-                        key={el}
-                        className="border-b border-blue-gray-50 py-3 px-6 text-left"
-                      >
-                        <Typography
-                          variant="small"
-                          className="text-[11px] font-medium uppercase text-blue-gray-400"
-                        >
-                          {el}
-                        </Typography>
-                      </th>
-                    )
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                {projectsTableData.map(
-                  ({ img, name, members, budget, completion }, key) => {
-                    const className = `py-3 px-5 ${
-                      key === projectsTableData.length - 1
-                        ? ""
-                        : "border-b border-blue-gray-50"
-                    }`;
+  const data = [
+    { month: "Jan", revenue: 1000, coursesAdded: 350, coursesEnrolled: 330 },
+    { month: "Feb", revenue: 1500, coursesAdded: 370, coursesEnrolled: 340 },
+    { month: "Mar", revenue: 1200, coursesAdded: 550, coursesEnrolled: 350 },
+    { month: "Apr", revenue: 1000, coursesAdded: 350, coursesEnrolled: 330 },
+    { month: "May", revenue: 1500, coursesAdded: 370, coursesEnrolled: 340 },
+    { month: "June", revenue: 1200, coursesAdded: 550, coursesEnrolled: 350 },
+    { month: "July", revenue: 1000, coursesAdded: 350, coursesEnrolled: 330 },
+    { month: "august", revenue: 1500, coursesAdded: 370, coursesEnrolled: 340 },
+    { month: "sep", revenue: 1200, coursesAdded: 550, coursesEnrolled: 350 },
+    // More data points...
+  ];
 
-                    return (
-                      <tr key={name}>
-                        <td className={className}>
-                          <div className="flex items-center gap-4">
-                            <Avatar src={img} alt={name} size="sm" />
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-bold"
-                            >
-                              {name}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td className={className}>
-                          {members.map(({ img, name }, key) => (
-                            <Tooltip key={name} content={name}>
-                              <Avatar
-                                src={img}
-                                alt={name}
-                                size="xs"
-                                variant="circular"
-                                className={`cursor-pointer border-2 border-white ${
-                                  key === 0 ? "" : "-ml-2.5"
-                                }`}
-                              />
-                            </Tooltip>
-                          ))}
-                        </td>
-                        <td className={className}>
-                          <Typography
-                            variant="small"
-                            className="text-xs font-medium text-blue-gray-600"
-                          >
-                            {budget}
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <div className="w-10/12">
-                            <Typography
-                              variant="small"
-                              className="mb-1 block text-xs font-medium text-blue-gray-600"
-                            >
-                              {completion}%
-                            </Typography>
-                            <Progress
-                              value={completion}
-                              variant="gradient"
-                              color={completion === 100 ? "green" : "blue"}
-                              className="h-1"
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  }
-                )}
-              </tbody>
-            </table>
-          </CardBody>
-        </Card>
-        <Card>
-          <CardHeader
-            floated={false}
-            shadow={false}
-            color="transparent"
-            className="m-0 p-6"
-          >
-            <Typography variant="h6" color="blue-gray" className="mb-2">
-              Orders Overview
-            </Typography>
-            <Typography
-              variant="small"
-              className="flex items-center gap-1 font-normal text-blue-gray-600"
-            >
-              <ArrowUpIcon
-                strokeWidth={3}
-                className="h-3.5 w-3.5 text-green-500"
-              />
-              <strong>24%</strong> this month
-            </Typography>
-          </CardHeader>
-          <CardBody className="pt-0">
-            {ordersOverviewData.map(
-              ({ icon, color, title, description }, key) => (
-                <div key={title} className="flex items-start gap-4 py-3">
-                  <div
-                    className={`relative p-1 after:absolute after:-bottom-6 after:left-2/4 after:w-0.5 after:-translate-x-2/4 after:bg-blue-gray-50 after:content-[''] ${
-                      key === ordersOverviewData.length - 1
-                        ? "after:h-0"
-                        : "after:h-4/6"
-                    }`}
-                  >
-                    {React.createElement(icon, {
-                      className: `!w-5 !h-5 ${color}`,
-                    })}
-                  </div>
-                  <div>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="block font-medium"
-                    >
-                      {title}
-                    </Typography>
-                    <Typography
-                      as="span"
-                      variant="small"
-                      className="text-xs font-medium text-blue-gray-500"
-                    >
-                      {description}
-                    </Typography>
-                  </div>
-                </div>
-              )
-            )}
-          </CardBody>
-        </Card>
-      </div> */}
+  const dataCourse = [
+    { courseName: "Course A", enrollmentCount: 500 },
+    { courseName: "Course B", enrollmentCount: 480 },
+    { courseName: "Course C", enrollmentCount: 450 },
+    { courseName: "Course D", enrollmentCount: 420 },
+    { courseName: "Course E", enrollmentCount: 400 },
+    // More data points...
+  ];
+
+  const pdata = [
+    { courseName: "Course A", enrollmentCount: 500, averageProgress: 400 },
+    { courseName: "Course B", enrollmentCount: 480, averageProgress: 80 },
+    { courseName: "Course C", enrollmentCount: 450, averageProgress: 90 },
+    { courseName: "Course D", enrollmentCount: 420, averageProgress: 60 },
+    { courseName: "Course E", enrollmentCount: 400, averageProgress: 70 },
+    // More course data...
+  ];
+
+  return (
+    <div className=' pl-5 pr-5 '>
+
+<div className='ml-3 mr-3 flex items-center justify-between'>    
+  <div className='bg-white flex-1 rounded-md pb-5 pr-5 pl-5 border shadow-sm border-gray-200 mr-4'>
+    <div className='flex items-center '>
+      <FaRupeeSign size={26} className='text-green-500 mr-3' />
+      <div> 
+        <Typography variant='h6' color='blue-gray' className="pt-2 ">
+          Monthly revenue
+        </Typography>  
+        <Typography variant='body'  color='gray' >
+          ₹50,000
+        </Typography>
+      </div>
+    </div>
+  </div>
+  <div className='bg-white flex-1 rounded-md pb-5 pr-5 pl-5 shadow-sm border border-gray-200 mr-4'>
+    <div className='flex items-center'>
+      <AiOutlineBook size={26} className='text-blue-500 mr-3' />
+      <div>
+        <Typography variant='h6' color='blue-gray' className="pt-2 ">
+          Courses  
+        </Typography>
+        <Typography variant='body' color='gray'>
+          10
+        </Typography>
+      </div>
+    </div>
+  </div>
+  <div className='bg-white flex-1 rounded-md pb-5 shadow-sm pr-5 pl-5 border border-gray-200 mr-4'>
+    <div className='flex items-center'>
+      <AiOutlineUser size={26} className='text-yellow-500 mr-3' />
+      <div>
+        <Typography variant='h6' color='blue-gray' className="pt-2 ">
+          Instructors
+        </Typography>
+        <Typography variant='body' color='gray'>
+          5
+        </Typography>
+      </div>
+    </div>
+  </div>
+  <div className='bg-white flex-1 rounded-md pb-5 shadow-sm pr-5 pl-5 border border-gray-200'>
+    <div className='flex items-center'>
+      <AiOutlineUsergroupAdd size={26} className='text-red-500 mr-3' />
+      <div>
+        <Typography variant='h6' color='blue-gray' className="pt-2 ">
+          Students
+        </Typography>
+        <Typography variant='body' color='gray'>
+          100
+        </Typography>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <div className='py-5 px-4'>
+        <Typography variant='h3' color='blue-gray' className="mb-4">
+            Monthly Revenue Chart  
+          </Typography>  
+        <RevenueChart data={data} />
+      </div>
+      <div className='flex items-center '>
+        <div className='py-5 px-4 w-6/12'>
+        <Typography variant='h4' color='blue-gray' className="mb-4">
+            Trending Courses 
+          </Typography>  
+          <TrendingCoursesChart data={dataCourse} />
+        </div>
+        <div className='px-4 w-6/12'>
+        <Typography variant='h4' color='blue-gray' className="mb-4">
+            Top Instructors 
+          </Typography>  
+          <EnrollmentAndProgressChart data={pdata} />
+        </div>
+      </div>
     </div>
   );
 };
