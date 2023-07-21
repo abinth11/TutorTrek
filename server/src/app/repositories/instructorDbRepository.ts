@@ -38,6 +38,8 @@ export const instructorDbRepository = (
   const getInstructorById = async (instructorId: string) =>
     await repository.getInstructorById(instructorId);
 
+  const getTotalNumberOfInstructors = async ()=> repository.getTotalNumberOfInstructors()
+
   return {
     addInstructor,
     getInstructorByEmail,
@@ -49,7 +51,8 @@ export const instructorDbRepository = (
     blockInstructors,
     unblockInstructors,
     getBlockedInstructors,
-    getInstructorById
+    getInstructorById,
+    getTotalNumberOfInstructors
   };
 };
 

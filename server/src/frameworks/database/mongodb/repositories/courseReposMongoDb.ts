@@ -120,6 +120,7 @@ export const courseRepositoryMongodb = () => {
       {
         $project: {
           title: '$title',
+          coursesEnrolled: '$coursesEnrolled',
           thumbnail: '$thumbnail',
           instructorFirstName: { $arrayElemAt: ['$instructor.firstName', 0] },
           instructorLastName: { $arrayElemAt: ['$instructor.lastName', 0] }
@@ -135,7 +136,36 @@ export const courseRepositoryMongodb = () => {
         $in: [new mongoose.Types.ObjectId('648d8672320950d1ec7454ac')]
       }
     });
-    return courses
+    return courses;
+  };
+
+  const getTotalNumberOfCourses = async () => {
+    const totalCourses = await Course.find().count();
+    return totalCourses;
+  };
+
+  const getNumberOfCoursesAddedInEachMonth = async () => {
+    const courseCountsByMonth = await Course.aggregate([
+      {
+        $group: {
+          _id: { $month: '$createdAt' },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          month: '$_id',
+          count: 1,
+          _id: 0
+        }
+      },
+      {
+        $sort: {
+          month: 1
+        }
+      }
+    ]);
+    return courseCountsByMonth
   };
 
   return {
@@ -147,7 +177,9 @@ export const courseRepositoryMongodb = () => {
     enrollStudent,
     getRecommendedCourseByStudentInterest,
     getTrendingCourses,
-    getCourseByStudent
+    getCourseByStudent,
+    getTotalNumberOfCourses,
+    getNumberOfCoursesAddedInEachMonth
   };
 };
 

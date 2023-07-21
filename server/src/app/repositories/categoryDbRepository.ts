@@ -17,11 +17,14 @@ export const categoryDbInterface = (
     categoryInfo: { name: string; description: string }
   ) => await repository.editCategory(categoryId, categoryInfo);
 
+  const getCourseCountByCategory = async ()=> await repository.getCourseCountByCategory()
+
   return {
     addCategory,
-    getCategoryById,
+    getCategoryById,  
     getAllCategory,
-    editCategory
+    editCategory,
+    getCourseCountByCategory
   };
 };
 
