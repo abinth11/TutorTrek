@@ -59,6 +59,11 @@ export const studentRepositoryMongoDB = () => {
    return blockedStudents
   }
 
+  const getTotalNumberOfStudents = async()=>{
+    const total = await Student.find().count()
+    return total
+  }
+
   return {
     addStudent,
     getStudentByEmail,
@@ -68,7 +73,8 @@ export const studentRepositoryMongoDB = () => {
     getAllStudents,
     blockStudent,
     unblockStudent,
-    getAllBlockedStudents
+    getAllBlockedStudents,
+    getTotalNumberOfStudents
   };
 };
 

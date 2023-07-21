@@ -135,7 +135,12 @@ export const courseRepositoryMongodb = () => {
         $in: [new mongoose.Types.ObjectId('648d8672320950d1ec7454ac')]
       }
     });
-    return courses
+    return courses;
+  };
+
+  const getTotalNumberOfCourses = async () => {
+    const totalCourses = await Course.find().count();
+    return totalCourses;
   };
 
   return {
@@ -147,7 +152,8 @@ export const courseRepositoryMongodb = () => {
     enrollStudent,
     getRecommendedCourseByStudentInterest,
     getTrendingCourses,
-    getCourseByStudent
+    getCourseByStudent,
+    getTotalNumberOfCourses
   };
 };
 
