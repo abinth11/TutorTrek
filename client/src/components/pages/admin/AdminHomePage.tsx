@@ -1,13 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import RevenueChart from "./RevenueChart";
 import TrendingCoursesChart from "./TrendingChart";
 import EnrollmentAndProgressChart from "./ProgressChart";
 import { Typography } from "@material-tailwind/react";
-import { FaRupeeSign } from 'react-icons/fa';
-import { AiOutlineUser, AiOutlineBook, AiOutlineUsergroupAdd } from 'react-icons/ai';
-
+import { FaRupeeSign } from "react-icons/fa";
+import {
+  AiOutlineUser,
+  AiOutlineBook,
+  AiOutlineUsergroupAdd,
+} from "react-icons/ai";
+import { getDashboardData } from "../../../api/endpoints/dashboardData";
+import { DashData } from "../../../api/types/apiResponses/apiResponseDash";
+import { formatToINR } from "../../../utils/helpers";
 
 const AdminHomePage: React.FC = () => {
+  const [dashboardData, seDashboardData] = useState<DashData | null>(null);
+  const fetchDashboardDetails = async () => {
+    try {
+      const response = await getDashboardData();
+      seDashboardData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchDashboardDetails();
+  }, []);
   const data = [
     { month: "Jan", revenue: 1000, coursesAdded: 350, coursesEnrolled: 330 },
     { month: "Feb", revenue: 1500, coursesAdded: 370, coursesEnrolled: 340 },
@@ -41,79 +59,78 @@ const AdminHomePage: React.FC = () => {
 
   return (
     <div className=' pl-5 pr-5 '>
-
-<div className='ml-3 mr-3 flex items-center justify-between'>    
-  <div className='bg-white flex-1 rounded-md pb-5 pr-5 pl-5 border shadow-sm border-gray-200 mr-4'>
-    <div className='flex items-center '>
-      <FaRupeeSign size={26} className='text-green-500 mr-3' />
-      <div> 
-        <Typography variant='h6' color='blue-gray' className="pt-2 ">
-          Monthly revenue
-        </Typography>  
-        <Typography variant='body'  color='gray' >
-          ₹50,000
-        </Typography>
+      <div className='ml-3 mr-3 flex items-center justify-between'>
+        <div className='bg-white flex-1 rounded-md pb-5 pr-5 pl-5 border shadow-sm border-gray-200 mr-4'>
+          <div className='flex items-center '>
+            <FaRupeeSign size={26} className='text-green-500 mr-3' />
+            <div>
+              <Typography variant='h6' color='blue-gray' className='pt-2 '>
+                Monthly revenue
+              </Typography>
+              <Typography variant='body' color='gray'>
+                {formatToINR(dashboardData?.monthlyRevenue??0)}
+              </Typography>
+            </div>
+          </div>
+        </div>
+        <div className='bg-white flex-1 rounded-md pb-5 pr-5 pl-5 shadow-sm border border-gray-200 mr-4'>
+          <div className='flex items-center'>
+            <AiOutlineBook size={26} className='text-blue-500 mr-3' />
+            <div>
+              <Typography variant='h6' color='blue-gray' className='pt-2 '>
+                Courses
+              </Typography>
+              <Typography variant='body' color='gray'>
+                {dashboardData?.numberOfCourses}
+              </Typography>
+            </div>
+          </div>
+        </div>
+        <div className='bg-white flex-1 rounded-md pb-5 shadow-sm pr-5 pl-5 border border-gray-200 mr-4'>
+          <div className='flex items-center'>
+            <AiOutlineUser size={26} className='text-yellow-500 mr-3' />
+            <div>
+              <Typography variant='h6' color='blue-gray' className='pt-2 '>
+                Instructors
+              </Typography>
+              <Typography variant='body' color='gray'>
+                {dashboardData?.numberInstructors}
+              </Typography>
+            </div>
+          </div>
+        </div>
+        <div className='bg-white flex-1 rounded-md pb-5 shadow-sm pr-5 pl-5 border border-gray-200'>
+          <div className='flex items-center'>
+            <AiOutlineUsergroupAdd size={26} className='text-red-500 mr-3' />
+            <div>
+              <Typography variant='h6' color='blue-gray' className='pt-2 '>
+                Students
+              </Typography>
+              <Typography variant='body' color='gray'>
+                {dashboardData?.numberOfStudents}
+              </Typography>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <div className='bg-white flex-1 rounded-md pb-5 pr-5 pl-5 shadow-sm border border-gray-200 mr-4'>
-    <div className='flex items-center'>
-      <AiOutlineBook size={26} className='text-blue-500 mr-3' />
-      <div>
-        <Typography variant='h6' color='blue-gray' className="pt-2 ">
-          Courses  
-        </Typography>
-        <Typography variant='body' color='gray'>
-          10
-        </Typography>
-      </div>
-    </div>
-  </div>
-  <div className='bg-white flex-1 rounded-md pb-5 shadow-sm pr-5 pl-5 border border-gray-200 mr-4'>
-    <div className='flex items-center'>
-      <AiOutlineUser size={26} className='text-yellow-500 mr-3' />
-      <div>
-        <Typography variant='h6' color='blue-gray' className="pt-2 ">
-          Instructors
-        </Typography>
-        <Typography variant='body' color='gray'>
-          5
-        </Typography>
-      </div>
-    </div>
-  </div>
-  <div className='bg-white flex-1 rounded-md pb-5 shadow-sm pr-5 pl-5 border border-gray-200'>
-    <div className='flex items-center'>
-      <AiOutlineUsergroupAdd size={26} className='text-red-500 mr-3' />
-      <div>
-        <Typography variant='h6' color='blue-gray' className="pt-2 ">
-          Students
-        </Typography>
-        <Typography variant='body' color='gray'>
-          100
-        </Typography>
-      </div>
-    </div>
-  </div>
-</div>
 
       <div className='py-5 px-4'>
-        <Typography variant='h3' color='blue-gray' className="mb-4">
-            Monthly Revenue Chart  
-          </Typography>  
+        <Typography variant='h3' color='blue-gray' className='mb-4'>
+          Monthly Revenue Chart
+        </Typography>
         <RevenueChart data={data} />
       </div>
       <div className='flex items-center '>
         <div className='py-5 px-4 w-6/12'>
-        <Typography variant='h4' color='blue-gray' className="mb-4">
-            Trending Courses 
-          </Typography>  
+          <Typography variant='h4' color='blue-gray' className='mb-4'>
+            Trending Courses
+          </Typography>
           <TrendingCoursesChart data={dataCourse} />
         </div>
         <div className='px-4 w-6/12'>
-        <Typography variant='h4' color='blue-gray' className="mb-4">
-            Top Instructors 
-          </Typography>  
+          <Typography variant='h4' color='blue-gray' className='mb-4'>
+            Top Instructors
+          </Typography>
           <EnrollmentAndProgressChart data={pdata} />
         </div>
       </div>
