@@ -7,3 +7,10 @@ export const getDashBoardDataService = async (endpoint: string) => {
   );
   return response.data
 };
+
+export const getGraphDataService = async (endpoint: string) => {
+  const response = await api.get(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+  );
+  return response.data
+};

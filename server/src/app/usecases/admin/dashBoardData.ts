@@ -59,54 +59,53 @@ export const getGraphDetailsU = async (
     });
   }
 
-  let monthlyRevenue: Array<{ month: number; totalRevenue: number }> = [];
-  if (revenueForEachMonth.status === 'fulfilled') {
+  let revenueData: Array<{
+    month: string;
+    revenue: number;
+    coursesAdded: number;
+    coursesEnrolled: number;
+  }> = [];
+  if (
+    revenueForEachMonth.status === 'fulfilled' &&
+    coursesAdded.status === 'fulfilled' &&
+    coursesEnrolled.status === 'fulfilled'
+  ) {
     const allMonths = Array.from({ length: 12 }, (_, index) => index + 1);
-    monthlyRevenue = allMonths.map((month) => {
-      const matchedMonth = revenueForEachMonth.value.find(
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    revenueData = allMonths.map((month) => {
+      const matchedRevenueMonth = revenueForEachMonth.value.find(
+        (data) => data.month === month
+      );
+      const matchedAddedMonth = coursesAdded.value.find(
+        (data) => data.month === month
+      );
+      const matchedEnrolledMonth = coursesEnrolled.value.find(
         (data) => data.month === month
       );
       return {
-        month,
-        totalRevenue: matchedMonth ? matchedMonth.totalRevenue : 0
-      };
-    });
-  }
-
-  let coursesAddedMonthPerMonth: Array<{ month: number; count: number }> = [];
-  if (coursesAdded.status === 'fulfilled') {
-    const allMonths = Array.from({ length: 12 }, (_, index) => index + 1);
-    coursesAddedMonthPerMonth = allMonths.map((month) => {
-      const matchedMonth = coursesAdded.value.find(
-        (data) => data.month === month
-      );
-      return {
-        month,
-        count: matchedMonth ? matchedMonth.count : 0
-      };
-    });
-  }
-
-  let coursesEnrolledPerMonth: Array<{ month: number; count: number }> = [];
-  if (coursesEnrolled.status === 'fulfilled') {
-    const allMonths = Array.from({ length: 12 }, (_, index) => index + 1);
-    coursesEnrolledPerMonth = allMonths.map((month) => {
-      const matchedMonth = coursesEnrolled.value.find(
-        (data) => data.month === month
-      );
-      return {
-        month,
-        count: matchedMonth ? matchedMonth.count : 0
+        month: monthNames[month - 1],
+        revenue: matchedRevenueMonth ? matchedRevenueMonth.totalRevenue : 0,
+        coursesAdded: matchedAddedMonth ? matchedAddedMonth.count : 0,
+        coursesEnrolled: matchedEnrolledMonth ? matchedEnrolledMonth.count : 0
       };
     });
   }
 
   return {
-    revenue: {
-      monthlyRevenue,
-      coursesAddedMonthPerMonth,
-      coursesEnrolledPerMonth
-    },
+    revenue: revenueData,
     trendingCourses: trending,
     courseByCategory:
       courseByCategory.status === 'fulfilled' ? courseByCategory.value : null

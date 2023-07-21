@@ -3,8 +3,8 @@ import ReactApexChart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
 
 interface CourseData {
-  courseName: string;
-  enrollmentCount: number;
+  title: string;
+  enrolled: number;
 }
 
 interface Props {
@@ -13,14 +13,17 @@ interface Props {
 
 const TrendingCoursesChart: React.FC<Props> = ({ data }) => {
   // Sort the data in descending order based on enrollment count to get top trending courses
-  const sortedData = data.sort((a, b) => b.enrollmentCount - a.enrollmentCount).slice(0, 5);
+  const sortedData = data.sort((a, b) => b.enrolled - a.enrolled).slice(0, 5);
 
   const chartOptions: Partial<ApexOptions> = {
     chart: {
       id: 'trending-courses-chart',
     },
     xaxis: {
-      categories: sortedData.map((course) => course.courseName),
+      categories: sortedData.map((course) => course.title),
+      labels: {
+        show: false, // Set this to false to hide the x-axis labels
+      },
     },
     yaxis: {
       title: {
@@ -30,7 +33,7 @@ const TrendingCoursesChart: React.FC<Props> = ({ data }) => {
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth:35
+        columnWidth:35,
       },
     },
   };
@@ -38,7 +41,7 @@ const TrendingCoursesChart: React.FC<Props> = ({ data }) => {
   const chartSeries = [
     {
       name: 'Enrollment Count',
-      data: sortedData.map((course) => course.enrollmentCount),
+      data: sortedData.map((course) => course.enrolled),
     },
   ];
 

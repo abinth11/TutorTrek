@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import RevenueChart from "./RevenueChart";
 import TrendingCoursesChart from "./TrendingChart";
-import EnrollmentAndProgressChart from "./ProgressChart";
+import CourseCategoryChart from "./ProgressChart";
 import { Typography } from "@material-tailwind/react";
 import { FaRupeeSign } from "react-icons/fa";
 import {
@@ -9,12 +9,19 @@ import {
   AiOutlineBook,
   AiOutlineUsergroupAdd,
 } from "react-icons/ai";
-import { getDashboardData } from "../../../api/endpoints/dashboardData";
-import { DashData } from "../../../api/types/apiResponses/apiResponseDash";
+import {
+  getDashboardData,
+  getGraphData,
+} from "../../../api/endpoints/dashboardData";
+import {
+  DashData,
+  GraphData,
+} from "../../../api/types/apiResponses/apiResponseDash";
 import { formatToINR } from "../../../utils/helpers";
 
 const AdminHomePage: React.FC = () => {
   const [dashboardData, seDashboardData] = useState<DashData | null>(null);
+  const [graphData, setGraphData] = useState<GraphData | null>(null);
   const fetchDashboardDetails = async () => {
     try {
       const response = await getDashboardData();
@@ -23,39 +30,19 @@ const AdminHomePage: React.FC = () => {
       console.log(error);
     }
   };
+
+  const fetchGraphData = async () => {
+    try {
+      const response = await getGraphData();
+      setGraphData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     fetchDashboardDetails();
+    fetchGraphData();
   }, []);
-  const data = [
-    { month: "Jan", revenue: 1000, coursesAdded: 350, coursesEnrolled: 330 },
-    { month: "Feb", revenue: 1500, coursesAdded: 370, coursesEnrolled: 340 },
-    { month: "Mar", revenue: 1200, coursesAdded: 550, coursesEnrolled: 350 },
-    { month: "Apr", revenue: 1000, coursesAdded: 350, coursesEnrolled: 330 },
-    { month: "May", revenue: 1500, coursesAdded: 370, coursesEnrolled: 340 },
-    { month: "June", revenue: 1200, coursesAdded: 550, coursesEnrolled: 350 },
-    { month: "July", revenue: 1000, coursesAdded: 350, coursesEnrolled: 330 },
-    { month: "august", revenue: 1500, coursesAdded: 370, coursesEnrolled: 340 },
-    { month: "sep", revenue: 1200, coursesAdded: 550, coursesEnrolled: 350 },
-    // More data points...
-  ];
-
-  const dataCourse = [
-    { courseName: "Course A", enrollmentCount: 500 },
-    { courseName: "Course B", enrollmentCount: 480 },
-    { courseName: "Course C", enrollmentCount: 450 },
-    { courseName: "Course D", enrollmentCount: 420 },
-    { courseName: "Course E", enrollmentCount: 400 },
-    // More data points...
-  ];
-
-  const pdata = [
-    { courseName: "Course A", enrollmentCount: 500, averageProgress: 400 },
-    { courseName: "Course B", enrollmentCount: 480, averageProgress: 80 },
-    { courseName: "Course C", enrollmentCount: 450, averageProgress: 90 },
-    { courseName: "Course D", enrollmentCount: 420, averageProgress: 60 },
-    { courseName: "Course E", enrollmentCount: 400, averageProgress: 70 },
-    // More course data...
-  ];
 
   return (
     <div className=' pl-5 pr-5 '>
@@ -68,7 +55,7 @@ const AdminHomePage: React.FC = () => {
                 Monthly revenue
               </Typography>
               <Typography variant='body' color='gray'>
-                {formatToINR(dashboardData?.monthlyRevenue??0)}
+                {formatToINR(dashboardData?.monthlyRevenue ?? 0)}
               </Typography>
             </div>
           </div>
@@ -118,20 +105,20 @@ const AdminHomePage: React.FC = () => {
         <Typography variant='h3' color='blue-gray' className='mb-4'>
           Monthly Revenue Chart
         </Typography>
-        <RevenueChart data={data} />
+        <RevenueChart data={graphData?.revenue ?? []} />
       </div>
       <div className='flex items-center '>
         <div className='py-5 px-4 w-6/12'>
           <Typography variant='h4' color='blue-gray' className='mb-4'>
             Trending Courses
           </Typography>
-          <TrendingCoursesChart data={dataCourse} />
+          <TrendingCoursesChart data={graphData?.trendingCourses??[]} />
         </div>
         <div className='px-4 w-6/12'>
           <Typography variant='h4' color='blue-gray' className='mb-4'>
             Categories
           </Typography>
-          <EnrollmentAndProgressChart data={pdata} />
+          <CourseCategoryChart data={graphData?.courseByCategory??[]} />
         </div>
       </div>
     </div>

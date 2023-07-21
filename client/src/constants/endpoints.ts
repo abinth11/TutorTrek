@@ -47,6 +47,7 @@ const END_POINTS = {
     BLOCK_STUDENT:"api/students/block-student",
     UNBLOCK_STUDENT:"api/students/unblock-student",
     GET_BLOCKED_STUDENTS:"api/students/get-all-blocked-students",
-    ADMIN_DASHBOARD_DATA:"api/admin/dashboard-details"
+    ADMIN_DASHBOARD_DATA:"api/admin/dashboard-details",
+    GET_GRAPH_DATA_ADMIN:"api/admin/graph-data"
 }
 export default END_POINTS

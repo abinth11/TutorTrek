@@ -1,42 +1,33 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-interface CourseData {
-  courseName: string;
-  enrollmentCount: number;
-  averageProgress: number; // Average progress of students in the course (0-100)
+interface CourseCategory {
+  _id: string;
+  name: string;
+  courseCount: number;
 }
 
 interface Props {
-  data: CourseData[];
+  data: CourseCategory[];
 }
 
-const EnrollmentAndProgressChart: React.FC<Props> = ({ data }) => {
-  const courseNames = data.map((course) => course.courseName);
-  const enrollmentData = data.map((course) => course.enrollmentCount);
-  const progressData = data.map((course) => course.averageProgress);
-
-  // Calculate percentage of enrollment count for each course
-  const totalEnrollment = enrollmentData.reduce((sum, count) => sum + count, 0);
-  const enrollmentPercentageData = enrollmentData.map(
-    (count) => ((count / totalEnrollment) * 100).toFixed(2)
-  );
-
-  // Convert enrollmentPercentageData to an array of numbers
-  const enrollmentPercentageNumbers = enrollmentPercentageData.map(Number);
+const CourseCategoryChart: React.FC<Props> = ({ data }) => {
+  const categoryNames = data.map((category) => category.name);
+  const courseCounts = data.map((category) => category.courseCount);
 
   const donutChartOptions: ApexCharts.ApexOptions = {
     chart: {
-      id: 'enrollment-percentage-chart',
+      id: 'course-category-donut-chart',
+      type: 'donut',
     },
     plotOptions: {
       pie: {
         donut: {
-          size: '65%', // Adjust the size of the donut chart
+          size: '65%',
         },
       },
     },
-    labels: courseNames,
+    labels: categoryNames,
     legend: {
       show: true,
       position: 'bottom',
@@ -44,18 +35,13 @@ const EnrollmentAndProgressChart: React.FC<Props> = ({ data }) => {
     },
   };
 
-  const donutChartSeries: any = enrollmentPercentageNumbers;
+  const donutChartSeries:any = courseCounts;
 
   return (
     <div className="bg-white p-4 shadow rounded-md">
-      <ReactApexChart
-        options={donutChartOptions}
-        series={donutChartSeries}
-        type="donut"
-        height={300}
-      />
+      <ReactApexChart options={donutChartOptions} series={donutChartSeries} type="donut" height={300} />
     </div>
   );
 };
 
-export default EnrollmentAndProgressChart;
+export default CourseCategoryChart;
