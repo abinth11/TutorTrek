@@ -129,7 +129,7 @@ const AdminHomePage: React.FC = () => {
         </div>
         <div className='px-4 w-6/12'>
           <Typography variant='h4' color='blue-gray' className='mb-4'>
-            Top Instructors
+            Categories
           </Typography>
           <EnrollmentAndProgressChart data={pdata} />
         </div>

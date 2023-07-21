@@ -27,13 +27,65 @@ export const paymentRepositoryMongodb = () => {
     ];
     const revenue: Array<{ _id: null; totalAmount: number }> =
       await Payment.aggregate(pipeline);
-      
+
     return revenue[0].totalAmount;
+  };
+
+  const getRevenueForEachMonth = async () => {
+    const revenueByMonth = await Payment.aggregate([
+      {
+        $group: {
+          _id: {
+            $month: '$createdAt'
+          },
+          totalRevenue: { $sum: '$amount' } 
+        }
+      },
+      {
+        $project: {
+          month: '$_id',
+          totalRevenue: 1,
+          _id: 0
+        }
+      },
+      {
+        $sort: {
+          month: 1
+        }
+      }
+    ]);
+    return revenueByMonth;
+  };
+
+  const getCoursesEnrolledPerMonth = async () => {
+    const enrolled = await Payment.aggregate([
+      {
+        $group: {
+          _id: { $month: '$createdAt' },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          month: '$_id',
+          count: 1,
+          _id: 0
+        }
+      },
+      {
+        $sort: {
+          month: 1
+        }
+      }
+    ]);
+    return enrolled
   };
 
   return {
     savePaymentInfo,
-    getMonthlyRevenue
+    getMonthlyRevenue,
+    getRevenueForEachMonth,
+    getCoursesEnrolledPerMonth
   };
 };
 

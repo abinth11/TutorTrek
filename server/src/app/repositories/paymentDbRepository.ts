@@ -8,10 +8,16 @@ export const paymentInterface = (
     await repository.savePaymentInfo(paymentInfo);
 
   const getMonthlyRevenue = async () => await repository.getMonthlyRevenue();
-  
+
+  const getRevenueForEachMonth = async ()=> await repository.getRevenueForEachMonth()
+
+  const getCoursesEnrolledPerMonth = async ()=> await repository.getCoursesEnrolledPerMonth()
+
   return {
     savePayment,
-    getMonthlyRevenue
+    getMonthlyRevenue,
+    getRevenueForEachMonth,
+    getCoursesEnrolledPerMonth
   };
 };
 

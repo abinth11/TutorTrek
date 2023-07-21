@@ -26,9 +26,14 @@ export const courseDbRepository = (
 
   const getTrendingCourse = async () => await repository.getTrendingCourses();
 
-  const getCourseByStudent = async (studentId:string)=> await repository.getCourseByStudent(studentId)
+  const getCourseByStudent = async (studentId: string) =>
+    await repository.getCourseByStudent(studentId);
 
-  const getTotalNumberOfCourses = async()=> await repository.getTotalNumberOfCourses()
+  const getTotalNumberOfCourses = async () =>
+    await repository.getTotalNumberOfCourses();
+
+  const getNumberOfCoursesAddedInEachMonth = async () =>
+    await repository.getNumberOfCoursesAddedInEachMonth();
 
   return {
     addCourse,
@@ -40,7 +45,8 @@ export const courseDbRepository = (
     getRecommendedCourseByStudentInterest,
     getTrendingCourse,
     getCourseByStudent,
-    getTotalNumberOfCourses
+    getTotalNumberOfCourses,
+    getNumberOfCoursesAddedInEachMonth
   };
 };
 export type CourseDbRepositoryInterface = typeof courseDbRepository;

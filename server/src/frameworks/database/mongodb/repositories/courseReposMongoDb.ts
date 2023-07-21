@@ -120,6 +120,7 @@ export const courseRepositoryMongodb = () => {
       {
         $project: {
           title: '$title',
+          coursesEnrolled: '$coursesEnrolled',
           thumbnail: '$thumbnail',
           instructorFirstName: { $arrayElemAt: ['$instructor.firstName', 0] },
           instructorLastName: { $arrayElemAt: ['$instructor.lastName', 0] }
@@ -143,6 +144,30 @@ export const courseRepositoryMongodb = () => {
     return totalCourses;
   };
 
+  const getNumberOfCoursesAddedInEachMonth = async () => {
+    const courseCountsByMonth = await Course.aggregate([
+      {
+        $group: {
+          _id: { $month: '$createdAt' },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          month: '$_id',
+          count: 1,
+          _id: 0
+        }
+      },
+      {
+        $sort: {
+          month: 1
+        }
+      }
+    ]);
+    return courseCountsByMonth
+  };
+
   return {
     addCourse,
     getAllCourse,
@@ -153,7 +178,8 @@ export const courseRepositoryMongodb = () => {
     getRecommendedCourseByStudentInterest,
     getTrendingCourses,
     getCourseByStudent,
-    getTotalNumberOfCourses
+    getTotalNumberOfCourses,
+    getNumberOfCoursesAddedInEachMonth
   };
 };
 

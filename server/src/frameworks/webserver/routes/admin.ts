@@ -10,6 +10,8 @@ import { studentDbRepository } from '../../../app/repositories/studentDbReposito
 import { studentRepositoryMongoDB } from '../../../frameworks/database/mongodb/repositories/studentsRepoMongoDb';
 import { paymentInterface } from '../../../app/repositories/paymentDbRepository';
 import { paymentRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/paymentRepoMongodb';
+import {  categoryDbInterface } from '../../../app/repositories/categoryDbRepository';
+import { categoryRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/categoryRepoMongoDb';
 
 const adminRouter = () => {
   const router = express.Router();
@@ -23,11 +25,15 @@ const adminRouter = () => {
     studentDbRepository,
     studentRepositoryMongoDB ,
     paymentInterface,
-    paymentRepositoryMongodb
+    paymentRepositoryMongodb,
+    categoryDbInterface,
+    categoryRepositoryMongodb
   );
 
   router.get("/dashboard-details",controller.getDashBoardDetails)
  
+  router.get('/graph-data',controller.getGraphDetails)
+
   return router;
 };
 

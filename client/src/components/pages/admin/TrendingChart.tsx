@@ -30,6 +30,7 @@ const TrendingCoursesChart: React.FC<Props> = ({ data }) => {
     plotOptions: {
       bar: {
         horizontal: false,
+        columnWidth:35
       },
     },
   };
@@ -46,8 +47,8 @@ const TrendingCoursesChart: React.FC<Props> = ({ data }) => {
       <ReactApexChart
         options={chartOptions}
         series={chartSeries}
-        type="bar"
-        height={300}
+        type="bar" 
+        height={255}
       />
     </div>
   );
