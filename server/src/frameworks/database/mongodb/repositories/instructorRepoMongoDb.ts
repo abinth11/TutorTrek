@@ -96,7 +96,7 @@ export const instructorRepoMongoDb = () => {
   };
 
   const getInstructorById = async (instructorId: string) => {
-    const instructor = await Instructor.findOne({
+    const instructor:SavedInstructorInterface|null = await Instructor.findOne({
       _id: new mongoose.Types.ObjectId(instructorId)
     });
     return instructor;
@@ -107,6 +107,19 @@ export const instructorRepoMongoDb = () => {
     return total;
   };
 
+  const changePassword = async (id: string, password: string) => {
+    await Instructor.updateOne(
+      { _id: new mongoose.Types.ObjectId(id) },
+      { password }
+    );
+  };
+
+  const updateProfile = async (id: string, instructorInfo: SavedInstructorInterface) => {
+    await Instructor.updateOne(
+      { _id: new mongoose.Types.ObjectId(id) },
+      { ...instructorInfo }
+    );
+  };
   return {
     addInstructor,
     getInstructorByEmail,
@@ -119,7 +132,9 @@ export const instructorRepoMongoDb = () => {
     unblockInstructors,
     getBlockedInstructors,
     getInstructorById,
-    getTotalNumberOfInstructors
+    getTotalNumberOfInstructors,
+    changePassword,
+    updateProfile
   };
 };
 

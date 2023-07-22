@@ -117,5 +117,8 @@ export const getInstructorByIdUseCase = async (
     throw new AppError('Invalid instructor id', HttpStatusCodes.BAD_REQUEST);
   }
   const instructor = await instructorRepository.getInstructorById(instructorId);
+  if (instructor) {
+    instructor.password = 'no password';
+  }
   return instructor;
 };

@@ -1,5 +1,6 @@
 import { InstructorRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/instructorRepoMongoDb';
 import { InstructorInterface } from '@src/types/instructorInterface';
+import { SavedInstructorInterface } from '@src/types/instructorInterface';
 
 export const instructorDbRepository = (
   repository: ReturnType<InstructorRepositoryMongoDb>
@@ -38,7 +39,11 @@ export const instructorDbRepository = (
   const getInstructorById = async (instructorId: string) =>
     await repository.getInstructorById(instructorId);
 
-  const getTotalNumberOfInstructors = async ()=> repository.getTotalNumberOfInstructors()
+  const getTotalNumberOfInstructors = async ()=> await repository.getTotalNumberOfInstructors()
+
+  const changePassword = async (id:string,password:string)=> await repository.changePassword(id,password)
+
+  const updateProfile = async (id:string,instructorInfo:SavedInstructorInterface)=> await repository.updateProfile(id,instructorInfo)
 
   return {
     addInstructor,
@@ -52,7 +57,9 @@ export const instructorDbRepository = (
     unblockInstructors,
     getBlockedInstructors,
     getInstructorById,
-    getTotalNumberOfInstructors
+    getTotalNumberOfInstructors,
+    changePassword,
+    updateProfile
   };
 };
 

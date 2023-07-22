@@ -1,7 +1,11 @@
 export interface InstructorInterface {
     firstName:string;
     lastName:string;
-    profilePic:string;
+    profilePic:{
+        name:string;
+        key?:string;
+        url?:string;
+    };
     email: string;
     mobile:number;
     qualifications:string;
