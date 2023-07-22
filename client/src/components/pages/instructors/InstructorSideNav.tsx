@@ -10,6 +10,8 @@ import { Square3Stack3DIcon } from "@heroicons/react/24/outline";
 import { useLocation } from "react-router-dom";
 import {IoMdChatboxes} from 'react-icons/io'
 import { FaUserGraduate } from "react-icons/fa";
+import {UserCircleIcon} from "@heroicons/react/24/outline";
+
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -41,9 +43,9 @@ const routes = [
   },
   {
     title:"My Profile",
-    icon:<FaUserGraduate {...icon}/>,
-    value:"view-students",
-    path:"/instructors/view-students"
+    icon:<UserCircleIcon {...icon}/>,
+    value:"view-profile",
+    path:"/instructors/view-profile"
   },
   {
     title:"Channels",
