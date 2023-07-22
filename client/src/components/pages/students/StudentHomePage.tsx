@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import Carousel from "../../elements/Carousel";
 import TrendingCard from "../home/TrendingCard";
 import RecommendedCard from "../home/RecommendedCard";
-import { toast } from "react-toastify";
 import { ApiResponseRecommended } from "../../../api/types/apiResponses/apiResponseHomePageListing";
 import TrendingCardShimmer from "../../Shimmers/ShimmerTrendingCourse";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 import { useSelector } from "react-redux";
+import { Typography } from "@material-tailwind/react";
 import {
   getTrendingCourses,
   getRecommendedCourses,
 } from "../../../api/endpoints/course/course";
 import { ApiResponseTrending } from "../../../api/types/apiResponses/apiResponseHomePageListing";
+import { Link } from "react-router-dom";
 
 const StudentHomePage: React.FC = () => {
   const [trendingCourses, setTrendingCourses] = useState<
@@ -22,15 +23,15 @@ const StudentHomePage: React.FC = () => {
   >(null);
   const [showMoreTrending, setShowMoreTrending] = useState(false);
   const [showMoreRecommended, setShowMoreRecommended] = useState(false);
-  const [cardsToShow, setCardsToShow] = useState(3);
+  const [cardsToShow, setCardsToShow] = useState(6);
   const [isLoadingTrending, setIsLoadingTrending] = useState(false);
   const [isLoadingRecommended, selectIsLoadingRecommended] = useState(false);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-
+  const isLoggedIn = useSelector(selectIsLoggedIn);  
+   
   const fetchTrendingCourses = async () => {
     try {
       setIsLoadingTrending(true);
-      const response = await getTrendingCourses();
+      const response = await getTrendingCourses();  
       setTrendingCourses(response.data);
       setTimeout(() => {
         setIsLoadingTrending(false);
@@ -66,12 +67,12 @@ const StudentHomePage: React.FC = () => {
 
   const handleShowMoreTrending = () => {
     setShowMoreTrending(true);
-    setCardsToShow((prevCardsToShow) => prevCardsToShow + 3); // Increment the number of cards to show
+    setCardsToShow((prevCardsToShow) => prevCardsToShow + 3);
   };
 
   const handleShowMoreRecommended = () => {
     setShowMoreRecommended(true);
-    setCardsToShow((prevCardsToShow) => prevCardsToShow + 3); // Increment the number of cards to show
+    setCardsToShow((prevCardsToShow) => prevCardsToShow + 3);
   };
   if (isLoadingTrending || isLoadingRecommended) {
     return (
@@ -79,12 +80,15 @@ const StudentHomePage: React.FC = () => {
         <Carousel />
         <div className='lg:p-10 md:p-7 pt-7 sm:p-8 w-full'>
           <div className='ml-10 flex items-center justify-start w-9/12'>
-            <h2 className='p-2 text-customFontColorBlack md:text-4xl sm:text-4xl font-bold'>
+            <Typography
+              variant='h1'
+              className='text-2xl  lg:text-4xl p-2 ml-2  font-semibold'
+            >
               Trending Courses
-            </h2>
+            </Typography>
           </div>
           <div className='flex items-center justify-between px-10 flex-wrap'>
-            {Array.from({ length: 3 }).map((_, index) => (
+            {Array.from({ length: 6}).map((_, index) => (
               <TrendingCardShimmer key={index} />
             ))}
           </div>
@@ -92,13 +96,16 @@ const StudentHomePage: React.FC = () => {
         {isLoggedIn && (
           <div className='lg:p-10 md:p-7 pt-5 sm:p-8 w-full'>
             <div className='ml-10 flex items-center justify-start w-9/12'>
-              <h2 className='p-2 text-customFontColorBlack md:text-4xl sm:text-3xl font-bold'>
-                Recommended courses
-              </h2>
+              <Typography
+                variant='h1'
+                className='text-2xl  p-2 ml-2 lg:text-4xl font-semibold'
+              >
+                Recommended Courses
+              </Typography>    
             </div>
             <div className='flex items-center justify-between pt-2 px-10 flex-wrap'>
-              {Array.from({ length: 3 }).map((_, index) => (
-                <TrendingCardShimmer key={index} />
+              {Array.from({ length: 6 }).map((_, index) => (
+                <TrendingCardShimmer key={index} />  
               ))}
             </div>
           </div>
@@ -113,52 +120,57 @@ const StudentHomePage: React.FC = () => {
         <Carousel />
       </div>
       <div className='lg:p-10 md:p-7 pt-7 sm:p-8 w-full'>
-        <div className='ml-10 flex items-center justify-start w-9/12'>
-          <h2 className='p-2 text-customFontColorBlack md:text-4xl sm:text-4xl font-bold'>
-            Trending Courses
-          </h2>
-        </div>
+  <div className='ml-10  flex items-center justify-start w-9/12'>
+    <Typography
+      variant='h1'
+      className='text-2xl  p-2 ml-2 lg:text-4xl font-semibold'
+    >
+      Trending Courses
+    </Typography>
+  </div>
 
-        <div className='flex items-center justify-between px-10  flex-wrap'>
-          {trendingCourses?.slice(0, cardsToShow).map((course, index) => {
-            return (
-              <React.Fragment key={course._id}>
-                {/* <Link to={`/courses/${course._id}`} className=''> */}
-                <TrendingCard courseInfo={course} />
-                {/* </Link>   */}
-                {index === cardsToShow - 1 &&
-                  trendingCourses.length > cardsToShow && (
-                    <div className='flex-none'>
-                      <div className='flex-shrink-0'>
-                        <button
-                          className='text-customFontColorBlack hover:text-blue-gray-600 font-bold px-6 rounded'
-                          onClick={handleShowMoreTrending}
-                        >
-                          View More
-                        </button>
-                      </div>
-                    </div>
-                  )}
-              </React.Fragment>
-            );
-          })}
-        </div>
+  <div className='flex items-center justify-between px-10 flex-wrap'>
+    {trendingCourses?.slice(0, cardsToShow).map((course, index) => {
+      return (
+        <React.Fragment key={course._id}>
+          <Link to={`/courses/${course._id}`} className=''>
+            <TrendingCard courseInfo={course} />
+          </Link>
+        </React.Fragment>
+      );
+    })}
+  </div>
+  {trendingCourses && trendingCourses.length > cardsToShow && (
+    <div className='md:flex-shrink-0 mt-3 ml-6'>
+      <div className='flex-shrink-0'>
+        <button
+          className='text-customFontColorBlack ml-3 hover:text-blue-gray-600 font-bold px-6 rounded'
+          onClick={handleShowMoreTrending}
+        >
+          View More
+        </button>
       </div>
+    </div>
+  )}
+</div>
 
       {recommendedCourses && (
         <div className='lg:p-10 md:p-7 pt-5 sm:p-8 w-full'>
           <div className='ml-10 flex items-center justify-start w-9/12'>
-            <h2 className='p-2 text-customFontColorBlack md:text-4xl sm:text-3xl font-bold'>
-              Recommended courses
-            </h2>
+            <Typography
+              variant='h1'
+              className='text-2xl  p-2 ml-2 lg:text-4xl font-semibold'
+            >
+              Recommended Courses
+            </Typography>
           </div>
           <div className='flex items-center justify-between pt-2 px-10 flex-wrap'>
             {recommendedCourses?.slice(0, cardsToShow).map((course, index) => {
               return (
                 <React.Fragment key={course._id}>
-                  {/* <Link to={`/courses/${course._id}`} className=''> */}
-                  <RecommendedCard courseInfo={course} />
-                  {/* </Link> */}
+                  <Link to={`/courses/${course._id}`} className=''>
+                    <RecommendedCard courseInfo={course} />
+                  </Link>
                   {!showMoreRecommended &&
                     index === cardsToShow - 1 &&
                     recommendedCourses.length > cardsToShow && (

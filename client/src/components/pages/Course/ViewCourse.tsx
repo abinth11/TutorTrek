@@ -85,7 +85,7 @@ const ViewCourseStudent: React.FC = () => {
   //   });
   // }
   const enrolled = course?.coursesEnrolled.includes(studentId ?? "");
-  return (
+  return (   
     <div className='bg-white'>
       <LoginConfirmation
         confirm={loginConfirmation}
@@ -101,13 +101,12 @@ const ViewCourseStudent: React.FC = () => {
         }}
         setOpen={setOpenPaymentConfirmation}
       />
-      ;
-      <div className='flex flex-col pr-5 pt-5 pl-80  '>
+      <div className='flex flex-col pr-5 pl-3 pt-5 md:pl-50 lg:pl-80  '>
         <h2>{location.hash}</h2>
         <CustomBreadCrumbs paths={location.pathname} />
       </div>
       <div className='flex flex-col items-center '>
-        <div className='max-w-4xl overflow-hidden'>
+        <div className='max-w-4xl overflow-hidden  sm:p-3'>
           <div className='relative p-4 '>
             <img
               className='w-full h-64 object-cover'

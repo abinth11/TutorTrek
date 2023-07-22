@@ -16,14 +16,14 @@ import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 
 const WatchLessons: React.FC = () => {
- const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const [isLoadingAllLessons, setIsLoadingAllLessons] = useState(false);
   const [isLoadingLesson, setIsLoadingLesson] = useState(false);
   const [lesson, setLesson] = useState<ApiResponseLesson | null>(null);
   const [allLessons, setAllLessons] = useState<Array<ApiResponseLesson>>([]);
   const [videoKey, setVideoKey] = useState<string | null>(null);
   const { lessonId } = useParams();
-  const isLoggedIn = useSelector(selectIsLoggedIn)
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const [currentLessonId, setCurrentLessonId] = useState<string | undefined>(
     lessonId
   );
@@ -87,9 +87,9 @@ const WatchLessons: React.FC = () => {
   let content = null;
 
   if (selectedItemIndex === 0) {
-    content = <AboutLesson about={lesson?.description ??''} />;
+    content = <AboutLesson about={lesson?.description ?? ""} />;
   } else if (selectedItemIndex === 1) {
-    content = <Discussion lessonId={currentLessonId??''}/>;
+    content = <Discussion lessonId={currentLessonId ?? ""} />;
   } else {
     content = <Quizzes lessonId={lessonId} />;
   }
@@ -101,12 +101,22 @@ const WatchLessons: React.FC = () => {
       {isLoadingLesson ? (
         <ShimmerVideoPlayer />
       ) : (
-        <div className='w-3/4  overflow-y-scroll scrollbar-track-blue-gray-50 scrollbar-thumb-gray-400 scrollbar-thin scrollbar-h-md'>
+        <div className='md:w-3/4 w-full  overflow-y-scroll scrollbar-track-blue-gray-50 scrollbar-thumb-gray-400 scrollbar-thin scrollbar-h-md'>
           <div className='h-3/4'>
-            <VideoPlayer videoKey={videoKey} isCoursePurchased={false}  />
+            <VideoPlayer videoKey={videoKey} isCoursePurchased={true} />
           </div>
           <div className=''>
             <ul className='flex p-3'>
+              {/* <li
+                className={` block md:hidden ml-5 cursor-pointer ${
+                  selectedItemIndex === 0
+                    ? "border-b-4 rounded-b-md border-blue-gray-700"
+                    : ""
+                }`}
+                onClick={() => handleItemClick(0)}
+              >
+                Lessons
+              </li> */}
               <li
                 className={`ml-5 cursor-pointer ${
                   selectedItemIndex === 0
@@ -139,12 +149,10 @@ const WatchLessons: React.FC = () => {
               </li>
             </ul>
           </div>
-          <div className='pl-8 pr-8 pb-12 pt-4'>
-            {content}
-          </div>
+          <div className='pl-8 pr-8 pb-12 pt-4'>{content}</div>
         </div>
       )}
-      <div className='w-1/4 flex-grow mt-3 mb-2 overflow-y-scroll  scrollbar-thumb-gray-400  scrollbar-rounded scrollbar-track-gray-200 scrollbar-thin'>
+      <div className='w-1/4 hidden md:block flex-grow mt-3 mb-2 overflow-y-scroll  scrollbar-thumb-gray-400  scrollbar-rounded scrollbar-track-gray-200 scrollbar-thin'>
         <h1 className='font-semibold text-blue-gray-800 text-2xl border-b border-gray-300 p-2'>
           Lessons
         </h1>
@@ -156,7 +164,11 @@ const WatchLessons: React.FC = () => {
                 setCurrentLessonId(lesson._id);
               }}
               className={`p-6 border-b-2 flex items-center cursor-pointer 
-              ${lesson._id === currentLessonId ? "bg-gray-200 hover:bg-gray-200" : "hover:bg-gray-100"}
+              ${
+                lesson._id === currentLessonId
+                  ? "bg-gray-200 hover:bg-gray-200"
+                  : "hover:bg-gray-100"
+              }
               `}
             >
               <BiVideo className='mr-2 text-blue-500' />

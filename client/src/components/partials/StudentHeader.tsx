@@ -13,8 +13,9 @@ const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "Courses", href: "/courses", current: false },
   { name: "Tutors", href: "/tutors", current: false },
-  { name: "Community", href: "#", current: false },
-  { name: "Contact", href: "#", current: false },
+  { name: "Community", href: "/community", current: false },
+  { name: "About", href: "/about", current: false },
+  { name: "Contact", href: "/contact", current: false },
 ];
 
 function classNames(...classes: any) {
@@ -30,22 +31,21 @@ const StudentHeader: React.FC = () => {
       navItem.current = navItem.href === item.href;
     });
   };
-
+      
   return (
-    <div className='bg-gray-100  z-10 w-full  border-b-2'>
-      <Disclosure as='nav' className='bg-white p-1 flex justify-center pl-10 pr-10'>
+    <div className='bg-gray-100 border-b border-b-gray-300 '>
+      <Disclosure
+        as='nav'
+        className='bg-white pl-8 pr-8 p-2 md:p-2 lg:p-3 lg:flex lg:justify-center'
+      >
         {({ open }) => (
           <>
-            <div className='max-w-full sm:px-6 lg:px-2 w-11/12'>
-              <div className='flex items-center justify-between h-16  '>
+            <div className='max-w-full sm:px-6 lg:px-2 md:w-full lg:w-full  '>
+              <div className='flex items-center justify-between md:h-14 lg:h-16'>
                 <div className='flex items-center'>
-                  <div className='flex-shrink-0'>
+                  <div className='flex-shrink-0 '>
                     <Link to='/'>
-                      <img
-                        className='h-12 w-15'
-                        src={APP_LOGO}
-                        alt='Your Company'
-                      />
+                      <img className='h-10' src={APP_LOGO} alt='Your Company' />
                     </Link>
                   </div>
                   <div className='hidden md:block'>
@@ -58,7 +58,7 @@ const StudentHeader: React.FC = () => {
                           className={classNames(
                             item.current
                               ? "bg-blue-gray-500 text-white font-semibold"
-                              : "text-blue-gray-800 hover:text-blue-gray-900 font-semibold hover:bg-gray-300 ",
+                              : "text-blue-gray-600 hover:text-blue-gray-800 font-semibold hover:bg-gray-300 ",
                             "rounded-md px-3 py-2 text-sm font-medium"
                           )}
                           aria-current={item.current ? "page" : undefined}
@@ -66,15 +66,17 @@ const StudentHeader: React.FC = () => {
                           {item.name}
                         </Link>
                       ))}
-                      <SearchBar />
+                      {/* <SearchBar /> */}
                     </div>
                   </div>
                 </div>
                 {isLoggedIn ? (
-                  <div className='hidden md:flex items-center justify-between'>
+                  <div className='hidden md:ml-5 md:flex items-center justify-between'>
                     <div className=''>
-                      <Link to="/dashboard">
-                      <Button size="md" color="blue-gray">Dashboard</Button>
+                      <Link to='/dashboard'>
+                        <Button size='md' color='blue-gray'>
+                          Dashboard
+                        </Button>
                       </Link>
                     </div>
                     <div className=' pl-3 ml-3 items-end'>
@@ -82,23 +84,25 @@ const StudentHeader: React.FC = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className='hidden md:flex items-center'>
-                    <div className='space-x-4'>
-                      <Link to='/login'>
-                        <button className='bg-blue-gray-300 hover:bg-blue-gray-500 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
-                          Login
-                        </button>
-                      </Link>
-                      <Link to='/register'>
-                        <button className='bg-blue-gray-300 hover:bg-blue-gray-500  text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
-                          Register
-                        </button>
-                      </Link>
-                      <Link to='/instructors/login'>
-                        <button className='bg-purple-800 hover:bg-purple-900 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
-                          Instructor Login
-                        </button>
-                      </Link>
+                  <div className='overflow-hidden'>
+                    <div className='hidden h-8 w-64 lg:mt-3 lg:h-12 lg:w-72 md:flex'>
+                      <div className='space-x-4 '>
+                        <Link to='/login'>
+                          <button className='bg-blue-gray-300 hover:bg-blue-gray-500 text-xs lg:text-sm text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline'>
+                            Login
+                          </button>
+                        </Link>
+                        <Link to='/register'>
+                          <button className='bg-blue-gray-300 hover:bg-blue-gray-500  text-xs lg:text-sm text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline'>
+                            Register
+                          </button>
+                        </Link>
+                        <Link to='/instructors/login'>
+                          <button className='bg-purple-800 hover:bg-purple-900 text-xs text-white lg:text-sm font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline'>
+                            Instructor Login
+                          </button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -114,7 +118,7 @@ const StudentHeader: React.FC = () => {
                 </div>
               </div>
             </div>
-            <Disclosure.Panel className='md:hidden'>
+            <Disclosure.Panel className='lg:hidden'>
               <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3'>
                 {navigation.map((item) => (
                   <Link
@@ -123,8 +127,8 @@ const StudentHeader: React.FC = () => {
                     onClick={() => handleNavigation(item)}
                     className={classNames(
                       item.current
-                        ? "bg-blue-gray-700 text-white"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                        ? "bg-blue-gray-500 text-white"
+                        : "text-blue-gray-600 hover:bg-gray-300 hover:text-blue-gray-800",
                       "block rounded-md px-3 py-2 text-base font-medium"
                     )}
                     aria-current={item.current ? "page" : undefined}

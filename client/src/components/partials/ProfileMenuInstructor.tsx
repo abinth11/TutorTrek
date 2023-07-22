@@ -1,31 +1,35 @@
-import  { useState,useEffect} from "react";
+import React,{ useState,useEffect} from "react";
 import {
   Button,
   Menu,    
   MenuHandler,
   MenuList,
   Avatar,       
+  MenuItem,
+  Typography
 } from "@material-tailwind/react";
 import {
   ChevronDownIcon,
+  Cog6ToothIcon,
   InboxArrowDownIcon,
   LifebuoyIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
 import { getProfileUrl } from "../../api/endpoints/student";
 import { toast } from "react-toastify";
+import {UserCircleIcon} from "@heroicons/react/24/outline";
 
 
 // profile menu component
 const profileMenuItems = [
-  // {
-  //   label: "My Profile",
-  //   icon: UserCircleIcon,
-  // },
-  // {
-  //   label: "Edit Profile",
-  //   icon: Cog6ToothIcon,
-  // },
+  {
+    label: "My Profile",
+    icon: UserCircleIcon,
+  },
+  {
+    label: "Edit Profile",
+    icon: Cog6ToothIcon,
+  },
   {
     label: "Inbox",
     icon: InboxArrowDownIcon,
@@ -85,34 +89,33 @@ export function ProfileMenu() {
           />
         </Button>
       </MenuHandler>
-      <MenuList className="p-1">
-        {/* {profileMenuItems.map(({ label, icon }, key) => {
+      <MenuList className="p-1">{profileMenuItems?.map(({ label, icon }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
-          // return (
-          //   <MenuItem
-          //     key={label}
-          //     onClick={closeMenu}
-          //     className={`flex items-center gap-2 rounded ${
-          //       isLastItem
-          //         ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-          //         : ""
-          //     }`}
-          //   >
-          //     {React.createElement(icon, {
-          //       className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
-          //       strokeWidth: 2,
-          //     })}
-          //     <Typography
-          //       as="span"
-          //       variant="small"
-          //       className="font-normal"
-          //       color={isLastItem ? "red" : "inherit"}
-          //     >
-          //       {label}
-          //     </Typography>
-          //   </MenuItem>
-          // );
-        })} */}
+           return (
+             <MenuItem
+               key={label}
+              onClick={closeMenu}
+               className={`flex items-center gap-2 rounded ${
+                 isLastItem
+                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                   : ""
+               }`}
+             >
+               {React.createElement(icon, {
+                 className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
+                 strokeWidth: 2,
+               })}
+               <Typography
+                 as="span"
+                 variant="small"
+                 className="font-normal"
+                 color={isLastItem ? "red" : "inherit"}
+               >
+                 {label}
+               </Typography>
+             </MenuItem>
+           );
+        })}
       </MenuList>
     </Menu>
   );

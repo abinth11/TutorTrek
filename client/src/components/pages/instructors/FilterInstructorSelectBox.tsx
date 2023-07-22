@@ -44,7 +44,7 @@ const FilterInstructorSelectBox:React.FC<Props> = ({handleSelect})=> {
           isSearchable={true}
           name='color'
           onChange={handleSelectChange}
-          placeholder='Filter by Expertise'
+          placeholder='Filter...'  
           options={categories.map((category) => ({
             value: category?.name,
             label: category?.name,

@@ -3,7 +3,7 @@ import React from "react";
 const ShimmerEffectWatchLessons: React.FC = () => {
   return (
     <div className="flex h-screen pb-16">
-      <div className="w-3/4 overflow-y-scroll scrollbar-track-blue-gray-50 scrollbar-thumb-gray-400 scrollbar-thin scrollbar-h-md">
+      <div className="md:w-3/4 w-full overflow-y-scroll scrollbar-track-blue-gray-50 scrollbar-thumb-gray-400 scrollbar-thin scrollbar-h-md">
         <div className="h-3/4 bg-gray-200 rounded-lg p-4"></div>
         <div className="bg-gray-200 p-3">
           <ul className="flex p-3">
@@ -17,7 +17,7 @@ const ShimmerEffectWatchLessons: React.FC = () => {
           <h3 className="w-full h-20 bg-gray-300 rounded"></h3>
         </div>
       </div>
-      <div className="w-1/4 flex-grow overflow-y-scroll scrollbar-thumb-gray-400 scrollbar-rounded scrollbar-track-gray-200 scrollbar-thin">
+      <div className="w-1/4 hidden md:block flex-grow overflow-y-scroll scrollbar-thumb-gray-400 scrollbar-rounded scrollbar-track-gray-200 scrollbar-thin">
         <h1 className="font-semibold text-blue-gray-800 text-2xl border-b border-gray-300 p-2 bg-gray-200 rounded"></h1>
         <ul>
           <li className="p-6 border-b flex items-center cursor-pointer hover:bg-blue-gray-50">
