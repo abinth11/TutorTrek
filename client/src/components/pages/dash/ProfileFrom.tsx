@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { updateProfile } from "../../../api/endpoints/student";
 import { UpdateProfileInfo } from "../../../api/types/student/student";
 import { Avatar } from "@material-tailwind/react";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectStudent,
   selectIsFetchingStudent,
@@ -13,15 +13,19 @@ import {
 } from "../../../redux/reducers/studentSlice";
 import { getProfileUrl } from "../../../api/endpoints/student";
 
-const ProfileForm = () => {
+interface Props {
+  editMode:boolean;
+  setEditMode:(val:boolean)=>void
+}
+const ProfileForm:React.FC<Props> = ({editMode,setEditMode}) => {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const studentInfo = useSelector(selectStudent)?.studentDetails;
   let isFetching = useSelector(selectIsFetchingStudent);
   const [loading, setLoading] = useState(false);
-  const [profileUrl,setProfileUrl]=useState<string>("")
+  const [profileUrl, setProfileUrl] = useState<string>("");
   const error = useSelector(selectStudentError);
-  const [updated,setUpdated] = useState(false)
-  const dispatch = useDispatch()
+  const [updated, setUpdated] = useState(false);
+  const dispatch = useDispatch();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -39,11 +43,11 @@ const ProfileForm = () => {
   };
   const fetchUrl = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await getProfileUrl();
-      setProfileUrl(response.data)
-      setLoading(false)
-    } catch (error:any) {
+      setProfileUrl(response.data);
+      setLoading(false);
+    } catch (error: any) {
       toast.error(error?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -51,7 +55,7 @@ const ProfileForm = () => {
   };
   useEffect(() => {
     fetchUrl();
-    dispatch(fetchStudentData())
+    dispatch(fetchStudentData());
   }, [updated]);
 
   useEffect(() => {
@@ -82,12 +86,13 @@ const ProfileForm = () => {
       if (fileInput) {
         fileInput.value = "";
       }
-      setUpdated(!updated)
+      setUpdated(!updated);
+      setEditMode(false);
       toast.success(response?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     } catch (error: any) {
-      setUpdated(!updated)
+      setUpdated(!updated);
       toast.error(error?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -123,8 +128,14 @@ const ProfileForm = () => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
+      <div>
+      </div>
       <div className='p-5 flex '>
-        <Avatar src={previewImage||profileUrl || "../profile.jpg"} alt='avatar' size='xl' />
+        <Avatar
+          src={previewImage || profileUrl || "../profile.jpg"}
+          alt='avatar'
+          size='xl'
+        />
         <div className='pl-4'>
           <label
             className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
@@ -148,6 +159,7 @@ const ProfileForm = () => {
             id='floating_first_name'
             value={formik.values.firstName}
             onChange={formik.handleChange}
+            disabled={!editMode}
             onBlur={formik.handleBlur}
             className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
             placeholder=' '
@@ -170,6 +182,7 @@ const ProfileForm = () => {
             value={formik.values.lastName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            disabled={!editMode}
             className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
             placeholder=' '
             required
@@ -189,6 +202,7 @@ const ProfileForm = () => {
           type='email'
           name='email'
           id='floating_email'
+          disabled={!editMode}
           value={formik.values.email}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -210,6 +224,7 @@ const ProfileForm = () => {
           type='text'
           name='mobile'
           id='floating_phone'
+          disabled={!editMode}
           value={formik.values.mobile}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -227,12 +242,14 @@ const ProfileForm = () => {
         </label>
       </div>
       <div className='relative pt-10 pr-1'>
-        <button
-          type='submit'
-          className='text-white absolute bottom-0 right-0  bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-        >
-          Update
-        </button>
+        {editMode && (
+          <button
+            type={"submit"}
+            className='text-white absolute bottom-0 right-0  bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+          >
+            Update
+          </button>
+        )}
       </div>
     </form>
   );

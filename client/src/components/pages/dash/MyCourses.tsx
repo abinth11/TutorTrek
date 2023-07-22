@@ -30,8 +30,8 @@ const MyCourses: React.FC = (props: Props) => {
   }, []);
 
   return (
-    <div className='w-full flex justify-center items-center '>
-      <div className='w-11/12'>
+    <div className='w-full flex justify-center items-center  '>
+      <div className='w-11/12 '>
         <div>
           <div className='pt-5 pb-2 w-full'>
             <h2 className='text-3xl font-semibold text-customFontColorBlack'>
@@ -46,7 +46,7 @@ const MyCourses: React.FC = (props: Props) => {
         </div>
         <div className='flex gap-x-10 h-full pb-10'>
           <div className=' w-full h-full   bg-white rounded-md '>
-            <div className='flex pt-10  pb-10 flex-wrap border border-gray-300 rounded-md items-center bg-white  justify-center gap-x-10 gap-y-5'>
+            <div className='flex pt-10  pb-10 flex-wrap border border-gray-300 rounded-md items-center bg-white  justify-center gap-x-10 gap-y-5 '>
               {loading
                 ? Array.from({ length: 4 }).map((_, index) => {
                     return <ProfileCardShimmer key={index} />;

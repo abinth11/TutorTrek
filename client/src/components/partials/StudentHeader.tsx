@@ -1,7 +1,6 @@
 import React from "react";
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import SearchBar from "../common/SearchBar";
 import { Link, useLocation } from "react-router-dom";
 import ProfileMenu from "../elements/ProfileMenu";
 import { selectIsLoggedIn } from "../../redux/reducers/authSlice";

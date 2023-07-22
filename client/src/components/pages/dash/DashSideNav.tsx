@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Card,
-  Typography,
   List,
   ListItem,
   ListItemPrefix,
