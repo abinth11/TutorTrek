@@ -22,28 +22,36 @@ const routes = [
     path:'/instructors/'
   },
   {
-    title: "View course",
+    title: "View courses",
     icon: <Square3Stack3DIcon {...icon} />,
     value: "view-course",
     path:'/instructors/view-course'
   },
   {
-    title: "Add course",
+    title: "Add courses",
     icon: <MdLibraryAdd {...icon} />,
     value: "add-course",
     path:'/instructors/add-course'
-  },{
+  },
+  {
+    title:"My students",
+    icon:<FaUserGraduate {...icon}/>,
+    value:"view-students",
+    path:"/instructors/view-students"
+  },
+  {
+    title:"My Profile",
+    icon:<FaUserGraduate {...icon}/>,
+    value:"view-students",
+    path:"/instructors/view-students"
+  },
+  {
     title:"Channels",
     icon:<IoMdChatboxes {...icon}/>,
     value:"view-channels",
     path:'/instructors/view-channels'
   },
-  {
-    title:"Students",
-    icon:<FaUserGraduate {...icon}/>,
-    value:"view-students",
-    path:"/instructors/view-students"
-  }
+  
 ];
 
 const InstructorSideNav: React.FC = () => {

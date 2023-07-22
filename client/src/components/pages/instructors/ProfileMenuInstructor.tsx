@@ -15,7 +15,7 @@ import {
   LifebuoyIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
-import { getProfileUrl } from "../../api/endpoints/student";
+import { getProfileUrl } from "../../../api/endpoints/student";
 import { toast } from "react-toastify";
 import {UserCircleIcon} from "@heroicons/react/24/outline";
 
