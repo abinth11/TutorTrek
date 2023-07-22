@@ -84,7 +84,7 @@ const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
           {discussions?.length}
         </div>
       </h2>
-      <div className='ml-3 mb-8'>
+      <div className='md:ml-3 mb-8'>
         <ul>
           {visibleCommentsList?.map((item, index) => {
             return (

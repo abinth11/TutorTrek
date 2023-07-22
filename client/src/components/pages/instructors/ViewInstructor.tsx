@@ -66,12 +66,12 @@ const ViewInstructor: React.FC = (props: Props) => {
       </div>
 
       <div className='flex justify-center items-center '>
-        <div className='w-11/12 md:w-8/12 -mt-10 md:-mt-20 bg-white shadow-xl rounded-xl h border border-gray-300 flex flex-col md:flex-row'>
-          <div className='w-full md:w-1/4 h-auto lg:p-5 lg:pt-10 md:h-full'>
-            <div className='  md:p-10 flex flex-col items-center md:items-start'>
+        <div className='w-11/12 md:w-8/12 p-5 -mt-10 md:-mt-20 bg-white shadow-xl rounded-xl h border border-gray-300 flex flex-col md:flex-row'>
+          <div className='w-full md:p-10 md:w-1/4 h-auto lg:p-5 lg:pt-10 md:h-full'>
+            <div className='  flex flex-col items-center '>
               <div className=' text-center'>
                 <Avatar
-                  className='h-32 w-32 mx-auto'
+                  className='h-32 w-32 mx-auto sm:mt-5'
                   src={
                     instructor?.profilePic ??
                     "https://img.freepik.com/free-icon/user_318-159711.jpg"

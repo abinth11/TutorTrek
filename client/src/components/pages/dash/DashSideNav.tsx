@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Card,
-  Typography,
   List,
   ListItem,
   ListItemPrefix,
@@ -55,14 +54,11 @@ const SideNav: React.FC = () => {
   };
   return (
     <Card className='fixed top-0  h-full w-full max-w-[17rem] p-3 rounded-none'>
-      <div className=' flex items-center gap-4  pl-3'>
+      <div className=' mb-1 p-1 flex items-center gap-4  pl-3'>
         <Link to='/'>
-          <img className='h-12 w-15' src={APP_LOGO} alt='brand' />
+          <img className='h-9 ' src={APP_LOGO} alt='brand' />
         </Link>
-        <Typography variant='h6' color='blue-gray'>
-          TutorTrek
-        </Typography>
-      </div>
+      </div>                 
       <List>
         <hr className='my-2 border-blue-gray-50' />
         {NavItems.map(({ icon, name, path }) => {

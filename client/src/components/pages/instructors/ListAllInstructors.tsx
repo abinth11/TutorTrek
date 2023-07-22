@@ -105,40 +105,40 @@ const ListAllInstructors: React.FC<Props> = () => {
   }
 
   return (
-    <div className='h-full pb-7'>
-      <div className='h-1/3 p-12 flex flex-col w-full bg-skyBlueCustom items-center justify-center'>
-        <div className='block text-center'>
-          <h1 className='p-2 text-customFontColorBlack md:text-4xl sm:text-4xl font-bold'>
+    <div className="h-full pb-7">
+      <div className="h-1/3 p-12 flex flex-col w-full bg-skyBlueCustom items-center justify-center">
+        <div className="block text-center">
+          <h1 className="p-2 text-customFontColorBlack md:text-4xl sm:text-4xl font-bold">
             Our Instructors
           </h1>
         </div>
-        <div className='block text-center'>
-          <p className='text-customFontColorBlack md:text-xl sm:text-4xl font-semibold'>
+        <div className="block text-center">
+          <p className="text-customFontColorBlack md:text-xl sm:text-4xl font-semibold">
             Meet Tutor Trek Subject Experts
           </p>
         </div>
       </div>
       <div>
-        <div className='flex p-3 bg-white justify-center'>
-          <div className='p-5 flex w-4/12'>
+        <div className="flex p-3 bg-white justify-center">
+          <div className="p-5 flex md:w-4/12 w-full gap-x-1">
             <FilterInstructorSelectBox handleSelect={handleSelect} />
-            <div className='relative w-1/2'>
+            <div className="relative flex-1 mt-2">
               <input
-                type='text'
+                type="text"
                 value={searchQuery}
                 onChange={handleSearchInputChange}
-                className='p-2 pr-8 mt-2 border rounded-md border-gray-300 focus:outline-none focus:border-blue-500 h-10'
-                placeholder='Search instructors...'
-              />
-              <div className='absolute top-1/2 right-5 transform -translate-y-1/2 text-gray-400 cursor-pointer'>
+                className="p-2 pr-8 border rounded-md border-gray-300 focus:outline-none focus:border-blue-500 h-10 w-full"
+                placeholder="Search..."
+              />  
+              <div  className="absolute top-5 right-3 transform -translate-y-1/2 text-gray-400 cursor-pointer">
                 <RiSearchLine size={20} />
               </div>
             </div>
           </div>
         </div>
-        <div className='p-10 flex items-center gap-y-10 bg-gray-50 justify-evenly flex-wrap'>
+        <div className="p-10 flex items-center gap-y-10 bg-gray-50 justify-evenly flex-wrap">
           {isSearchLoading ? (
-            <Spinner color='blue-gray' className='h-8 w-8' />
+            <Spinner color="blue-gray" className="h-8 w-8" />
           ) : filteredAndSearchedInstructors?.length ? (
             filteredAndSearchedInstructors?.map((instructor) => (
               <Link key={instructor._id} to={`/tutors/${instructor._id}`}>
@@ -146,7 +146,7 @@ const ListAllInstructors: React.FC<Props> = () => {
               </Link>
             ))
           ) : (
-            <div className='p-3 text-customFontColorBlack font-light'>
+            <div className="p-3 text-customFontColorBlack font-light">
               No results found.
             </div>
           )}
@@ -154,6 +154,7 @@ const ListAllInstructors: React.FC<Props> = () => {
       </div>
     </div>
   );
+
 };
 
 export default ListAllInstructors;

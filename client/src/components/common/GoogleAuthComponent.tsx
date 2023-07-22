@@ -39,7 +39,7 @@ function GoogleAuthComponent(): JSX.Element {
     <div className='mb-5 '>
       <div className="flex justify-center">
       <GoogleLogin
-        width="352px"
+        width="280px" // Small devices
         size='large'
         // theme="filled_blue"
         logo_alignment="center"

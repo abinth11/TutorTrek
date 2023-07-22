@@ -11,7 +11,7 @@ export const TrendingCardShimmer: React.FC = () => {
   return (
     <Card
       shadow={false}
-      className='relative m-5 grid h-[30rem] my-6 w-full max-w-[24rem] items-end justify-center overflow-hidden text-center'
+      className='relative m-5 grid h-[30rem] sm:h-[28rem] sm:w-[22rem] w-[24rem] my-6   items-end justify-center overflow-hidden text-center'
     >
       <CardHeader
         floated={false}
