@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import { CourseRepositoryMongoDbInterface } from '../../frameworks/database/mongodb/repositories/courseReposMongoDb';
 import { CourseDbRepositoryInterface } from '../../app/repositories/courseDbRepository';
 import { addCourses } from '../../app/usecases/course/addCourse';
-import { AddCourseInfoInterface } from '../../types/courseInterface';
+import { AddCourseInfoInterface, EditCourseInfo } from '../../types/courseInterface';
 import { CustomRequest } from '../../types/customRequest';
 import {
   getAllCourseU,
@@ -40,6 +40,7 @@ import {
   getRecommendedCourseByStudentU,
   getTrendingCourseU
 } from '../../app/usecases/course/recommendation';
+import { editCourseU } from '../../app/usecases/course/editCourse';
 
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
@@ -93,6 +94,40 @@ const courseController = (
         status: 'success',
         message:
           'Successfully added new course, course will be published after verification',
+        data: response
+      });
+    }
+  );
+
+  const editCourse = asyncHandler(
+    async (req: CustomRequest, res: Response, next: NextFunction) => {
+      const course: EditCourseInfo = req.body;
+      const files: Express.Multer.File[] = req.files as Express.Multer.File[];
+      const instructorId = req.user?.Id;
+      const courseId:string = req.params.courseId
+      if (instructorId) {
+        course.instructorId = instructorId;
+      }
+      if (files) {
+        const images = files
+          .filter((file) => file.mimetype.startsWith('image/'))
+          .map((file) => file.path);
+        const videos = files
+          .filter((file) => file.mimetype.startsWith('video/'))
+          .map((file) => file.path);
+
+        if (images.length > 0) {
+          course.thumbnail = images[0];
+        }
+        if (videos.length > 0) {
+          course.introductionVideo = videos[0];
+        }
+      }
+      const response = await editCourseU(courseId,course, dbRepositoryCourse);
+      res.status(200).json({
+        status: 'success',
+        message:
+          'Successfully edited the course',
         data: response
       });
     }
@@ -336,6 +371,7 @@ const courseController = (
 
   return {
     addCourse,
+    editCourse,
     getAllCourses,
     getIndividualCourse,
     getCoursesByInstructor,

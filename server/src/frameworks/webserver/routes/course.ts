@@ -3,7 +3,10 @@ import courseController from '../../../adapters/controllers/courseController';
 import { courseRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/courseReposMongoDb';
 import { courseDbRepository } from '../../../app/repositories/courseDbRepository';
 import { uploadImageAndVideo } from '../middlewares/imageUpload';
-import { instructorRoleCheckMiddleware, studentRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
+import {
+  instructorRoleCheckMiddleware,
+  studentRoleCheckMiddleware
+} from '../middlewares/roleCheckMiddleware';
 import { cloudServiceInterface } from '../../../app/services/cloudServiceInterface';
 import { s3Service } from '../../../frameworks/services/s3CloudService';
 import upload from '../middlewares/multer';
@@ -39,6 +42,14 @@ const courseRouter = () => {
     instructorRoleCheckMiddleware,
     uploadImageAndVideo,
     controller.addCourse
+  );
+
+  router.put(
+    '/instructors/edit-course',
+    jwtAuthMiddleware,
+    instructorRoleCheckMiddleware,
+    uploadImageAndVideo,
+    controller.editCourse
   );
 
   router.get('/get-all-courses', controller.getAllCourses);
@@ -118,7 +129,11 @@ const courseRouter = () => {
 
   router.get('/get-trending-courses', controller.getTrendingCourses);
 
-  router.get('/get-course-by-student',jwtAuthMiddleware,controller.getCourseByStudent)
+  router.get(
+    '/get-course-by-student',
+    jwtAuthMiddleware,
+    controller.getCourseByStudent
+  );
 
   return router;
 };

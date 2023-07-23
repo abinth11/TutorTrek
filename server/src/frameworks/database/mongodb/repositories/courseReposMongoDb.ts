@@ -1,7 +1,10 @@
 import Course from '../models/course';
 import mongoose from 'mongoose';
 import Students from '../models/student';
-import { AddCourseInfoInterface } from '@src/types/courseInterface';
+import {
+  AddCourseInfoInterface,
+  EditCourseInfo
+} from '@src/types/courseInterface';
 
 export const courseRepositoryMongodb = () => {
   const addCourse = async (courseInfo: AddCourseInfoInterface) => {
@@ -9,6 +12,14 @@ export const courseRepositoryMongodb = () => {
     newCourse.price ? (newCourse.isPaid = true) : (newCourse.isPaid = false);
     const { _id: courseId } = await newCourse.save();
     return courseId;
+  };
+
+  const editCourse = async (courseId: string, editInfo: EditCourseInfo) => {
+    const response = await Course.updateOne(
+      { _id: new mongoose.Types.ObjectId(courseId) },
+      { ...editInfo }
+    );
+    console.log(response);
   };
 
   const getAllCourse = async () => {
@@ -187,19 +198,19 @@ export const courseRepositoryMongodb = () => {
       {
         $project: {
           student: { $arrayElemAt: ['$studentDetails', 0] },
-          courseName:"$title"
+          courseName: '$title'
         }
       },
       {
-        $project:{
-          course:"$courseName",
-          firstName:"$student.firstName",
-          lastName:"$student.lastName",
-          email:"$student.email",
-          mobile:"$student.mobile",
-          dateJoined:"$student.dateJoined",
-          isBlocked:"$student.isBlocked",
-          profilePic:"$student.profilePic"
+        $project: {
+          course: '$courseName',
+          firstName: '$student.firstName',
+          lastName: '$student.lastName',
+          email: '$student.email',
+          mobile: '$student.mobile',
+          dateJoined: '$student.dateJoined',
+          isBlocked: '$student.isBlocked',
+          profilePic: '$student.profilePic'
         }
       }
     ]);
@@ -208,6 +219,7 @@ export const courseRepositoryMongodb = () => {
 
   return {
     addCourse,
+    editCourse,
     getAllCourse,
     getCourseById,
     getCourseByInstructorId,

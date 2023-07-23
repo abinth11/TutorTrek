@@ -1,11 +1,13 @@
 import { CourseRepositoryMongoDbInterface } from '@src/frameworks/database/mongodb/repositories/courseReposMongoDb';
-import { AddCourseInfoInterface } from '@src/types/courseInterface';
+import { AddCourseInfoInterface, EditCourseInfo } from '@src/types/courseInterface';
 
 export const courseDbRepository = (
   repository: ReturnType<CourseRepositoryMongoDbInterface>
 ) => {
   const addCourse = async (courseInfo: AddCourseInfoInterface) =>
     await repository.addCourse(courseInfo);
+  
+  const editCourse = async (courseId:string,editInfo:EditCourseInfo)=> await repository.editCourse(courseId,editInfo)
 
   const getAllCourse = async () => await repository.getAllCourse();
 
@@ -40,6 +42,7 @@ export const courseDbRepository = (
 
   return {
     addCourse,
+    editCourse,
     getAllCourse,
     getCourseById,
     getCourseByInstructorId,
