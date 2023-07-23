@@ -19,7 +19,8 @@ export interface InstructorApiResponse {
     dateJoined: string
     __v: number
     rejected: boolean
-    rejectedReason: string
+    rejectedReason: string,
+    profileUrl:string;
 }
 
 interface Certificate {

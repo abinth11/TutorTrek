@@ -1,31 +1,24 @@
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import { updateProfile } from "../../../api/endpoints/student";
-import { UpdateProfileInfo } from "../../../api/types/student/student";
+import { updateProfile } from "../../../api/endpoints/instructor";
+import { UpdateProfileInfo } from "../../../api/types/instructor/instructor";
 import { Avatar } from "@material-tailwind/react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  selectStudent,
-  selectIsFetchingStudent,
-  selectStudentError,
-  fetchStudentData,
-} from "../../../redux/reducers/studentSlice";
-import { getProfileUrl } from "../../../api/endpoints/student";
+import { getIndividualInstructors } from "../../../api/endpoints/instructorManagement";
+import { InstructorApiResponse } from "../../../api/types/apiResponses/apiResponseInstructors";
 
 interface Props {
-  editMode:boolean;
-  setEditMode:(val:boolean)=>void
+  editMode: boolean;
+  setEditMode: (val: boolean) => void;
 }
-const ProfileForm:React.FC<Props> = ({editMode,setEditMode}) => {
+const ProfileForm: React.FC<Props> = ({ editMode, setEditMode }) => {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const studentInfo = useSelector(selectStudent)?.studentDetails;
-  let isFetching = useSelector(selectIsFetchingStudent);
-  const [loading, setLoading] = useState(false);
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [instructor, setInstructor] = useState<InstructorApiResponse | null>(
+    null
+  );
   const [profileUrl, setProfileUrl] = useState<string>("");
-  const error = useSelector(selectStudentError);
   const [updated, setUpdated] = useState(false);
-  const dispatch = useDispatch();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -41,30 +34,54 @@ const ProfileForm:React.FC<Props> = ({editMode,setEditMode}) => {
       formik.setFieldValue("profilePic", null);
     }
   };
-  const fetchUrl = async () => {
+  const fetchInstructor = async () => {
     try {
-      setLoading(true);
-      const response = await getProfileUrl();
-      setProfileUrl(response.data);
-      setLoading(false);
-    } catch (error: any) {
-      toast.error(error?.data?.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      setProfileLoading(true);
+      const response = await getIndividualInstructors("fromProfile");
+      setInstructor(response?.data?.data);
+      setProfileLoading(false);
+    } catch (error) {
+      setProfileLoading(false);
     }
   };
-  useEffect(() => {
-    fetchUrl();
-    dispatch(fetchStudentData());
-  }, [updated]);
 
   useEffect(() => {
-    if (!studentInfo) {
-      setLoading(true);
-    } else {
-      setLoading(false);
+    if (instructor) {
+      formik.setValues({
+        email: instructor.email || "",
+        firstName: instructor.firstName || "",
+        lastName: instructor.lastName || "",
+        mobile: instructor.mobile || "",
+        qualification: instructor?.qualification || "",
+        // subjects: instructor?.subjects || "",
+        experience: instructor?.experience || "",
+        skills: instructor?.skills || "",
+        about: instructor?.about || "",
+      });
     }
-  }, [studentInfo]);
+    setProfileUrl(instructor?.profileUrl ?? "");
+  }, [instructor]);
+
+  useEffect(() => {
+    fetchInstructor();
+  }, [updated]);
+
+  const formik = useFormik({
+    initialValues: {
+      email: instructor?.email || "",
+      firstName: instructor?.firstName || "",
+      lastName: instructor?.lastName || "",
+      mobile: instructor?.mobile || "",
+      qualification: instructor?.qualification || "",
+      // subjects: instructor?.subjects || "",
+      experience: instructor?.experience || "",
+      skills: instructor?.skills || "",
+      about: instructor?.about || "",
+    },
+    onSubmit: (values) => {
+      handleSubmit(values);
+    },
+  });
 
   const handleSubmit = async (profileInfo: UpdateProfileInfo) => {
     try {
@@ -76,9 +93,12 @@ const ProfileForm:React.FC<Props> = ({editMode,setEditMode}) => {
       formData.append("firstName", profileInfo.firstName || "");
       formData.append("lastName", profileInfo.lastName || "");
       formData.append("mobile", profileInfo.mobile || "");
+      formData.append("qualification",profileInfo.qualification||"")
+      formData.append("experience",profileInfo.experience||"")
+      formData.append("skills",profileInfo.skills||"")
 
       const response = await updateProfile(formData);
-      // formik.resetForm();
+      // formik.resetForm();  
       setPreviewImage(null);
       const fileInput = document.getElementById(
         "file_input"
@@ -99,37 +119,13 @@ const ProfileForm:React.FC<Props> = ({editMode,setEditMode}) => {
     }
   };
 
-  const formik = useFormik({
-    initialValues: {
-      email: studentInfo?.email || "",
-      firstName: studentInfo?.firstName || "",
-      lastName: studentInfo?.lastName || "",
-      mobile: studentInfo?.mobile || "",
-    },
-    onSubmit: (values) => {
-      handleSubmit(values);
-    },
-  });
-
-  // if (isFetching) {
-  //   return <div>Loading...</div>;
-  // }
-  if (loading) {
+  if (profileLoading) {
     return <div>Loading...</div>;
   }
 
-  // if (error) {
-  //   return <div>Error: {error}</div>;
-  // }
-
-  // if (!studentInfo) {
-  //   return <div>loading...</div>
-  // }
-
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <div>
-      </div>
+    <form onSubmit={formik.handleSubmit} >
+      <div></div>
       <div className='p-5 flex '>
         <Avatar
           src={previewImage || profileUrl || "../profile.jpg"}
@@ -239,6 +235,94 @@ const ProfileForm:React.FC<Props> = ({editMode,setEditMode}) => {
           } peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6`}
         >
           Mobile
+        </label>
+      </div>
+      <div className='relative z-0 w-full mb-6 group'>
+        <input
+          type='text'
+          name='qualification'
+          id='floating_qualification'
+          disabled={!editMode}
+          value={formik.values.qualification}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+          placeholder=' '
+          required
+        />
+        <label
+          htmlFor='floating_qualification'
+          className={`peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] ${
+            formik.values.qualification ? "peer-placeholder-shown:scale-100" : ""
+          } peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6`}
+        >
+          Qualifications
+        </label>
+      </div>
+      {/* <div className='relative z-0 w-full mb-6 group'>
+        <input
+          type='text'
+          name='subjects'
+          id='floating_subject'
+          disabled={!editMode}
+          value={formik.values.mobile}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+          placeholder=' '
+          required
+        />
+        <label
+          htmlFor='floating_subjects'
+          className={`peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] ${
+            formik.values.mobile ? "peer-placeholder-shown:scale-100" : ""
+          } peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6`}
+        >
+          Subjects
+        </label>
+      </div> */}
+      <div className='relative z-0 w-full mb-6 group'>
+        <input
+          type='text'
+          name='experience'
+          id='floating_experience'
+          disabled={!editMode}
+          value={formik.values.experience}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+          placeholder=' '
+          required
+        />
+        <label
+          htmlFor='floating_experience'
+          className={`peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] ${
+            formik.values.experience ? "peer-placeholder-shown:scale-100" : ""
+          } peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6`}
+        >
+          Experience
+        </label>
+      </div>
+      <div className='relative z-0 w-full mb-6 group'>
+        <input
+          type='text'
+          name='skills'
+          id='floating_skills'
+          disabled={!editMode}
+          value={formik.values.skills}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+          placeholder=' '
+          required
+        />
+        <label
+          htmlFor='floating_skills'
+          className={`peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] ${
+            formik.values.skills ? "peer-placeholder-shown:scale-100" : ""
+          } peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6`}
+        >
+          Skills
         </label>
       </div>
       <div className='relative pt-10 pr-1'>

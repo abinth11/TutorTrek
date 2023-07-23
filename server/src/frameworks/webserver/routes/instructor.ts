@@ -4,30 +4,35 @@ import { sendEmailServiceInterface } from '../../../app/services/sendEmailServic
 import { sendEmailService } from '../../../frameworks/services/sendEmailService';
 import { instructorDbRepository } from '../../../app/repositories/instructorDbRepository';
 import instructorController from '../../../adapters/controllers/instructorController';
+import { authService } from '../../../frameworks/services/authService';
+import { authServiceInterface } from '../../../app/services/authServicesInterface';
+import { cloudServiceInterface } from '../../../app/services/cloudServiceInterface';
+import { s3Service } from '../../../frameworks/services/s3CloudService';
+import { instructorRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
+import jwtAuthMiddleware from '../middlewares/userAuth';
+import upload from '../middlewares/multer';
 
 const instructorRouter = () => {
   const router = express.Router();
   const controller = instructorController(
+    authServiceInterface,
+    authService,
     instructorDbRepository,
     instructorRepoMongoDb,
     sendEmailServiceInterface,
-    sendEmailService
+    sendEmailService,
+    cloudServiceInterface,
+    s3Service
   );
   //* Instructor management
-  router.get(
-    '/view-instructor-requests',
-    controller.getInstructorRequests
-  );
+  router.get('/view-instructor-requests', controller.getInstructorRequests);
 
   router.patch(
     '/accept-instructor-request/:instructorId',
     controller.verifyInstructor
   );
 
-  router.put(
-    '/reject-instructor-request',
-    controller.rejectRequest
-  );
+  router.put('/reject-instructor-request', controller.rejectRequest);
 
   router.get('/get-all-instructors', controller.getAllInstructor);
 
@@ -41,14 +46,27 @@ const instructorRouter = () => {
     controller.unblockInstructor
   );
 
-  router.get(
-    '/get-blocked-instructors',
-    controller.getBlockedInstructor
-  );
+  router.get('/get-blocked-instructors', controller.getBlockedInstructor);
 
   router.get(
     '/view-instructor/:instructorId',
-    controller.getInstructorById    
+    jwtAuthMiddleware,
+    controller.getInstructorById
+  );
+
+  router.put(
+    '/update-profile',
+    jwtAuthMiddleware,
+    upload.single('image'),
+    instructorRoleCheckMiddleware,
+    controller.updateProfile
+  );
+
+  router.patch(
+    '/change-password',
+    jwtAuthMiddleware,
+    instructorRoleCheckMiddleware,
+    controller.changePassword
   );
 
   return router;

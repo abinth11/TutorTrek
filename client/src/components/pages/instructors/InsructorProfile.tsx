@@ -27,9 +27,9 @@ const InstructorProfile: React.FC = (props: Props) => {
             <h2 className='text-3xl font-semibold text-customFontColorBlack'>
               Edit profile info
             </h2>
-          </div>
+          </div>  
         </div>
-        <div className='flex flex-col md:flex-row gap-x-10 h-full pb-10'>
+        <div className='flex flex-col md:flex-row gap-x-10 h-full pb-20'>
           <div className='border md:w-7/12 w-full h-full rounded-md bg-white border-gray-300'>
             <div className='flex justify-between'>
               <h3 className='pl-5 pt-5 text-lg text-customFontColorBlack font-semibold'>
@@ -54,8 +54,8 @@ const InstructorProfile: React.FC = (props: Props) => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div>    
+    </div>        
   );
 };
 

@@ -12,7 +12,7 @@ export const changePasswordU = async (
   instructorDbRepository: ReturnType<InstructorDbInterface>
 ) => {
   if (!id) {
-    throw new AppError('Invalid student', HttpStatusCodes.BAD_REQUEST);
+    throw new AppError('Invalid Instructor', HttpStatusCodes.BAD_REQUEST);
   }
   if (!password.currentPassword) {
     throw new AppError(

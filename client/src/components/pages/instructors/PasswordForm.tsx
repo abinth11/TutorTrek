@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useFormik } from "formik";
-import { changePassword } from "../../../api/endpoints/student";
+import { changePassword } from "../../../api/endpoints/instructor";
 import { toast } from "react-toastify";
 import { PasswordInfo } from "../../../api/types/student/student";
 import { PasswordValidationSchema } from "../../../validations/student";

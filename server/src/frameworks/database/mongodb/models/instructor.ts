@@ -2,6 +2,25 @@ import mongoose, { Schema, model } from 'mongoose';
 
 import { Certificate } from '../../../../types/instructorInterface';
 
+interface ProfilePic {
+  name: string;
+  key?: string;
+  url?: string;
+}
+
+const ProfileSchema = new Schema<ProfilePic>({
+  name: {
+    type: String,
+    required: true
+  },
+  key: {
+    type: String
+  },
+  url: {
+    type: String
+  }
+});
+
 const instructorSchema = new Schema({
   firstName: {
     type: String,
@@ -25,7 +44,7 @@ const instructorSchema = new Schema({
     ],
   },
   profilePic: {
-    type: String,
+    type: ProfileSchema,
     required: true,
   },
   certificates:{
@@ -82,6 +101,10 @@ const instructorSchema = new Schema({
   dateJoined: {
     type: Date,
     default: Date.now,
+  },
+  profileUrl: {
+    type: String,
+    default:"",
   },
 });
 
