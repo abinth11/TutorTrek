@@ -19,7 +19,7 @@ export const instructorRegister = async (
   if (files) {
     files.map((file) => {
       if (file.originalname === 'profilePic') {
-        instructor.profilePic = file.path;
+        instructor.profilePic.url = file.path;
       } else {
         const certificate = {
           name:file.originalname,

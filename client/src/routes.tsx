@@ -16,23 +16,23 @@ import { Student, Admin } from "./App";
 import ViewMoreInstructorRequest from "./components/pages/InstructorManagement/ViewMoreInstructorRequest";
 import { Instructor } from "./App";
 import InstructorDashboard from "./components/pages/instructors/InstructorDashboard";
-import AddCourse from "./components/pages/add-course/AddCourse";
+import AddCourse from "./components/pages/addCourse/AddCourse";
 import ViewCourseStudent from "./components/pages/Course/ViewCourse";
 import WatchLessons from "./components/pages/Course/WatchLessons";
-import ListCourseForInstructors from "./components/pages/add-lessons/ListCourseForIstructors";
-import ViewLessons from "./components/pages/add-lessons/ViewLessons";
+import ListCourseForInstructors from "./components/pages/addLessons/ListCourseForIstructors";
+import ViewLessons from "./components/pages/addLessons/ViewLessons";
 import StripeContainer from "./components/pages/payment-stripe/StripeContainer";
 import Categories from "./components/pages/categories/Categories";
 import AddCategory from "./components/pages/categories/AddCategory";
 import EditCategory from "./components/pages/categories/EditCategory";
 import ListCategories from "./components/pages/categories/ListCategory";
 import ViewInstructor from "./components/pages/instructors/ViewInstructor";
-import UserDashboard from "./components/pages/dash/UserDashboard";
-import MyCourses from "./components/pages/dash/MyCourses";
-import MyProfile from "./components/pages/dash/MyProfile";
-import DashHome from "./components/pages/dash/DashHome";
-import ViewStudents from "./components/pages/studentManagement/ViewStudents";
+import UserDashboard from "./components/pages/studentDash/UserDashboard";
+import MyCourses from "./components/pages/studentDash/MyCourses";
+import MyProfile from "./components/pages/studentDash/MyProfile";
+import DashHome from "./components/pages/studentDash/DashHome";
 import StudentsTab from "./components/pages/studentManagement/StudentsTab";
+import InstructorProfile from "./components/pages/instructors/InsructorProfile";
      
 const LazyListCourse = lazy(
   () => import("./components/pages/Course/ListCourse")
@@ -199,6 +199,10 @@ const AppRouter = createBrowserRouter([
         path: "view-lessons/:courseId",
         element: <ViewLessons />,
       },
+      {
+        path:"view-profile",
+        element:<InstructorProfile/>
+      }
     ],
   },
 ]);

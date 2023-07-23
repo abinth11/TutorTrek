@@ -2,6 +2,7 @@ import HttpStatusCodes from '../../../constants/HttpStatusCodes';
 import AppError from '../../../utils/appError';
 import { SendEmailService } from '@src/frameworks/services/sendEmailService';
 import { InstructorDbInterface } from '@src/app/repositories/instructorDbRepository';
+import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
 export const getAllInstructorRequests = async (
   instructorRepository: ReturnType<InstructorDbInterface>
 ) => {
@@ -111,11 +112,19 @@ export const getBlockedInstructors = async (
 
 export const getInstructorByIdUseCase = async (
   instructorId: string,
+  cloudService: ReturnType<CloudServiceInterface>,
   instructorRepository: ReturnType<InstructorDbInterface>
 ) => {
   if (!instructorId) {
     throw new AppError('Invalid instructor id', HttpStatusCodes.BAD_REQUEST);
   }
   const instructor = await instructorRepository.getInstructorById(instructorId);
+  if (instructor?.profilePic.key) {
+    const profilePic = await cloudService.getFile(instructor?.profilePic.key);
+    instructor.profileUrl = profilePic;
+  }
+  if (instructor) {
+    instructor.password = 'no password';
+  }
   return instructor;
 };

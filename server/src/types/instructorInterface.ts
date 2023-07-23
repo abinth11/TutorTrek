@@ -1,7 +1,11 @@
 export interface InstructorInterface {
     firstName:string;
     lastName:string;
-    profilePic:string;
+    profilePic:{
+        name:string;
+        key?:string;
+        url?:string;
+    };
     email: string;
     mobile:number;
     qualifications:string;
@@ -21,5 +25,6 @@ export interface SavedInstructorInterface extends InstructorInterface {
     isVerified:boolean;
     dateJoined:Date;
     coursesCreated:Array<String>
+    profileUrl:string;
 
 }

@@ -10,6 +10,8 @@ import { Square3Stack3DIcon } from "@heroicons/react/24/outline";
 import { useLocation } from "react-router-dom";
 import {IoMdChatboxes} from 'react-icons/io'
 import { FaUserGraduate } from "react-icons/fa";
+import {UserCircleIcon} from "@heroicons/react/24/outline";
+
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -22,28 +24,36 @@ const routes = [
     path:'/instructors/'
   },
   {
-    title: "View course",
+    title: "View courses",
     icon: <Square3Stack3DIcon {...icon} />,
     value: "view-course",
     path:'/instructors/view-course'
   },
   {
-    title: "Add course",
+    title: "Add courses",
     icon: <MdLibraryAdd {...icon} />,
     value: "add-course",
     path:'/instructors/add-course'
-  },{
+  },
+  {
+    title:"My students",
+    icon:<FaUserGraduate {...icon}/>,
+    value:"view-students",
+    path:"/instructors/view-students"
+  },
+  {
+    title:"My Profile",
+    icon:<UserCircleIcon {...icon}/>,
+    value:"view-profile",
+    path:"/instructors/view-profile"
+  },
+  {
     title:"Channels",
     icon:<IoMdChatboxes {...icon}/>,
     value:"view-channels",
     path:'/instructors/view-channels'
   },
-  {
-    title:"Students",
-    icon:<FaUserGraduate {...icon}/>,
-    value:"view-students",
-    path:"/instructors/view-students"
-  }
+  
 ];
 
 const InstructorSideNav: React.FC = () => {
