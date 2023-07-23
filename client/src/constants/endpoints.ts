@@ -50,6 +50,7 @@ const END_POINTS = {
     ADMIN_DASHBOARD_DATA:"api/admin/dashboard-details",
     GET_GRAPH_DATA_ADMIN:"api/admin/graph-data",
     INSTRUCTOR_CHANGE_PASSWORD:"api/instructors/change-password",
-    INSTRUCTOR_UPDATE_PROFILE:"api/instructors/update-profile"
+    INSTRUCTOR_UPDATE_PROFILE:"api/instructors/update-profile",
+    GET_MY_STUDENTS:"api/instructors/get-students-by-instructor"
 }
 export default END_POINTS

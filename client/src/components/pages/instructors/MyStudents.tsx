@@ -12,59 +12,48 @@ import {
   Chip,
   CardFooter,
   Avatar,
+  IconButton
 } from "@material-tailwind/react";
-
+import { getMyStudents } from "../../../api/endpoints/instructor";
+import { useState, useEffect } from "react";
+import usePagination from "../../../hooks/usePagination";
+import { formatDate } from "../../../utils/helpers";
+import { toast } from "react-toastify";
+export interface Students {
+  _id: string;
+  course:string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  mobile: string;
+  dateJoined: string;
+  isBlocked: boolean;
+}
 const TABLE_HEAD = ["Student", "Course", "Status", "Joined"];
 
-const TABLE_ROWS = [
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-    name: "John Michael",
-    email: "john@creative-tim.com",
-    job: "Manager",
-    org: "Organization",
-    online: true,
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-    name: "Alexa Liras",
-    email: "alexa@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: false,
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-    name: "Laurent Perrier",
-    email: "laurent@creative-tim.com",
-    job: "Executive",
-    org: "Projects",
-    online: false,
-    date: "19/09/17",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
-    name: "Michael Levi",
-    email: "michael@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: true,
-    date: "24/12/08",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg",
-    name: "Richard Gran",
-    email: "richard@creative-tim.com",
-    job: "Manager",
-    org: "Executive",
-    online: false,
-    date: "04/10/21",
-  },
-];
+const MyStudents: React.FC = () => {
+  const [students, setStudents] = useState([]);
+  const ITEMS_PER_PAGE = 5;  
+  const {
+    currentPage,
+    totalPages,
+    currentData,
+    goToPage,
+    goToNextPage,
+    goToPreviousPage,
+  } = usePagination(students, ITEMS_PER_PAGE);
+  const fetchStudents = async () => {
+    try {
+      const response = await getMyStudents();
+      setStudents(response.data);
+    } catch (error) {
+      toast.error("Something went wrong")
+    }
+  };
 
-const MyStudents = () => {
+  useEffect(() => {
+    fetchStudents();
+  }, []);
   return (
     <div className='pb-10'>
       <Card className='h-full w-full'>
@@ -113,25 +102,43 @@ const MyStudents = () => {
               </tr>
             </thead>
             <tbody>
-              {TABLE_ROWS.map(
-                ({ img, name, email, job, org, online, date }, index) => {
-                  const isLast = index === TABLE_ROWS.length - 1;
+              {currentData?.map(
+                (
+                  {
+                    _id,
+                    email,
+                    firstName,
+                    lastName,  
+                    course,
+                    mobile,
+                    isBlocked,
+                    dateJoined,
+                  },
+                  index
+                ) => {
+                  const isLast = index === students.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";
-
+   
                   return (
-                    <tr key={name}>
+                    <tr key={index}>
                       <td className={classes}>
                         <div className='flex items-center gap-3'>
-                          <Avatar src={img} alt={name} size='sm' />
+                          <Avatar
+                            src={
+                              "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg"
+                            }
+                            alt={"image"}  
+                            size='sm'
+                          />
                           <div className='flex flex-col'>
                             <Typography
                               variant='small'
                               color='blue-gray'
                               className='font-normal'
                             >
-                              {name}
+                              {firstName + " " + lastName}
                             </Typography>
                             <Typography
                               variant='small'
@@ -150,14 +157,7 @@ const MyStudents = () => {
                             color='blue-gray'
                             className='font-normal'
                           >
-                            {job}
-                          </Typography>
-                          <Typography
-                            variant='small'
-                            color='blue-gray'
-                            className='font-normal opacity-70'
-                          >
-                            {org}
+                            {course}
                           </Typography>
                         </div>
                       </td>
@@ -166,8 +166,8 @@ const MyStudents = () => {
                           <Chip
                             variant='ghost'
                             size='sm'
-                            value={online ? "online" : "offline"}
-                            color={online ? "green" : "blue-gray"}
+                            value={!isBlocked ? "active" : "blocked"}
+                            color={isBlocked ? "red" : "green"}
                           />
                         </div>
                       </td>
@@ -177,7 +177,7 @@ const MyStudents = () => {
                           color='blue-gray'
                           className='font-normal'
                         >
-                          {date}
+                          {formatDate(dateJoined)}
                         </Typography>
                       </td>
                     </tr>
@@ -188,18 +188,40 @@ const MyStudents = () => {
           </table>
         </CardBody>
         <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4'>
-          <Typography variant='small' color='blue-gray' className='font-normal'>
-            Page 1 of 10
-          </Typography>
-          <div className='flex gap-2'>
-            <Button variant='outlined' color='blue-gray' size='sm'>
-              Previous
-            </Button>
-            <Button variant='outlined' color='blue-gray' size='sm'>
-              Next
-            </Button>
-          </div>
-        </CardFooter>
+        <Button
+          variant='outlined'
+          color='blue-gray'
+          size='sm'
+          onClick={goToPreviousPage}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </Button>
+        <div className='flex items-center gap-2'>
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+            (pageNumber) => (
+              <IconButton
+                key={pageNumber}
+                variant={pageNumber === currentPage ? "outlined" : "text"}
+                color='blue-gray'
+                size='sm'
+                onClick={() => goToPage(pageNumber)}
+              >
+                {pageNumber}
+              </IconButton>
+            )
+          )}
+        </div>
+        <Button
+          variant='outlined'
+          color='blue-gray'
+          size='sm'
+          onClick={goToNextPage}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </Button>
+      </CardFooter>
       </Card>
     </div>
   );

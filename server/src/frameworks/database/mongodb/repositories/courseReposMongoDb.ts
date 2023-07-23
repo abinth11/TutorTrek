@@ -186,21 +186,23 @@ export const courseRepositoryMongodb = () => {
       },
       {
         $project: {
-          student: { $arrayElemAt: ['$studentDetails', 0] } 
+          student: { $arrayElemAt: ['$studentDetails', 0] },
+          courseName:"$title"
         }
       },
       {
         $project:{
+          course:"$courseName",
           firstName:"$student.firstName",
           lastName:"$student.lastName",
           email:"$student.email",
           mobile:"$student.mobile",
           dateJoined:"$student.dateJoined",
-          isBlocked:"$student.isBlocked"
+          isBlocked:"$student.isBlocked",
+          profilePic:"$student.profilePic"
         }
       }
     ]);
-    console.log(students);
     return students;
   };
 

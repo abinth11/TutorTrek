@@ -18,6 +18,7 @@ import {
   GraphData,
 } from "../../../api/types/apiResponses/apiResponseDash";
 import { formatToINR } from "../../../utils/helpers";
+import { toast } from "react-toastify";
 
 const AdminHomePage: React.FC = () => {
   const [dashboardData, seDashboardData] = useState<DashData | null>(null);
@@ -27,7 +28,7 @@ const AdminHomePage: React.FC = () => {
       const response = await getDashboardData();
       seDashboardData(response.data);
     } catch (error) {
-      console.log(error);
+      toast.error("Something went wrong")
     }
   };
 
@@ -36,7 +37,7 @@ const AdminHomePage: React.FC = () => {
       const response = await getGraphData();
       setGraphData(response.data);
     } catch (error) {
-      console.log(error);
+      toast.error("Something went wrong")
     }
   };
   useEffect(() => {
