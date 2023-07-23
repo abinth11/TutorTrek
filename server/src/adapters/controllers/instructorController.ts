@@ -17,14 +17,18 @@ import { InstructorRepositoryMongoDb } from '../../frameworks/database/mongodb/r
 import { CustomRequest } from '../../types/customRequest';
 import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
 import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
-import { changePasswordU, updateProfileU } from '../../app/usecases/instructor';
+import { changePasswordU, getStudentsForInstructorsU, updateProfileU } from '../../app/usecases/instructor';
 import { AuthServiceInterface } from '../../app/services/authServicesInterface';
 import { AuthService } from '../../frameworks/services/authService';
+import { CourseRepositoryMongoDbInterface } from '@src/frameworks/database/mongodb/repositories/courseReposMongoDb';
+import { CourseDbRepositoryInterface } from '@src/app/repositories/courseDbRepository';
 const instructorController = (
   authServiceInterface: AuthServiceInterface,
   authServiceImpl: AuthService,
   instructorDbRepository: InstructorDbInterface,
   instructorDbRepositoryImpl: InstructorRepositoryMongoDb,
+  courseDbRepository:CourseDbRepositoryInterface,
+  courseDbRepositoryImpl:CourseRepositoryMongoDbInterface,
   emailServiceInterface: SendEmailServiceInterface,
   emailServiceImpl: SendEmailService,
   cloudServiceInterface: CloudServiceInterface,
@@ -34,6 +38,7 @@ const instructorController = (
   const dbRepositoryInstructor = instructorDbRepository(
     instructorDbRepositoryImpl()
   );
+  const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl())
   const emailService = emailServiceInterface(emailServiceImpl());
   const cloudService = cloudServiceInterface(cloudServiceImpl());
 
@@ -187,6 +192,16 @@ const instructorController = (
     }
   );
 
+  const getStudentsForInstructors = asyncHandler(async (req:CustomRequest,res:Response)=>{
+    const instructorId:string|undefined = req.user?.Id
+    const students = await getStudentsForInstructorsU(instructorId,dbRepositoryCourse)
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully retrieved all students',
+      data: students
+    })
+  })
+
   return {
     getInstructorRequests,
     verifyInstructor,
@@ -197,7 +212,8 @@ const instructorController = (
     getBlockedInstructor,
     getInstructorById,
     updateProfile,
-    changePassword
+    changePassword,
+    getStudentsForInstructors
   };
 };
 

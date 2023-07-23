@@ -4,6 +4,7 @@ import HttpStatusCodes from '../../constants/HttpStatusCodes';
 import { AuthServiceInterface } from '../services/authServicesInterface';
 import { SavedInstructorInterface } from '@src/types/instructorInterface';
 import { CloudServiceInterface } from '../services/cloudServiceInterface';
+import { CourseDbRepositoryInterface } from '../repositories/courseDbRepository';
 
 export const changePasswordU = async (
   id: string | undefined,
@@ -20,9 +21,8 @@ export const changePasswordU = async (
       HttpStatusCodes.BAD_REQUEST
     );
   }
-  const instructor:SavedInstructorInterface|null = await instructorDbRepository.getInstructorById(
-    id
-  );
+  const instructor: SavedInstructorInterface | null =
+    await instructorDbRepository.getInstructorById(id);
   if (!instructor) {
     throw new AppError('Unauthorized user', HttpStatusCodes.NOT_FOUND);
   }
@@ -69,4 +69,18 @@ export const updateProfileU = async (
   await instructorDbRepository.updateProfile(id, instructorInfo);
 };
 
-
+export const getStudentsForInstructorsU = async (
+  instructorId: string|undefined,
+  courseDbRepository: ReturnType<CourseDbRepositoryInterface>
+) => {
+  if (!instructorId) {
+    throw new AppError(
+      'Please give a instructor id',
+      HttpStatusCodes.BAD_REQUEST
+    );
+  }
+  const students = await courseDbRepository.getStudentsByCourseForInstructor(
+    instructorId
+  );
+  return students;
+};

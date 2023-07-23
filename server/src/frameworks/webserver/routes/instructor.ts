@@ -11,6 +11,8 @@ import { s3Service } from '../../../frameworks/services/s3CloudService';
 import { instructorRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
 import jwtAuthMiddleware from '../middlewares/userAuth';
 import upload from '../middlewares/multer';
+import { courseDbRepository } from '../../../app/repositories/courseDbRepository';
+import { courseRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/courseReposMongoDb';
 
 const instructorRouter = () => {
   const router = express.Router();
@@ -19,6 +21,8 @@ const instructorRouter = () => {
     authService,
     instructorDbRepository,
     instructorRepoMongoDb,
+    courseDbRepository,
+    courseRepositoryMongodb,
     sendEmailServiceInterface,
     sendEmailService,
     cloudServiceInterface,
@@ -67,6 +71,12 @@ const instructorRouter = () => {
     jwtAuthMiddleware,
     instructorRoleCheckMiddleware,
     controller.changePassword
+  );
+
+  router.get(
+    '/get-students-by-instructor',
+    jwtAuthMiddleware,
+    controller.getStudentsForInstructors
   );
 
   return router;
