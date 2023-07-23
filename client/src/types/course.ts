@@ -4,7 +4,7 @@ export interface CourseInterface {
     completionStatus:number;
     createdAt:Date;
     description:string;
-    duration:number;
+    duration:number|string;
     enrollmentCount:0;
     instructorId:string;
     introductionVideo:string|null;
