@@ -34,6 +34,7 @@ import DashHome from "./components/pages/studentDash/DashHome";
 import StudentsTab from "./components/pages/studentManagement/StudentsTab";
 import InstructorProfile from "./components/pages/instructors/InsructorProfile";
 import MyStudents from "./components/pages/instructors/MyStudents";
+import InstructorChannels from "./components/pages/channel/InstructorChannels";
      
 const LazyListCourse = lazy(
   () => import("./components/pages/Course/ListCourse")
@@ -205,8 +206,12 @@ const AppRouter = createBrowserRouter([
         element:<MyStudents/>
       },
       {
-        path:"view-profile",
+        path:"view-profile",  
         element:<InstructorProfile/>
+      },
+      {
+        path:"view-channels",
+        element:<InstructorChannels/>
       }
     ],
   },
