@@ -165,7 +165,45 @@ export const courseRepositoryMongodb = () => {
         }
       }
     ]);
-    return courseCountsByMonth
+    return courseCountsByMonth;
+  };
+
+  const getStudentsByCourseForInstructor = async (instructorId: string) => {
+    const students = await Course.aggregate([
+      {
+        $match: { instructorId: new mongoose.Types.ObjectId(instructorId) }
+      },
+      {
+        $unwind: '$coursesEnrolled'
+      },
+      {
+        $lookup: {
+          from: 'students',
+          localField: 'coursesEnrolled',
+          foreignField: '_id',
+          as: 'studentDetails'
+        }
+      },
+      {
+        $project: {
+          student: { $arrayElemAt: ['$studentDetails', 0] },
+          courseName:"$title"
+        }
+      },
+      {
+        $project:{
+          course:"$courseName",
+          firstName:"$student.firstName",
+          lastName:"$student.lastName",
+          email:"$student.email",
+          mobile:"$student.mobile",
+          dateJoined:"$student.dateJoined",
+          isBlocked:"$student.isBlocked",
+          profilePic:"$student.profilePic"
+        }
+      }
+    ]);
+    return students;
   };
 
   return {
@@ -179,7 +217,8 @@ export const courseRepositoryMongodb = () => {
     getTrendingCourses,
     getCourseByStudent,
     getTotalNumberOfCourses,
-    getNumberOfCoursesAddedInEachMonth
+    getNumberOfCoursesAddedInEachMonth,
+    getStudentsByCourseForInstructor
   };
 };
 

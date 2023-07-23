@@ -35,6 +35,9 @@ export const courseDbRepository = (
   const getNumberOfCoursesAddedInEachMonth = async () =>
     await repository.getNumberOfCoursesAddedInEachMonth();
 
+  const getStudentsByCourseForInstructor = async (instructorId: string) =>
+    await repository.getStudentsByCourseForInstructor(instructorId);
+
   return {
     addCourse,
     getAllCourse,
@@ -46,7 +49,8 @@ export const courseDbRepository = (
     getTrendingCourse,
     getCourseByStudent,
     getTotalNumberOfCourses,
-    getNumberOfCoursesAddedInEachMonth
+    getNumberOfCoursesAddedInEachMonth,
+    getStudentsByCourseForInstructor
   };
 };
 export type CourseDbRepositoryInterface = typeof courseDbRepository;

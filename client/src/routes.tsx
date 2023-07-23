@@ -17,8 +17,8 @@ import ViewMoreInstructorRequest from "./components/pages/InstructorManagement/V
 import { Instructor } from "./App";
 import InstructorDashboard from "./components/pages/instructors/InstructorDashboard";
 import AddCourse from "./components/pages/addCourse/AddCourse";
-import ViewCourseStudent from "./components/pages/Course/ViewCourse";
-import WatchLessons from "./components/pages/Course/WatchLessons";
+import ViewCourseStudent from "./components/pages/course/ViewCourse";
+import WatchLessons from "./components/pages/course/WatchLessons";
 import ListCourseForInstructors from "./components/pages/addLessons/ListCourseForIstructors";
 import ViewLessons from "./components/pages/addLessons/ViewLessons";
 import StripeContainer from "./components/pages/payment-stripe/StripeContainer";
@@ -33,9 +33,11 @@ import MyProfile from "./components/pages/studentDash/MyProfile";
 import DashHome from "./components/pages/studentDash/DashHome";
 import StudentsTab from "./components/pages/studentManagement/StudentsTab";
 import InstructorProfile from "./components/pages/instructors/InsructorProfile";
+import MyStudents from "./components/pages/instructors/MyStudents";
+import InstructorChannels from "./components/pages/channel/InstructorChannels";
      
 const LazyListCourse = lazy(
-  () => import("./components/pages/Course/ListCourse")
+  () => import("./components/pages/course/ListCourse")
 );
 
 const LazyInstructorsListing = lazy(
@@ -200,8 +202,16 @@ const AppRouter = createBrowserRouter([
         element: <ViewLessons />,
       },
       {
-        path:"view-profile",
+        path:"view-students",
+        element:<MyStudents/>
+      },
+      {
+        path:"view-profile",  
         element:<InstructorProfile/>
+      },
+      {
+        path:"view-channels",
+        element:<InstructorChannels/>
       }
     ],
   },
