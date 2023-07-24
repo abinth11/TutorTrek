@@ -21,8 +21,7 @@ import { MdDone } from "react-icons/md";
 import PaymentConfirmationModal from "./PaymentConfirmationModal";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 import LoginConfirmation from "../../common/LoginConfirmationModal";
-import Modal from "react-modal";
-import { Document, Page } from "react-pdf";    
+import PdfViewer from "./PdfViewer";
 const ViewCourseStudent: React.FC = () => {
   const params = useParams();
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -33,7 +32,7 @@ const ViewCourseStudent: React.FC = () => {
   const studentId = useSelector(selectStudentId);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const [loginConfirmation, setLoginConfirmation] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [showPdf, setShowPdf] = useState(false);
 
   const fetchCourse = async (courseId: string): Promise<CourseInterface> => {
     try {
@@ -46,7 +45,9 @@ const ViewCourseStudent: React.FC = () => {
       throw error;
     }
   };
-
+  const handleLiClick = (): void => {
+    setShowPdf(true);
+  };
   const fetchLessons = async (courseId: string) => {
     try {
       const lessons = await getLessonsByCourse(courseId);
@@ -67,14 +68,6 @@ const ViewCourseStudent: React.FC = () => {
 
   const course: CourseInterface | null = data;
   courseId && dispatch(setCourseId({ courseId }));
-
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
 
   const handleToggle = (index: any) => {
     setExpandedIndex(index === expandedIndex ? null : index);
@@ -204,31 +197,18 @@ const ViewCourseStudent: React.FC = () => {
                     <ul>
                       <li
                         className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'
-                        onClick={openModal}
+                        onClick={handleLiClick}
                       >
                         <IoBookSharp className='mr-2 text-blue-500' />
                         <span className='flex-1'>Important guidelines</span>
                       </li>
-                      <Modal
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
-                        contentLabel='Course Guidelines'
-                      >
-                        <button
-                          onClick={closeModal}
-                          className='absolute top-0 right-0 mt-2 mr-2 text-gray-500 hover:text-gray-700'
-                        >
-                          Close     
-                        </button>
-                        <Document file={course?.guidelinesUrl}>
-                          <Page pageNumber={1} width={600} />
-                        </Document>
-                      </Modal>     
+                      {showPdf && <PdfViewer pdfUrl={course?.guidelinesUrl??""} />}
+
                       <Link to={"watch-lessons/1"}>
                         <li className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'>
                           <BiVideo className='mr-2 text-blue-500' />
                           <span className='flex-1'>Introduction video</span>
-                        </li>
+                        </li>  
                       </Link>
                     </ul>
                   </li>
