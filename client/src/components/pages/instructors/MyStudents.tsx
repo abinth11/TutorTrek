@@ -19,20 +19,11 @@ import { useState, useEffect } from "react";
 import usePagination from "../../../hooks/usePagination";
 import { formatDate } from "../../../utils/helpers";
 import { toast } from "react-toastify";
-export interface Students {
-  _id: string;
-  course:string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  mobile: string;
-  dateJoined: string;
-  isBlocked: boolean;
-}
+import { Students } from "../../../api/types/student/student";
 const TABLE_HEAD = ["Student", "Course", "Status", "Joined"];
 
 const MyStudents: React.FC = () => {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState<Students[]>([]);
   const ITEMS_PER_PAGE = 5;  
   const {
     currentPage,
@@ -112,7 +103,10 @@ const MyStudents: React.FC = () => {
                     course,
                     mobile,
                     isBlocked,
+                    isGoogleUser,
                     dateJoined,
+                    profileUrl,
+                    profilePic
                   },
                   index
                 ) => {
@@ -126,9 +120,7 @@ const MyStudents: React.FC = () => {
                       <td className={classes}>
                         <div className='flex items-center gap-3'>
                           <Avatar
-                            src={
-                              "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg"
-                            }
+                            src={isGoogleUser?profilePic?.url:profileUrl}
                             alt={"image"}  
                             size='sm'
                           />

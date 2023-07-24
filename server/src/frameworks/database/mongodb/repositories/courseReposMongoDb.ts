@@ -23,12 +23,12 @@ export const courseRepositoryMongodb = () => {
   };
 
   const getAllCourse = async () => {
-    const courses:CourseInterface[]|null = await Course.find({});
+    const courses: CourseInterface[] | null = await Course.find({});
     return courses;
   };
 
   const getCourseById = async (courseId: string) => {
-    const course:CourseInterface|null = await Course.findOne({
+    const course: CourseInterface | null = await Course.findOne({
       _id: new mongoose.Types.ObjectId(courseId)
     });
     return course;
@@ -58,6 +58,7 @@ export const courseRepositoryMongodb = () => {
   };
 
   const getRecommendedCourseByStudentInterest = async (studentId: string) => {
+    console.log(studentId);
     const pipeline = [
       { $match: { _id: new mongoose.Types.ObjectId(studentId) } },
       { $unwind: '$interests' },
@@ -73,8 +74,8 @@ export const courseRepositoryMongodb = () => {
       {
         $lookup: {
           from: 'course',
-          localField: 'category._id',
-          foreignField: 'categoryId',
+          localField: 'category.name',
+          foreignField: 'category',
           as: 'courses'
         }
       },
@@ -97,13 +98,14 @@ export const courseRepositoryMongodb = () => {
           course: {
             _id: '$courses._id',
             name: '$courses.title',
-            thumbnail: '$courses.thumbnail'
+            thumbnailKey: '$courses.thumbnail.key'
           },
           instructor: {
             _id: '$instructor._id',
             firstName: '$instructor.firstName',
             lastName: '$instructor.lastName',
-            email: '$instructor.email'
+            email: '$instructor.email',
+            profileKey: '$instructor.profilePic.key'
           }
         }
       }
@@ -134,7 +136,9 @@ export const courseRepositoryMongodb = () => {
           coursesEnrolled: '$coursesEnrolled',
           thumbnail: '$thumbnail',
           instructorFirstName: { $arrayElemAt: ['$instructor.firstName', 0] },
-          instructorLastName: { $arrayElemAt: ['$instructor.lastName', 0] }
+          instructorLastName: { $arrayElemAt: ['$instructor.lastName', 0] },
+          instructorProfile: { $arrayElemAt: ['$instructor.profilePic', 0] },
+          profileUrl: ''
         }
       }
     ]);
@@ -142,9 +146,9 @@ export const courseRepositoryMongodb = () => {
   };
 
   const getCourseByStudent = async (id: string) => {
-    const courses = await Course.find({
+    const courses: CourseInterface[] | null = await Course.find({
       coursesEnrolled: {
-        $in: [new mongoose.Types.ObjectId('648d8672320950d1ec7454ac')]
+        $in: [new mongoose.Types.ObjectId(id)]
       }
     });
     return courses;
@@ -202,15 +206,17 @@ export const courseRepositoryMongodb = () => {
         }
       },
       {
-        $project: {
-          course: '$courseName',
-          firstName: '$student.firstName',
-          lastName: '$student.lastName',
-          email: '$student.email',
-          mobile: '$student.mobile',
-          dateJoined: '$student.dateJoined',
-          isBlocked: '$student.isBlocked',
-          profilePic: '$student.profilePic'
+        $group: {
+          _id: '$student._id',
+          course: { $first: '$courseName' },
+          firstName: { $first: '$student.firstName' },
+          lastName: { $first: '$student.lastName' },
+          email: { $first: '$student.email' },
+          mobile: { $first: '$student.mobile' },
+          dateJoined: { $first: '$student.dateJoined' },
+          isBlocked: { $first: '$student.isBlocked' },
+          profilePic: { $first: '$student.profilePic' },
+          isGoogleUser: { $first: '$student.isGoogleUser' }
         }
       }
     ]);

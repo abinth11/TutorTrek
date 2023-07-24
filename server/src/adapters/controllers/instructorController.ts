@@ -17,7 +17,11 @@ import { InstructorRepositoryMongoDb } from '../../frameworks/database/mongodb/r
 import { CustomRequest } from '../../types/customRequest';
 import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
 import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
-import { changePasswordU, getStudentsForInstructorsU, updateProfileU } from '../../app/usecases/instructor';
+import {
+  changePasswordU,
+  getStudentsForInstructorsU,
+  updateProfileU
+} from '../../app/usecases/instructor';
 import { AuthServiceInterface } from '../../app/services/authServicesInterface';
 import { AuthService } from '../../frameworks/services/authService';
 import { CourseRepositoryMongoDbInterface } from '@src/frameworks/database/mongodb/repositories/courseReposMongoDb';
@@ -27,8 +31,8 @@ const instructorController = (
   authServiceImpl: AuthService,
   instructorDbRepository: InstructorDbInterface,
   instructorDbRepositoryImpl: InstructorRepositoryMongoDb,
-  courseDbRepository:CourseDbRepositoryInterface,
-  courseDbRepositoryImpl:CourseRepositoryMongoDbInterface,
+  courseDbRepository: CourseDbRepositoryInterface,
+  courseDbRepositoryImpl: CourseRepositoryMongoDbInterface,
   emailServiceInterface: SendEmailServiceInterface,
   emailServiceImpl: SendEmailService,
   cloudServiceInterface: CloudServiceInterface,
@@ -38,7 +42,7 @@ const instructorController = (
   const dbRepositoryInstructor = instructorDbRepository(
     instructorDbRepositoryImpl()
   );
-  const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl())
+  const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl());
   const emailService = emailServiceInterface(emailServiceImpl());
   const cloudService = cloudServiceInterface(cloudServiceImpl());
 
@@ -85,7 +89,10 @@ const instructorController = (
   });
 
   const getAllInstructor = asyncHandler(async (req: Request, res: Response) => {
-    const instructors = await getAllInstructors(dbRepositoryInstructor);
+    const instructors = await getAllInstructors(
+      cloudService,
+      dbRepositoryInstructor
+    );
     res.json({
       status: 'success',
       message: 'Successfully fetched all instructor information',
@@ -125,7 +132,10 @@ const instructorController = (
 
   const getBlockedInstructor = asyncHandler(
     async (req: Request, res: Response) => {
-      const response = await getBlockedInstructors(dbRepositoryInstructor);
+      const response = await getBlockedInstructors(
+        cloudService,
+        dbRepositoryInstructor
+      );
       res.json({
         status: 'success',
         message: 'Successfully fetched blocked instructors',
@@ -136,10 +146,7 @@ const instructorController = (
 
   const getInstructorById = asyncHandler(
     async (req: CustomRequest, res: Response) => {
-      let instructorId =
-        req.params.instructorId === 'fromProfile'
-          ? req.user?.Id ?? ''
-          : req.params.instructorId;
+      let instructorId = req.params.instructorId;
       const response = await getInstructorByIdUseCase(
         instructorId,
         cloudService,
@@ -192,15 +199,38 @@ const instructorController = (
     }
   );
 
-  const getStudentsForInstructors = asyncHandler(async (req:CustomRequest,res:Response)=>{
-    const instructorId:string|undefined = req.user?.Id
-    const students = await getStudentsForInstructorsU(instructorId,dbRepositoryCourse)
-    res.status(200).json({
-      status: 'success',
-      message: 'Successfully retrieved all students',
-      data: students
-    })
-  })
+  const getStudentsForInstructors = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const instructorId: string | undefined = req.user?.Id;
+      const students = await getStudentsForInstructorsU(
+        instructorId,
+        cloudService,
+        dbRepositoryCourse
+      );
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully retrieved all students',
+        data: students
+      });
+    }
+  );
+
+  const getInstructorDetails = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const instructorId = req.user?.Id;
+      const instructor = await getInstructorByIdUseCase(
+        instructorId ?? '',
+        cloudService,
+        dbRepositoryInstructor
+      );
+      console.log(instructor);
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully retrieved all students',
+        data: instructor
+      });
+    }
+  );
 
   return {
     getInstructorRequests,
@@ -213,7 +243,8 @@ const instructorController = (
     getInstructorById,
     updateProfile,
     changePassword,
-    getStudentsForInstructors
+    getStudentsForInstructors,
+    getInstructorDetails
   };
 };
 

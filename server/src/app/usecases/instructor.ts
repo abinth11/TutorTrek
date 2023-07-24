@@ -71,6 +71,7 @@ export const updateProfileU = async (
 
 export const getStudentsForInstructorsU = async (
   instructorId: string|undefined,
+  cloudService: ReturnType<CloudServiceInterface>,
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>
 ) => {
   if (!instructorId) {
@@ -82,5 +83,15 @@ export const getStudentsForInstructorsU = async (
   const students = await courseDbRepository.getStudentsByCourseForInstructor(
     instructorId
   );
+  console.log(students)
+  await Promise.all(
+    students.map(async (student) => {
+      if (student.profilePic.key) {
+        student.profileUrl = ""
+        student.profileUrl = await cloudService.getFile(student.profilePic.key);
+      }
+    })
+  );
+  console.log(students)
   return students;
 };

@@ -124,13 +124,13 @@ const ViewInstructors: React.FC = () => {
               (
                 {
                   _id,
-                  img,
                   firstName,
                   lastName,
                   email,
                   dateJoined,
                   isBlocked,
                   isVerified,
+                  profileUrl,
                 },
                 index
               ) => {
@@ -144,7 +144,7 @@ const ViewInstructors: React.FC = () => {
                     <td className={classes}>
                       <div className='flex items-center gap-3'>
                         <Avatar
-                          src={img}
+                          src={profileUrl}
                           alt='image'
                           size='md'
                           className='border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1'

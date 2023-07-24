@@ -62,7 +62,7 @@ const ListCourseForInstructors: React.FC = () => {
     goToPage,
     goToPreviousPage,
     goToNextPage,
-  } = usePagination(courses, 5);
+  } = usePagination(courses, 4);
   const searchResult = useSearch(courses, searchQuery);
   const fetData = async () => {
     const response = await getCourseByInstructor();
@@ -151,7 +151,7 @@ const ListCourseForInstructors: React.FC = () => {
                   {
                     _id,
                     title,
-                    thumbnail,
+                    thumbnailUrl,
                     description,
                     category,
                     createdAt,
@@ -168,7 +168,7 @@ const ListCourseForInstructors: React.FC = () => {
                       <tr key={_id}>
                         <td className={classes}>
                           <div className='flex items-center gap-3'>
-                            <Avatar src={thumbnail} alt={"image"} size='sm' />
+                            <Avatar src={thumbnailUrl} alt={"image"} size='sm' />
                             <div className='flex flex-col'>
                               <Typography
                                 variant='small'
@@ -177,14 +177,7 @@ const ListCourseForInstructors: React.FC = () => {
                               >
                                 {title}
                               </Typography>
-                              {/* <Typography
-                                variant='small'
-                                color='blue-gray'
-                                className='font-normal opacity-70'
-                              >
-                                {description}
-                              </Typography> */}
-                            </div>
+                            </div>  
                           </div>
                         </td>
                         <td className={classes}>
@@ -196,13 +189,6 @@ const ListCourseForInstructors: React.FC = () => {
                             >
                               {category}
                             </Typography>
-                            {/* <Typography
-                              variant='small'
-                              color='blue-gray'
-                              className='font-normal opacity-70'
-                            >
-                              {category}
-                            </Typography> */}
                           </div>
                         </td>
                         <td className={classes}>

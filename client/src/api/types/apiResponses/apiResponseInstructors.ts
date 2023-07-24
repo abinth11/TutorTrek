@@ -33,6 +33,7 @@ export interface GetCourseByInstructorInterface {
     title: string
     thumbnail?: string
     introductionVideo?: string
+    thumbnailUrl:string;
     description: string
     category: string
     instructorId: string

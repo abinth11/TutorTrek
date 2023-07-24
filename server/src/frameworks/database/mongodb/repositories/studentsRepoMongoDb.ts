@@ -36,7 +36,7 @@ export const studentRepositoryMongoDB = () => {
   };
 
   const getAllStudents = async () => {
-    const students = await Student.find({});
+    const students:StudentInterface[]|null = await Student.find({});
     return students;
   };
 
@@ -55,7 +55,7 @@ export const studentRepositoryMongoDB = () => {
   };
 
   const getAllBlockedStudents = async ()=>{
-   const blockedStudents =  await Student.find({isBlocked:true})
+   const blockedStudents:StudentInterface[]|null =  await Student.find({isBlocked:true})
    return blockedStudents
   }
 

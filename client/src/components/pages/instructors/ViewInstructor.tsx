@@ -47,7 +47,7 @@ const ViewInstructor: React.FC = (props: Props) => {
     fetchInstructor();
   }, []);
   if (isLoading) {
-    return <ViewInstructorShimmer/>
+    return <ViewInstructorShimmer />;
   }
 
   return (
@@ -73,7 +73,7 @@ const ViewInstructor: React.FC = (props: Props) => {
                 <Avatar
                   className='h-32 w-32 mx-auto sm:mt-5'
                   src={
-                    instructor?.profilePic ??
+                    instructor?.profileUrl ??
                     "https://img.freepik.com/free-icon/user_318-159711.jpg"
                   }
                   alt='avatar'
@@ -85,11 +85,24 @@ const ViewInstructor: React.FC = (props: Props) => {
               </div>
             </div>
           </div>
-          <div className='w-full md:w-3/4 p-4 md:pt-14 md:pr-14 pb-14'>
-            <p className='text-sm md:text-base'>{instructor?.about}</p>
-            <p className='text-sm md:text-base'>{instructor?.skills}</p>
-            <p className='text-sm md:text-base'>{instructor?.qualification}</p>
-            <p className='text-sm md:text-base'>{instructor?.experience}</p>
+          <div className='w-full md:w-3/4 p-4 md:pt-14 text-customFontColorBlack  md:pr-14 pb-14'>
+            <h2 className='text-xl font-semibold   mb-4'>About Me</h2>
+            <p className='text-base'>{instructor?.about}</p>
+
+            <div className='mt-8'>
+              <h2 className='text-xl font-semibold mb-2'>Skills</h2>
+              <p className='text-base'>{instructor?.skills}</p>
+            </div>
+
+            <div className='mt-8'>
+              <h2 className='text-xl font-semibold mb-2'>Qualification</h2>
+              <p className='text-base'>{instructor?.qualification}</p>
+            </div>
+
+            <div className='mt-8'>
+              <h2 className='text-xl font-semibold mb-2'>Experience</h2>
+              <p className='text-base'>{instructor?.experience}</p>
+            </div>
           </div>
         </div>
       </div>

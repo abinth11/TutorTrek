@@ -68,9 +68,19 @@ export const rejectInstructorRequest = async (
 };
 
 export const getAllInstructors = async (
+  cloudService: ReturnType<CloudServiceInterface>,
   instructorRepository: ReturnType<InstructorDbInterface>
 ) => {
   const instructors = await instructorRepository.getAllInstructors();
+  await Promise.all(
+    instructors.map(async (instructor) => {
+      if (instructor.profilePic) {
+        instructor.profileUrl = await cloudService.getFile(
+          instructor.profilePic.key ?? ''
+        );
+      }
+    })
+  );
   return instructors;
 };
 
@@ -104,9 +114,19 @@ export const unblockInstructors = async (
 };
 
 export const getBlockedInstructors = async (
+  cloudService: ReturnType<CloudServiceInterface>,
   instructorRepository: ReturnType<InstructorDbInterface>
 ) => {
   const blockedInstructors = await instructorRepository.getBlockedInstructors();
+  await Promise.all(
+    blockedInstructors.map(async (instructor) => {
+      if (instructor.profilePic) {
+        instructor.profileUrl = await cloudService.getFile(
+          instructor.profilePic.key ?? ''
+        );
+      }
+    })
+  );
   return blockedInstructors;
 };
 
@@ -126,5 +146,6 @@ export const getInstructorByIdUseCase = async (
   if (instructor) {
     instructor.password = 'no password';
   }
+  console.log(instructor)
   return instructor;
 };

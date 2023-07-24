@@ -52,10 +52,13 @@ const instructorRouter = () => {
 
   router.get('/get-blocked-instructors', controller.getBlockedInstructor);
 
+  router.get('/view-instructor/:instructorId', controller.getInstructorById);
+
   router.get(
-    '/view-instructor/:instructorId',
+    '/get-instructor-details',
     jwtAuthMiddleware,
-    controller.getInstructorById
+    instructorRoleCheckMiddleware,
+    controller.getInstructorDetails
   );
 
   router.put(

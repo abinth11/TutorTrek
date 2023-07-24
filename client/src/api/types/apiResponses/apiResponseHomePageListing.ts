@@ -1,7 +1,11 @@
 export interface ApiResponseRecommended {
   _id: string
   instructor: Instructor
-  course: Course
+  course: Course,
+  media:{
+    profileUrl:string,
+    thumbnailUrl:string,
+  }
 }
 
 export interface Instructor {
@@ -46,7 +50,8 @@ export interface Course {
   export interface ApiResponseTrending {
     _id: string
     title: string
-    thumbnail: string
+    thumbnailUrl: string;
+    profileUrl:string;
     instructorFirstName: string
     instructorLastName: string
   }

@@ -21,7 +21,8 @@ const MyCourseCard: React.FC<CourseInterface> = ({
       <CardHeader shadow={false} floated={false} className='h-48'>
         <img
           src={thumbnailUrl}  
-          className='w-full h-full object-cover transition-transform duration-300 transform hover:scale-105'
+          
+          className='w-full h-30 object-cover transition-transform duration-300 transform hover:scale-105'
         />
       </CardHeader>
       <CardBody>
@@ -29,17 +30,19 @@ const MyCourseCard: React.FC<CourseInterface> = ({
           <Typography color='blue-gray' className='font-medium'>
             {title}
           </Typography>
-          <Typography color='blue-gray' className='font-medium'>
-            {duration} h
+          <Typography color='blue-gray' className='font-medium mr-2'>
+            {duration}w
           </Typography>
         </div>
-        <Typography
+        <p className="text-gray text-sm line-clamp-1">{description}</p>
+
+        {/* <Typography  
           variant='small'
           color='gray'
-          className='font-normal opacity-75'
+          className='opacity-75 text-sm line-clamp-1'
         >
-          {description}
-        </Typography>
+          {description}  
+        </Typography> */}
       </CardBody>
       <CardFooter className='pt-0'>
         <Button

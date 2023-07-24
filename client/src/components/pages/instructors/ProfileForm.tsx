@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import { updateProfile } from "../../../api/endpoints/instructor";
+import { getInstructorDetails, updateProfile } from "../../../api/endpoints/instructor";
 import { UpdateProfileInfo } from "../../../api/types/instructor/instructor";
 import { Avatar } from "@material-tailwind/react";
-import { getIndividualInstructors } from "../../../api/endpoints/instructorManagement";
 import { InstructorApiResponse } from "../../../api/types/apiResponses/apiResponseInstructors";
 
 interface Props {
@@ -37,8 +36,8 @@ const ProfileForm: React.FC<Props> = ({ editMode, setEditMode }) => {
   const fetchInstructor = async () => {
     try {
       setProfileLoading(true);
-      const response = await getIndividualInstructors("fromProfile");
-      setInstructor(response?.data?.data);
+      const response = await getInstructorDetails();
+      setInstructor(response?.data);
       setProfileLoading(false);
     } catch (error) {
       setProfileLoading(false);

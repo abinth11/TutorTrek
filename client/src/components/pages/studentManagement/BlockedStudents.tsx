@@ -23,16 +23,18 @@ import {
   unblockStudent,
 } from "../../../api/endpoints/studentManagement";
 
+import { Students } from "../../../api/types/student/student";
+import { USER_AVATAR } from "../../../constants/common";
 const TABLE_HEAD = ["Name", "Email", "Date Joined", "Status", "Actions", ""];
 
 interface Props {
-  updated:boolean;
-  setUpdated:(val:boolean)=>void
+  updated: boolean;
+  setUpdated: (val: boolean) => void;
 }
-const BlockedStudents: React.FC<Props> = ({updated,setUpdated}) => {
-  const [students, setStudents] = useState([]);
+const BlockedStudents: React.FC<Props> = ({ updated, setUpdated }) => {
+  const [students, setStudents] = useState<Students[]>([]);
   // const [updated, setUpdated] = useState(false);
-  const ITEMS_PER_PAGE = 4;  
+  const ITEMS_PER_PAGE = 4;
   const {
     currentPage,
     totalPages,
@@ -110,10 +112,14 @@ const BlockedStudents: React.FC<Props> = ({updated,setUpdated}) => {
               ))}
             </tr>
           </thead>
-          <tbody className="">
+          <tbody className=''>
             {currentData.length === 0 ? (
               <tr className='p-5'>
-                <Typography color='gray' variant="h6" className='mt-1 p-2 font-normal'>
+                <Typography
+                  color='gray'
+                  variant='h6'
+                  className='mt-1 p-2 font-normal'
+                >
                   No blocked students found
                 </Typography>
               </tr>
@@ -122,12 +128,14 @@ const BlockedStudents: React.FC<Props> = ({updated,setUpdated}) => {
                 (
                   {
                     _id,
-                    img,
+                    profilePic,
+                    profileUrl,
                     firstName,
                     lastName,
                     email,
                     dateJoined,
                     isBlocked,
+                    isGoogleUser,
                   },
                   index
                 ) => {
@@ -141,7 +149,11 @@ const BlockedStudents: React.FC<Props> = ({updated,setUpdated}) => {
                       <td className={classes}>
                         <div className='flex items-center gap-3'>
                           <Avatar
-                            src={img}
+                            src={
+                              isGoogleUser && profilePic && profilePic.url
+                                ? profilePic.url
+                                : profileUrl || USER_AVATAR
+                            }
                             alt='image'
                             size='md'
                             className='border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1'

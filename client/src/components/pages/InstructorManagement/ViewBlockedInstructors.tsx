@@ -112,7 +112,7 @@ const ViewBlockedInstructors: React.FC = () => {
               (
                 {
                   _id,
-                  img,
+                  profileUrl,
                   firstName,
                   lastName,
                   email,
@@ -132,7 +132,7 @@ const ViewBlockedInstructors: React.FC = () => {
                     <td className={classes}>
                       <div className='flex items-center gap-3'>
                         <Avatar
-                          src={img}
+                          src={profileUrl}
                           alt='image'
                           size='md'
                           className='border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1'
