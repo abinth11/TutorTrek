@@ -4,7 +4,6 @@ import {
   PencilIcon,
   UserPlusIcon,
   TrashIcon,
-  SquaresPlusIcon,
 } from "@heroicons/react/24/solid";
 import {
   Card,
@@ -13,7 +12,6 @@ import {
   Typography,
   Button,
   CardBody,
-  Chip,
   CardFooter,
   Tabs,
   TabsHeader,
@@ -27,22 +25,8 @@ import { getLessonsByCourse } from "../../../api/endpoints/course/lesson";
 import { useParams } from "react-router-dom";
 import { ApiResponseLessons } from "../../../api/types/apiResponses/apiResponseInstructors";
 import AddLessonForm from "./AddLessonsForm";
-
-const TABS = [
-  {
-    label: "All",
-    value: "all",
-  },
-  {
-    label: "Monitored",
-    value: "monitored",
-  },
-  {
-    label: "Pending",
-    value: "pending",
-  },
-];
-
+import { Link } from "react-router-dom";
+  
 const ViewLessons: React.FC = () => {
   const [lessons, setLessons] = useState<ApiResponseLessons[] | null>(null);
   const [formVisible, setFormVisible] = useState<boolean>(false);
@@ -91,15 +75,6 @@ const ViewLessons: React.FC = () => {
           </div>
         </div>
         <div className='flex flex-col items-center justify-between gap-4 md:flex-row'>
-          <Tabs value='all' className='w-full md:w-max'>
-            <TabsHeader>
-              {TABS.map(({ label, value }) => (
-                <Tab key={value} value={value}>
-                  &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                </Tab>
-              ))}
-            </TabsHeader>
-          </Tabs>
           <div className='w-full md:w-72'>
             <Input
               label='Search'
@@ -136,22 +111,9 @@ const ViewLessons: React.FC = () => {
                             >
                               {title}
                             </Typography>
-                            {/* <Typography
-                              variant='small'
-                              color='blue-gray'
-                              className='font-normal opacity-70'
-                            >
-                              {description}
-                            </Typography> */}
                           </div>
                           <div className='flex items-center gap-3'>
-                            {/* <Typography
-                              variant='small'
-                              color='blue-gray'
-                              className='font-normal'
-                            >
-                              {description}
-                            </Typography> */}
+                           
                             <Typography
                               variant='small'
                               color='blue-gray'
@@ -162,12 +124,6 @@ const ViewLessons: React.FC = () => {
                           </div>
                         </div>
                         <div className='flex  items-center mr-8'>
-                          {/* <Chip
-                      variant="ghost"
-                      size="sm"
-                      value={isVerified ? "active" : "pending"}
-                      color={isVerified ? "green" : "blue-gray"}
-                    /> */}
                           <Typography
                             variant='small'
                             color='blue-gray'
@@ -177,19 +133,14 @@ const ViewLessons: React.FC = () => {
                           </Typography>
                         </div>
                         <div className='flex items-center mr-6 gap-2'>
-                          {/* <Tooltip content="Add lessons">
-                      <Link to="/instructors/view-lessons">
-                        <IconButton variant="text" color="blue-gray">
-                          <SquaresPlusIcon className="h-4 w-4 text-blue-500" />
-                        </IconButton>
-                      </Link>
-                    </Tooltip> */}
-                          <Tooltip content='Edit course'>
+                          <Tooltip content='Edit lesson'>
+                          <Link to={`/instructors/edit-lesson/${_id}`}>
                             <IconButton variant='text' color='blue-gray'>
                               <PencilIcon className='h-4 w-4' />
                             </IconButton>
+                            </Link>
                           </Tooltip>
-                          <Tooltip content='Delete course'>
+                          <Tooltip content='Disable lesson'>
                             <IconButton variant='text' color='blue-gray'>
                               <TrashIcon className='h-4 w-4 text-red-500' />
                             </IconButton>

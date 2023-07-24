@@ -10,13 +10,13 @@ import {
 import { toast } from "react-toastify";
 import { Button, Spinner } from "@material-tailwind/react";
 import { TiTrash } from "react-icons/ti";
-import * as Yup from "yup";
 import QuizSwitch from "./QuizSwitch";
 import { Tooltip } from "@material-tailwind/react";
 import { QuizzesComponent } from "./QuizesComponent";
 import { addLesson } from "../../../api/endpoints/course/lesson";
 import { FormValuesLesson } from "../../../types/lesson";
 import SpinnerDialog from "../../common/spinner";
+import { lessonSchema } from "../../../validations/lesson";
 
 interface AddLessonProps {
   courseId: string;
@@ -28,37 +28,16 @@ const initialValues = {
   assignments: "",
   studyMaterials: "",
   contents: "",
-  duration:"",
+  duration: "",
   questions: [
     {
       question: "",
       options: [{ option: "", isCorrect: false }],
     },
-  ], 
+  ],
 };
 
-const lessonSchema = Yup.object().shape({
-  title: Yup.string().required("Title is required"),
-  description: Yup.string().required("Description is required"),
-  contents: Yup.string().required("Contents are required"),
-  // videoFile: Yup.string().required("Video file is required"),
-  assignments: Yup.string().required("assignments file is required"),
-  // studyMaterials: Yup.string().required("Video file is required"),
-  duration: Yup.number()
-    .required("Duration is required")
-    .positive("Duration must be a positive number"),
-  // questions: Yup.array().of(
-  //   Yup.object().shape({
-  //     question: Yup.string().required("Question is required"),
-  //     options: Yup.array().of(
-  //       Yup.object().shape({
-  //         option: Yup.string().required("Option is required"),
-  //         isCorrect: Yup.boolean().required("Is Correct is required"),
-  //       })
-  //     ),
-  //   })
-  // ),
-});
+
 
 const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
   const [addQuiz, setAddQuiz] = useState<boolean>(false);
@@ -78,8 +57,8 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
 
   const handleSubmit = async (
     lesson: FormValuesLesson,
-    {resetForm}: FormikHelpers<FormValuesLesson>
-    )=> {
+    { resetForm }: FormikHelpers<FormValuesLesson>
+  ) => {
     try {
       setIsUploading(true);
       const formData = new FormData();
@@ -96,9 +75,9 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
 
       const response = await addLesson(courseId, formData);
       setIsUploading(false);
-      setLessonVideo(null)
-      setMaterialFile(null)
-      resetForm()
+      setLessonVideo(null);
+      setMaterialFile(null);
+      resetForm();
       toast.success(response.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -179,12 +158,12 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
                   </label>
                   <div className='mt-2'>
                     <Field
+                      as='textarea'
                       id='contents'
                       name='contents'
-                      type='text'
-                      autoComplete='off'
-                      required
-                      className='pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
+                      rows={4}
+                      cols={40}
+                      className='pl-2 block w-full max-w-xl rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                     />
                     <ErrorMessage
                       name='contents'
@@ -195,22 +174,22 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
                 </div>
                 <div className='w-1/2'>
                   <label
-                    htmlFor='assignments'
+                    htmlFor='about'
                     className='block text-sm font-medium leading-6 text-gray-900'
                   >
-                    Assignments
+                    About
                   </label>
                   <div className='mt-2'>
                     <Field
-                      id='assignments'
-                      name='assignments'
-                      type='text'
-                      autoComplete='off'
-                      required
-                      className='pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
+                      as='textarea'
+                      id='about'
+                      name='about'
+                      rows={4}
+                      cols={40}
+                      className='pl-2 block w-full max-w-xl rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                     />
                     <ErrorMessage
-                      name='assignments'
+                      name='about'
                       component='div'
                       className='text-red-500 text-sm'
                     />
@@ -254,7 +233,7 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
                     htmlFor='studyMaterials'
                     className='block text-sm font-medium leading-6 text-gray-900'
                   >
-                    Materials
+                    Study materials
                   </label>
                   <div className='mt-2'>
                     <input
@@ -281,7 +260,7 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
                 </div>
               </div>
 
-              <div>
+              {/* <div>
                 <label
                   htmlFor='duration'
                   className='block text-sm font-medium leading-6 text-gray-900'
@@ -303,7 +282,8 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
                     className='text-red-500 text-sm'
                   />
                 </div>
-              </div>
+              </div> */}
+
               <div>
                 <div className='flex items-center mb-4'>
                   <QuizSwitch addQuiz={addQuiz} setAddQuiz={setAddQuiz} />
