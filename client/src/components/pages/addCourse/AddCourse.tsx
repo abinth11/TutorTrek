@@ -6,7 +6,21 @@ import { addCourse } from "../../../api/endpoints/course/course";
 import { toast } from "react-toastify";
 import { getAllCategories } from "../../../api/endpoints/category";
 import { ApiResponseCategory } from "../../../api/types/apiResponses/apiResponseCategory";
-import { CourseInterface } from "../../../types/course";
+interface CourseFormValues {
+  title: string;
+  duration: string;
+  category: string;
+  level: string;
+  tags: string;
+  about: string;
+  description: string;
+  syllabus: string;
+  requirements: string;
+  price: string;
+  [key: string]: string;
+}
+
+
 const initialValues = {
   title: "",
   duration: "",
@@ -28,9 +42,8 @@ const CombinedForm: React.FC = () => {
     null
   );
 
-  const handleFormSubmit = async (values: any,  { resetForm }: FormikHelpers<any>) => {
+  const handleFormSubmit = async (values: CourseFormValues,  { resetForm }: FormikHelpers<CourseFormValues>) => {
     try {
-      console.log(values)
       const formData = new FormData();
       guidelines && formData.append("files", guidelines);
       thumbnail && formData.append("files", thumbnail);
@@ -52,7 +65,7 @@ const CombinedForm: React.FC = () => {
       const response = await getAllCategories();
       setCategories(response.data);
     } catch (error) {
-      console.log(error);
+      toast.error("something went wrong")
     }
   };
 

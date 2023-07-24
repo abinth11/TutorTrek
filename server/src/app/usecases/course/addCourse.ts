@@ -47,7 +47,6 @@ export const addCourses = async (
     courseInfo.requirements = courseInfo.requirements.split(',');
   }
 
-  console.log(courseInfo);
 
   const courseId = await courseDbRepository.addCourse(courseInfo);
 

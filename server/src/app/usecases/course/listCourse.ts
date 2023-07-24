@@ -15,7 +15,6 @@ export const getAllCourseU = async (
     courses.map(async (course) => {
       if (course.thumbnail) {
         course.thumbnailUrl = await cloudService.getFile(course.thumbnail.key)
-        console.log(course.thumbnailUrl)
       }
     })
   );
@@ -44,7 +43,6 @@ export const getCourseByIdU = async (
        course.guidelinesUrl = guidelines
       }
     };
-    console.log(course)
     return course;
   }
 

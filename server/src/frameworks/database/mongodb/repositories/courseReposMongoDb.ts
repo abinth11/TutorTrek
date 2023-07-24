@@ -20,7 +20,6 @@ export const courseRepositoryMongodb = () => {
       { _id: new mongoose.Types.ObjectId(courseId) },
       { ...editInfo }
     );
-    console.log(response);
   };
 
   const getAllCourse = async () => {

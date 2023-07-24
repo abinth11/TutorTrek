@@ -40,7 +40,6 @@ const EditCourse: React.FC = () => {
     try {
       setLoading(true);
       const response = await getIndividualCourse(courseId);
-      console.log(response.data.data);
       setCourse(response?.data?.data);
       setLoading(false);
     } catch (error) {
@@ -50,7 +49,6 @@ const EditCourse: React.FC = () => {
   };
   useEffect(() => {
     if (course) {
-      console.log(course.title)
       initialValues.title = course.title;
       initialValues.category=course.category;
       initialValues.description=course.description
