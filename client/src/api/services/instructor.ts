@@ -30,3 +30,10 @@ export const getMyStudentsService = async (endpoint: string) => {
   );
   return response.data;
 };
+
+export const getInstructorDetailsService = async(endpoint:string)=>{
+  const response = await api.get(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+  );
+  return response.data;
+}

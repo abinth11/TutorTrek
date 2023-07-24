@@ -2,6 +2,7 @@ import {
   updateProfileService,
   changePasswordService,
   getMyStudentsService,
+  getInstructorDetailsService,
 } from "../services/instructor";
 import { PasswordInfo } from "../types/student/student";
 import END_POINTS from "../../constants/endpoints";
@@ -23,3 +24,7 @@ export const updateProfile = (profileInfo: FormData) => {
 export const getMyStudents = () => {
   return getMyStudentsService(END_POINTS.GET_MY_STUDENTS);
 };
+
+export const getInstructorDetails = ()=>{
+  return getInstructorDetailsService(END_POINTS.GET_INSTRUCTOR_DETAILS)
+}

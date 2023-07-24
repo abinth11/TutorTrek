@@ -143,10 +143,7 @@ const instructorController = (
 
   const getInstructorById = asyncHandler(
     async (req: CustomRequest, res: Response) => {
-      let instructorId =
-        req.params.instructorId === 'fromProfile'
-          ? req.user?.Id ?? ''
-          : req.params.instructorId;
+      let instructorId = req.params.instructorId;
       const response = await getInstructorByIdUseCase(
         instructorId,
         cloudService,
@@ -215,6 +212,23 @@ const instructorController = (
     }
   );
 
+  const getInstructorDetails = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const instructorId = req.user?.Id;
+      const instructor = await getInstructorByIdUseCase(
+        instructorId ?? '',
+        cloudService,
+        dbRepositoryInstructor
+      );
+      console.log(instructor);
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully retrieved all students',
+        data: instructor
+      });
+    }
+  );
+
   return {
     getInstructorRequests,
     verifyInstructor,
@@ -226,7 +240,8 @@ const instructorController = (
     getInstructorById,
     updateProfile,
     changePassword,
-    getStudentsForInstructors
+    getStudentsForInstructors,
+    getInstructorDetails
   };
 };
 
