@@ -1,16 +1,30 @@
 import HttpStatusCodes from '../../../constants/HttpStatusCodes';
 import AppError from '../../../utils/appError';
 import { CourseDbRepositoryInterface } from '../../repositories/courseDbRepository';
+import { CourseInterface } from '@src/types/courseInterface';
+import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
+
 
 export const getAllCourseU = async (
+  cloudService: ReturnType<CloudServiceInterface>,
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>
 ) => {
-  const courses = await courseDbRepository.getAllCourse();
+  const courses: CourseInterface[] | null = await courseDbRepository.getAllCourse();
+
+  await Promise.all(
+    courses.map(async (course) => {
+      if (course.thumbnail) {
+        course.thumbnailUrl = await cloudService.getFile(course.thumbnail.key)
+        console.log(course.thumbnailUrl)
+      }
+    })
+  );
   return courses;
 };
 
 export const getCourseByIdU = async (
   courseId: string,
+  cloudService: ReturnType<CloudServiceInterface>,
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>
 ) => {
   if (!courseId) {
@@ -19,12 +33,23 @@ export const getCourseByIdU = async (
       HttpStatusCodes.BAD_REQUEST
     );
   }
-  const course = await courseDbRepository.getCourseById(courseId);
-  return course;
-};
+  const course:CourseInterface|null = await courseDbRepository.getCourseById(courseId);
+  if(course){
+      if (course.thumbnail) {
+        const thumbnail = await cloudService.getFile(course.thumbnail.key);
+        course.thumbnailUrl = thumbnail;
+      }
+      if(course.guidelines){
+       const guidelines = await cloudService.getFile(course.guidelines.key)
+       course.guidelinesUrl = guidelines
+      }
+    };
+    console.log(course)
+    return course;
+  }
 
 export const getCourseByStudentU = async (
-  studentId: string|undefined,
+  studentId: string | undefined,
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>
 ) => {
   if (!studentId) {

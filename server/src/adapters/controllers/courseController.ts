@@ -69,27 +69,25 @@ const courseController = (
   const addCourse = asyncHandler(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
       const course: AddCourseInfoInterface = req.body;
+      console.log(course)
       const files: Express.Multer.File[] = req.files as Express.Multer.File[];
       const instructorId = req.user?.Id;
-      if (instructorId) {
-        course.instructorId = instructorId;
-      }
-      if (files) {
-        const images = files
-          .filter((file) => file.mimetype.startsWith('image/'))
-          .map((file) => file.path);
-        const videos = files
-          .filter((file) => file.mimetype.startsWith('video/'))
-          .map((file) => file.path);
+      // if (files) {
+      //   const images = files
+      //     .filter((file) => file.mimetype.startsWith('image/'))
+      //     .map((file) => file.path);
+      //   const videos = files
+      //     .filter((file) => file.mimetype.startsWith('video/'))
+      //     .map((file) => file.path);
 
-        if (images.length > 0) {
-          course.thumbnail = images[0];
-        }
-        if (videos.length > 0) {
-          course.introductionVideo = videos[0];
-        }
-      }
-      const response = await addCourses(course, dbRepositoryCourse);
+      //   if (images.length > 0) {
+      //     course.thumbnail = images[0];
+      //   }
+      //   if (videos.length > 0) {
+      //     course.introductionVideo = videos[0];
+      //   }
+      // }
+      const response = await addCourses(instructorId,course,files,cloudService, dbRepositoryCourse);
       res.status(200).json({
         status: 'success',
         message:
@@ -134,7 +132,7 @@ const courseController = (
   );
 
   const getAllCourses = asyncHandler(async (req: Request, res: Response) => {
-    const courses = await getAllCourseU(dbRepositoryCourse);
+    const courses = await getAllCourseU(cloudService,dbRepositoryCourse);
     res.status(200).json({
       status: 'success',
       message: 'Successfully retrieved all courses',
@@ -145,7 +143,7 @@ const courseController = (
   const getIndividualCourse = asyncHandler(
     async (req: Request, res: Response) => {
       const courseId: string = req.params.courseId;
-      const course = await getCourseByIdU(courseId, dbRepositoryCourse);
+      const course = await getCourseByIdU(courseId,cloudService, dbRepositoryCourse);
       res.status(200).json({
         status: 'success',
         message: 'Successfully retrieved the course',

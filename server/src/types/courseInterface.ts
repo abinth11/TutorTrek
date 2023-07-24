@@ -1,24 +1,36 @@
 import { Question } from "./lesson";
+
+interface FileSchema {
+  key:string;
+  name:string
+  url?:string;
+}
 export interface AddCourseInfoInterface {
     title: string;
-    thumbnail: string;
-    introductionVideo?: string;
-    description: string;
+    duration: number;
     category: string;
-    instructorId: string;
+    level:string;
+    tags: string[]|string;
     price: number;
-    enrollmentCount: number;
-    rating: number;
-    lessons: string[];
-    isVerified: boolean;
     isPaid: boolean;
-    duration?: number;
-    requirements?: string[];
-    quiz:AddQuizInfoInterface;
-    tags?: string[];
-    enrollmentLimit?: number;
-    completionStatus?: number;
+    about:string;
+    description: string;
+    syllabus:string[]|string;
+    requirements:string[]|string;
+    thumbnail: FileSchema;
+    guidelines:FileSchema;
+    instructorId: string;
+    rating: number;
+    isVerified: boolean;
   }
+
+  export interface CourseInterface extends AddCourseInfoInterface {
+    coursesEnrolled:Array<string>,
+    thumbnailUrl:string,
+    guidelinesUrl:string;
+
+  }
+
   
   export interface AddQuizInfoInterface {
     courseId:string;

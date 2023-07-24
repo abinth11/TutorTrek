@@ -46,7 +46,9 @@ const configKeys = {
 
   STRIPE_SECRET_KEY:process.env.STRIPE_SECRET_KEY  as string,
 
-  STRIPE_PUBLISHABLE_KEY:process.env.STRIPE_PUBLISHABLE_KEY as string
+  STRIPE_PUBLISHABLE_KEY:process.env.STRIPE_PUBLISHABLE_KEY as string,
+
+  DB_CLUSTER_URL:process.env.DB_CLUSTER_URL as string
 
 };
 

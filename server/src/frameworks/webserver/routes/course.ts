@@ -40,8 +40,9 @@ const courseRouter = () => {
     '/instructors/add-course',
     jwtAuthMiddleware,
     instructorRoleCheckMiddleware,
-    uploadImageAndVideo,
-    controller.addCourse
+    // uploadImageAndVideo,
+    upload.array('files'),
+    controller.addCourse 
   );
 
   router.put(

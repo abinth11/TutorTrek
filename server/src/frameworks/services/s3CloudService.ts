@@ -39,6 +39,28 @@ export const s3Service = () => {
     };
   };
 
+   const uploadAndGetUrl = async (file: Express.Multer.File) => {
+    const key = randomImageName();
+    const params = {
+      Bucket: configKeys.AWS_BUCKET_NAME,
+      Key: key,
+      Body: file.buffer,
+      ContentType: file.mimetype,
+      ACL: 'public-read', 
+    };
+
+    const command = new PutObjectCommand(params);
+    await s3.send(command);
+
+    const url = `https://${configKeys.AWS_BUCKET_NAME}.s3.amazonaws.com/${key}`;
+
+    return {
+      name: file.originalname,
+      key,
+      url,
+    };
+  };
+
   const getFile = async (fileKey: string) => {
     const getObjectParams = {
       Bucket: configKeys.AWS_BUCKET_NAME,
@@ -83,6 +105,7 @@ export const s3Service = () => {
 
   return {
     uploadFile,
+    uploadAndGetUrl,
     getFile,
     getVideoStream,
     getCloudFrontUrl,

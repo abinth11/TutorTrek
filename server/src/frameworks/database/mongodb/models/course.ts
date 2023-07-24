@@ -1,5 +1,19 @@
 import mongoose, { Schema, model } from 'mongoose';
 import { AddCourseInfoInterface } from '@src/types/courseInterface';
+
+const FileSchema =  new Schema ({
+ name:{
+  type:String,
+  required:true
+ },
+ key:{
+  type:String,
+  required:true
+ },
+ url:{
+  type:String,
+ }
+})
 const courseSchema = new Schema({
   title: {
     type: String,
@@ -7,30 +21,26 @@ const courseSchema = new Schema({
     minlength: 2,
     maxlength: 100
   },
-  thumbnail: {
-    type: String,
-    match: /^(https?|data):\/\/[^\s/$.?#].[^\s]*$/i
+  instructorId: {
+    type: Schema.Types.ObjectId,
+    required: true
   },
-  introductionVideo: {
-    type: String,
-    match: /^(https?|data):\/\/[^\s/$.?#].[^\s]*$/i
-  },
-  description: {
-    type: String,
-    required: true,
-    minlength: 10
+  duration: {
+    type: Number,
+    required:true,
+    min: 0
   },
   category: {
     type: String,
     required: true
   },
-  instructorId: {
-    type: Schema.Types.ObjectId,
+  level: {
+    type: String,
     required: true
   },
-  isPaid: {
-    type: Boolean,
-    required: true
+  tags:{
+    type:Array<string>,
+    required:true
   },
   price: {
     type: Number,
@@ -38,6 +48,42 @@ const courseSchema = new Schema({
       return this.isPaid;
     },
     min: 0
+  },
+  isPaid: {
+    type: Boolean,
+    required: true
+  },
+  about:{
+    type:String,
+    required:true
+  },
+  description: {
+    type: String,
+    required: true,
+    minlength: 10
+  },
+  syllabus:{
+    type:Array<string>,
+    required:true
+  },
+  requirements: {
+    type: [String]
+  },
+  thumbnail:{
+    type:FileSchema,
+    required:true,
+  },
+  thumbnailUrl:{
+    type:String,
+    default:""
+  },
+  guidelines:{
+    type:FileSchema,
+    required:true,
+  },
+  guidelinesUrl:{
+    type:String,
+    default:""
   },
   coursesEnrolled: [
     {
@@ -51,10 +97,6 @@ const courseSchema = new Schema({
     max: 5,
     default:0
   },
-  lessons: {
-    type: [String],
-    required: true
-  },
   isVerified: {
     type: Boolean,
     default:false,
@@ -63,37 +105,6 @@ const courseSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  duration: {
-    type: Number,
-    required:true,
-    min: 0
-  },
-  requirements: {
-    type: [String]
-  },
-  tags: {
-    type: [String]
-  },
-  reviews: [{
-    rating: {
-      type: Number,
-      required: true,
-      min: 0,
-      max: 5
-    },
-    comment: {
-      type: String,
-      minlength: 10
-    },
-    userId: {
-      type: String,
-      required: true
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now
-    }
-  }],
   completionStatus: {
     type: Number,
     min: 0,

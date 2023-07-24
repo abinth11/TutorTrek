@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 import Students from '../models/student';
 import {
   AddCourseInfoInterface,
-  EditCourseInfo
+  EditCourseInfo,
+  CourseInterface
 } from '@src/types/courseInterface';
 
 export const courseRepositoryMongodb = () => {
@@ -23,12 +24,12 @@ export const courseRepositoryMongodb = () => {
   };
 
   const getAllCourse = async () => {
-    const courses = await Course.find({});
+    const courses:CourseInterface[]|null = await Course.find({});
     return courses;
   };
 
   const getCourseById = async (courseId: string) => {
-    const course = await Course.findOne({
+    const course:CourseInterface|null = await Course.findOne({
       _id: new mongoose.Types.ObjectId(courseId)
     });
     return course;

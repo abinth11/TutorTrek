@@ -21,6 +21,8 @@ import { MdDone } from "react-icons/md";
 import PaymentConfirmationModal from "./PaymentConfirmationModal";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 import LoginConfirmation from "../../common/LoginConfirmationModal";
+import Modal from "react-modal";
+import { Document, Page } from "react-pdf";    
 const ViewCourseStudent: React.FC = () => {
   const params = useParams();
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -31,6 +33,7 @@ const ViewCourseStudent: React.FC = () => {
   const studentId = useSelector(selectStudentId);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const [loginConfirmation, setLoginConfirmation] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const fetchCourse = async (courseId: string): Promise<CourseInterface> => {
     try {
@@ -65,6 +68,14 @@ const ViewCourseStudent: React.FC = () => {
   const course: CourseInterface | null = data;
   courseId && dispatch(setCourseId({ courseId }));
 
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   const handleToggle = (index: any) => {
     setExpandedIndex(index === expandedIndex ? null : index);
   };
@@ -85,8 +96,8 @@ const ViewCourseStudent: React.FC = () => {
   //   });
   // }
   const enrolled = course?.coursesEnrolled.includes(studentId ?? "");
-  return (   
-    <div className='bg-white'>
+  return (
+    <div className='bg-white w-full'>
       <LoginConfirmation
         confirm={loginConfirmation}
         setConfirm={setLoginConfirmation}
@@ -101,7 +112,7 @@ const ViewCourseStudent: React.FC = () => {
         }}
         setOpen={setOpenPaymentConfirmation}
       />
-      <div className='flex flex-col pr-5 pl-3 pt-5 md:pl-50 lg:pl-80  '>
+      <div className='flex flex-col  pr-5 pl-3 pt-5 md:pl-50 lg:pl-80  '>
         <h2>{location.hash}</h2>
         <CustomBreadCrumbs paths={location.pathname} />
       </div>
@@ -110,7 +121,7 @@ const ViewCourseStudent: React.FC = () => {
           <div className='relative p-4 '>
             <img
               className='w-full h-64 object-cover'
-              src={course?.thumbnail}
+              src={course?.thumbnailUrl}
               alt='Course Title'
             />
             <div className='absolute top-3 right-3 shadow-md bg-blue-500 text-white px-4 py-2 text-sm rounded-tl-lg rounded-br-lg'>
@@ -121,11 +132,21 @@ const ViewCourseStudent: React.FC = () => {
             <h2 className='text-3xl font-bold mb-4'>{course?.title}</h2>
             <p className='text-gray-700 text-lg mb-6'>{course?.description}</p>
             <div className='flex items-center mb-4'>
-              <div className='bg-blue-500 text-white rounded-full px-3 py-1 text-sm mr-2'>
-                Intermediate
+              <div>
+                <h2 className='text-md mr-2 font-semibold'>Difficulty:</h2>
               </div>
-              <div className='bg-gray-300 text-gray-700 rounded-full px-3 py-1 text-sm'>
-                Technology
+              <div
+                className={`rounded-full px-2 py-1 text-sm font-semibold text-white mr-2 ${
+                  course?.level === "easy"
+                    ? "bg-green-500"
+                    : course?.level === "medium"
+                    ? "bg-orange-500"
+                    : course?.level === "hard"
+                    ? "bg-red-500"
+                    : "bg-blue-500"
+                }`}
+              >
+                {course?.level}
               </div>
             </div>
             <div className='flex justify-between items-center mb-6'>
@@ -181,10 +202,28 @@ const ViewCourseStudent: React.FC = () => {
                 {expandedIndex === 0 && (
                   <li className=''>
                     <ul>
-                      <li className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'>
+                      <li
+                        className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'
+                        onClick={openModal}
+                      >
                         <IoBookSharp className='mr-2 text-blue-500' />
                         <span className='flex-1'>Important guidelines</span>
                       </li>
+                      <Modal
+                        isOpen={modalIsOpen}
+                        onRequestClose={closeModal}
+                        contentLabel='Course Guidelines'
+                      >
+                        <button
+                          onClick={closeModal}
+                          className='absolute top-0 right-0 mt-2 mr-2 text-gray-500 hover:text-gray-700'
+                        >
+                          Close     
+                        </button>
+                        <Document file={course?.guidelinesUrl}>
+                          <Page pageNumber={1} width={600} />
+                        </Document>
+                      </Modal>     
                       <Link to={"watch-lessons/1"}>
                         <li className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'>
                           <BiVideo className='mr-2 text-blue-500' />
@@ -233,38 +272,24 @@ const ViewCourseStudent: React.FC = () => {
                 )}
               </ul>
             </div>
-
             <div className='mb-8'>
               <h4 className='text-2xl font-semibold mb-2'>About this course</h4>
-              <h3 className='text-gray-700 mb-2 bg-white p-6 rounded-lg shadow-lg border-2'>
-                This course requires basic knowledge of JavaScript, familiarity
-                with HTML and CSS, and access to a computer with an internet
-                connection.Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-                aute irure dolor in reprehenderit in voluptate velit esse cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum.
+              <h3 className='text-gray-700 mb-2 bg-white p-6 rounded-lg shadow-lg border-2 break-all'>
+                {course?.about}
               </h3>
             </div>
 
             <div className='mb-8'>
               <h4 className='text-2xl font-semibold mb-2'>Requirements</h4>
               <ul className='text-gray-700 bg-white mt-2 border-2 shadow-md  rounded-lg'>
-                <li className='mb-2 p-3 pt-3'>
-                  <span className='text-blue-500 mr-2 '>&#9679;</span> Basic
-                  knowledge of JavaScript
-                </li>
-                <li className='mb-2 p-3'>
-                  <span className='text-blue-500 mr-2'>&#9679;</span>
-                  Familiarity with HTML and CSS
-                </li>
-                <li className='mb-4 p-3'>
-                  <span className='text-blue-500 mr-2'>&#9679;</span> Access to
-                  a computer with internet connection
-                </li>
+                {course?.requirements.map((item, index) => {
+                  return (
+                    <li className='mb-2 p-3 pt-3' key={index}>
+                      <span className='text-blue-500 mr-2 '>&#9679;</span>
+                      {item}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             <div className='flex items-center justify-end'>
