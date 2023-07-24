@@ -153,6 +153,7 @@ const courseController = (
       const instructorId = req.user?.Id;
       const courses = await getCourseByInstructorU(
         instructorId,
+        cloudService,
         dbRepositoryCourse
       );
       res.status(200).json({

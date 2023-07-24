@@ -65,6 +65,5 @@ export const getCourseByStudentU = async (
       }
     })
   );
-  console.log(courses)
   return courses;
 };

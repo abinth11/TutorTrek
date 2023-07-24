@@ -1,5 +1,6 @@
 import CONSTANTS_COMMON from "../../constants/common";
 import api from "../middlewares/protectedInterceptor";
+import axiosInstance from "../middlewares/interceptor";
 export const getInstructors = async (endpoint: string) => {
   const response = await api.get(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
@@ -69,7 +70,7 @@ export const getBlockedInstructor = async (endpoint: string) => {
 };
 
 export const getIndividualInstructor = async (endpoint:string,instructorId:string)=>{
-  const response = await api.get(
+  const response = await axiosInstance.get(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${instructorId}`
   );
   return response;

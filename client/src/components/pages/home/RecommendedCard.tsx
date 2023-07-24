@@ -12,8 +12,9 @@ interface Props {
 }
 
 const RecommendedCard: React.FC<Props> = ({ courseInfo }) => {
-  const { course, instructor } = courseInfo;
-  const imageUrl = course?.thumbnail;
+  const { course, instructor, media } = courseInfo;
+  const imageUrl = media.thumbnailUrl;
+  const profileUrl = media.profileUrl;
   return (
     <Card
       shadow={false}
@@ -44,7 +45,7 @@ const RecommendedCard: React.FC<Props> = ({ courseInfo }) => {
           variant='circular'
           alt='tania andrew'
           className='border-2 border-white'
-          src='https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80'
+          src={profileUrl}
         />
       </CardBody>
     </Card>

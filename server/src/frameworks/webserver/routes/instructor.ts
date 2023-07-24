@@ -54,7 +54,7 @@ const instructorRouter = () => {
 
   router.get(
     '/view-instructor/:instructorId',
-    jwtAuthMiddleware,
+    // jwtAuthMiddleware,
     controller.getInstructorById
   );
 

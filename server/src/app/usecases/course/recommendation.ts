@@ -19,12 +19,15 @@ export const getRecommendedCourseByStudentU = async (
     await courseDbRepository.getRecommendedCourseByStudentInterest(studentId);
   await Promise.all(
     courses.map(async (course) => {
-      if (course.thumbnail) {
-        course.thumbnailUrl = await cloudService.getFile(course.thumbnail.key);
+      course.media={thumbnailUrl:"",profileUrl:""}
+      if (course.course) {
+        course.media.thumbnailUrl = await cloudService.getFile(course.course.thumbnailKey);
+      }
+      if (course.instructor) {
+        course.media.profileUrl = await cloudService.getFile(course.instructor.profileKey);
       }
     })
   );
-  console.log(courses)
 
   return courses;
 };
@@ -39,8 +42,10 @@ export const getTrendingCourseU = async (
       if (course.thumbnail) {
         course.thumbnailUrl = await cloudService.getFile(course.thumbnail.key);
       }
+      if (course.instructorProfile) {
+        course.profileUrl = await cloudService.getFile(course.instructorProfile.key);
+      }
     })
   );
-  console.log(courses)
   return courses;
 };

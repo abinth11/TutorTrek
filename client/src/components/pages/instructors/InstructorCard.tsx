@@ -14,7 +14,7 @@ const InstructorCard: React.FC<InstructorApiResponse> = ({
   subjects,
   qualification,
   skills,
-  profilePic,
+  profileUrl,
   about,
 }) => {
   return (
@@ -33,14 +33,12 @@ const InstructorCard: React.FC<InstructorApiResponse> = ({
           variant='circular'
           alt='tania andrew'  
           className='border-2 border-white'
-          src={profilePic??"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"}
+          src={profileUrl??"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"}
         />
         <Typography variant='h5' className='mb-4'>
           {firstName + " " + lastName}
         </Typography>
-        <Typography variant='p' className=''>
-          {about}
-        </Typography>
+        <p className="text-gray pl-2 pr-2  text-md line-clamp-2">{about}</p>
       </CardHeader>
       <CardBody
         className='relative  px-6 md:px-12'
@@ -49,10 +47,10 @@ const InstructorCard: React.FC<InstructorApiResponse> = ({
         <Typography
           variant='h6'
           color='black'
-          className='mb-6 font-medium leading-[1.5]'
+          className='mb-6 text-gray text-md leading-[1.5]'
         >
-          {skills+", "+subjects+", "+qualification},
-        </Typography>
+          {skills+", "+subjects},
+        </Typography>  
       </CardBody>
     </Card>
   );
