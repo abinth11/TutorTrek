@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Dispatch,SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import {
   Card,
   CardHeader,
@@ -26,25 +26,27 @@ import BlockReasonModal from "../InstructorManagement/BlockReasonModal";
 import usePagination from "../../../hooks/usePagination";
 import StudentsTab from "./StudentsTab";
 import BlockStudentModal from "./BlockStudentModal";
+import { Students } from "../../../api/types/student/student";
+import { USER_AVATAR } from "../../../constants/common";
 
 const TABLE_HEAD = ["Name", "Email", "Date Joined", "Status", "Actions"];
 
 interface Props {
-  updated:boolean;
-  setUpdated:Dispatch<SetStateAction<boolean>>
+  updated: boolean;
+  setUpdated: Dispatch<SetStateAction<boolean>>;
 }
-const ViewStudents: React.FC<Props> = ({updated,setUpdated}) => {
-  const [students, setStudents] = useState([]);   
+const ViewStudents: React.FC<Props> = ({ updated, setUpdated }) => {
+  const [students, setStudents] = useState<Students[]>([]);
   const [open, setOpen] = useState(false);
   // const [updated, setUpdated] = useState(false);
   const [id, setId] = useState("");
-  const ITEMS_PER_PAGE = 4;  
-  const {  
-    currentPage,   
+  const ITEMS_PER_PAGE = 4;
+  const {
+    currentPage,
     totalPages,  
     currentData,
     goToPage,
-    goToPreviousPage,  
+    goToPreviousPage,
     goToNextPage,
   } = usePagination(students, ITEMS_PER_PAGE);
 
@@ -53,7 +55,7 @@ const ViewStudents: React.FC<Props> = ({updated,setUpdated}) => {
       const response = await getAllStudents();
       setStudents(response?.data);
     } catch (error: any) {
-      toast.error(error.data.message, {  
+      toast.error(error.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
@@ -74,9 +76,9 @@ const ViewStudents: React.FC<Props> = ({updated,setUpdated}) => {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
-  };   
+  };
   return (
-    <Card className='h-full w-full'>          
+    <Card className='h-full w-full'>
       {open && (
         <BlockStudentModal
           open={open}
@@ -129,7 +131,17 @@ const ViewStudents: React.FC<Props> = ({updated,setUpdated}) => {
           <tbody>
             {currentData?.map(
               (
-                { _id, img, firstName, lastName, email, dateJoined, isBlocked },
+                {
+                  _id,
+                  firstName,
+                  profileUrl,
+                  profilePic,
+                  isGoogleUser,
+                  lastName,
+                  email,
+                  dateJoined,
+                  isBlocked,
+                },
                 index
               ) => {
                 const isLast = index === students?.length - 1;
@@ -142,7 +154,11 @@ const ViewStudents: React.FC<Props> = ({updated,setUpdated}) => {
                     <td className={classes}>
                       <div className='flex items-center gap-3'>
                         <Avatar
-                          src={img}
+                          src={
+                            isGoogleUser && profilePic && profilePic.url
+                              ? profilePic.url
+                              : profileUrl || USER_AVATAR
+                          }
                           alt='image'
                           size='md'
                           className='border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1'

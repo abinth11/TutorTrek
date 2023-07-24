@@ -132,7 +132,10 @@ const instructorController = (
 
   const getBlockedInstructor = asyncHandler(
     async (req: Request, res: Response) => {
-      const response = await getBlockedInstructors(dbRepositoryInstructor);
+      const response = await getBlockedInstructors(
+        cloudService,
+        dbRepositoryInstructor
+      );
       res.json({
         status: 'success',
         message: 'Successfully fetched blocked instructors',

@@ -114,9 +114,19 @@ export const unblockInstructors = async (
 };
 
 export const getBlockedInstructors = async (
+  cloudService: ReturnType<CloudServiceInterface>,
   instructorRepository: ReturnType<InstructorDbInterface>
 ) => {
   const blockedInstructors = await instructorRepository.getBlockedInstructors();
+  await Promise.all(
+    blockedInstructors.map(async (instructor) => {
+      if (instructor.profilePic) {
+        instructor.profileUrl = await cloudService.getFile(
+          instructor.profilePic.key ?? ''
+        );
+      }
+    })
+  );
   return blockedInstructors;
 };
 

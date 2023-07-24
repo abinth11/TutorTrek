@@ -102,7 +102,7 @@ const studentController = (
   );
 
   const getAllStudents = asyncHandler(async (req:Request,res:Response)=>{
-    const students = await getAllStudentsU(dbRepositoryStudent)
+    const students = await getAllStudentsU(cloudService,dbRepositoryStudent)
     res.status(200).json({
       status: 'success',
       message: 'Successfully retrieved all student details',
@@ -132,7 +132,7 @@ const studentController = (
   })
 
   const getAllBlockedStudents = asyncHandler(async(req:Request,res:Response)=>{
-    const students = await getAllBlockedStudentsU(dbRepositoryStudent)
+    const students = await getAllBlockedStudentsU(cloudService,dbRepositoryStudent)
     res.status(200).json({
       status: 'success',
       message: 'Successfully unblocked student ',

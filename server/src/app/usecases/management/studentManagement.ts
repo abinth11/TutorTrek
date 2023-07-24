@@ -1,11 +1,22 @@
+import { StudentInterface } from '@src/types/studentInterface';
 import HttpStatusCodes from '../../../constants/HttpStatusCodes';
 import AppError from '../../../utils/appError';
 import { StudentsDbInterface } from '@src/app/repositories/studentDbRepository';
+import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
 
 export const getAllStudentsU = async (
+  cloudService:ReturnType<CloudServiceInterface>,
   studentRepository: ReturnType<StudentsDbInterface>
 ) => {
-  const students = await studentRepository.getAllStudents();
+  const students:StudentInterface[]|null = await studentRepository.getAllStudents();
+  await Promise.all(
+    students.map(async (student) => {
+      if (student?.profilePic?.key) {
+        student.profileUrl = ""
+        student.profileUrl = await cloudService.getFile(student.profilePic.key);
+      }
+    })
+  );
   return students;
 };
 
@@ -45,8 +56,18 @@ export const unblockStudentU = async (
 
 
 export const getAllBlockedStudentsU = async (
+  cloudService:ReturnType<CloudServiceInterface>,
   studentRepository: ReturnType<StudentsDbInterface>
 ) => {
-  const blockedStudents = await studentRepository.getAllBlockedStudents();
+  const blockedStudents:StudentInterface[]|null = await studentRepository.getAllBlockedStudents();
+  await Promise.all(
+    blockedStudents.map(async (student) => {
+      if (student?.profilePic?.key) {
+        student.profileUrl = ""
+        student.profileUrl = await cloudService.getFile(student.profilePic.key);
+      }
+    })
+  );
+  console.log(blockedStudents)
   return blockedStudents;
 };

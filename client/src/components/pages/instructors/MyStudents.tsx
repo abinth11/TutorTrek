@@ -19,23 +19,7 @@ import { useState, useEffect } from "react";
 import usePagination from "../../../hooks/usePagination";
 import { formatDate } from "../../../utils/helpers";
 import { toast } from "react-toastify";
-export interface Students {
-  _id: string;
-  course:string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  mobile: string;
-  dateJoined: string;
-  isGoogleUser:boolean;
-  profilePic:{
-    name:string;
-    url:string;
-    id:string
-  }
-  profileUrl:string;
-  isBlocked: boolean;
-}
+import { Students } from "../../../api/types/student/student";
 const TABLE_HEAD = ["Student", "Course", "Status", "Joined"];
 
 const MyStudents: React.FC = () => {
