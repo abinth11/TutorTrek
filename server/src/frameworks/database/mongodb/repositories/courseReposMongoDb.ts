@@ -142,9 +142,9 @@ export const courseRepositoryMongodb = () => {
   };
 
   const getCourseByStudent = async (id: string) => {
-    const courses = await Course.find({
+    const courses:CourseInterface[]|null = await Course.find({
       coursesEnrolled: {
-        $in: [new mongoose.Types.ObjectId('648d8672320950d1ec7454ac')]
+        $in: [new mongoose.Types.ObjectId(id)]
       }
     });
     return courses;

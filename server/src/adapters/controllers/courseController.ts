@@ -3,7 +3,10 @@ import asyncHandler from 'express-async-handler';
 import { CourseRepositoryMongoDbInterface } from '../../frameworks/database/mongodb/repositories/courseReposMongoDb';
 import { CourseDbRepositoryInterface } from '../../app/repositories/courseDbRepository';
 import { addCourses } from '../../app/usecases/course/addCourse';
-import { AddCourseInfoInterface, EditCourseInfo } from '../../types/courseInterface';
+import {
+  AddCourseInfoInterface,
+  EditCourseInfo
+} from '../../types/courseInterface';
 import { CustomRequest } from '../../types/customRequest';
 import {
   getAllCourseU,
@@ -71,7 +74,13 @@ const courseController = (
       const course: AddCourseInfoInterface = req.body;
       const files: Express.Multer.File[] = req.files as Express.Multer.File[];
       const instructorId = req.user?.Id;
-      const response = await addCourses(instructorId,course,files,cloudService, dbRepositoryCourse);
+      const response = await addCourses(
+        instructorId,
+        course,
+        files,
+        cloudService,
+        dbRepositoryCourse
+      );
       res.status(200).json({
         status: 'success',
         message:
@@ -86,7 +95,7 @@ const courseController = (
       const course: EditCourseInfo = req.body;
       const files: Express.Multer.File[] = req.files as Express.Multer.File[];
       const instructorId = req.user?.Id;
-      const courseId:string = req.params.courseId
+      const courseId: string = req.params.courseId;
       if (instructorId) {
         course.instructorId = instructorId;
       }
@@ -105,18 +114,17 @@ const courseController = (
           course.introductionVideo = videos[0];
         }
       }
-      const response = await editCourseU(courseId,course, dbRepositoryCourse);
+      const response = await editCourseU(courseId, course, dbRepositoryCourse);
       res.status(200).json({
         status: 'success',
-        message:
-          'Successfully edited the course',
+        message: 'Successfully edited the course',
         data: response
       });
     }
   );
 
   const getAllCourses = asyncHandler(async (req: Request, res: Response) => {
-    const courses = await getAllCourseU(cloudService,dbRepositoryCourse);
+    const courses = await getAllCourseU(cloudService, dbRepositoryCourse);
     res.status(200).json({
       status: 'success',
       message: 'Successfully retrieved all courses',
@@ -127,7 +135,11 @@ const courseController = (
   const getIndividualCourse = asyncHandler(
     async (req: Request, res: Response) => {
       const courseId: string = req.params.courseId;
-      const course = await getCourseByIdU(courseId,cloudService, dbRepositoryCourse);
+      const course = await getCourseByIdU(
+        courseId,
+        cloudService,
+        dbRepositoryCourse
+      );
       res.status(200).json({
         status: 'success',
         message: 'Successfully retrieved the course',
@@ -320,6 +332,7 @@ const courseController = (
       const studentId: string = req.user?.Id ?? '';
       const courses = await getRecommendedCourseByStudentU(
         studentId,
+        cloudService,
         dbRepositoryCourse
       );
       res.status(200).json({
@@ -332,7 +345,10 @@ const courseController = (
 
   const getTrendingCourses = asyncHandler(
     async (req: Request, res: Response) => {
-      const courses = await getTrendingCourseU(dbRepositoryCourse);
+      const courses = await getTrendingCourseU(
+        cloudService,
+        dbRepositoryCourse
+      );
       res.status(200).json({
         status: 'success',
         message: 'Successfully retrieved trending courses',
@@ -341,15 +357,21 @@ const courseController = (
     }
   );
 
-  const getCourseByStudent = asyncHandler(async(req:CustomRequest,res:Response)=>{
-    const studentId:string|undefined = req.user?.Id
-    const courses = await getCourseByStudentU(studentId,dbRepositoryCourse)
-    res.status(200).json({
-      status: 'success',
-      message: 'Successfully retrieved courses based on students',
-      data: courses
-    });
-  })
+  const getCourseByStudent = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const studentId: string | undefined = req.user?.Id;
+      const courses = await getCourseByStudentU(
+        studentId,
+        cloudService,
+        dbRepositoryCourse
+      );
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully retrieved courses based on students',
+        data: courses
+      });
+    }
+  );
 
   return {
     addCourse,
