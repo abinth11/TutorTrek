@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import { CourseRepositoryMongoDbInterface } from '../../frameworks/database/mongodb/repositories/courseReposMongoDb';
 import { CourseDbRepositoryInterface } from '../../app/repositories/courseDbRepository';
 import { addCourses } from '../../app/usecases/course/addCourse';
-import { AddCourseInfoInterface } from '../../types/courseInterface';
+import { AddCourseInfoInterface, EditCourseInfo } from '../../types/courseInterface';
 import { CustomRequest } from '../../types/customRequest';
 import {
   getAllCourseU,
@@ -40,6 +40,7 @@ import {
   getRecommendedCourseByStudentU,
   getTrendingCourseU
 } from '../../app/usecases/course/recommendation';
+import { editCourseU } from '../../app/usecases/course/editCourse';
 
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
@@ -70,6 +71,22 @@ const courseController = (
       const course: AddCourseInfoInterface = req.body;
       const files: Express.Multer.File[] = req.files as Express.Multer.File[];
       const instructorId = req.user?.Id;
+      const response = await addCourses(instructorId,course,files,cloudService, dbRepositoryCourse);
+      res.status(200).json({
+        status: 'success',
+        message:
+          'Successfully added new course, course will be published after verification',
+        data: response
+      });
+    }
+  );
+
+  const editCourse = asyncHandler(
+    async (req: CustomRequest, res: Response, next: NextFunction) => {
+      const course: EditCourseInfo = req.body;
+      const files: Express.Multer.File[] = req.files as Express.Multer.File[];
+      const instructorId = req.user?.Id;
+      const courseId:string = req.params.courseId
       if (instructorId) {
         course.instructorId = instructorId;
       }
@@ -88,18 +105,18 @@ const courseController = (
           course.introductionVideo = videos[0];
         }
       }
-      const response = await addCourses(course, dbRepositoryCourse);
+      const response = await editCourseU(courseId,course, dbRepositoryCourse);
       res.status(200).json({
         status: 'success',
         message:
-          'Successfully added new course, course will be published after verification',
+          'Successfully edited the course',
         data: response
       });
     }
   );
 
   const getAllCourses = asyncHandler(async (req: Request, res: Response) => {
-    const courses = await getAllCourseU(dbRepositoryCourse);
+    const courses = await getAllCourseU(cloudService,dbRepositoryCourse);
     res.status(200).json({
       status: 'success',
       message: 'Successfully retrieved all courses',
@@ -110,7 +127,7 @@ const courseController = (
   const getIndividualCourse = asyncHandler(
     async (req: Request, res: Response) => {
       const courseId: string = req.params.courseId;
-      const course = await getCourseByIdU(courseId, dbRepositoryCourse);
+      const course = await getCourseByIdU(courseId,cloudService, dbRepositoryCourse);
       res.status(200).json({
         status: 'success',
         message: 'Successfully retrieved the course',
@@ -336,6 +353,7 @@ const courseController = (
 
   return {
     addCourse,
+    editCourse,
     getAllCourses,
     getIndividualCourse,
     getCoursesByInstructor,

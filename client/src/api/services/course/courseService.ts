@@ -3,7 +3,7 @@ import api from "../../middlewares/protectedInterceptor";
 import { PaymentIntent } from "@stripe/stripe-js";
 import axiosInstance from "../../middlewares/interceptor";
 
-export const addCourseService = async (endpoint: string, courseInfo: any) => {
+export const addCourseService = async (endpoint: string, courseInfo: FormData) => {
   const response = await api.post(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
     courseInfo

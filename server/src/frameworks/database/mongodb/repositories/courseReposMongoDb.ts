@@ -1,7 +1,11 @@
 import Course from '../models/course';
 import mongoose from 'mongoose';
 import Students from '../models/student';
-import { AddCourseInfoInterface } from '@src/types/courseInterface';
+import {
+  AddCourseInfoInterface,
+  EditCourseInfo,
+  CourseInterface
+} from '@src/types/courseInterface';
 
 export const courseRepositoryMongodb = () => {
   const addCourse = async (courseInfo: AddCourseInfoInterface) => {
@@ -11,13 +15,20 @@ export const courseRepositoryMongodb = () => {
     return courseId;
   };
 
+  const editCourse = async (courseId: string, editInfo: EditCourseInfo) => {
+    const response = await Course.updateOne(
+      { _id: new mongoose.Types.ObjectId(courseId) },
+      { ...editInfo }
+    );
+  };
+
   const getAllCourse = async () => {
-    const courses = await Course.find({});
+    const courses:CourseInterface[]|null = await Course.find({});
     return courses;
   };
 
   const getCourseById = async (courseId: string) => {
-    const course = await Course.findOne({
+    const course:CourseInterface|null = await Course.findOne({
       _id: new mongoose.Types.ObjectId(courseId)
     });
     return course;
@@ -187,19 +198,19 @@ export const courseRepositoryMongodb = () => {
       {
         $project: {
           student: { $arrayElemAt: ['$studentDetails', 0] },
-          courseName:"$title"
+          courseName: '$title'
         }
       },
       {
-        $project:{
-          course:"$courseName",
-          firstName:"$student.firstName",
-          lastName:"$student.lastName",
-          email:"$student.email",
-          mobile:"$student.mobile",
-          dateJoined:"$student.dateJoined",
-          isBlocked:"$student.isBlocked",
-          profilePic:"$student.profilePic"
+        $project: {
+          course: '$courseName',
+          firstName: '$student.firstName',
+          lastName: '$student.lastName',
+          email: '$student.email',
+          mobile: '$student.mobile',
+          dateJoined: '$student.dateJoined',
+          isBlocked: '$student.isBlocked',
+          profilePic: '$student.profilePic'
         }
       }
     ]);
@@ -208,6 +219,7 @@ export const courseRepositoryMongodb = () => {
 
   return {
     addCourse,
+    editCourse,
     getAllCourse,
     getCourseById,
     getCourseByInstructorId,

@@ -12,7 +12,7 @@ import { BsPlayCircle } from "react-icons/bs";
 const MyCourseCard: React.FC<CourseInterface> = ({
   coursesEnrolled,
   title,
-  thumbnail,
+  thumbnailUrl,
   description,
   duration,
 }) => {
@@ -20,7 +20,7 @@ const MyCourseCard: React.FC<CourseInterface> = ({
     <Card className='w-80 h-[25rem] border-none shadow-none hover:border-gray-300 hover:border-md hover:shadow-md transition-transform duration-300 overflow-hidden border-2 border-gray-200 hover:scale-105'>
       <CardHeader shadow={false} floated={false} className='h-48'>
         <img
-          src={thumbnail}
+          src={thumbnailUrl}  
           className='w-full h-full object-cover transition-transform duration-300 transform hover:scale-105'
         />
       </CardHeader>

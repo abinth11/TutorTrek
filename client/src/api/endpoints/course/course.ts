@@ -11,7 +11,7 @@ import {
 import { getCoursesByInstructorService } from "../../services/course/courseService";
 import { PaymentIntent } from "@stripe/stripe-js";
 
-export const addCourse = (courseInfo: any) => {
+export const addCourse = (courseInfo: FormData) => {
   return addCourseService(END_POINTS.ADD_COURSE, courseInfo);
 };
 

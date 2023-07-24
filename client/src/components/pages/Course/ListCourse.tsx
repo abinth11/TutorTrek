@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
 import { getAllCourses } from "../../../api/endpoints/course/course";
 import { toast } from "react-toastify";
-import { CourseInterface } from "../../../types/course";
+import { CourseInterface } from "../../../types/course";   
 import { Link } from "react-router-dom";
 import ShimmerCard from "../../Shimmers/ShimmerCard";
 import { RiSearchLine } from "react-icons/ri";
@@ -110,9 +110,9 @@ const ListCourse: React.FC = () => {
         <div className="w-10/12">
           <div className="flex mt-3  flex-wrap justify-center">
             {courses.map((course: CourseInterface, index: number) => (
-              <Link to={course._id} key={index} className="mt-5">
-                <div className="m-2">
-                  <CourseCard course={course} />
+              <Link to={course._id} key={course._id} className="mt-5">
+                <div className="m-2">  
+                  <CourseCard {...course} />
                 </div>
               </Link>
             ))}

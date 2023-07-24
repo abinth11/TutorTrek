@@ -35,7 +35,8 @@ import StudentsTab from "./components/pages/studentManagement/StudentsTab";
 import InstructorProfile from "./components/pages/instructors/InsructorProfile";
 import MyStudents from "./components/pages/instructors/MyStudents";
 import InstructorChannels from "./components/pages/channel/InstructorChannels";
-     
+import EditCourse from "./components/pages/addCourse/EditCourse";
+
 const LazyListCourse = lazy(
   () => import("./components/pages/course/ListCourse")
 );
@@ -84,22 +85,23 @@ const AppRouter = createBrowserRouter([
       },
     ],
   },
-  {      
+  {
     path: "/dashboard",
     element: <UserDashboard />,
-    children:[
+    children: [
       {
-        path:"",
-        element:<DashHome/>
+        path: "",
+        element: <DashHome />,
       },
       {
-        path:"my-courses",
-        element:<MyCourses/>
-      },{          
-        path:"my-profile",
-        element:<MyProfile/>
-      }
-    ]
+        path: "my-courses",
+        element: <MyCourses />,
+      },
+      {
+        path: "my-profile",
+        element: <MyProfile />,
+      },
+    ],
   },
   {
     path: "courses/:courseId/payment",
@@ -153,12 +155,12 @@ const AppRouter = createBrowserRouter([
         ],
       },
       {
-        path:"students",
-        element:<StudentsTab/>
+        path: "students",
+        element: <StudentsTab />,
       },
       {
         path: "categories",
-        element: <Categories />,   
+        element: <Categories />,
         children: [
           {
             path: "",
@@ -198,21 +200,25 @@ const AppRouter = createBrowserRouter([
         element: <ListCourseForInstructors />,
       },
       {
+        path: "edit-course/:courseId",
+        element: <EditCourse />,
+      },
+      {
         path: "view-lessons/:courseId",
         element: <ViewLessons />,
       },
       {
-        path:"view-students",
-        element:<MyStudents/>
+        path: "view-students",
+        element: <MyStudents />,
       },
       {
-        path:"view-profile",  
-        element:<InstructorProfile/>
+        path: "view-profile",
+        element: <InstructorProfile />,
       },
       {
-        path:"view-channels",
-        element:<InstructorChannels/>
-      }
+        path: "view-channels",
+        element: <InstructorChannels />,
+      },
     ],
   },
 ]);

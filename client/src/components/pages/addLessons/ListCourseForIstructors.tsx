@@ -233,9 +233,11 @@ const ListCourseForInstructors: React.FC = () => {
                             </Link>
                           </Tooltip>
                           <Tooltip content='Edit course'>
+                            <Link to={`/instructors/edit-course/${_id}`}>
                             <IconButton variant='text' color='blue-gray'>
                               <PencilIcon className='h-4 w-4' />
                             </IconButton>
+                            </Link>
                           </Tooltip>
                           <Tooltip content='Delete course'>
                             <IconButton variant='text' color='blue-gray'>
