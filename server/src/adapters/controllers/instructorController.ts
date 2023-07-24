@@ -223,7 +223,6 @@ const instructorController = (
         cloudService,
         dbRepositoryInstructor
       );
-      console.log(instructor);
       res.status(200).json({
         status: 'success',
         message: 'Successfully retrieved all students',

@@ -68,6 +68,5 @@ export const getAllBlockedStudentsU = async (
       }
     })
   );
-  console.log(blockedStudents)
   return blockedStudents;
 };

@@ -41,7 +41,8 @@ export interface AddCourseInfoInterface {
 
   export interface EditCourseInfo {
     title?: string;
-    thumbnail?: string;
+    thumbnail?: FileSchema;
+    guidelines?:FileSchema;
     introductionVideo?: string;
     description?: string;
     category?: string;
@@ -49,13 +50,13 @@ export interface AddCourseInfoInterface {
     price?: number;
     enrollmentCount?: number;
     rating?: number;
-    lessons?: string[];
     isVerified?: boolean;
     isPaid?: boolean;
     duration?: number;
-    requirements?: string[];
+    syllabus:string[]|string;
+    requirements?: string[]|string;
     quiz?:AddQuizInfoInterface;
-    tags?: string[];
+    tags?: string[]|string;
     enrollmentLimit?: number;
     completionStatus?: number;
   }

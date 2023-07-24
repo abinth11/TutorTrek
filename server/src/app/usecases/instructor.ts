@@ -83,7 +83,6 @@ export const getStudentsForInstructorsU = async (
   const students = await courseDbRepository.getStudentsByCourseForInstructor(
     instructorId
   );
-  console.log(students)
   await Promise.all(
     students.map(async (student) => {
       if (student.profilePic.key) {
@@ -92,6 +91,5 @@ export const getStudentsForInstructorsU = async (
       }
     })
   );
-  console.log(students)
   return students;
 };

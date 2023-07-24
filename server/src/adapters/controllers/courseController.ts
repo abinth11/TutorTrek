@@ -96,28 +96,17 @@ const courseController = (
       const files: Express.Multer.File[] = req.files as Express.Multer.File[];
       const instructorId = req.user?.Id;
       const courseId: string = req.params.courseId;
-      if (instructorId) {
-        course.instructorId = instructorId;
-      }
-      if (files) {
-        const images = files
-          .filter((file) => file.mimetype.startsWith('image/'))
-          .map((file) => file.path);
-        const videos = files
-          .filter((file) => file.mimetype.startsWith('video/'))
-          .map((file) => file.path);
-
-        if (images.length > 0) {
-          course.thumbnail = images[0];
-        }
-        if (videos.length > 0) {
-          course.introductionVideo = videos[0];
-        }
-      }
-      const response = await editCourseU(courseId, course, dbRepositoryCourse);
+      const response = await editCourseU(
+        courseId,
+        instructorId,
+        files,
+        course,
+        cloudService,
+        dbRepositoryCourse
+      );
       res.status(200).json({
         status: 'success',
-        message: 'Successfully edited the course',
+        message: 'Successfully updated the course',
         data: response
       });
     }
