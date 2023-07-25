@@ -59,7 +59,11 @@ const courseRouter = (redisClient: RedisClient) => {
     controller.editCourse
   );
 
-  router.get('/get-all-courses', controller.getAllCourses);
+  router.get(
+    '/get-all-courses',
+    cachingMiddleware(redisClient, 'all-courses'),
+    controller.getAllCourses
+  );
 
   router.get('/get-course/:courseId', controller.getIndividualCourse);
 
@@ -152,7 +156,7 @@ const courseRouter = (redisClient: RedisClient) => {
 
   router.get(
     '/search-course',
-    cachingMiddleware(redisClient,'courses-search'),
+    cachingMiddleware(redisClient),
     controller.searchCourse
   );
 

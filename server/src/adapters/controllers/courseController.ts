@@ -122,6 +122,12 @@ const courseController = (
 
   const getAllCourses = asyncHandler(async (req: Request, res: Response) => {
     const courses = await getAllCourseU(cloudService, dbRepositoryCourse);
+    const cacheOptions = {
+      key: `all-courses`,
+      expireTimeSec: 600,
+      data: JSON.stringify(courses)
+    };
+    await dbRepositoryCache.setCache(cacheOptions);
     res.status(200).json({
       status: 'success',
       message: 'Successfully retrieved all courses',
@@ -391,18 +397,21 @@ const courseController = (
 
   const searchCourse = asyncHandler(async (req: Request, res: Response) => {
     const { search, filter } = req.query as { search: string; filter: string };
+    const key = search.trim()===""?search:filter
     const searchResult = await searchCourseU(
       search,
       filter,
+      cloudService,
       dbRepositoryCourse
     );
-    const cacheOptions = {
-      key:"courses-search",
-      expireTimeSec: 600,
-      data: JSON.stringify(searchResult)
-    };
-    await dbRepositoryCache.setCache(cacheOptions);
-    
+    if (searchResult.length) {
+      const cacheOptions = {
+        key: `${key}`,
+        expireTimeSec: 600,
+        data: JSON.stringify(searchResult)
+      };
+      await dbRepositoryCache.setCache(cacheOptions);
+    }
     res.status(200).json({
       status: 'success',
       message: 'Successfully retrieved courses based on the search query',

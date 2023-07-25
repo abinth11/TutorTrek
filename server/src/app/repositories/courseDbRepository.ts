@@ -44,8 +44,8 @@ export const courseDbRepository = (
   const getStudentsByCourseForInstructor = async (instructorId: string) =>
     await repository.getStudentsByCourseForInstructor(instructorId);
 
-  const searchCourse = async (isFree: boolean,filter:boolean, searchQuery: string,filterQuery:string) =>
-    await repository.searchCourse(isFree,filter, searchQuery,filterQuery);
+  const searchCourse = async (isFree: boolean, searchQuery: string,filterQuery:string) =>
+    await repository.searchCourse(isFree, searchQuery,filterQuery);
 
   return {
     addCourse,

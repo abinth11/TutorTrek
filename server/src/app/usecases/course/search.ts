@@ -2,10 +2,12 @@ import { CourseDbRepositoryInterface } from '../../../app/repositories/courseDbR
 import AppError from '../../../utils/appError';
 import HttpStatusCodes from '../../../constants/HttpStatusCodes';
 import { CourseInterface } from '../../../types/courseInterface';
+import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
 
 export const searchCourseU = async (
   searchQuery: string,
   filterQuery: string,
+  cloudService:ReturnType<CloudServiceInterface>,
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>
 ) => {
   if (!searchQuery && !filterQuery) {
@@ -14,7 +16,7 @@ export const searchCourseU = async (
       HttpStatusCodes.BAD_REQUEST
     );
   }
-  let isFree = false,filter=false
+  let isFree = false
   let searchParams: string;
 
   if (searchQuery) {
@@ -29,14 +31,19 @@ export const searchCourseU = async (
     }
   } else {
     searchParams = filterQuery;
-    filter=true
   }
 
-  const searchResult: CourseInterface[] = await courseDbRepository.searchCourse(
+  const searchResult= await courseDbRepository.searchCourse(
     isFree,
-    filter,
     searchParams,
     filterQuery
+  );
+  await Promise.all(
+    searchResult.map(async (course) => {
+      if (course.thumbnail) {
+        course.thumbnailUrl = await cloudService.getFile(course.thumbnail.key);
+      }
+    })
   );
   return searchResult;
 };

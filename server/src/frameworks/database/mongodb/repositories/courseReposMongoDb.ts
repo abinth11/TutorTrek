@@ -225,30 +225,31 @@ export const courseRepositoryMongodb = () => {
 
   const searchCourse = async (
     isFree: boolean,
-    filter: boolean,
     searchQuery: string,
     filterQuery: string
   ) => {
-    console.log(isFree);
-    console.log(searchQuery);
-    const baseQuery: FilterQuery<any> = {
-      $or: [
-        { title: { $regex: searchQuery, $options: 'i' } },
-        { category: { $regex: searchQuery, $options: 'i' } },
-        { level: { $regex: searchQuery, $options: 'i' } },
-        { tags: { $in: [searchQuery] } }
-      ]
-    };
-
-    if (isFree) {
-      baseQuery.isPaid = false;
+    let query = {};
+    if (searchQuery && filterQuery) {
+      query = {
+        $and: [
+          { $text: { $search: searchQuery } },
+          { isFree: isFree },
+        ],
+      };
     }
-    if (filter) {
-      baseQuery.category = { $regex: filterQuery, $options: 'i' };
+    else if (searchQuery) {
+      query = { $text: { $search: searchQuery } };
     }
-    const courses: CourseInterface[] = await Course.find(baseQuery);
+    else if (filterQuery) {
+      query = { isFree: isFree };
+    }
+    const courses = await Course.find(query, {
+      score: { $meta: "textScore" },
+    }).sort({ score: { $meta: "textScore" } });
+  
     return courses;
   };
+  
 
   return {
     addCourse,

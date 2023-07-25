@@ -19,8 +19,7 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 2,
-    maxlength: 100,
-    index: true // Index for the "title" field
+    maxlength: 100
   },
   instructorId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -33,18 +32,15 @@ const courseSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    required: true,
-    index: true // Index for the "category" field
+    required: true
   },
   level: {
     type: String,
-    required: true,
-    index: true // Index for the "level" field
+    required: true
   },
   tags: {
     type: [String],
-    required: true,
-    index: true // Index for the "tags" field
+    required: true
   },
   price: {
     type: Number,
@@ -52,12 +48,10 @@ const courseSchema = new mongoose.Schema({
       return this.isPaid;
     },
     min: 0,
-    index: true
   },
   isPaid: {
     type: Boolean,
-    required: true,
-    index: true // Index for the "isPaid" field
+    required: true
   },
   about: {
     type: String,
@@ -119,8 +113,22 @@ const courseSchema = new mongoose.Schema({
   }
 });
 
-// Index for the compound query: "category," "level," and "isPaid" fields together
-courseSchema.index({ category: 1, level: 1, isPaid: 1 });
+// courseSchema.index(
+//   {
+//     title: 'text',
+//     category: 'text',
+//     level: 'text',
+//     price: 'text'
+//   },
+//   {
+//     weights: {
+//       title: 4,
+//       category: 3,
+//       level: 2,
+//       price: 1
+//     }
+//   }
+// );
 
 const Course = model('Course', courseSchema, 'course');
 export default Course;

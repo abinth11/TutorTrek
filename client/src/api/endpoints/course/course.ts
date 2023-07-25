@@ -8,6 +8,7 @@ import {
   getIndividualCourseService,
   getRecommendedCoursesService,
   getTrendingCoursesService,
+  searchCourseService,
 } from "../../services/course/courseService";
 import { getCoursesByInstructorService } from "../../services/course/courseService";
 import { PaymentIntent } from "@stripe/stripe-js";
@@ -49,4 +50,12 @@ export const getTrendingCourses = () => {
 
 export const getCourseByStudent = () => {
   return getCourseByStudentService(END_POINTS.GET_COURSE_BY_STUDENT);
+};
+
+export const searchCourse = (searchQuery: string, filterQuery: string) => {
+  return searchCourseService(
+    END_POINTS.SEARCH_COURSE,
+    searchQuery,
+    filterQuery
+  );
 };
