@@ -16,10 +16,11 @@ export const courseRepositoryMongodb = () => {
   };
 
   const editCourse = async (courseId: string, editInfo: EditCourseInfo) => {
-    const response = await Course.updateOne(
+    const response = await Course.findOneAndUpdate(
       { _id: new mongoose.Types.ObjectId(courseId) },
       { ...editInfo }
     );
+    return response
   };
 
   const getAllCourse = async () => {
@@ -58,7 +59,6 @@ export const courseRepositoryMongodb = () => {
   };
 
   const getRecommendedCourseByStudentInterest = async (studentId: string) => {
-    console.log(studentId);
     const pipeline = [
       { $match: { _id: new mongoose.Types.ObjectId(studentId) } },
       { $unwind: '$interests' },

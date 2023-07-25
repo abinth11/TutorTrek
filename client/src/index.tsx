@@ -11,13 +11,15 @@ import { store } from "./redux/store";
 import { ThemeProvider } from "@material-tailwind/react";
 import { ToastContainer } from "react-toastify";
 import { MaterialTailwindControllerProvider } from "./components/pages/admin/widgets/context";
+import Modal from 'react-modal';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+Modal.setAppElement('#root');
 
-
-
+   
 root.render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={client_id}>

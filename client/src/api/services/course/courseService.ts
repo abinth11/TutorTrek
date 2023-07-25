@@ -11,6 +11,14 @@ export const addCourseService = async (endpoint: string, courseInfo: FormData) =
   return response;
 };
 
+export const editCourseService = async (endpoint: string,courseId:string, courseInfo: FormData) => {
+  const response = await api.put(
+    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${courseId}`,
+    courseInfo
+  );
+  return response;
+};
+
 export const getCoursesByInstructorService = async (endpoint: string) => {
   const response = await api.get(
     `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`

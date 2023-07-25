@@ -36,6 +36,7 @@ import InstructorProfile from "./components/pages/instructors/InsructorProfile";
 import MyStudents from "./components/pages/instructors/MyStudents";
 import InstructorChannels from "./components/pages/channel/InstructorChannels";
 import EditCourse from "./components/pages/addCourse/EditCourse";
+import EditLessonForm from "./components/pages/addLessons/EditLesson";
 
 const LazyListCourse = lazy(
   () => import("./components/pages/course/ListCourse")
@@ -206,6 +207,10 @@ const AppRouter = createBrowserRouter([
       {
         path: "view-lessons/:courseId",
         element: <ViewLessons />,
+      },
+      {
+        path:"view-lessons/:courseId/edit-lesson/:lessonId",
+        element:<EditLessonForm/>
       },
       {
         path: "view-students",

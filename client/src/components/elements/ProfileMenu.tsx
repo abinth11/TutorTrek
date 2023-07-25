@@ -21,6 +21,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getProfileUrl } from "../../api/endpoints/student";
 import { toast } from "react-toastify";
+import { USER_AVATAR } from "../../constants/common";
+
 
 // profile menu component
 const profileMenuItems = [
@@ -63,9 +65,9 @@ export default function ProfileMenu() {
       });
     }
   };
-  useEffect(() => {
-    fetchUrl();
-  }, []);
+  // useEffect(() => {
+  //   fetchUrl();
+  // }, []);
   const handleAction = (action: string) => {
     // Handle different actions based on the action label
     switch (action) {
@@ -106,7 +108,7 @@ export default function ProfileMenu() {
             size='sm'
             alt='candice wu'
             className='border border-blue-500 p-0.5'
-            src={profileUrl}
+            src={profileUrl??USER_AVATAR}
           />
           <ChevronDownIcon
             strokeWidth={2.5}

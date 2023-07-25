@@ -44,6 +44,10 @@ const LessonSchema = new Schema({
     ref: 'course',
     required: true
   },
+  about:{
+   type:String,
+   required:true
+  },
   media: {
     type: [MediaSchema]
   },

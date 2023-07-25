@@ -1,6 +1,7 @@
 import END_POINTS from "../../../constants/endpoints";
 import {
   addCourseService,
+  editCourseService,
   enrollStudentService,
   getAllCoursesService,
   getCourseByStudentService,
@@ -13,6 +14,10 @@ import { PaymentIntent } from "@stripe/stripe-js";
 
 export const addCourse = (courseInfo: FormData) => {
   return addCourseService(END_POINTS.ADD_COURSE, courseInfo);
+};
+
+export const editCourse = (courseId: string, courseInfo: FormData) => {
+  return editCourseService(END_POINTS.EDIT_COURSE, courseId, courseInfo);
 };
 
 export const getCourseByInstructor = () => {

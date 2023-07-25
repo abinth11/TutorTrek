@@ -14,6 +14,7 @@ import ShimmerEffectWatchLessons from "../../Shimmers/WatchLessonsShimmer";
 import ShimmerVideoPlayer from "../../Shimmers/ShimmerVideoPlayer";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
+import { selectStudentId } from "../../../redux/reducers/studentSlice";
 
 const WatchLessons: React.FC = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
@@ -27,6 +28,7 @@ const WatchLessons: React.FC = () => {
   const [currentLessonId, setCurrentLessonId] = useState<string | undefined>(
     lessonId
   );
+  const studentId = useSelector(selectStudentId)
   const { courseId } = useParams();
 
   const handleItemClick = (index: number) => {
@@ -103,7 +105,7 @@ const WatchLessons: React.FC = () => {
       ) : (
         <div className='md:w-3/4 w-full  overflow-y-scroll scrollbar-track-blue-gray-50 scrollbar-thumb-gray-400 scrollbar-thin scrollbar-h-md'>
           <div className='h-3/4'>
-            <VideoPlayer videoKey={videoKey} isCoursePurchased={true} />
+            <VideoPlayer videoKey={videoKey} isCoursePurchased={isLoggedIn?true:false} />
           </div>
           <div className=''>
             <ul className='flex p-3'>
@@ -155,9 +157,9 @@ const WatchLessons: React.FC = () => {
       <div className='w-1/4 hidden md:block flex-grow mt-3 mb-2 overflow-y-scroll  scrollbar-thumb-gray-400  scrollbar-rounded scrollbar-track-gray-200 scrollbar-thin'>
         <h1 className='font-semibold text-blue-gray-800 text-2xl border-b border-gray-300 p-2'>
           Lessons
-        </h1>
+        </h1>  
         <ul>
-          {allLessons.map((lesson) => (
+          {allLessons.map((lesson,index) => (
             <li
               key={lesson._id}
               onClick={() => {
@@ -168,14 +170,14 @@ const WatchLessons: React.FC = () => {
                 lesson._id === currentLessonId
                   ? "bg-gray-200 hover:bg-gray-200"
                   : "hover:bg-gray-100"
-              }
+              }  
               `}
-            >
-              <BiVideo className='mr-2 text-blue-500' />
-              <span className='flex-1'>{lesson.title}</span>
+            >  
+              <BiVideo className='mr-2 text-blue-500' />   
+              <span className='flex-1 text-sm font-light text-gray-700'>Episode 0{index+1} - {lesson.title}</span>
             </li>
           ))}
-        </ul>
+        </ul>  
       </div>
     </div>
   );
