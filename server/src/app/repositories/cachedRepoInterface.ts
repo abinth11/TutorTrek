@@ -1,6 +1,6 @@
-import { RedisRepository} from "../../frameworks/database/redis/cache"
+import { RedisRepositoryImpl} from "../../frameworks/database/redis/redisCacheRepository"
 
-export const cacheRepositoryInterface=(repository:ReturnType<RedisRepository>)=>{
+export const cacheRepositoryInterface=(repository:ReturnType<RedisRepositoryImpl>)=>{
 
     const setCache = async(cachingOptions:{
         key: string;

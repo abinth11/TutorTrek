@@ -1,20 +1,20 @@
 import mongoose, { Schema, model } from 'mongoose';
 import { AddCourseInfoInterface } from '@src/types/courseInterface';
 
-const FileSchema =  new Schema ({
- name:{
-  type:String,
-  required:true
- },
- key:{
-  type:String,
-  required:true
- },
- url:{
-  type:String,
- }
-})
-const courseSchema = new Schema({
+const FileSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  key: {
+    type: String,
+    required: true
+  },
+  url: {
+    type: String
+  }
+});
+const courseSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -22,12 +22,12 @@ const courseSchema = new Schema({
     maxlength: 100
   },
   instructorId: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: true
   },
   duration: {
     type: Number,
-    required:true,
+    required: true,
     min: 0
   },
   category: {
@@ -38,52 +38,52 @@ const courseSchema = new Schema({
     type: String,
     required: true
   },
-  tags:{
-    type:Array<string>,
-    required:true
+  tags: {
+    type: [String],
+    required: true
   },
   price: {
     type: Number,
-    required: function(this:AddCourseInfoInterface) {
+    required: function (this: AddCourseInfoInterface) {
       return this.isPaid;
     },
-    min: 0
+    min: 0,
   },
   isPaid: {
     type: Boolean,
     required: true
   },
-  about:{
-    type:String,
-    required:true
+  about: {
+    type: String,
+    required: true
   },
   description: {
     type: String,
     required: true,
     minlength: 10
   },
-  syllabus:{
-    type:Array<string>,
-    required:true
+  syllabus: {
+    type: [String],
+    required: true
   },
   requirements: {
     type: [String]
   },
-  thumbnail:{
-    type:FileSchema,
-    required:true,
+  thumbnail: {
+    type: FileSchema,
+    required: true
   },
-  thumbnailUrl:{
-    type:String,
-    default:""
+  thumbnailUrl: {
+    type: String,
+    default: ''
   },
-  guidelines:{
-    type:FileSchema,
-    required:true,
+  guidelines: {
+    type: FileSchema,
+    required: true
   },
-  guidelinesUrl:{
-    type:String,
-    default:""
+  guidelinesUrl: {
+    type: String,
+    default: ''
   },
   coursesEnrolled: [
     {
@@ -95,11 +95,11 @@ const courseSchema = new Schema({
     type: Number,
     min: 0,
     max: 5,
-    default:0
+    default: 0
   },
   isVerified: {
     type: Boolean,
-    default:false,
+    default: false
   },
   createdAt: {
     type: Date,
@@ -109,9 +109,26 @@ const courseSchema = new Schema({
     type: Number,
     min: 0,
     max: 100,
-    default:0
+    default: 0
   }
 });
+
+// courseSchema.index(
+//   {
+//     title: 'text',
+//     category: 'text',
+//     level: 'text',
+//     price: 'text'
+//   },
+//   {
+//     weights: {
+//       title: 4,
+//       category: 3,
+//       level: 2,
+//       price: 1
+//     }
+//   }
+// );
 
 const Course = model('Course', courseSchema, 'course');
 export default Course;

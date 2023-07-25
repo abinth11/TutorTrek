@@ -1,5 +1,5 @@
 import Course from '../models/course';
-import mongoose from 'mongoose';
+import mongoose, { FilterQuery } from 'mongoose';
 import Students from '../models/student';
 import {
   AddCourseInfoInterface,
@@ -20,7 +20,7 @@ export const courseRepositoryMongodb = () => {
       { _id: new mongoose.Types.ObjectId(courseId) },
       { ...editInfo }
     );
-    return response
+    return response;
   };
 
   const getAllCourse = async () => {
@@ -223,6 +223,34 @@ export const courseRepositoryMongodb = () => {
     return students;
   };
 
+  const searchCourse = async (
+    isFree: boolean,
+    searchQuery: string,
+    filterQuery: string
+  ) => {
+    let query = {};
+    if (searchQuery && filterQuery) {
+      query = {
+        $and: [
+          { $text: { $search: searchQuery } },
+          { isFree: isFree },
+        ],
+      };
+    }
+    else if (searchQuery) {
+      query = { $text: { $search: searchQuery } };
+    }
+    else if (filterQuery) {
+      query = { isFree: isFree };
+    }
+    const courses = await Course.find(query, {
+      score: { $meta: "textScore" },
+    }).sort({ score: { $meta: "textScore" } });
+  
+    return courses;
+  };
+  
+
   return {
     addCourse,
     editCourse,
@@ -236,7 +264,8 @@ export const courseRepositoryMongodb = () => {
     getCourseByStudent,
     getTotalNumberOfCourses,
     getNumberOfCoursesAddedInEachMonth,
-    getStudentsByCourseForInstructor
+    getStudentsByCourseForInstructor,
+    searchCourse
   };
 };
 

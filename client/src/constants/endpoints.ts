@@ -55,5 +55,6 @@ const END_POINTS = {
     GET_MY_STUDENTS:"api/instructors/get-students-by-instructor",
     GET_INSTRUCTOR_DETAILS:"api/instructors/get-instructor-details",
     EDIT_COURSE:"api/courses/instructors/edit-course",
+    SEARCH_COURSE:"api/courses/search-course"
 }
 export default END_POINTS
