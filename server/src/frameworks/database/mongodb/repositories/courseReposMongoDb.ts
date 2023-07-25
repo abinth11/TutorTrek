@@ -1,5 +1,5 @@
 import Course from '../models/course';
-import mongoose from 'mongoose';
+import mongoose, { FilterQuery } from 'mongoose';
 import Students from '../models/student';
 import {
   AddCourseInfoInterface,
@@ -20,7 +20,7 @@ export const courseRepositoryMongodb = () => {
       { _id: new mongoose.Types.ObjectId(courseId) },
       { ...editInfo }
     );
-    return response
+    return response;
   };
 
   const getAllCourse = async () => {
@@ -223,6 +223,34 @@ export const courseRepositoryMongodb = () => {
     return students;
   };
 
+  const searchCourse = async (
+    isFree: boolean,
+    filter: boolean,
+    searchQuery: string,
+    filterQuery: string
+  ) => {
+    console.log(isFree);
+    console.log(searchQuery);
+    const baseQuery: FilterQuery<any> = {
+      $or: [
+        { title: { $regex: searchQuery, $options: 'i' } },
+        { category: { $regex: searchQuery, $options: 'i' } },
+        { level: { $regex: searchQuery, $options: 'i' } },
+        { tags: { $in: [searchQuery] } }
+      ]
+    };
+
+    if (isFree) {
+      baseQuery.isPaid = false;
+    }
+    if (filter) {
+      baseQuery.category = { $regex: filterQuery, $options: 'i' };
+    }
+    const courses: CourseInterface[] = await Course.find(baseQuery);
+    console.log(courses);
+    return courses;
+  };
+
   return {
     addCourse,
     editCourse,
@@ -236,7 +264,8 @@ export const courseRepositoryMongodb = () => {
     getCourseByStudent,
     getTotalNumberOfCourses,
     getNumberOfCoursesAddedInEachMonth,
-    getStudentsByCourseForInstructor
+    getStudentsByCourseForInstructor,
+    searchCourse
   };
 };
 

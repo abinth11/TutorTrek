@@ -45,6 +45,7 @@ import {
 } from '../../app/usecases/course/recommendation';
 import { editCourseU } from '../../app/usecases/course/editCourse';
 import { editLessonsU } from '../../app/usecases/lessons/editLesson';
+import { searchCourseU } from '../../app/usecases/course/search';
 
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
@@ -91,27 +92,25 @@ const courseController = (
     }
   );
 
-  const editCourse = asyncHandler(
-    async (req: CustomRequest, res: Response) => {
-      const course: EditCourseInfo = req.body;
-      const files: Express.Multer.File[] = req.files as Express.Multer.File[];
-      const instructorId = req.user?.Id;
-      const courseId: string = req.params.courseId;
-      const response = await editCourseU(
-        courseId,
-        instructorId,
-        files,
-        course,
-        cloudService,
-        dbRepositoryCourse
-      );
-      res.status(200).json({
-        status: 'success',
-        message: 'Successfully updated the course',
-        data: response
-      });
-    }
-  );
+  const editCourse = asyncHandler(async (req: CustomRequest, res: Response) => {
+    const course: EditCourseInfo = req.body;
+    const files: Express.Multer.File[] = req.files as Express.Multer.File[];
+    const instructorId = req.user?.Id;
+    const courseId: string = req.params.courseId;
+    const response = await editCourseU(
+      courseId,
+      instructorId,
+      files,
+      course,
+      cloudService,
+      dbRepositoryCourse
+    );
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully updated the course',
+      data: response
+    });
+  });
 
   const getAllCourses = asyncHandler(async (req: Request, res: Response) => {
     const courses = await getAllCourseU(cloudService, dbRepositoryCourse);
@@ -155,7 +154,7 @@ const courseController = (
   );
 
   const addLesson = asyncHandler(async (req: CustomRequest, res: Response) => {
-    const instructorId = req.user?.Id
+    const instructorId = req.user?.Id;
     const courseId = req.params.courseId;
     const lesson = req.body;
     const medias = req.files as Express.Multer.File[];
@@ -179,7 +178,7 @@ const courseController = (
 
   const editLesson = asyncHandler(async (req: CustomRequest, res: Response) => {
     const lesson = req.body;
-    const lessonId = req.params.lessonId
+    const lessonId = req.params.lessonId;
     const medias = req.files as Express.Multer.File[];
     const questions = JSON.parse(lesson.questions);
     lesson.questions = questions;
@@ -382,6 +381,20 @@ const courseController = (
     }
   );
 
+  const searchCourse = asyncHandler(async (req: Request, res: Response) => {
+    const { search, filter } = req.query as { search: string; filter: string };
+    const searchResult = await searchCourseU(
+      search,
+      filter,
+      dbRepositoryCourse
+    );
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully retrieved courses based on the search query',
+      data: searchResult
+    });
+  });
+
   return {
     addCourse,
     editCourse,
@@ -402,7 +415,8 @@ const courseController = (
     enrollStudent,
     getRecommendedCourseByStudentInterest,
     getTrendingCourses,
-    getCourseByStudent
+    getCourseByStudent,
+    searchCourse
   };
 };
 

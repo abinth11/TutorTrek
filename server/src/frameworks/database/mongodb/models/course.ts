@@ -1,89 +1,95 @@
 import mongoose, { Schema, model } from 'mongoose';
 import { AddCourseInfoInterface } from '@src/types/courseInterface';
 
-const FileSchema =  new Schema ({
- name:{
-  type:String,
-  required:true
- },
- key:{
-  type:String,
-  required:true
- },
- url:{
-  type:String,
- }
-})
-const courseSchema = new Schema({
+const FileSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  key: {
+    type: String,
+    required: true
+  },
+  url: {
+    type: String
+  }
+});
+const courseSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
     minlength: 2,
-    maxlength: 100
+    maxlength: 100,
+    index: true // Index for the "title" field
   },
   instructorId: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: true
   },
   duration: {
     type: Number,
-    required:true,
+    required: true,
     min: 0
   },
   category: {
     type: String,
-    required: true
+    required: true,
+    index: true // Index for the "category" field
   },
   level: {
     type: String,
-    required: true
+    required: true,
+    index: true // Index for the "level" field
   },
-  tags:{
-    type:Array<string>,
-    required:true
+  tags: {
+    type: [String],
+    required: true,
+    index: true // Index for the "tags" field
   },
   price: {
     type: Number,
-    required: function(this:AddCourseInfoInterface) {
+    required: function (this: AddCourseInfoInterface) {
       return this.isPaid;
     },
-    min: 0
+    min: 0,
+    index: true
   },
   isPaid: {
     type: Boolean,
-    required: true
+    required: true,
+    index: true // Index for the "isPaid" field
   },
-  about:{
-    type:String,
-    required:true
+  about: {
+    type: String,
+    required: true
   },
   description: {
     type: String,
     required: true,
     minlength: 10
   },
-  syllabus:{
-    type:Array<string>,
-    required:true
+  syllabus: {
+    type: [String],
+    required: true
   },
   requirements: {
     type: [String]
   },
-  thumbnail:{
-    type:FileSchema,
-    required:true,
+  thumbnail: {
+    type: FileSchema,
+    required: true
   },
-  thumbnailUrl:{
-    type:String,
-    default:""
+  thumbnailUrl: {
+    type: String,
+    default: ''
   },
-  guidelines:{
-    type:FileSchema,
-    required:true,
+  guidelines: {
+    type: FileSchema,
+    required: true
   },
-  guidelinesUrl:{
-    type:String,
-    default:""
+  guidelinesUrl: {
+    type: String,
+    default: ''
   },
   coursesEnrolled: [
     {
@@ -95,11 +101,11 @@ const courseSchema = new Schema({
     type: Number,
     min: 0,
     max: 5,
-    default:0
+    default: 0
   },
   isVerified: {
     type: Boolean,
-    default:false,
+    default: false
   },
   createdAt: {
     type: Date,
@@ -109,9 +115,12 @@ const courseSchema = new Schema({
     type: Number,
     min: 0,
     max: 100,
-    default:0
+    default: 0
   }
 });
+
+// Index for the compound query: "category," "level," and "isPaid" fields together
+courseSchema.index({ category: 1, level: 1, isPaid: 1 });
 
 const Course = model('Course', courseSchema, 'course');
 export default Course;

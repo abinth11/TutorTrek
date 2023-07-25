@@ -142,6 +142,8 @@ const courseRouter = () => {
     controller.getCourseByStudent
   );
 
+  router.get('/search-course',controller.searchCourse)
+
   return router;
 };
 export default courseRouter;
