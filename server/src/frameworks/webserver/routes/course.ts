@@ -2,7 +2,6 @@ import express from 'express';
 import courseController from '../../../adapters/controllers/courseController';
 import { courseRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/courseReposMongoDb';
 import { courseDbRepository } from '../../../app/repositories/courseDbRepository';
-import { uploadImageAndVideo } from '../middlewares/imageUpload';
 import {
   instructorRoleCheckMiddleware,
   studentRoleCheckMiddleware
@@ -41,7 +40,7 @@ const courseRouter = () => {
     jwtAuthMiddleware,
     instructorRoleCheckMiddleware,
     upload.array('files'),
-    controller.addCourse 
+    controller.addCourse
   );
 
   router.put(
@@ -69,6 +68,14 @@ const courseRouter = () => {
     instructorRoleCheckMiddleware,
     upload.array('media'),
     controller.addLesson
+  );
+
+  router.put(
+    '/instructors/add-lesson/:lessonId',
+    jwtAuthMiddleware,
+    instructorRoleCheckMiddleware,
+    upload.array('media'),
+    controller.editLesson
   );
 
   router.get(

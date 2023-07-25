@@ -44,6 +44,7 @@ import {
   getTrendingCourseU
 } from '../../app/usecases/course/recommendation';
 import { editCourseU } from '../../app/usecases/course/editCourse';
+import { editLessonsU } from '../../app/usecases/lessons/editLesson';
 
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
@@ -91,7 +92,7 @@ const courseController = (
   );
 
   const editCourse = asyncHandler(
-    async (req: CustomRequest, res: Response, next: NextFunction) => {
+    async (req: CustomRequest, res: Response) => {
       const course: EditCourseInfo = req.body;
       const files: Express.Multer.File[] = req.files as Express.Multer.File[];
       const instructorId = req.user?.Id;
@@ -154,10 +155,7 @@ const courseController = (
   );
 
   const addLesson = asyncHandler(async (req: CustomRequest, res: Response) => {
-    let instructorId = '';
-    if (req.user) {
-      instructorId = req.user.Id;
-    }
+    const instructorId = req.user?.Id
     const courseId = req.params.courseId;
     const lesson = req.body;
     const medias = req.files as Express.Multer.File[];
@@ -175,6 +173,27 @@ const courseController = (
     res.status(200).json({
       status: 'success',
       message: 'Successfully added new lesson',
+      data: null
+    });
+  });
+
+  const editLesson = asyncHandler(async (req: CustomRequest, res: Response) => {
+    const lesson = req.body;
+    const lessonId = req.params.lessonId
+    const medias = req.files as Express.Multer.File[];
+    const questions = JSON.parse(lesson.questions);
+    lesson.questions = questions;
+    await editLessonsU(
+      medias,
+      lessonId,
+      lesson,
+      dbRepositoryLesson,
+      cloudService,
+      dbRepositoryQuiz
+    );
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully updated the lesson',
       data: null
     });
   });
@@ -370,6 +389,7 @@ const courseController = (
     getIndividualCourse,
     getCoursesByInstructor,
     addLesson,
+    editLesson,
     getLessonsByCourse,
     getLessonById,
     getQuizzesByLesson,

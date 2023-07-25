@@ -3,7 +3,8 @@ export interface ApiResponseLesson {
     title: string
     description: string
     contents: string[]
-    duration: number
+    duration: number,
+    about:string;
     instructorId: string
     courseId: string
     media: Media[]

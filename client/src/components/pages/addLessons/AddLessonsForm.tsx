@@ -8,8 +8,8 @@ import {
   FieldArray,
 } from "formik";
 import { toast } from "react-toastify";
-import { Button, Spinner } from "@material-tailwind/react";
-import { TiTrash } from "react-icons/ti";
+import { Button} from "@material-tailwind/react";
+import { TiTrash } from "react-icons/ti";  
 import QuizSwitch from "./QuizSwitch";
 import { Tooltip } from "@material-tailwind/react";
 import { QuizzesComponent } from "./QuizesComponent";
@@ -17,19 +17,16 @@ import { addLesson } from "../../../api/endpoints/course/lesson";
 import { FormValuesLesson } from "../../../types/lesson";
 import SpinnerDialog from "../../common/spinner";
 import { lessonSchema } from "../../../validations/lesson";
-
-interface AddLessonProps {
-  courseId: string;
-}
+import { useParams } from "react-router-dom";
 
 const initialValues = {
   title: "",
   description: "",
-  assignments: "",
+  about: "",
   studyMaterials: "",
   contents: "",
   duration: "",
-  questions: [
+  questions: [   
     {
       question: "",
       options: [{ option: "", isCorrect: false }],
@@ -39,11 +36,12 @@ const initialValues = {
 
 
 
-const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
+const AddLessonForm: React.FC = () => {
   const [addQuiz, setAddQuiz] = useState<boolean>(false);
   const [lessonVideo, setLessonVideo] = useState<File | null>(null);
   const [materialFile, setMaterialFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
+  const {courseId} = useParams()
 
   const handleVideoFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -58,8 +56,9 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
   const handleSubmit = async (
     lesson: FormValuesLesson,
     { resetForm }: FormikHelpers<FormValuesLesson>
-  ) => {
+  ) => {   
     try {
+      console.log(lesson)
       setIsUploading(true);
       const formData = new FormData();
       lessonVideo && formData.append("media", lessonVideo, "lessonVideo");
@@ -73,7 +72,7 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
         }
       });
 
-      const response = await addLesson(courseId, formData);
+      const response = await addLesson(courseId??"", formData);
       setIsUploading(false);
       setLessonVideo(null);
       setMaterialFile(null);
@@ -208,6 +207,7 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
                     <input
                       id='videoFile'
                       name='videoFile'
+                      accept='video/*'
                       type='file'
                       required
                       onChange={handleVideoFileChange}
@@ -240,6 +240,7 @@ const AddLessonForm: React.FC<AddLessonProps> = ({ courseId }) => {
                       id='studyMaterials'
                       name='studyMaterials'
                       type='file'
+                      accept='application/pdf'
                       required
                       onChange={handleMaterialFileChange}
                       autoComplete='off'

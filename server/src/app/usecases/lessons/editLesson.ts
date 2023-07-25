@@ -8,10 +8,9 @@ import * as ffprobePath from 'ffprobe-static';
 import ffmpeg from 'fluent-ffmpeg';
 import * as fs from 'fs';
 
-export const addLessonsU = async (
+export const editLessonsU = async (
   media: Express.Multer.File[] | undefined,
-  courseId: string | undefined,
-  instructorId: string | undefined,
+  lessonId: string,
   lesson: CreateLessonInterface,
   lessonDbRepository: ReturnType<LessonDbRepositoryInterface>,
   cloudService: ReturnType<CloudServiceInterface>,
@@ -19,19 +18,6 @@ export const addLessonsU = async (
 ) => {
   console.log(media);
   console.log(lesson);
-  if (!courseId) {
-    throw new AppError(
-      'Please provide a course id',
-      HttpStatusCodes.BAD_REQUEST
-    );
-  }
-
-  if (!instructorId) {
-    throw new AppError(
-      'Please provide an instructor id',
-      HttpStatusCodes.BAD_REQUEST
-    );
-  }
 
   if (!lesson) {
     throw new AppError('Data is not provided', HttpStatusCodes.BAD_REQUEST);
@@ -67,7 +53,7 @@ export const addLessonsU = async (
     try {
       // Call the getVideoDuration function and wait for the result
       const videoDuration = await getVideoDuration();
-      lesson.duration=parseFloat(videoDuration)
+      lesson.duration = parseFloat(videoDuration);
       // You can now use the videoDuration variable as needed
       console.log('Video Duration:', videoDuration);
     } catch (error) {
@@ -77,21 +63,12 @@ export const addLessonsU = async (
 
   if (media) {
     lesson.media = await Promise.all(
-      media.map(async files => await cloudService.upload(files))
+      media.map(async (files) => await cloudService.upload(files))
     );
   }
-  const lessonId = await lessonDbRepository.addLesson(
-    courseId,
-    instructorId,
-    lesson
-  );
-  if (!lessonId) {
-    throw new AppError('Data is not provided', HttpStatusCodes.BAD_REQUEST);
+  const response = await lessonDbRepository.editLesson(lessonId, lesson);
+  if (!response) {
+    throw new AppError('Failed to edit lesson', HttpStatusCodes.BAD_REQUEST);
   }
-  const quiz = {
-    courseId,
-    lessonId: lessonId.toString(),
-    questions: lesson.questions
-  };
-  await quizDbRepository.addQuiz(quiz);
+  await quizDbRepository.editQuiz(lessonId, { questions: lesson.questions });
 };

@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState,useEffect, ChangeEvent } from "react";
 import {
   Formik,
   FormikHelpers,
@@ -11,18 +11,21 @@ import { toast } from "react-toastify";
 import { Button } from "@material-tailwind/react";
 import { TiTrash } from "react-icons/ti";
 import { Tooltip } from "@material-tailwind/react";
-import { addLesson } from "../../../api/endpoints/course/lesson";
 import { FormValuesLesson } from "../../../types/lesson";
 import SpinnerDialog from "../../common/spinner";
 import { lessonSchema } from "../../../validations/lesson";
 import { useParams } from "react-router-dom";
 import EditQuizSwitch from "./EditQuizSwitch";  
+import { getLessonById } from "../../../api/endpoints/course/lesson";
+import { ApiResponseLesson } from "../../../api/types/apiResponses/apResponseLesson";
+import { getQuizzesByLesson } from "../../../api/endpoints/course/quiz";
+import { Question } from "../../../api/types/apiResponses/apiResponseQuizzes";
 
 const initialValues = {
   title: "",
   description: "",
-  assignments: "",
-  studyMaterials: "",
+  about: "",
+  studyMaterials: "", 
   contents: "",
   duration: "",
   questions: [
@@ -39,6 +42,8 @@ const EditLessonForm: React.FC = () => {
   const [materialFile, setMaterialFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const { lessonId, courseId } = useParams();
+  const [lessonInfo,setLessonInfo] = useState<ApiResponseLesson|null>()
+  const [questions,setQuestions]=useState<Question[]>([])
 
   const handleVideoFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -68,14 +73,14 @@ const EditLessonForm: React.FC = () => {
         }
       });
 
-      const response = await addLesson(courseId ?? "", formData);
-      setIsUploading(false);
-      setLessonVideo(null);
-      setMaterialFile(null);
-      resetForm();
-      toast.success(response.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      // const response = await addLesson(courseId ?? "", formData);
+      // setIsUploading(false);
+      // setLessonVideo(null);
+      // setMaterialFile(null);
+      // resetForm();
+      // toast.success(response.message, {
+      //   position: toast.POSITION.BOTTOM_RIGHT,
+      // });
     } catch (error) {
       setIsUploading(false);
       toast.error("Failed to add lesson", {
@@ -84,8 +89,40 @@ const EditLessonForm: React.FC = () => {
     }
   };
 
+  const fetchLessonDetails = async () =>{
+    try {
+       const response = await getLessonById(lessonId??"")
+       setLessonInfo(response?.data)
+       console.log(response.data)
+    } catch(error){
+      console.log(error)
+    }
+  }
+  const fetchQuiz = async ()=>{
+    try {
+      const response = await getQuizzesByLesson(lessonId??"")
+      setQuestions(response?.data?.questions)
+      console.log(response)
+    }catch (error){
+      console.log(error)
+    }
+  }
+  useEffect(()=>{
+   if(lessonInfo){
+    initialValues.title=lessonInfo.title
+    initialValues.description=lessonInfo.description
+    initialValues.contents=lessonInfo.contents.join(' ')
+    initialValues.about=lessonInfo.about
+    initialValues.questions=questions
+   }
+  },[lessonInfo])
+  useEffect(()=>{ 
+  fetchLessonDetails()
+  fetchQuiz()
+  },[])
+
   return (
-    <div>  
+    <div className="mb-10">  
       <div>
         <h2 className='font-semibold mt-3 mb-2 pt-2  text-xl text-customFontColorBlack'>
           Edit the lesson
@@ -97,6 +134,7 @@ const EditLessonForm: React.FC = () => {
           <Formik
             initialValues={initialValues}
             validationSchema={lessonSchema}
+            enableReinitialize
             onSubmit={handleSubmit}
           >
             {({ values }) => (
@@ -211,17 +249,11 @@ const EditLessonForm: React.FC = () => {
                         name='videoFile'
                         type='file'
                         required
+                        accept='video/*'
                         onChange={handleVideoFileChange}
                         autoComplete='off'
                         className='pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                       />
-                      {lessonVideo && (
-                        <video
-                          src={URL.createObjectURL(lessonVideo)}
-                          className='h-52 w-full rounded-md p-2 mt-3'
-                          controls
-                        />
-                      )}
                       <ErrorMessage
                         name='videoFile'
                         component='div'
@@ -241,17 +273,13 @@ const EditLessonForm: React.FC = () => {
                         id='studyMaterials'
                         name='studyMaterials'
                         type='file'
+                        accept='application/pdf'
                         required
                         onChange={handleMaterialFileChange}
                         autoComplete='off'
                         className='pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                       />
-                      {materialFile && (
-                        <img
-                          src={URL.createObjectURL(materialFile)}
-                          className='h-52 w-full rounded-md p-2 mt-3'
-                        />
-                      )}
+                  
                       <ErrorMessage
                         name='studyMaterials'
                         component='div'
@@ -270,7 +298,7 @@ const EditLessonForm: React.FC = () => {
                       <FieldArray name='questions'>
                         {({ push, remove: removeQuestion }) => (
                           <div>
-                            {values.questions.map((_, index) => (
+                            {values?.questions?.map((_, index) => (
                               <div key={index} className='mb-4'>
                                 <div className='mb-2'>
                                   <label
@@ -397,7 +425,7 @@ const EditLessonForm: React.FC = () => {
                 </div>
                 <div className='flex justify-center'>
                   <Button type='submit' color='blue'>
-                    Add Lesson
+                    update Lesson
                   </Button>
                 </div>
               </Form>

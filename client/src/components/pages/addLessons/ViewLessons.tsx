@@ -81,10 +81,10 @@ const ViewLessons: React.FC = () => {
               icon={<MagnifyingGlassIcon className='h-5 w-5' />}
             />
           </div>
-        </div>
+        </div>  
       </CardHeader>
       {formVisible ? (
-        <AddLessonForm  courseId={courseId??''}/>
+        <AddLessonForm/>
       ) : (
         <>
           <CardBody className='overflow-scroll px-0'>
@@ -134,7 +134,7 @@ const ViewLessons: React.FC = () => {
                         </div>
                         <div className='flex items-center mr-6 gap-2'>
                           <Tooltip content='Edit lesson'>
-                          <Link to={`/instructors/edit-lesson/${_id}`}>
+                          <Link to={`/instructors/view-lessons/${courseId}/edit-lesson/${_id}`}>
                             <IconButton variant='text' color='blue-gray'>
                               <PencilIcon className='h-4 w-4' />
                             </IconButton>

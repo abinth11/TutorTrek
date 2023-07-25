@@ -209,7 +209,7 @@ const AppRouter = createBrowserRouter([
         element: <ViewLessons />,
       },
       {
-        path:"edit-lesson/:lessonId",
+        path:"view-lessons/:courseId/edit-lesson/:lessonId",
         element:<EditLessonForm/>
       },
       {

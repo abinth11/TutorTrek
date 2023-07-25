@@ -37,6 +37,12 @@ export interface AddCourseInfoInterface {
     lessonId:string;
     questions: Question[];
   }
+
+  export interface EditQuizInfoInterface {
+    courseId?:string;
+    lessonId?:string;
+    questions: Question[];
+  }
   
 
   export interface EditCourseInfo {

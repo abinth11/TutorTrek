@@ -2,7 +2,7 @@ export interface FormValuesLesson {
   [key: string]: any;
    title: string;
     description: string;
-    assignments:string;
+    about:string;
     studyMaterials:string;
     contents: string;
     duration: string;
