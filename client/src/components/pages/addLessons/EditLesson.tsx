@@ -20,6 +20,7 @@ import { getLessonById } from "../../../api/endpoints/course/lesson";
 import { ApiResponseLesson } from "../../../api/types/apiResponses/apResponseLesson";
 import { getQuizzesByLesson } from "../../../api/endpoints/course/quiz";
 import { Question } from "../../../api/types/apiResponses/apiResponseQuizzes";
+import { editLesson } from "../../../api/endpoints/course/lesson";
 
 const initialValues = {
   title: "",
@@ -41,14 +42,15 @@ const EditLessonForm: React.FC = () => {
   const [lessonVideo, setLessonVideo] = useState<File | null>(null);
   const [materialFile, setMaterialFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const { lessonId, courseId } = useParams();
+  const { lessonId} = useParams();
   const [lessonInfo,setLessonInfo] = useState<ApiResponseLesson|null>()
   const [questions,setQuestions]=useState<Question[]>([])
+  const [updated,setUpdated] = useState(false)
 
   const handleVideoFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
     setLessonVideo(file);
-  };
+  };  
 
   const handleMaterialFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -73,17 +75,18 @@ const EditLessonForm: React.FC = () => {
         }
       });
 
-      // const response = await addLesson(courseId ?? "", formData);
-      // setIsUploading(false);
-      // setLessonVideo(null);
-      // setMaterialFile(null);
+      const response = await editLesson(lessonId ?? "", formData);
+      setIsUploading(false);
+      setLessonVideo(null);
+      setMaterialFile(null);
       // resetForm();
-      // toast.success(response.message, {
-      //   position: toast.POSITION.BOTTOM_RIGHT,
-      // });
+      setUpdated(true)
+      toast.success(response.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     } catch (error) {
       setIsUploading(false);
-      toast.error("Failed to add lesson", {
+      toast.error("Failed to update the  lesson", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
@@ -93,18 +96,16 @@ const EditLessonForm: React.FC = () => {
     try {
        const response = await getLessonById(lessonId??"")
        setLessonInfo(response?.data)
-       console.log(response.data)
     } catch(error){
-      console.log(error)
+      toast.error("Something went wrong..")
     }
   }
   const fetchQuiz = async ()=>{
     try {
       const response = await getQuizzesByLesson(lessonId??"")
       setQuestions(response?.data?.questions)
-      console.log(response)
     }catch (error){
-      console.log(error)
+      toast.error("Something went wrong")
     }
   }
   useEffect(()=>{
@@ -119,7 +120,7 @@ const EditLessonForm: React.FC = () => {
   useEffect(()=>{ 
   fetchLessonDetails()
   fetchQuiz()
-  },[])
+  },[updated])
 
   return (
     <div className="mb-10">  
@@ -248,7 +249,6 @@ const EditLessonForm: React.FC = () => {
                         id='videoFile'
                         name='videoFile'
                         type='file'
-                        required
                         accept='video/*'
                         onChange={handleVideoFileChange}
                         autoComplete='off'
@@ -274,7 +274,6 @@ const EditLessonForm: React.FC = () => {
                         name='studyMaterials'
                         type='file'
                         accept='application/pdf'
-                        required
                         onChange={handleMaterialFileChange}
                         autoComplete='off'
                         className='pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'

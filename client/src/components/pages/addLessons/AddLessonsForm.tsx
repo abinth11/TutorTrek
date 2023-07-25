@@ -58,7 +58,6 @@ const AddLessonForm: React.FC = () => {
     { resetForm }: FormikHelpers<FormValuesLesson>
   ) => {   
     try {
-      console.log(lesson)
       setIsUploading(true);
       const formData = new FormData();
       lessonVideo && formData.append("media", lessonVideo, "lessonVideo");

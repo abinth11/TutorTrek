@@ -1,5 +1,5 @@
 import END_POINTS from "../../../constants/endpoints";
-import { getLessonsByCourseService,addLessonsService,getLessonsByIdService } from "../../services/course/lessonService";
+import { getLessonsByCourseService,addLessonsService,getLessonsByIdService, editLessonsService } from "../../services/course/lessonService";
 
 export const getLessonsByCourse = (courseId: string) => {
     return getLessonsByCourseService(END_POINTS.GET_LESSONS_BY_COURSE, courseId);
@@ -7,6 +7,10 @@ export const getLessonsByCourse = (courseId: string) => {
   
   export const addLesson = (courseId: string, lesson: FormData) => {
     return addLessonsService(END_POINTS.ADD_LESSON, courseId, lesson);
+  };
+
+  export const editLesson = (lessonId: string, lesson: FormData) => {
+    return editLessonsService(END_POINTS.EDIT_LESSON, lessonId, lesson);
   };
   
   export const getLessonById = (lessonId:string)=>{

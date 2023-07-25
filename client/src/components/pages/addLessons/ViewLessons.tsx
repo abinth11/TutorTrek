@@ -26,6 +26,7 @@ import { useParams } from "react-router-dom";
 import { ApiResponseLessons } from "../../../api/types/apiResponses/apiResponseInstructors";
 import AddLessonForm from "./AddLessonsForm";
 import { Link } from "react-router-dom";
+import { LESSON_AVATAR } from "../../../constants/common";
   
 const ViewLessons: React.FC = () => {
   const [lessons, setLessons] = useState<ApiResponseLessons[] | null>(null);
@@ -101,7 +102,7 @@ const ViewLessons: React.FC = () => {
                   if (index <= 4) {
                     return (
                       <li key={_id} className={`flex ${classes}`}>
-                        <Avatar src={thumbnail} alt='image' size='sm' />
+                        <Avatar src={thumbnail??LESSON_AVATAR} alt='image' size='sm' />
                         <div className='flex  flex-col flex-grow ml-3 mr-8'>
                           <div className='flex items-center gap-3'>
                             <Typography

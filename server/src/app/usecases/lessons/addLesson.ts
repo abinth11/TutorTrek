@@ -17,8 +17,6 @@ export const addLessonsU = async (
   cloudService: ReturnType<CloudServiceInterface>,
   quizDbRepository: ReturnType<QuizDbInterface>
 ) => {
-  console.log(media);
-  console.log(lesson);
   if (!courseId) {
     throw new AppError(
       'Please provide a course id',
@@ -39,17 +37,14 @@ export const addLessonsU = async (
 
   if (media) {
     const videoFile = media[0];
-    // Save the buffer to a temporary file
     const tempFilePath = './temp_video.mp4';
     fs.writeFileSync(tempFilePath, videoFile.buffer);
 
-    // Wrap the ffprobe call inside a Promise
     const getVideoDuration = () =>
       new Promise<string>((resolve, reject) => {
         ffmpeg(tempFilePath)
           .setFfprobePath(ffprobePath.path)
           .ffprobe((err: Error | null, data: any) => {
-            // Clean up the temporary file after the ffprobe operation is done
             fs.unlinkSync(tempFilePath);
 
             if (err) {
@@ -57,19 +52,14 @@ export const addLessonsU = async (
               reject(err);
             }
 
-            // The duration will be in the format 'HH:mm:ss.SSS'
             const duration: string = data.format.duration;
-            console.log('Video Duration:', duration);
             resolve(duration);
           });
       });
 
     try {
-      // Call the getVideoDuration function and wait for the result
       const videoDuration = await getVideoDuration();
-      lesson.duration=parseFloat(videoDuration)
-      // You can now use the videoDuration variable as needed
-      console.log('Video Duration:', videoDuration);
+      lesson.duration = parseFloat(videoDuration);
     } catch (error) {
       console.error('Error while getting video duration:', error);
     }
@@ -77,7 +67,7 @@ export const addLessonsU = async (
 
   if (media) {
     lesson.media = await Promise.all(
-      media.map(async files => await cloudService.upload(files))
+      media.map(async (files) => await cloudService.upload(files))
     );
   }
   const lessonId = await lessonDbRepository.addLesson(

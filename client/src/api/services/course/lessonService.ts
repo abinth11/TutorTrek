@@ -22,6 +22,18 @@ export const getLessonsByCourseService = async (
     );
     return response.data;
   };
+
+  export const editLessonsService = async (
+    endpoint: string,
+    lessonId: string,
+    lesson: FormData
+  ) => {
+    const response = await api.put(
+      `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${lessonId}`,
+      lesson
+    );
+    return response.data;
+  };
   
   export const getLessonsByIdService = async (
     endpoint: string,

@@ -20,6 +20,7 @@ const END_POINTS = {
     GET_COURSES_BY_INSTRUCTORS:'api/courses/get-course-by-instructor',
     GET_LESSONS_BY_COURSE:'api/courses/instructors/get-lessons-by-course',
     ADD_LESSON:'api/courses/instructors/add-lesson',
+    EDIT_LESSON:'api/courses/instructors/edit-lesson',
     GET_LESSONS_BY_ID:'api/courses/get-lessons-by-id',
     STREAM_VIDEO:'api/video-streaming/stream-video',
     GET_QUIZZES_BY_LESSON:'api/courses/get-quizzes-by-lesson',
@@ -54,6 +55,5 @@ const END_POINTS = {
     GET_MY_STUDENTS:"api/instructors/get-students-by-instructor",
     GET_INSTRUCTOR_DETAILS:"api/instructors/get-instructor-details",
     EDIT_COURSE:"api/courses/instructors/edit-course",
-    EDIT_LESSON:"api/instructors/edit-lesson"
 }
 export default END_POINTS

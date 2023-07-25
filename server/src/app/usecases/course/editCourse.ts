@@ -2,7 +2,6 @@ import { CourseDbRepositoryInterface } from '../../repositories/courseDbReposito
 import HttpStatusCodes from '../../../constants/HttpStatusCodes';
 import { EditCourseInfo } from '../../../types/courseInterface';
 import AppError from '../../../utils/appError';
-import { response } from 'express';
 import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
 
 export const editCourseU = async (

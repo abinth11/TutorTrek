@@ -71,7 +71,7 @@ const courseRouter = () => {
   );
 
   router.put(
-    '/instructors/add-lesson/:lessonId',
+    '/instructors/edit-lesson/:lessonId',
     jwtAuthMiddleware,
     instructorRoleCheckMiddleware,
     upload.array('media'),
