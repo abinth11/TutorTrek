@@ -247,7 +247,6 @@ export const courseRepositoryMongodb = () => {
       baseQuery.category = { $regex: filterQuery, $options: 'i' };
     }
     const courses: CourseInterface[] = await Course.find(baseQuery);
-    console.log(courses);
     return courses;
   };
 

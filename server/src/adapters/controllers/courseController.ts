@@ -46,6 +46,9 @@ import {
 import { editCourseU } from '../../app/usecases/course/editCourse';
 import { editLessonsU } from '../../app/usecases/lessons/editLesson';
 import { searchCourseU } from '../../app/usecases/course/search';
+import { CacheRepositoryInterface } from '@src/app/repositories/cachedRepoInterface';
+import { RedisRepositoryImpl } from '@src/frameworks/database/redis/redisCacheRepository';
+import { RedisClient } from '@src/app';
 
 const courseController = (
   cloudServiceInterface: CloudServiceInterface,
@@ -59,7 +62,10 @@ const courseController = (
   discussionDbRepository: DiscussionDbInterface,
   discussionDbRepositoryImpl: DiscussionRepoMongodbInterface,
   paymentDbRepository: PaymentInterface,
-  paymentDbRepositoryImpl: PaymentImplInterface
+  paymentDbRepositoryImpl: PaymentImplInterface,
+  cacheDbRepository: CacheRepositoryInterface,
+  cacheDbRepositoryImpl: RedisRepositoryImpl,
+  cacheClient: RedisClient
 ) => {
   const dbRepositoryCourse = courseDbRepository(courseDbRepositoryImpl());
   const cloudService = cloudServiceInterface(cloudServiceImpl());
@@ -68,8 +74,10 @@ const courseController = (
   const dbRepositoryDiscussion = discussionDbRepository(
     discussionDbRepositoryImpl()
   );
-
   const dbRepositoryPayment = paymentDbRepository(paymentDbRepositoryImpl());
+  const dbRepositoryCache = cacheDbRepository(
+    cacheDbRepositoryImpl(cacheClient)
+  );
 
   const addCourse = asyncHandler(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -388,6 +396,13 @@ const courseController = (
       filter,
       dbRepositoryCourse
     );
+    const cacheOptions = {
+      key:"courses-search",
+      expireTimeSec: 600,
+      data: JSON.stringify(searchResult)
+    };
+    await dbRepositoryCache.setCache(cacheOptions);
+    
     res.status(200).json({
       status: 'success',
       message: 'Successfully retrieved courses based on the search query',

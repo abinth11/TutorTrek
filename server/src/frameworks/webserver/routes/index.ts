@@ -5,10 +5,7 @@ import courseRouter from './course';
 import instructorRouter from './instructor';
 import { RedisClient } from '../../../app';
 import jwtAuthMiddleware from '../middlewares/userAuth';
-import {
-  adminRoleCheckMiddleware,
-  studentRoleCheckMiddleware
-} from '../middlewares/roleCheckMiddleware';
+import { adminRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
 import videoStreamRouter from './videoStream';
 import refreshRouter from './refresh';
 import paymentRouter from './payment';
@@ -25,7 +22,7 @@ const routes = (app: Application, redisClient: RedisClient) => {
     adminRouter()
   );
   app.use('/api/category', categoryRouter());
-  app.use('/api/courses', courseRouter());
+  app.use('/api/courses', courseRouter(redisClient));
   app.use('/api/video-streaming', videoStreamRouter());
   app.use('/api/instructors', instructorRouter());
   app.use('/api/payments', jwtAuthMiddleware, paymentRouter());

@@ -18,7 +18,12 @@ import { discussionRepositoryMongoDb } from '../../../frameworks/database/mongod
 import { paymentRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/paymentRepoMongodb';
 import { paymentInterface } from '../../../app/repositories/paymentDbRepository';
 import jwtAuthMiddleware from '../middlewares/userAuth';
-const courseRouter = () => {
+import { redisCacheRepository } from '../../../frameworks/database/redis/redisCacheRepository';
+import { cacheRepositoryInterface } from '../../../app/repositories/cachedRepoInterface';
+import { RedisClient } from '../../../app';
+import { cachingMiddleware } from '../middlewares/redisCaching';
+
+const courseRouter = (redisClient: RedisClient) => {
   const router = express.Router();
   const controller = courseController(
     cloudServiceInterface,
@@ -32,7 +37,10 @@ const courseRouter = () => {
     discussionDbRepository,
     discussionRepositoryMongoDb,
     paymentInterface,
-    paymentRepositoryMongodb
+    paymentRepositoryMongodb,
+    cacheRepositoryInterface,
+    redisCacheRepository,
+    redisClient
   );
   //* Add course
   router.post(
@@ -142,7 +150,11 @@ const courseRouter = () => {
     controller.getCourseByStudent
   );
 
-  router.get('/search-course',controller.searchCourse)
+  router.get(
+    '/search-course',
+    cachingMiddleware(redisClient,'courses-search'),
+    controller.searchCourse
+  );
 
   return router;
 };
