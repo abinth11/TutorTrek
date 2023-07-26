@@ -27,13 +27,13 @@ const StudentHomePage: React.FC = () => {
   const [cardsToShow, setCardsToShow] = useState(6);
   const [isLoadingTrending, setIsLoadingTrending] = useState(false);
   const [isLoadingRecommended, selectIsLoadingRecommended] = useState(false);
-  const isLoggedIn = useSelector(selectIsLoggedIn);  
-  const user = useSelector(selectUserType)
-   
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUserType);
+
   const fetchTrendingCourses = async () => {
     try {
       setIsLoadingTrending(true);
-      const response = await getTrendingCourses();  
+      const response = await getTrendingCourses();
       setTrendingCourses(response.data);
       setTimeout(() => {
         setIsLoadingTrending(false);
@@ -64,7 +64,7 @@ const StudentHomePage: React.FC = () => {
 
   useEffect(() => {
     fetchTrendingCourses();
-    isLoggedIn&&user==='student'&& fetchRecommendedCourses();
+    isLoggedIn && user === "student" && fetchRecommendedCourses();
   }, []);
 
   const handleShowMoreTrending = () => {
@@ -90,7 +90,7 @@ const StudentHomePage: React.FC = () => {
             </Typography>
           </div>
           <div className='flex items-center justify-between px-10 flex-wrap'>
-            {Array.from({ length: 6}).map((_, index) => (
+            {Array.from({ length: 6 }).map((_, index) => (
               <TrendingCardShimmer key={index} />
             ))}
           </div>
@@ -103,11 +103,11 @@ const StudentHomePage: React.FC = () => {
                 className='text-2xl  p-2 ml-2 lg:text-4xl font-semibold'
               >
                 Recommended Courses
-              </Typography>    
+              </Typography>
             </div>
             <div className='flex items-center justify-between pt-2 px-10 flex-wrap'>
               {Array.from({ length: 6 }).map((_, index) => (
-                <TrendingCardShimmer key={index} />  
+                <TrendingCardShimmer key={index} />
               ))}
             </div>
           </div>
@@ -122,39 +122,39 @@ const StudentHomePage: React.FC = () => {
         <Carousel />
       </div>
       <div className='lg:p-10 md:p-7 pt-7 sm:p-8 w-full'>
-  <div className='ml-10  flex items-center justify-start w-9/12'>
-    <Typography
-      variant='h1'
-      className='text-2xl  p-2 ml-2 lg:text-4xl font-semibold'
-    >
-      Trending Courses
-    </Typography>
-  </div>
+        <div className='ml-10  flex items-center justify-start w-9/12'>
+          <Typography
+            variant='h1'
+            className='text-2xl  p-2 ml-2 lg:text-4xl font-semibold'
+          >
+            Trending Courses
+          </Typography>
+        </div>
 
-  <div className='flex items-center justify-between px-10 flex-wrap'>
-    {trendingCourses?.slice(0, cardsToShow).map((course, index) => {
-      return (
-        <React.Fragment key={course._id}>
-          <Link to={`/courses/${course._id}`} className=''>
-            <TrendingCard courseInfo={course} />
-          </Link>
-        </React.Fragment>
-      );
-    })}
-  </div>
-  {trendingCourses && trendingCourses.length > cardsToShow && (
-    <div className='md:flex-shrink-0 mt-3 ml-6'>
-      <div className='flex-shrink-0'>
-        <button
-          className='text-customFontColorBlack ml-3 hover:text-blue-gray-600 font-bold px-6 rounded'
-          onClick={handleShowMoreTrending}
-        >
-          View More
-        </button>
+        <div className='flex items-center justify-between px-10 flex-wrap'>
+          {trendingCourses?.slice(0, cardsToShow).map((course, index) => {
+            return (
+              <React.Fragment key={index}>
+                <Link to={`/courses/${course._id}`} className=''>
+                  <TrendingCard courseInfo={course} />
+                </Link>
+              </React.Fragment>
+            );
+          })}
+        </div>
+        {trendingCourses && trendingCourses.length > cardsToShow && (
+          <div className='md:flex-shrink-0 mt-3 ml-6'>
+            <div className='flex-shrink-0'>
+              <button
+                className='text-customFontColorBlack ml-3 hover:text-blue-gray-600 font-bold px-6 rounded'
+                onClick={handleShowMoreTrending}
+              >
+                View More
+              </button>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
-  )}
-</div>
 
       {recommendedCourses && (
         <div className='lg:p-10 md:p-7 pt-5 sm:p-8 w-full'>
@@ -169,7 +169,7 @@ const StudentHomePage: React.FC = () => {
           <div className='flex items-center justify-between pt-2 px-10 flex-wrap'>
             {recommendedCourses?.slice(0, cardsToShow).map((course, index) => {
               return (
-                <React.Fragment key={course._id}>
+                <React.Fragment key={index}>
                   <Link to={`/courses/${course._id}`} className=''>
                     <RecommendedCard courseInfo={course} />
                   </Link>

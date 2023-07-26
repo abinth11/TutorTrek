@@ -7,12 +7,10 @@ import { Request, Response } from 'express';
 import { CustomRequest } from '../../types/customRequest';
 import {
   changePasswordU,
-  getProfileUrlU,
   getStudentDetailsU,
   updateProfileU
 } from '../../app/usecases/student';
 import {
-  StudentInterface,
   StudentUpdateInfo
 } from '../../types/studentInterface';
 import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
@@ -89,6 +87,7 @@ const studentController = (
       const studentId: string | undefined = req.user?.Id;
       const studentDetails = await getStudentDetailsU(
         studentId,
+        cloudService,
         dbRepositoryStudent
       );
       const cacheOptions = {
@@ -105,21 +104,6 @@ const studentController = (
     }
   );
 
-  const getProfileUrl = asyncHandler(
-    async (req: CustomRequest, res: Response) => {
-      const studentId: string | undefined = req.user?.Id;
-      const url = await getProfileUrlU(
-        studentId,
-        cloudService,
-        dbRepositoryStudent
-      );
-      res.status(200).json({
-        status: 'success',
-        message: 'Successfully retrieved image url',
-        data: url
-      });
-    }
-  );
 
   const getAllStudents = asyncHandler(async (req: Request, res: Response) => {
     const students = await getAllStudentsU(cloudService, dbRepositoryStudent);
@@ -169,7 +153,6 @@ const studentController = (
     changePassword,
     updateProfile,
     getStudentDetails,
-    getProfileUrl,
     blockStudent,
     unblockStudent,
     getAllStudents,

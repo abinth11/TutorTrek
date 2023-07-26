@@ -1,4 +1,4 @@
-import React,{ useState,useEffect} from "react";
+import React,{ useState} from "react";
 import {
   Button,
   Menu,    
@@ -15,8 +15,6 @@ import {
   LifebuoyIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
-import { getProfileUrl } from "../../../api/endpoints/student";
-import { toast } from "react-toastify";
 import {UserCircleIcon} from "@heroicons/react/24/outline";
 
 
@@ -46,23 +44,6 @@ const profileMenuItems = [
 
 export function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [loading,setLoading] = useState(false)
-  const [profileUrl,setProfileUrl]=useState<string>("")
-  const fetchUrl = async () => {
-    try {
-      setLoading(true)
-      const response = await getProfileUrl();
-      setProfileUrl(response.data)
-      setLoading(false)
-    } catch (error:any) {
-      toast.error(error?.data?.message, {  
-        position: toast.POSITION.BOTTOM_RIGHT,   
-      });
-    }
-  };
-  useEffect(() => {
-    fetchUrl();
-  }, []);
 
   const closeMenu = () => setIsMenuOpen(false);
 

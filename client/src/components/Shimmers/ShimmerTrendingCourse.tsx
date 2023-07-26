@@ -18,7 +18,7 @@ export const TrendingCardShimmer: React.FC = () => {
         shadow={false}
         color='transparent'
         className='absolute inset-0 m-0 h-full w-full rounded-none bg-gray-300 animate-pulse'
-        children={undefined}
+        children={""}
       />
       <CardBody className='relative py-14 px-6 md:px-12'>
         <div className='animate-pulse'>

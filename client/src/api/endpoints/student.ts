@@ -2,7 +2,6 @@ import {
   changePasswordService,
   updateProfileService,
   getStudentDetailsService,
-  getProfileUrlService
 } from "../services/student";
 import { PasswordInfo } from "../types/student/student";
 import END_POINTS from "../../constants/endpoints";
@@ -19,6 +18,4 @@ export const getStudentDetails = () => {
   return getStudentDetailsService(END_POINTS.GET_STUDENT_DETAILS);
 };
 
-export const getProfileUrl = ()=>{
-  return getProfileUrlService(END_POINTS.GET_PROFILE_URL)
-}
+

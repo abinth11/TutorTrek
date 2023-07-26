@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   Button,
@@ -17,12 +17,10 @@ import {
   PowerIcon,
 } from "@heroicons/react/24/outline";
 import { clearToken } from "../../redux/reducers/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getProfileUrl } from "../../api/endpoints/student";
-import { toast } from "react-toastify";
 import { USER_AVATAR } from "../../constants/common";
-
+import { selectStudent } from "../../redux/reducers/studentSlice";
 
 // profile menu component
 const profileMenuItems = [
@@ -51,23 +49,8 @@ const profileMenuItems = [
 export default function ProfileMenu() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [profileUrl, setProfileUrl] = useState<string>("");
-  const fetchUrl = async () => {
-    try {
-      setLoading(true);
-      const response = await getProfileUrl();
-      setProfileUrl(response.data);
-      setLoading(false);
-    } catch (error:any) {
-      toast.success(error?.data?.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-    }
-  };
-  // useEffect(() => {
-  //   fetchUrl();
-  // }, []);
+  const student = useSelector(selectStudent);
+ 
   const handleAction = (action: string) => {
     // Handle different actions based on the action label
     switch (action) {
@@ -108,10 +91,12 @@ export default function ProfileMenu() {
             size='sm'
             alt='candice wu'
             className='border border-blue-500 p-0.5'
-            src={profileUrl??USER_AVATAR}
+            src={
+              student.studentDetails?.profilePic.url|| USER_AVATAR
+            }
           />
           <ChevronDownIcon
-            strokeWidth={2.5}
+            strokeWidth={2.5}  
             className={`h-3 w-3 transition-transform ${
               isMenuOpen ? "rotate-180" : ""
             }`}
@@ -123,7 +108,7 @@ export default function ProfileMenu() {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
-              key={label}
+              key={key}
               onClick={() => handleAction(label)}
               className={`flex items-center gap-2 rounded ${
                 isLastItem

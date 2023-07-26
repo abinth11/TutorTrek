@@ -41,8 +41,6 @@ const studentRouter = (redisClient: RedisClient) => {
     controller.getStudentDetails
   );
 
-  router.get('/get-profile-url', controller.getProfileUrl);
-
   router.get('/get-all-students', controller.getAllStudents);
 
   router.patch('/block-student/:studentId', controller.blockStudent);
