@@ -22,7 +22,7 @@ function GoogleAuthComponent(): JSX.Element {
           accessToken,
           refreshToken,
         }: { accessToken: string; refreshToken: string } = response
-        dispatch(setToken({ accessToken, refreshToken }));
+        dispatch(setToken({ accessToken, refreshToken,userType:"student" }));
         toast.success(response?.message, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });

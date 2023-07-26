@@ -6,7 +6,6 @@ import {
   ListItemPrefix,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import { PowerIcon } from "@heroicons/react/24/solid";
 import { MdDashboard } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { clearToken } from "../../../redux/reducers/authSlice";
@@ -38,11 +37,6 @@ const NavItems = [
     icon: <FiSettings className='h-6 w-6' />
 
   },
-  {
-    path: "",
-    name: "Log Out",
-    icon: <PowerIcon className='h-6 w-6 ' />
-  },
 ];
 
 const SideNav: React.FC = () => {
@@ -61,20 +55,21 @@ const SideNav: React.FC = () => {
       </div>                 
       <List>
         <hr className='my-2 border-blue-gray-50' />
-        {NavItems.map(({ icon, name, path }) => {
+        {NavItems.map(({ icon, name, path },index) => {
           return (
             <Link
+            key={index}
               to={path} 
               onClick={() => {
                 setSelected(name);
-              }}
+              }}  
             > 
-              <ListItem selected={name===selected}>
+              <ListItem className="mt-2" selected={name===selected}>
                 <ListItemPrefix>{icon}</ListItemPrefix>
                 <span className=''>{name}</span>
               </ListItem>
             </Link>
-          );
+          );  
         })}
       </List>
     </Card> 

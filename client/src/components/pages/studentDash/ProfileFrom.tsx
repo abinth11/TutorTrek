@@ -11,7 +11,7 @@ import {
   selectStudentError,
   fetchStudentData,
 } from "../../../redux/reducers/studentSlice";
-import { getProfileUrl } from "../../../api/endpoints/student";
+import { USER_AVATAR } from "../../../constants/common";
 
 interface Props {
   editMode:boolean;
@@ -22,7 +22,6 @@ const ProfileForm:React.FC<Props> = ({editMode,setEditMode}) => {
   const studentInfo = useSelector(selectStudent)?.studentDetails;
   let isFetching = useSelector(selectIsFetchingStudent);
   const [loading, setLoading] = useState(false);
-  const [profileUrl, setProfileUrl] = useState<string>("");
   const error = useSelector(selectStudentError);
   const [updated, setUpdated] = useState(false);
   const dispatch = useDispatch();
@@ -41,20 +40,8 @@ const ProfileForm:React.FC<Props> = ({editMode,setEditMode}) => {
       formik.setFieldValue("profilePic", null);
     }
   };
-  const fetchUrl = async () => {
-    try {
-      setLoading(true);
-      const response = await getProfileUrl();
-      setProfileUrl(response.data);
-      setLoading(false);
-    } catch (error: any) {
-      toast.error(error?.data?.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-    }
-  };
-  useEffect(() => {
-    fetchUrl();
+ 
+  useEffect(() =>{
     dispatch(fetchStudentData());
   }, [updated]);
 
@@ -73,7 +60,7 @@ const ProfileForm:React.FC<Props> = ({editMode,setEditMode}) => {
         formData.append("image", profileInfo.profilePic);
       }
       formData.append("email", profileInfo.email || "");
-      formData.append("firstName", profileInfo.firstName || "");
+      formData.append("firstName", profileInfo.firstName || "");     
       formData.append("lastName", profileInfo.lastName || "");
       formData.append("mobile", profileInfo.mobile || "");
 
@@ -132,7 +119,7 @@ const ProfileForm:React.FC<Props> = ({editMode,setEditMode}) => {
       </div>
       <div className='p-5 flex '>
         <Avatar
-          src={previewImage || profileUrl || "../profile.jpg"}
+          src={previewImage || studentInfo?.profilePic.url  ||USER_AVATAR}
           alt='avatar'
           size='xl'
         />

@@ -225,7 +225,7 @@ const instructorController = (
       );
       res.status(200).json({
         status: 'success',
-        message: 'Successfully retrieved all students',
+        message: 'Successfully retrieved instructor details...',
         data: instructor
       });
     }

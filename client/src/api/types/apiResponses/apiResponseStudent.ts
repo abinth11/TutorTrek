@@ -13,7 +13,8 @@ export interface ApiResponseStudent {
   
   export interface ProfilePic {
     name: string
-    key: string
+    key?: string
+    url?:string;
     _id: string
   }
   

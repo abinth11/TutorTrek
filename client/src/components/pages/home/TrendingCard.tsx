@@ -31,7 +31,7 @@ const TrendingCard: React.FC<Props> = ({ courseInfo }) => {
         </CardHeader>
         <CardBody className='relative py-14 px-6 md:px-12'>
           <Typography
-            variant='h2'
+            variant='h3'
             color='white'
             className='mb-6 text-3xl font-medium leading-[1.5]'
           >

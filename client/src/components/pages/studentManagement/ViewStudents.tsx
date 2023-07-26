@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { PencilIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Dispatch, SetStateAction } from "react";
 import {
@@ -12,7 +11,6 @@ import {
   CardFooter,
   Avatar,
   IconButton,
-  Tooltip,
   Input,
 } from "@material-tailwind/react";
 import {
@@ -22,9 +20,7 @@ import {
 
 import { toast } from "react-toastify";
 import { formatDate } from "../../../utils/helpers";
-import BlockReasonModal from "../InstructorManagement/BlockReasonModal";
 import usePagination from "../../../hooks/usePagination";
-import StudentsTab from "./StudentsTab";
 import BlockStudentModal from "./BlockStudentModal";
 import { Students } from "../../../api/types/student/student";
 import { USER_AVATAR } from "../../../constants/common";
@@ -38,7 +34,6 @@ interface Props {
 const ViewStudents: React.FC<Props> = ({ updated, setUpdated }) => {
   const [students, setStudents] = useState<Students[]>([]);
   const [open, setOpen] = useState(false);
-  // const [updated, setUpdated] = useState(false);
   const [id, setId] = useState("");
   const ITEMS_PER_PAGE = 4;
   const {

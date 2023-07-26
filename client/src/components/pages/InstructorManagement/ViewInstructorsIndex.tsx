@@ -1,8 +1,8 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import TopNav from "../admin/widgets/layout/TopNav";
 import ViewInstructors from "./ViewInstructors";
 import CustomBreadCrumbs from "../../common/BreadCrumbs";
+import TopNav from "./TopNav";
 const ViewInstructorsIndex: React.FC = () => {
   const location = useLocation();
   return (
@@ -12,7 +12,7 @@ const ViewInstructorsIndex: React.FC = () => {
       <CustomBreadCrumbs  paths={location.pathname}/>
       {location.pathname === "/admin/instructors" && <ViewInstructors />}
       <Outlet />
-      </div>
+      </div>  
     </div>
   );
 };

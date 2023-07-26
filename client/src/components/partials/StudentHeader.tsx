@@ -7,6 +7,7 @@ import { selectIsLoggedIn } from "../../redux/reducers/authSlice";
 import { useSelector } from "react-redux";
 import { Button } from "@material-tailwind/react";
 import { APP_LOGO } from "../../constants/common";
+import { selectUserType } from "../../redux/reducers/authSlice";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -24,6 +25,8 @@ function classNames(...classes: any) {
 const StudentHeader: React.FC = () => {
   const location = useLocation();
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUserType)
+
 
   const handleNavigation = (item: any) => {
     navigation.forEach((navItem) => {
@@ -69,7 +72,7 @@ const StudentHeader: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                {isLoggedIn ? (
+                {isLoggedIn&&user==='student'? (
                   <div className='hidden md:ml-5 md:flex items-center justify-between'>
                     <div className=''>
                       <Link to='/dashboard'>

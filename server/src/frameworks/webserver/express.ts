@@ -9,7 +9,7 @@ import rateLimit from 'express-rate-limit';
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // maximum requests per windowMs
+  max: 200, // maximum requests per windowMs
   message: 'Too many requests from this IP, please try again later.'
 });
 

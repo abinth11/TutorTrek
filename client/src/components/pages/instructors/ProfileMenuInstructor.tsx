@@ -1,4 +1,4 @@
-import React,{ useState,useEffect} from "react";
+import React,{ useState} from "react";
 import {
   Button,
   Menu,    
@@ -10,25 +10,23 @@ import {
 } from "@material-tailwind/react";
 import {
   ChevronDownIcon,
-  Cog6ToothIcon,
   InboxArrowDownIcon,
   LifebuoyIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
-import { getProfileUrl } from "../../../api/endpoints/student";
-import { toast } from "react-toastify";
 import {UserCircleIcon} from "@heroicons/react/24/outline";
+import { useSelector,useDispatch } from "react-redux";
+import { selectInstructor } from "../../../redux/reducers/instructorSlice";
+import { clearToken } from "../../../redux/reducers/authSlice";
+import { clearDetails } from "../../../redux/reducers/instructorSlice";
+import { USER_AVATAR } from "../../../constants/common";
+import { useNavigate } from "react-router-dom";
 
 
-// profile menu component
 const profileMenuItems = [
   {
     label: "My Profile",
     icon: UserCircleIcon,
-  },
-  {
-    label: "Edit Profile",
-    icon: Cog6ToothIcon,
   },
   {
     label: "Inbox",
@@ -46,25 +44,30 @@ const profileMenuItems = [
 
 export function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [loading,setLoading] = useState(false)
-  const [profileUrl,setProfileUrl]=useState<string>("")
-  const fetchUrl = async () => {
-    try {
-      setLoading(true)
-      const response = await getProfileUrl();
-      setProfileUrl(response.data)
-      setLoading(false)
-    } catch (error:any) {
-      toast.error(error?.data?.message, {  
-        position: toast.POSITION.BOTTOM_RIGHT,   
-      });
+  const instructor = useSelector(selectInstructor)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const handleAction = (action: string) => {
+    switch (action) {
+      case "My Profile":
+        navigate("/instructors/view-profile");
+        break;
+      case "Settings":
+        break;
+      case "Inbox":
+        break;
+      case "Help":  
+        break;
+      case "Sign Out":
+        dispatch(clearToken());
+        dispatch(clearDetails())
+        navigate("/instructors/login");
+        break;
+      default:
+        break;
     }
   };
-  useEffect(() => {
-    fetchUrl();
-  }, []);
-
-  const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -79,7 +82,7 @@ export function ProfileMenu() {
             size="sm"
             alt="candice wu"
             className="border border-blue-500 p-0.5"
-            src={"../profile.jpg"}
+            src={instructor.instructorDetails?.profileUrl||USER_AVATAR}
           />
           <ChevronDownIcon
             strokeWidth={2.5}
@@ -94,7 +97,7 @@ export function ProfileMenu() {
            return (
              <MenuItem
                key={label}
-              onClick={closeMenu}
+              onClick={()=>handleAction(label)}
                className={`flex items-center gap-2 rounded ${
                  isLastItem
                    ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"

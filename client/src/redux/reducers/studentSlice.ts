@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import jwt_decode from "jwt-decode";
 import { getStudentDetails } from "../../api/endpoints/student";
 import { ApiResponseStudent } from "../../api/types/apiResponses/apiResponseStudent";
+import decodeJwtToken from "../../utils/decode";
 
 interface StudentData {
   studentDetails: ApiResponseStudent | null;
@@ -12,15 +12,12 @@ interface StudentData {
 }
 
 const accessToken = localStorage.getItem("accessToken");
+const decodedToken = decodeJwtToken(accessToken??"")
 
-let decodedToken: { payload: { Id: string } } | null = null;
-if (accessToken) {
-  decodedToken = jwt_decode(accessToken);
-}
 
 const initialState: StudentData = {
   studentDetails: null,
-  studentId: decodedToken?.payload.Id || null,
+  studentId: decodedToken?.payload.userId || null,
   isFetching: false,
   error: null,
 };

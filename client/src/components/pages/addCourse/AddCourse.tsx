@@ -146,7 +146,7 @@ const CombinedForm: React.FC = () => {
                   >
                     {categories?.map(({ _id, name },index) => (
                       <option selected={index===0} key={_id}>{name}</option>
-                    ))}
+                    ))}  
                   </Field>
                   <ErrorMessage
                     name='category'

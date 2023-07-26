@@ -15,9 +15,9 @@ const MyCourses: React.FC = (props: Props) => {
       setLoading(true);
       const response = await getCourseByStudent();
       setCourse(response.data);
-      setTimeout(()=>{
+      setTimeout(() => {
         setLoading(false);
-      },1000)
+      }, 1000);
     } catch (error: any) {
       setLoading(false);
       toast.success(error?.data?.message, {
@@ -47,15 +47,24 @@ const MyCourses: React.FC = (props: Props) => {
         <div className='flex gap-x-10 h-full pb-10'>
           <div className=' w-full h-full   bg-white rounded-md '>
             <div className='flex pt-10  pb-10 flex-wrap border border-gray-300 rounded-md items-center bg-white  justify-center gap-x-10 gap-y-5 '>
-              {loading
-                ? Array.from({ length: 4 }).map((_, index) => {
-                    return <ProfileCardShimmer key={index} />;
-                  })
-                : courses?.map((course) => (
-                    <Link to={`/courses/${course._id}`} key={course._id}>
-                      <MyCourseCard {...course} />
-                    </Link>
-                  ))}
+              {loading ? (
+                Array.from({ length: 3 }).map((_, index) => {
+                  return <ProfileCardShimmer key={index} />;
+                })
+              ) : courses?.length ? (
+                courses.map((course) => (
+                  <Link to={`/courses/${course._id}`} key={course._id}>
+                    <MyCourseCard {...course} />
+                  </Link>
+                ))
+              ) : (
+                <div className='text-center'>
+                  Please enroll into a course.{" "}
+                  <Link to='/courses' className='text-blue-500 underline'>
+                    View available courses
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
