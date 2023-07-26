@@ -31,9 +31,9 @@ const RecommendedCard: React.FC<Props> = ({ courseInfo }) => {
       </CardHeader>
       <CardBody className='relative py-14 px-6 md:px-12'>
         <Typography
-          variant='h2'
+          variant='h3'
           color='white'
-          className='mb-6 font-medium leading-[1.5]'
+          className='mb-6 line-clamp-2 font-medium leading-[1.5]'
         >
           {course?.name}
         </Typography>
