@@ -10,9 +10,11 @@ import { setToken } from "../../../redux/reducers/authSlice";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 import { APP_LOGO } from "../../../constants/common";
+import { selectUserType } from "../../../redux/reducers/authSlice";
 const StudentLoginPage: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector(selectUserType)
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const handleSubmit = async (studentInfo: any) => {
@@ -22,7 +24,7 @@ const StudentLoginPage: React.FC = () => {
         accessToken,
         refreshToken,
       }: { accessToken: string; refreshToken: string } = response.data;
-      dispatch(setToken({ accessToken, refreshToken }));
+      dispatch(setToken({ accessToken, refreshToken,userType:"student" }));
       response.data.status === "success" && navigate("/");
     } catch (error: any) {
       toast.error(error?.data?.message, {
@@ -32,7 +34,7 @@ const StudentLoginPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn&&user==="student") {  
       navigate("/");
     }
   }, [isLoggedIn, navigate]);

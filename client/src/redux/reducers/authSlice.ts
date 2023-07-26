@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import decodeJwtToken from "../../utils/decode";
 
 const accessToken = localStorage.getItem("accessToken")
 const refreshToken = localStorage.getItem('refreshToken')
+const decodedToken = decodeJwtToken(accessToken??"");
 
 const initialState = {
   data: {
@@ -10,6 +12,7 @@ const initialState = {
     refreshToken,
   },
   isLoggedIn: accessToken ? true : false,
+  userType:decodedToken?.payload?.role
 };
 
 const authSlice = createSlice({
@@ -18,7 +21,7 @@ const authSlice = createSlice({
   reducers: {
     setToken(
       state,
-      action: PayloadAction<{ accessToken: string; refreshToken: string }>
+      action: PayloadAction<{ accessToken: string; refreshToken: string ,userType:string}>
     ) {
       localStorage.setItem(
         "accessToken",
@@ -37,6 +40,7 @@ const authSlice = createSlice({
         refreshToken: action.payload.refreshToken,
       };
       state.isLoggedIn = true;
+      state.userType=action.payload.userType
     },
     clearToken(state) {
       state.data = {
@@ -46,6 +50,7 @@ const authSlice = createSlice({
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       state.isLoggedIn = false;
+      state.userType=""
     },
   },
 });
@@ -59,10 +64,11 @@ export const selectAccessToken = (state:RootState)=> {
   const accessToken = JSON.parse(accessTokenString ?? "")?.accessToken || "";
   return accessToken;
 }
-
 export const selectIsLoggedIn = () => {
   const  accessToken = localStorage.getItem("accessToken");
   return accessToken ? true : false;
 };
+
+export const selectUserType = (state:RootState)=>state.auth.userType
 
 export const authReducer = authSlice.reducer;

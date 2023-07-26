@@ -14,7 +14,7 @@ const InstructorLoginPage: React.FC = () => {
     try {
       const response = await loginInstructor(instructorInfo);
       const {accessToken,refreshToken}:{accessToken:string,refreshToken:string} = response.data
-      dispatch(setToken({accessToken,refreshToken}))
+      dispatch(setToken({accessToken,refreshToken,userType:"instructor"}))
       toast.success(response?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       }); 

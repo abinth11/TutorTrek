@@ -1,29 +1,33 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-const data = localStorage.getItem("authToken") ?? "";
-const parsedData: { token: string } = data ? JSON.parse(data) : null;
+const accessToken = localStorage.getItem("adminAccessToken") ?? "";
+const refreshToken = localStorage.getItem("AdminRefreshToken");
+
 const initialState = {
   data: {
-    accessToken: "",
-    refreshToken: "",
+    accessToken,
+    refreshToken
   },
-  isLoggedIn: parsedData?true:false,
+  isLoggedIn: accessToken ? true : false,
 };
 
 const adminAuthSlice = createSlice({
   name: "adminAuth",
   initialState,
   reducers: {
-    setTokenAdmin(state, action: PayloadAction<{accessToken: string; refreshToken: string }>) {
+    setTokenAdmin(
+      state,
+      action: PayloadAction<{ accessToken: string; refreshToken: string }>
+    ) {
       localStorage.setItem(
-        "accessToken",
+        "adminAccessToken",
         JSON.stringify({
           accessToken: action.payload.accessToken,
         })
       );
       localStorage.setItem(
-        "refreshToken",
+        "AdminRefreshToken",
         JSON.stringify({
           refreshToken: action.payload.refreshToken,
         })
@@ -39,8 +43,8 @@ const adminAuthSlice = createSlice({
         accessToken: "",
         refreshToken: "",
       };
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("adminAccessToken");
+      localStorage.removeItem("AdminRefreshToken");
       state.isLoggedIn = false;
     },
     login(state) {
@@ -52,11 +56,12 @@ const adminAuthSlice = createSlice({
   },
 });
 
-export const { setTokenAdmin, clearTokenAdmin, login, logout } = adminAuthSlice.actions;
+export const { setTokenAdmin, clearTokenAdmin, login, logout } =
+  adminAuthSlice.actions;
 
 export const selectAdminAuth = (state: RootState) => state.admin.data;
 export const selectIsAdminLoggedIn = () => {
-  const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("adminAccessToken");
   return accessToken ? true : false;
 };
 export const adminAuthReducer = adminAuthSlice.reducer;

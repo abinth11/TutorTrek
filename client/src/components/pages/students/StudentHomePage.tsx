@@ -13,6 +13,7 @@ import {
 } from "../../../api/endpoints/course/course";
 import { ApiResponseTrending } from "../../../api/types/apiResponses/apiResponseHomePageListing";
 import { Link } from "react-router-dom";
+import { selectUserType } from "../../../redux/reducers/authSlice";
 
 const StudentHomePage: React.FC = () => {
   const [trendingCourses, setTrendingCourses] = useState<
@@ -27,6 +28,7 @@ const StudentHomePage: React.FC = () => {
   const [isLoadingTrending, setIsLoadingTrending] = useState(false);
   const [isLoadingRecommended, selectIsLoadingRecommended] = useState(false);
   const isLoggedIn = useSelector(selectIsLoggedIn);  
+  const user = useSelector(selectUserType)
    
   const fetchTrendingCourses = async () => {
     try {
@@ -62,7 +64,7 @@ const StudentHomePage: React.FC = () => {
 
   useEffect(() => {
     fetchTrendingCourses();
-    isLoggedIn && fetchRecommendedCourses();
+    isLoggedIn&&user==='student'&& fetchRecommendedCourses();
   }, []);
 
   const handleShowMoreTrending = () => {
