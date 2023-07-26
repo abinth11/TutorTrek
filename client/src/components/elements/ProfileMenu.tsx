@@ -52,22 +52,18 @@ export default function ProfileMenu() {
   const student = useSelector(selectStudent);
  
   const handleAction = (action: string) => {
-    // Handle different actions based on the action label
     switch (action) {
       case "My Profile":
         navigate("/dashboard/my-profile");
         break;
-      case "Settings":
+      case "Settings":  
         navigate("/dashboard/settings");
         break;
       case "Inbox":
-        // Logic for "Inbox" action
         break;
       case "Help":
-        // Logic for "Help" action
         break;
       case "Sign Out":
-        // Logic for "Sign Out" action
         dispatch(clearToken());
         navigate("/");
         break;
@@ -76,7 +72,6 @@ export default function ProfileMenu() {
     }
   };
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement='bottom-end'>

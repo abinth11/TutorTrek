@@ -10,7 +10,6 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { ThemeProvider } from "@material-tailwind/react";
 import { ToastContainer } from "react-toastify";
-import { MaterialTailwindControllerProvider } from "./components/pages/admin/widgets/context";
 import Modal from 'react-modal';
 
 
@@ -25,10 +24,8 @@ root.render(
     <GoogleOAuthProvider clientId={client_id}>
         <Provider store={store}>
           <ThemeProvider>
-            <MaterialTailwindControllerProvider>
               <RouterProvider router={AppRouter} />
               <ToastContainer />
-            </MaterialTailwindControllerProvider>
           </ThemeProvider>
         </Provider>
     </GoogleOAuthProvider>

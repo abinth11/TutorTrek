@@ -130,13 +130,9 @@ const AppRouter = createBrowserRouter([
     errorElement: <ErrorElement />,
     children: [
       {
-        path: "admin/",
-        element: <Dashboard />,
-      },
-      {
-        path: "dashboard",
+        path: "",
         element: <AdminHomePage />,
-      },
+      },  
       {
         path: "instructors",
         element: <ViewInstructorsIndex />,
@@ -177,10 +173,10 @@ const AppRouter = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "login",
-        element: <AdminLoginPage />,
-      },
+      // {
+      //   path: "login",
+      //   element: <AdminLoginPage />,
+      // },
     ],
   },
   {

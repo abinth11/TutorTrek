@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import jwt_decode from "jwt-decode";
 import { getStudentDetails } from "../../api/endpoints/student";
 import { ApiResponseStudent } from "../../api/types/apiResponses/apiResponseStudent";
 import decodeJwtToken from "../../utils/decode";

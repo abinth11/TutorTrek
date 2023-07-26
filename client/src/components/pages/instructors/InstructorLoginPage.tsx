@@ -1,15 +1,19 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { instructorLoginValidationSchema } from "../../../validations/auth/InstructorLoginValidation";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { loginInstructor } from "../../../api/endpoints/auth/instructorAuth";
 import { InstructorLoginInfo } from "../../../api/types/instructor/authInterface";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setToken } from "../../../redux/reducers/authSlice";
+import { selectUserType } from "../../../redux/reducers/authSlice";
+import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 const InstructorLoginPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  const isLoggedIn = useSelector(selectIsLoggedIn)
+  const user = useSelector(selectUserType)
   const handleSubmit = async (instructorInfo: InstructorLoginInfo) => {
     try {
       const response = await loginInstructor(instructorInfo);
@@ -25,6 +29,12 @@ const InstructorLoginPage: React.FC = () => {
       });
     }
   };
+  useEffect(() => {
+    if(isLoggedIn&&user==="instructor"){
+      navigate("/instructors")
+    }
+  },[])
+  
 
   return (
     <div className='flex justify-center items-center mt-20 pt-5 pb-20  text-customFontColorBlack'>

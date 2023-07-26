@@ -46,7 +46,7 @@ const AdminHomePage: React.FC = () => {
   }, []);
 
   return (
-    <div className=' pl-5 pr-5 '>
+    <div className=' pl-1'>
       <div className='ml-3 mr-3 flex items-center justify-between'>
         <div className='bg-white flex-1 rounded-md pb-5 pr-5 pl-5 border shadow-sm border-gray-200 mr-4'>
           <div className='flex items-center '>

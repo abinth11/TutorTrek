@@ -23,7 +23,7 @@ const AdminLoginPage: React.FC = () => {
       toast.success(response.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-      navigate("/admin/dashboard");
+      navigate("/admin/");
     } catch (error: any) {
       toast.error(error.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,

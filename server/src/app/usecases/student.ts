@@ -85,7 +85,6 @@ export const getStudentDetailsU = async (
   }
   const studentDetails: StudentInterface | null =
     await studentDbRepository.getStudent(id);
-    console.log(studentDetails)
   if (studentDetails?.profilePic?.key) {
     studentDetails.profilePic.url = await cloudService.getFile(
       studentDetails.profilePic.key

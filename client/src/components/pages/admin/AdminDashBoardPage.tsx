@@ -1,16 +1,17 @@
 import { Routes, Route } from "react-router-dom";
 import { IconButton } from "@material-tailwind/react";
-import {DashboardNavbar,Footer} from "../admin/widgets/layout";
 import {
   Cog6ToothIcon,
   HomeIcon,
   UserGroupIcon,
-  AcademicCapIcon,
+  AcademicCapIcon,  
   BookOpenIcon,
   Square3Stack3DIcon,
   BellIcon,
+  PowerIcon
 } from "@heroicons/react/24/solid";
 import AdminHomePage from "./AdminHomePage";
+import AdminLoginPage from "./AdminLoginPage";
 const icon = {
   className: "w-5 h-5 text-inherit",
 };
@@ -22,7 +23,7 @@ export const routes = [
       {
         icon: <HomeIcon {...icon} />,
         name: "dashboard",
-        path: "/dashboard",
+        path: "/",
         element: <AdminHomePage />,
       },
       {
@@ -55,6 +56,12 @@ export const routes = [
         path: "/notifactions",
         element: <AdminHomePage />,
       },
+      {
+        icon: <PowerIcon {...icon} />,
+        name: "Log out",
+        path: "/login",
+        element:<AdminLoginPage/>
+      }
     ],
   },
 ];
@@ -63,8 +70,7 @@ export function Dashboard() {
   return (
     <div className='min-h-screen bg-blue-gray-50/50'>
       <div className='p-4 xl:ml-80'>
-        <DashboardNavbar />
-        {/* <Configurator /> */}
+        {/* <DashboardNavbar /> */}
         <IconButton
           size='lg'
           color='white'
@@ -83,7 +89,7 @@ export function Dashboard() {
           )}
         </Routes>
         <div className='text-blue-gray-600'>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </div>
     </div>
