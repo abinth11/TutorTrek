@@ -7,8 +7,13 @@ import { authServiceInterface } from '../../../app/services/authServicesInterfac
 import { cloudServiceInterface } from '../../../app/services/cloudServiceInterface';
 import { s3Service } from '../../../frameworks/services/s3CloudService';
 import upload from '../middlewares/multer';
+import { RedisClient } from '@src/app';
+import { cachingMiddleware } from '../middlewares/redisCaching';
+import { redisCacheRepository } from '../../../frameworks/database/redis/redisCacheRepository';
+import { cacheRepositoryInterface } from '../../../app/repositories/cachedRepoInterface';
+import jwtAuthMiddleware from '../middlewares/userAuth';
 
-const studentRouter = () => {
+const studentRouter = (redisClient: RedisClient) => {
   const router = express.Router();
   const controller = studentController(
     authServiceInterface,
@@ -17,22 +22,34 @@ const studentRouter = () => {
     studentRepositoryMongoDB,
     cloudServiceInterface,
     s3Service,
+    cacheRepositoryInterface,
+    redisCacheRepository,
+    redisClient
   );
   router.patch('/change-password', controller.changePassword);
-  
-  router.put('/update-profile',upload.single('image'),controller.updateProfile);
 
-  router.get('/get-student-details',controller.getStudentDetails)
+  router.put(
+    '/update-profile',
+    upload.single('image'),
+    controller.updateProfile
+  );
 
-  router.get('/get-profile-url',controller.getProfileUrl)
+  router.get(
+    '/get-student-details',
+    jwtAuthMiddleware,
+    cachingMiddleware(redisClient),
+    controller.getStudentDetails
+  );
 
-  router.get('/get-all-students',controller.getAllStudents)
+  router.get('/get-profile-url', controller.getProfileUrl);
 
-  router.patch('/block-student/:studentId',controller.blockStudent)
+  router.get('/get-all-students', controller.getAllStudents);
 
-  router.patch('/unblock-student/:studentId',controller.unblockStudent)
+  router.patch('/block-student/:studentId', controller.blockStudent);
 
-  router.get('/get-all-blocked-students',controller.getAllBlockedStudents)
+  router.patch('/unblock-student/:studentId', controller.unblockStudent);
+
+  router.get('/get-all-blocked-students', controller.getAllBlockedStudents);
 
   return router;
 };

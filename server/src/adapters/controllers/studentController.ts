@@ -17,7 +17,15 @@ import {
 } from '../../types/studentInterface';
 import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
 import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
-import { blockStudentU, getAllBlockedStudentsU, getAllStudentsU, unblockStudentU } from '../../app/usecases/management/studentManagement';
+import {
+  blockStudentU,
+  getAllBlockedStudentsU,
+  getAllStudentsU,
+  unblockStudentU
+} from '../../app/usecases/management/studentManagement';
+import { RedisClient } from '@src/app';
+import { CacheRepositoryInterface } from '@src/app/repositories/cachedRepoInterface';
+import { RedisRepositoryImpl } from '@src/frameworks/database/redis/redisCacheRepository';
 
 const studentController = (
   authServiceInterface: AuthServiceInterface,
@@ -25,12 +33,18 @@ const studentController = (
   studentDbRepository: StudentsDbInterface,
   studentDbRepositoryImpl: StudentRepositoryMongoDB,
   cloudServiceInterface: CloudServiceInterface,
-  cloudServiceImpl: CloudServiceImpl
+  cloudServiceImpl: CloudServiceImpl,
+  cacheDbRepository: CacheRepositoryInterface,
+  cacheDbRepositoryImpl: RedisRepositoryImpl,
+  cacheClient: RedisClient
 ) => {
   const dbRepositoryStudent = studentDbRepository(studentDbRepositoryImpl());
+  const dbRepositoryCache = cacheDbRepository(
+    cacheDbRepositoryImpl(cacheClient)
+  );
+  
   const authService = authServiceInterface(authServiceImpl());
   const cloudService = cloudServiceInterface(cloudServiceImpl());
-
   const changePassword = asyncHandler(
     async (req: CustomRequest, res: Response) => {
       const passwordInfo: { currentPassword: string; newPassword: string } =
@@ -38,7 +52,7 @@ const studentController = (
       const studentId: string | undefined = req.user?.Id;
       await changePasswordU(
         studentId,
-        passwordInfo,   
+        passwordInfo,
         authService,
         dbRepositoryStudent
       );
@@ -77,6 +91,12 @@ const studentController = (
         studentId,
         dbRepositoryStudent
       );
+      const cacheOptions = {
+        key: `${studentId}`,
+        expireTimeSec: 600,
+        data: JSON.stringify(studentDetails)
+      };
+      await dbRepositoryCache.setCache(cacheOptions);
       res.status(200).json({
         status: 'success',
         message: 'Successfully retrieved student details',
@@ -101,44 +121,49 @@ const studentController = (
     }
   );
 
-  const getAllStudents = asyncHandler(async (req:Request,res:Response)=>{
-    const students = await getAllStudentsU(cloudService,dbRepositoryStudent)
+  const getAllStudents = asyncHandler(async (req: Request, res: Response) => {
+    const students = await getAllStudentsU(cloudService, dbRepositoryStudent);
     res.status(200).json({
       status: 'success',
       message: 'Successfully retrieved all student details',
       data: students
     });
-  })
+  });
 
-  const blockStudent = asyncHandler(async (req:Request,res:Response)=>{
-    const studentId:string = req.params.studentId
-    const reason:string = req.body.reason
-    await blockStudentU(studentId,reason,dbRepositoryStudent)
+  const blockStudent = asyncHandler(async (req: Request, res: Response) => {
+    const studentId: string = req.params.studentId;
+    const reason: string = req.body.reason;
+    await blockStudentU(studentId, reason, dbRepositoryStudent);
     res.status(200).json({
       status: 'success',
       message: 'Successfully blocked student ',
       data: null
     });
-  })
+  });
 
-  const unblockStudent = asyncHandler(async (req:Request,res:Response)=>{
-    const studentId:string = req.params.studentId
-    await unblockStudentU(studentId,dbRepositoryStudent)
+  const unblockStudent = asyncHandler(async (req: Request, res: Response) => {
+    const studentId: string = req.params.studentId;
+    await unblockStudentU(studentId, dbRepositoryStudent);
     res.status(200).json({
       status: 'success',
       message: 'Successfully unblocked student ',
       data: null
     });
-  })
+  });
 
-  const getAllBlockedStudents = asyncHandler(async(req:Request,res:Response)=>{
-    const students = await getAllBlockedStudentsU(cloudService,dbRepositoryStudent)
-    res.status(200).json({
-      status: 'success',
-      message: 'Successfully unblocked student ',
-      data: students
-    });
-  })
+  const getAllBlockedStudents = asyncHandler(
+    async (req: Request, res: Response) => {
+      const students = await getAllBlockedStudentsU(
+        cloudService,
+        dbRepositoryStudent
+      );
+      res.status(200).json({
+        status: 'success',
+        message: 'Successfully unblocked student ',
+        data: students
+      });
+    }
+  );
 
   return {
     changePassword,
