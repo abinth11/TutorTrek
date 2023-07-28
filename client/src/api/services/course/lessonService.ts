@@ -1,12 +1,12 @@
-import CONSTANTS_COMMON from "../../../constants/common";
 import api from "../../middlewares/protectedInterceptor";
+import CONFIG_KEYS from "../../../config";
 
 export const getLessonsByCourseService = async (
     endpoint: string,
     courseId: string
   ) => {
     const response = await api.get(
-      `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${courseId}`
+      `${CONFIG_KEYS.API_BASE_URL}/${endpoint}/${courseId}`
     );
     return response.data;
   };
@@ -17,7 +17,7 @@ export const getLessonsByCourseService = async (
     lesson: FormData
   ) => {
     const response = await api.post(
-      `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${courseId}`,
+      `${CONFIG_KEYS.API_BASE_URL}/${endpoint}/${courseId}`,
       lesson
     );
     return response.data;
@@ -29,7 +29,7 @@ export const getLessonsByCourseService = async (
     lesson: FormData
   ) => {
     const response = await api.put(
-      `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${lessonId}`,
+      `${CONFIG_KEYS.API_BASE_URL}/${endpoint}/${lessonId}`,
       lesson
     );
     return response.data;
@@ -40,7 +40,7 @@ export const getLessonsByCourseService = async (
     lessonId: string
   ) => {
     const response = await api.get(
-      `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${lessonId}`
+      `${CONFIG_KEYS.API_BASE_URL}/${endpoint}/${lessonId}`
     );
     return response.data;
   };

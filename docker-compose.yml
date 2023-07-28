@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: tutortrek_client
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./client/.env
+    depends_on:
+      - backend
+    networks:
+      - my_network
+
+  # Node.js with Express.js back-end service
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: tutortrek_server
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./server/.env
+    networks:
+      - my_network 
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+# Define the custom network
+networks:
+  my_network:
+    driver: bridge

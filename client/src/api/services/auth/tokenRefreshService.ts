@@ -1,12 +1,12 @@
 import api from "../../middlewares/protectedInterceptor";
-import CONSTANTS_COMMON from "../../../constants/common";
+import CONFIG_KEYS from "../../../config";
 
 export const refreshTokenService = async (
   endpoint: string,
   refreshToken: string
 ) => {
   const response = await api.post(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`,
     {
       refreshToken:`Bearer ${refreshToken}`
     }

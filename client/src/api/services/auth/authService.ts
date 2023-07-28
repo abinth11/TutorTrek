@@ -1,4 +1,4 @@
-import CONSTANTS_COMMON from "../../../constants/common";
+import CONFIG_KEYS from "../../../config";
 import { AdminLoginInfo } from "../../types/admin/authInterface";
 import authInstanceAxios from "../../middlewares/interceptor";
 
@@ -7,7 +7,7 @@ export const login = async (
   adminLoginInfo: AdminLoginInfo
 ) => {
   const response = await authInstanceAxios.post(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`,
     adminLoginInfo
   );
   return response;

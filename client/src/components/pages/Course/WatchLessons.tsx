@@ -15,6 +15,7 @@ import ShimmerVideoPlayer from "../../Shimmers/ShimmerVideoPlayer";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 import { selectStudentId } from "../../../redux/reducers/studentSlice";
+import { selectUserType } from "../../../redux/reducers/authSlice";
 
 const WatchLessons: React.FC = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
@@ -30,6 +31,7 @@ const WatchLessons: React.FC = () => {
   );
   const studentId = useSelector(selectStudentId)
   const { courseId } = useParams();
+  const user = useSelector(selectUserType)
 
   const handleItemClick = (index: number) => {
     setSelectedItemIndex(index);
@@ -105,7 +107,7 @@ const WatchLessons: React.FC = () => {
       ) : (
         <div className='md:w-3/4 w-full  overflow-y-scroll scrollbar-track-blue-gray-50 scrollbar-thumb-gray-400 scrollbar-thin scrollbar-h-md'>
           <div className='h-3/4'>
-            <VideoPlayer videoKey={videoKey} isCoursePurchased={isLoggedIn?true:false} />
+            <VideoPlayer videoKey={videoKey} isCoursePurchased={isLoggedIn&&user==="student"} />
           </div>
           <div className=''>
             <ul className='flex p-3'>

@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
-import CONSTANTS_COMMON from "../../constants/common";
+import CONFIG_KEYS from "../../config";
 import CustomApiError from "../../utils/CustomApiError";
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: CONSTANTS_COMMON.API_BASE_URL,
+  baseURL: CONFIG_KEYS.API_BASE_URL,
 });
 
 

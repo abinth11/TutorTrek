@@ -1,4 +1,4 @@
-import CONSTANTS_COMMON from "../../constants/common";
+import CONFIG_KEYS from "../../config";
 import api from "../middlewares/protectedInterceptor";
 
 export const addCategoryService = async (
@@ -6,7 +6,7 @@ export const addCategoryService = async (
   categoryInfo: { name: string; description: string }
 ) => { 
   const response = await api.post(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`,
     categoryInfo
   );
   return response;
@@ -14,7 +14,7 @@ export const addCategoryService = async (
 
 export const getCategoriesService = async (endpoint: string) => {
   const response = await api.get(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`
   );
   return response.data;
 };
@@ -24,7 +24,7 @@ export const getCategoryByIdService = async (
   categoryId: string
 ) => {
   const response = await api.get(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${categoryId}`
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}/${categoryId}`
   );
   return response.data;
 };
@@ -35,7 +35,7 @@ export const editCategoryByIdService = async (
   categoryInfo: { name?: string; description?: string }
 ) => {
   const response = await api.put(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${categoryId}`,
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}/${categoryId}`,
     categoryInfo
   );
   return response.data;

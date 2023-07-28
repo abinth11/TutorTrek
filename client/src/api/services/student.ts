@@ -1,13 +1,13 @@
-import CONSTANTS_COMMON from "../../constants/common";
 import api from "../middlewares/protectedInterceptor";
 import { PasswordInfo} from "../types/student/student";
+import CONFIG_KEYS from "../../config";
 
 export const changePasswordService = async (
   endpoint: string,
   passwordInfo: PasswordInfo
 ) => {
   const response = await api.patch(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`,
     passwordInfo
   );
   return response;    
@@ -18,7 +18,7 @@ export const updateProfileService = async (
   profileInfo: FormData
 ) => {
   const response = await api.put(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`,
     profileInfo
   );
   return response;
@@ -26,7 +26,7 @@ export const updateProfileService = async (
 
 export const getStudentDetailsService = async (endpoint: string) => {
   const response = await api.get(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`
   );
   return response.data;
 };
