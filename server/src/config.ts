@@ -48,7 +48,9 @@ const configKeys = {
 
   STRIPE_PUBLISHABLE_KEY:process.env.STRIPE_PUBLISHABLE_KEY as string,
 
-  DB_CLUSTER_URL:process.env.DB_CLUSTER_URL as string
+  DB_CLUSTER_URL:process.env.DB_CLUSTER_URL as string,
+
+  REDIS_URL:process.env.REDIS_URL as string
 
 };
 

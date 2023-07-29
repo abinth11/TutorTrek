@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "types": ["react", "react-dom", "react-pdf"],
+    "types": ["react","node", "react-dom", "react-pdf"],
     "lib": [
       "dom",
       "dom.iterable",

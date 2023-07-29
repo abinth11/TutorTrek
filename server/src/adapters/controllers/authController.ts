@@ -12,14 +12,14 @@ import {
 import {
   instructorRegister,
   instructorLogin
-} from '../../../src/app/usecases/auth/instructorAuth';
+} from '../../app/usecases/auth/instructorAuth';
 import { InstructorDbInterface } from '@src/app/repositories/instructorDbRepository';
 import { InstructorRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/instructorRepoMongoDb';
 import { StudentRegisterInterface } from '@src/types/studentRegisterInterface';
 import { GoogleAuthServiceInterface } from '@src/app/services/googleAuthServicesInterface';
 import { GoogleAuthService } from '@src/frameworks/services/googleAuthService';
 import { InstructorInterface } from '@src/types/instructorInterface';
-import { adminLogin } from '../../../src/app/usecases/auth/adminAuth';
+import { adminLogin } from '../../app/usecases/auth/adminAuth';
 import { AdminDbInterface } from '@src/app/repositories/adminDbRepository';
 import { AdminRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/adminRepoMongoDb';
 import { RefreshTokenDbInterface } from '@src/app/repositories/refreshTokenDBRepository';

@@ -22,7 +22,7 @@ const useApiData = <T>(apiCall: (...args: any[]) => Promise<T>, ...args: any[]):
   };
 
   useEffect(() => {
-    let timerId:NodeJS.Timeout;
+    let timerId:any;
     const fetchData = async (): Promise<void> => {
       setIsLoading(true);
       try {

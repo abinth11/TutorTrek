@@ -6,10 +6,10 @@ import { authServiceInterface } from "../../../app/services/authServicesInterfac
 import { authService } from "../../services/authService";
 import {googleAuthService} from "../../../frameworks/services/googleAuthService"
 import { googleAuthServiceInterface } from "../../../app/services/googleAuthServicesInterface";
-import {instructorDbRepository} from "../../../../src/app/repositories/instructorDbRepository"
+import {instructorDbRepository} from "../../../app/repositories/instructorDbRepository"
 import {instructorRepoMongoDb} from "../../../frameworks/database/mongodb/repositories/instructorRepoMongoDb"
-import { adminDbRepository } from "../../../../src/app/repositories/adminDbRepository";
-import { adminRepoMongoDb } from "../../../../src/frameworks/database/mongodb/repositories/adminRepoMongoDb";
+import { adminDbRepository } from "../../../app/repositories/adminDbRepository";
+import { adminRepoMongoDb } from "../../../frameworks/database/mongodb/repositories/adminRepoMongoDb";
 import { refreshTokenDbRepository } from "../../../app/repositories/refreshTokenDBRepository";
 import { refreshTokenRepositoryMongoDB } from "../../../frameworks/database/mongodb/repositories/refreshTokenRepoMongoDb";
 import { uploadMultipleImages } from "../middlewares/imageUpload";

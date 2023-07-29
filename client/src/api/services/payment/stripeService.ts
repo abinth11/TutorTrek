@@ -1,13 +1,12 @@
-import CONSTANTS_COMMON from "../../../constants/common";
 import api from "../../middlewares/protectedInterceptor";
-import { PaymentIntent } from "@stripe/stripe-js";
+import CONFIG_KEYS from "../../../config";
 
 export const createStripePaymentService = async (
   endpoint: string,
   courseId:string
 ) => {
   const response = await api.post(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`,
     {
       courseId
     }
@@ -19,7 +18,7 @@ export const getConfigService = async (
   endpoint: string,
 ) => {
   const response = await api.get(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`
   );
   return response.data
 };

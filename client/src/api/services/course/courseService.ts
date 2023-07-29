@@ -1,14 +1,14 @@
-import CONSTANTS_COMMON from "../../../constants/common";
 import api from "../../middlewares/protectedInterceptor";
 import { PaymentIntent } from "@stripe/stripe-js";
 import axiosInstance from "../../middlewares/interceptor";
+import CONFIG_KEYS from "../../../config";
 
 export const addCourseService = async (
   endpoint: string,
   courseInfo: FormData
 ) => {
   const response = await api.post(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`,
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`,
     courseInfo
   );
   return response;
@@ -20,7 +20,7 @@ export const editCourseService = async (
   courseInfo: FormData
 ) => {
   const response = await api.put(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${courseId}`,
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}/${courseId}`,
     courseInfo
   );
   return response;
@@ -28,14 +28,14 @@ export const editCourseService = async (
 
 export const getCoursesByInstructorService = async (endpoint: string) => {
   const response = await api.get(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`
   );
   return response.data;
 };
 
 export const getAllCoursesService = async (endpoint: string) => {
   const response = await axiosInstance.get(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`
   );
   return response;
 };
@@ -45,7 +45,7 @@ export const getIndividualCourseService = async (
   courseId: string
 ) => {
   const response = await axiosInstance.get(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${courseId}`
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}/${courseId}`
   );
   return response;
 };
@@ -56,7 +56,7 @@ export const enrollStudentService = async (
   paymentInfo?: PaymentIntent
 ) => {
   const response = await api.post(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}/${courseId}`,
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}/${courseId}`,
     paymentInfo
   );
   return response.data;
@@ -64,21 +64,21 @@ export const enrollStudentService = async (
 
 export const getRecommendedCoursesService = async (endpoint: string) => {
   const response = await api.get(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`
   );
   return response.data;
 };
 
 export const getTrendingCoursesService = async (endpoint: string) => {
   const response = await axiosInstance.get(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`
   );
   return response.data;
 };
 
 export const getCourseByStudentService = async (endpoint: string) => {
   const response = await api.get(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}`
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`
   );
   return response.data;
 };
@@ -89,7 +89,7 @@ export const searchCourseService = async (
   filterQuery: string
 ) => {
   const response = await api.get(
-    `${CONSTANTS_COMMON.API_BASE_URL}/${endpoint}?search=${searchQuery}&filter=${filterQuery}`
+    `${CONFIG_KEYS.API_BASE_URL}/${endpoint}?search=${searchQuery}&filter=${filterQuery}`
   );
   return response.data;
 };

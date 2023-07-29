@@ -1,9 +1,9 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
-import CONSTANTS_COMMON from "../../constants/common";
 import CustomApiError from "../../utils/CustomApiError";
+import CONFIG_KEYS from "../../config";
 import { refreshTokenApi } from "../endpoints/auth/tokenRefresh";
 const api: AxiosInstance = axios.create({
-  baseURL: CONSTANTS_COMMON.API_BASE_URL,
+  baseURL: CONFIG_KEYS.API_BASE_URL,
 });
 
 api.interceptors.request.use(

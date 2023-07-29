@@ -1,9 +1,9 @@
-import HttpStatusCodes from '../../../../src/constants/HttpStatusCodes';
+import HttpStatusCodes from '../../../constants/HttpStatusCodes';
 import {
   SavedInstructorInterface,
   InstructorInterface
 } from '@src/types/instructorInterface';
-import AppError from '../../../../src/utils/appError';
+import AppError from '../../../utils/appError';
 import { InstructorDbInterface } from '../../../app/repositories/instructorDbRepository';
 import { AuthServiceInterface } from '../../../app/services/authServicesInterface';
 import { RefreshTokenDbInterface } from '../../../app/repositories/refreshTokenDBRepository';
