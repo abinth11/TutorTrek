@@ -18,7 +18,7 @@ import InstructorLoginPage from "./components/pages/instructors/InstructorLoginP
 import { getInstructorDetails } from "./api/endpoints/instructor";
 import { setDetails } from "./redux/reducers/instructorSlice";
 import { AdminSideNav } from "./components/pages/admin/AdminSideNav";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify";   
 
 export const Student: React.FC = () => {
   const isOnline = useIsOnline();

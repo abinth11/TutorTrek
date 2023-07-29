@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  frontend:
+  client:
     build:
       context: ./client
       dockerfile: Dockerfile
@@ -10,30 +10,49 @@ services:
     env_file:
       - ./client/.env
     depends_on:
-      - backend
+      - server
     networks:
-      - my_network
+      - connection_network
 
   # Node.js with Express.js back-end service
-  backend:
+  server:
     build:
       context: ./server
       dockerfile: Dockerfile
     container_name: tutortrek_server
     ports:
-      - "5000:5000"
+      - "4000:4000"
     env_file:
       - ./server/.env
+    # environment:
+    #   NODE_ENV: production
+    #   REDIS_URL: redis://redis:6379
+    depends_on:
+      - redis
     networks:
-      - my_network 
+      - connection_network
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 5
 
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+  redis:
+    image: redis
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - 6379:6379
+    volumes:
+      - .db:/data
+    restart: always
+    entrypoint: redis-server --appendonly yes
+    networks:
+      - connection_network
 
 # Define the custom network
 networks:
-  my_network:
+  connection_network:
     driver: bridge

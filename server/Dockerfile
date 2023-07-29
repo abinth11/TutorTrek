@@ -1,5 +1,3 @@
-# server/Dockerfile
-
 # Build stage
 FROM node:20-alpine AS build
 
@@ -11,11 +9,14 @@ USER node
 
 COPY *.json ./
 
-RUN npm ci
+RUN yarn install --frozen-lockfile
 
 COPY src src
 
-RUN npm run build
+# Install TypeScript here (tsc)
+RUN yarn global add typescript
+
+RUN yarn run build
 
 # Production stage
 FROM node:20-alpine
@@ -26,7 +27,7 @@ RUN chown -R node:node /usr/src/nodeapp
 
 COPY package*.json ./
 
-RUN npm ci --omit=dev && npm cache clean --force
+RUN yarn install --frozen-lockfile --production=true
 
 USER node
 
