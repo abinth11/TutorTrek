@@ -25,7 +25,7 @@ The project is a comprehensive online learning platform that connects teachers a
 4. Install the dependencies separately(install in both client and server)
 
    ```shell
-   npm install 
+   yarn install 
    ```
 
 5. Set up the required environment variables. Rename the `.env.example` file to `.env` and provide the necessary values for your environment.
@@ -33,7 +33,7 @@ The project is a comprehensive online learning platform that connects teachers a
 5. Seed the database with initial data (if applicable):
 
    ```shell
-   npm run seed
+   yarn run seed
    ```
 
 ## Usage
@@ -42,11 +42,11 @@ The project is a comprehensive online learning platform that connects teachers a
 
    -server side
    ```shell
-   npm run dev
+   yarn run dev
    ```
    -client side
    ```shell
-   npm start 
+   yarn start 
    ```
 
 
