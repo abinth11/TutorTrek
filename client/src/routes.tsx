@@ -14,11 +14,11 @@ import ViewInstructorRequests from "./components/pages/InstructorManagement/View
 import ViewBlockedInstructors from "./components/pages/InstructorManagement/ViewBlockedInstructors";
 import { Student, Admin } from "./App";
 import ViewMoreInstructorRequest from "./components/pages/InstructorManagement/ViewMoreInstructorRequest";
-import { Instructor } from "./App";
+import { Instructor } from "./App";      
 import InstructorDashboard from "./components/pages/instructors/InstructorDashboard";
 import AddCourse from "./components/pages/addCourse/AddCourse";
-import ViewCourseStudent from "./components/pages/course/ViewCourse";
-import WatchLessons from "./components/pages/course/WatchLessons";
+import ViewCourseStudent from "./components/pages/course/view-course";
+import WatchLessons from "./components/pages/course/watch-lesson";
 import ListCourseForInstructors from "./components/pages/addLessons/ListCourseForIstructors";
 import ViewLessons from "./components/pages/addLessons/ViewLessons";
 import StripeContainer from "./components/pages/payment-stripe/StripeContainer";
