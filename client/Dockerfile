@@ -1,5 +1,5 @@
 # Build stage
-FROM node:20-alpine as build
+FROM node:18-alpine as build
 
 # Set the working directory inside the container
 WORKDIR /usr/src/reactapp
@@ -7,17 +7,17 @@ WORKDIR /usr/src/reactapp
 # Copy only package.json and yarn.lock to leverage Docker caching for faster builds
 COPY package.json yarn.lock ./
 
-# Install app dependencies (only production dependencies)
-RUN yarn install --frozen-lockfile --production
+# Install all dependencies (including development dependencies for the build)
+RUN yarn install --frozen-lockfile
 
 # Copy the rest of the files to the container
 COPY . .
 
-# Build the React app for production using Vite
+# Build the React app for production 
 RUN yarn build
 
 # Production stage
-FROM node:20-alpine
+FROM node:18-alpine
 
 # Set the working directory inside the container
 WORKDIR /usr/src/reactapp
@@ -26,7 +26,7 @@ WORKDIR /usr/src/reactapp
 COPY --from=build /usr/src/reactapp/build ./build
 COPY --from=build /usr/src/reactapp/node_modules ./node_modules
 
-# Expose the port that the app will run on (if using Vite's default port, which is 3000)
+# Expose the port that the app will run on 
 EXPOSE 3000
 
 # Install a lightweight HTTP server to serve the app
