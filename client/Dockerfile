@@ -1,34 +1,43 @@
 # Build stage
 FROM node:16-alpine as build
 
-# Set the working directory inside the container
-WORKDIR /reactapp
+# # Set the working directory inside the container
+WORKDIR /usr/src/reactapp
 
-# Copy only package.json and yarn.lock to leverage Docker caching for faster builds
-COPY package.json yarn.lock ./
+RUN chown -R node:node /usr/src/reactapp
 
-# Install all dependencies (including development dependencies for the build)
+USER node
+
+COPY *.json ./
+
+COPY  yarn.lock ./
+
 RUN yarn install --frozen-lockfile
 
-# Copy the rest of the files to the container
-COPY . .
+COPY src src
 
-# Build the React app for production 
-RUN yarn build
+COPY public public
+
+RUN yarn run build
 
 # Production stage
 FROM node:16-alpine
 
-# Set the working directory inside the container
-WORKDIR /reactapp
+# WORKDIR /reactapp
+WORKDIR /usr/src/reactapp
 
-# Copy only the necessary files from the previous build stage
-COPY --from=build /reactapp/build ./build
-COPY --from=build /reactapp/node_modules ./node_modules
+RUN chown -R node:node /usr/src/reactapp
 
-# Expose the port that the app will run on 
+COPY package*.json ./
+
+RUN yarn install --frozen-lockfile --production=true
+
+USER node
+
+COPY --chown=node:node --from=build /usr/src/reactapp/build ./build
+
 EXPOSE 3000
 
-# Install a lightweight HTTP server to serve the app
 RUN yarn global add serve
+
 CMD ["serve", "build", "-s"]
