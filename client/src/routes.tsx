@@ -17,7 +17,7 @@ import ViewMoreInstructorRequest from "./components/pages/InstructorManagement/V
 import { Instructor } from "./App";      
 import InstructorDashboard from "./components/pages/instructors/InstructorDashboard";
 import AddCourse from "./components/pages/addCourse/AddCourse";
-import ViewCourseStudent from "./components/pages/course/view-course";
+import ViewCourseStudent from "../src/components/pages/course/view-course";
 import WatchLessons from "./components/pages/course/watch-lesson";
 import ListCourseForInstructors from "./components/pages/addLessons/ListCourseForIstructors";
 import ViewLessons from "./components/pages/addLessons/ViewLessons";
