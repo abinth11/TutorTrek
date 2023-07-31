@@ -1,5 +1,5 @@
-# Use the official Node.js LTS image (version 18) as the base image for build stage
-FROM node:18-alpine as build
+# Build stage
+FROM node:14-alpine as build
 
 # Set the working directory inside the container
 WORKDIR /usr/src/reactapp
@@ -16,8 +16,8 @@ COPY . .
 # Build the React app for production using Vite
 RUN yarn build
 
-# Use a smaller base image for the final stage
-FROM node:18-alpine
+# Production stage
+FROM node:14-alpine
 
 # Set the working directory inside the container
 WORKDIR /usr/src/reactapp
@@ -29,5 +29,6 @@ COPY --from=build /usr/src/reactapp/node_modules ./node_modules
 # Expose the port that the app will run on (if using Vite's default port, which is 3000)
 EXPOSE 3000
 
-# Start the HTTP server to serve the app
-CMD ["npx", "serve", "build", "-s"]
+# Install a lightweight HTTP server to serve the app
+RUN yarn global add serve
+CMD ["serve", "build", "-s"]
