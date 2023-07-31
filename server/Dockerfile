@@ -1,5 +1,5 @@
 # Build stage
-FROM node:20-alpine AS build
+FROM node:18-alpine AS build
 
 WORKDIR /usr/src/nodeapp
 
@@ -19,7 +19,7 @@ RUN yarn global add typescript
 RUN yarn run build
 
 # Production stage
-FROM node:20-alpine
+FROM node:18-alpine
 
 WORKDIR /usr/src/nodeapp
 
