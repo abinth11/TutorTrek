@@ -1,5 +1,5 @@
 # Build stage
-FROM node:16-alpine as build
+FROM node:20-alpine as build
 
 # Set the working directory inside the container
 WORKDIR /usr/src/reactapp
@@ -17,7 +17,7 @@ COPY . .
 RUN yarn build
 
 # Production stage
-FROM node:16-alpine
+FROM node:20-alpine
 
 # Set the working directory inside the container
 WORKDIR /usr/src/reactapp
