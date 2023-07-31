@@ -18,7 +18,6 @@ const root = ReactDOM.createRoot(
 );
 Modal.setAppElement('#root');
 
-   
 root.render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={CONFIG_KEYS.GOOGLE_AUTH_CLIENT_ID}>

@@ -22,7 +22,7 @@ FROM node:16-alpine
 # Set the working directory inside the container
 WORKDIR /reactapp
 
-# Copy the built app and only necessary node_modules from the previous stage
+# Copy only the necessary files from the previous build stage
 COPY --from=build /reactapp/build ./build
 COPY --from=build /reactapp/node_modules ./node_modules
 
