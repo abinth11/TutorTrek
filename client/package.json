@@ -13,8 +13,6 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/react-pdf": "^7.0.0",
-    "@types/redux-thunk": "^2.1.0",
     "apexcharts": "^3.41.0",
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
@@ -25,7 +23,6 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
-    "react-autosuggest": "^10.1.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.9.0",
     "react-modal": "^3.16.1",
@@ -50,6 +47,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "dev": "react-scripts dev",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -76,11 +74,12 @@
     "@types/lodash": "^4.14.195",
     "@types/node": "^20.4.5",
     "@types/react": "^18.2.14",
-    "@types/react-autosuggest": "^10.1.6",
     "@types/react-dom": "^18.2.6",
     "@types/react-icons": "^3.0.0",
     "@types/react-modal": "^3.16.0",
+    "@types/react-pdf": "^7.0.0",
     "@types/react-select": "^5.0.1",
+    "@types/redux-thunk": "^2.1.0",
     "@types/send": "^0.17.1",
     "@types/video.js": "^7.3.52",
     "@types/yup": "^0.32.0"

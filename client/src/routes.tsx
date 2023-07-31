@@ -1,42 +1,15 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import StudentLoginPage from "./components/pages/students/StudentLoginPage";
-import StudentRegistrationPage from "./components/pages/students/StudentRegistrationPage";
-import StudentHomePage from "./components/pages/students/StudentHomePage";
-import InstructorRegistrationPage from "./components/pages/instructors/InstructorRegisterPage";
-import InstructorLoginPage from "./components/pages/instructors/InstructorLoginPage";
 import ErrorElement from "./components/common/ErrorElement";
-import AdminLoginPage from "./components/pages/admin/AdminLoginPage";
-import AdminHomePage from "./components/pages/admin/AdminHomePage";
-import Dashboard from "./components/pages/admin/AdminDashBoardPage";
-import ViewInstructorsIndex from "./components/pages/InstructorManagement/ViewInstructorsIndex";
-import ViewInstructorRequests from "./components/pages/InstructorManagement/ViewInstructorRequests";
-import ViewBlockedInstructors from "./components/pages/InstructorManagement/ViewBlockedInstructors";
 import { Student, Admin } from "./App";
-import ViewMoreInstructorRequest from "./components/pages/InstructorManagement/ViewMoreInstructorRequest";
-import { Instructor } from "./App";      
+import { Instructor } from "./App";
 import InstructorDashboard from "./components/pages/instructors/InstructorDashboard";
-import AddCourse from "./components/pages/addCourse/AddCourse";
-import ViewCourseStudent from "../src/components/pages/course/view-course";
-import WatchLessons from "./components/pages/course/watch-lesson";
-import ListCourseForInstructors from "./components/pages/addLessons/ListCourseForIstructors";
-import ViewLessons from "./components/pages/addLessons/ViewLessons";
 import StripeContainer from "./components/pages/payment-stripe/StripeContainer";
-import Categories from "./components/pages/categories/Categories";
 import AddCategory from "./components/pages/categories/AddCategory";
 import EditCategory from "./components/pages/categories/EditCategory";
 import ListCategories from "./components/pages/categories/ListCategory";
-import ViewInstructor from "./components/pages/instructors/ViewInstructor";
-import UserDashboard from "./components/pages/studentDash/UserDashboard";
-import MyCourses from "./components/pages/studentDash/MyCourses";
-import MyProfile from "./components/pages/studentDash/MyProfile";
 import DashHome from "./components/pages/studentDash/DashHome";
-import StudentsTab from "./components/pages/studentManagement/StudentsTab";
-import InstructorProfile from "./components/pages/instructors/InsructorProfile";
-import MyStudents from "./components/pages/instructors/MyStudents";
 import InstructorChannels from "./components/pages/channel/InstructorChannels";
-import EditCourse from "./components/pages/addCourse/EditCourse";
-import EditLessonForm from "./components/pages/addLessons/EditLesson";
 
 const LazyListCourse = lazy(
   () => import("./components/pages/course/ListCourse")
@@ -44,6 +17,100 @@ const LazyListCourse = lazy(
 
 const LazyInstructorsListing = lazy(
   () => import("./components/pages/instructors/ListAllInstructors")
+);
+
+const LazyStudentDash = lazy(
+  () => import("./components/pages/studentDash/UserDashboard")
+);
+
+const LazyInstructorIndex = lazy(
+  () => import("./components/pages/InstructorManagement/ViewInstructorsIndex")
+);
+
+const LazyStudents = lazy(
+  () => import("./components/pages/studentManagement/StudentsTab")
+);
+
+const LazyCategories = lazy(
+  () => import("./components/pages/categories/Categories")
+);
+
+const LazyViewCourse = lazy(
+  () => import("../src/components/pages/course/view-course")
+);
+
+const LazyWatchLesson = lazy(
+  () => import("./components/pages/course/watch-lesson")
+);
+
+const LazyAddCourse = lazy(
+  () => import("./components/pages/addCourse/AddCourse")
+);
+
+const LazyViewLesson = lazy(
+  () => import("./components/pages/addLessons/ViewLessons")
+);
+
+const LazyListCourseInstructors = lazy(
+  () => import("./components/pages/addLessons/ListCourseForIstructors")
+);
+
+const LazyEditLesson = lazy(
+  () => import("./components/pages/addLessons/EditLesson")
+);
+
+const LazyEditCourse = lazy(
+  () => import("./components/pages/addCourse/EditCourse")
+);
+
+const LazyMyStudents = lazy(
+  () => import("./components/pages/instructors/MyStudents")
+);
+
+const LazyInstructorProfile = lazy(
+  () => import("./components/pages/instructors/InsructorProfile")
+);
+
+const LazyViewInstructor = lazy(
+  () => import("./components/pages/instructors/ViewInstructor")
+);
+
+const LazyStudentProfile = lazy(
+  () => import("./components/pages/studentDash/MyProfile")
+);
+
+const LazyStudentCourses = lazy(
+  () => import("./components/pages/studentDash/MyCourses")
+);
+
+const LazyStudentHomePage = lazy(
+  () => import("./components/pages/students/StudentHomePage")
+);
+
+const LazyStudentLogin = lazy(
+  () => import("./components/pages/students/StudentLoginPage")
+);
+const LazyStudentRegister = lazy(
+  () => import("./components/pages/students/StudentRegistrationPage")
+);
+const LazyInstructorLogin = lazy(
+  () => import("./components/pages/instructors/InstructorLoginPage")
+);
+const LazyInstructorRegister = lazy(
+  () => import("./components/pages/instructors/InstructorRegisterPage")
+);
+const LazyAdminHome = lazy(
+  () => import("./components/pages/admin/AdminHomePage")
+);
+const LazyInstructorRequests = lazy(
+  () => import("./components/pages/InstructorManagement/ViewInstructorRequests")
+);
+const LazyViewMoreInstructorRequest = lazy(
+  () =>
+    import("./components/pages/InstructorManagement/ViewMoreInstructorRequest")
+);
+const LazyViewBlockedInstructors = lazy(
+  () => import("./components/pages/InstructorManagement/ViewBlockedInstructors")
 );
 
 const AppRouter = createBrowserRouter([
@@ -54,7 +121,11 @@ const AppRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <StudentHomePage />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyStudentHomePage />
+          </Suspense>
+        ),
       },
       {
         path: "/courses",
@@ -66,11 +137,19 @@ const AppRouter = createBrowserRouter([
       },
       {
         path: "/courses/:courseId",
-        element: <ViewCourseStudent />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyViewCourse />
+          </Suspense>
+        ),
       },
       {
         path: "/courses/:courseId/watch-lessons/:lessonId",
-        element: <WatchLessons />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyWatchLesson />
+          </Suspense>
+        ),
       },
       {
         path: "/tutors",
@@ -82,13 +161,21 @@ const AppRouter = createBrowserRouter([
       },
       {
         path: "/tutors/:tutorId",
-        element: <ViewInstructor />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyViewInstructor />
+          </Suspense>
+        ),
       },
     ],
   },
   {
     path: "/dashboard",
-    element: <UserDashboard />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyStudentDash />
+      </Suspense>
+    ),
     children: [
       {
         path: "",
@@ -96,11 +183,19 @@ const AppRouter = createBrowserRouter([
       },
       {
         path: "my-courses",
-        element: <MyCourses />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyStudentCourses />
+          </Suspense>
+        ),
       },
       {
         path: "my-profile",
-        element: <MyProfile />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyStudentProfile />
+          </Suspense>
+        ),
       },
     ],
   },
@@ -110,19 +205,35 @@ const AppRouter = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <StudentLoginPage />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyStudentLogin />
+      </Suspense>
+    ),
   },
   {
     path: "/register",
-    element: <StudentRegistrationPage />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyStudentRegister />
+      </Suspense>
+    ),
   },
   {
     path: "/instructors/login",
-    element: <InstructorLoginPage />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyInstructorLogin />
+      </Suspense>
+    ),
   },
   {
     path: "/instructors/register",
-    element: <InstructorRegistrationPage />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyInstructorRegister />
+      </Suspense>
+    ),
   },
   {
     path: "admin",
@@ -131,33 +242,61 @@ const AppRouter = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <AdminHomePage />,
-      },  
+        element: (
+          <Suspense fallback={<div>loading...</div>}>
+            <LazyAdminHome />
+          </Suspense>
+        ),
+      },
       {
         path: "instructors",
-        element: <ViewInstructorsIndex />,
+        element: (
+          <Suspense fallback={<div>loading...</div>}>
+            <LazyInstructorIndex />
+          </Suspense>
+        ),
         children: [
           {
             path: "requests",
-            element: <ViewInstructorRequests />,
+            element: (
+              <Suspense fallback={<div>loading...</div>}>
+                <LazyInstructorRequests />
+              </Suspense>
+            ),
           },
           {
             path: "requests/:id",
-            element: <ViewMoreInstructorRequest />,
+            element: (
+              <Suspense fallback={<div>loading...</div>}>
+                <LazyViewMoreInstructorRequest />
+              </Suspense>
+            ),
           },
           {
             path: "blocked",
-            element: <ViewBlockedInstructors />,
+            element: (
+              <Suspense fallback={<div>loading...</div>}>
+                <LazyViewBlockedInstructors />
+              </Suspense>
+            ),
           },
         ],
       },
       {
         path: "students",
-        element: <StudentsTab />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyStudents />
+          </Suspense>
+        ),
       },
       {
         path: "categories",
-        element: <Categories />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyCategories />
+          </Suspense>
+        ),
         children: [
           {
             path: "",
@@ -173,10 +312,6 @@ const AppRouter = createBrowserRouter([
           },
         ],
       },
-      // {
-      //   path: "login",
-      //   element: <AdminLoginPage />,
-      // },
     ],
   },
   {
@@ -190,31 +325,59 @@ const AppRouter = createBrowserRouter([
       },
       {
         path: "add-course",
-        element: <AddCourse />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyAddCourse />
+          </Suspense>
+        ),
       },
       {
         path: "view-course",
-        element: <ListCourseForInstructors />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyListCourseInstructors />
+          </Suspense>
+        ),
       },
       {
         path: "edit-course/:courseId",
-        element: <EditCourse />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyEditCourse />
+          </Suspense>
+        ),
       },
       {
         path: "view-lessons/:courseId",
-        element: <ViewLessons />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyViewLesson />
+          </Suspense>
+        ),
       },
       {
-        path:"view-lessons/:courseId/edit-lesson/:lessonId",
-        element:<EditLessonForm/>
+        path: "view-lessons/:courseId/edit-lesson/:lessonId",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyEditLesson />
+          </Suspense>
+        ),
       },
       {
         path: "view-students",
-        element: <MyStudents />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyMyStudents />
+          </Suspense>
+        ),
       },
       {
         path: "view-profile",
-        element: <InstructorProfile />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyInstructorProfile />
+          </Suspense>
+        ),
       },
       {
         path: "view-channels",
