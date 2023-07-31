@@ -13,6 +13,12 @@ services:
       - server
     networks:
       - connection_network
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
 
   # Node.js with Express.js back-end service
   server:

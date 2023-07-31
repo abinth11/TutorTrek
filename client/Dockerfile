@@ -2,7 +2,7 @@
 FROM node:20-alpine as build
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /usr/src/reactapp
 
 # Copy package.json, yarn.lock, and other files to the container
 COPY package.json yarn.lock ./
@@ -22,11 +22,11 @@ RUN yarn build
 FROM node:20-alpine
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /usr/src/reactapp
 
 # Copy the built app from the previous stage
-COPY --from=build /app/build ./build
-COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /usr/src/reactapp/build ./build
+COPY --from=build /usr/src/reactapp/node_modules ./node_modules
 
 # Expose the port that the app will run on (if using Vite's default port, which is 3000)
 EXPOSE 3000
