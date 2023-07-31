@@ -2,7 +2,7 @@
 FROM node:16-alpine as build
 
 # Set the working directory inside the container
-WORKDIR /usr/src/reactapp
+WORKDIR /reactapp
 
 # Copy only package.json and yarn.lock to leverage Docker caching for faster builds
 COPY package.json yarn.lock ./
@@ -20,11 +20,11 @@ RUN yarn build
 FROM node:16-alpine
 
 # Set the working directory inside the container
-WORKDIR /usr/src/reactapp
+WORKDIR /reactapp
 
 # Copy the built app and only necessary node_modules from the previous stage
-COPY --from=build /usr/src/reactapp/build ./build
-COPY --from=build /usr/src/reactapp/node_modules ./node_modules
+COPY --from=build /reactapp/build ./build
+COPY --from=build /reactapp/node_modules ./node_modules
 
 # Expose the port that the app will run on 
 EXPOSE 3000
