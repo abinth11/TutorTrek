@@ -1,4 +1,4 @@
-import  HttpStatusCodes  from "../../src/constants/HttpStatusCodes";
+import  HttpStatusCodes  from "../constants/HttpStatusCodes";
 
 class AppError extends Error {
     statusCode: number;
