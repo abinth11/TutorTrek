@@ -4,9 +4,10 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
+    image: abin11/tutortrek_client:latest
     container_name: tutortrek_client
     ports:
-      - "3000:3000"
+      - "3000"
     env_file:
       - ./client/.env
     depends_on:
@@ -19,21 +20,14 @@ services:
           memory: 1G
         reservations:
           memory: 512M
-
-  # Node.js with Express.js back-end service
+          
   server:
     build:
       context: ./server
       dockerfile: Dockerfile
-    # container name is not needed when scaling the containers
-    # container_name: tutortrek_server
-    # ports:
-    #   - "4000:4000"
+    image: abin11/tutortrek_server:latest
     env_file:
       - ./server/.env
-    # environment:
-    #   NODE_ENV: production
-    #   REDIS_URL: redis://redis:6379
     depends_on:
       - redis
     networks:
@@ -45,33 +39,30 @@ services:
       retries: 5
 
   redis:
-    image: redis
+    image: redis:latest
     environment:
-      # ALLOW_EMPTY_PASSWORD is recommended only for development.
       - ALLOW_EMPTY_PASSWORD=yes
       - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
     ports:
-      - 6379:6379
+      - "6379:6379"
     volumes:
-      - .db:/data
+      - ./.db:/data
     restart: always
-    entrypoint: redis-server --appendonly yes
     networks:
       - connection_network
+
   nginx:
-    image: nginx
+    image: nginx:latest
     volumes:
       - ./conf.d:/etc/nginx/conf.d
-      - ./client/build:/usr/share/nginx/html
     depends_on:
       - server
       - client
     ports:
-        - "80:80" # Expose Nginx on port 80 of the host machine
+      - "80:80"
     networks:
       - connection_network
 
-# Define the custom network
 networks:
   connection_network:
     driver: bridge
