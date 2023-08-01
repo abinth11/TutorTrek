@@ -82,7 +82,8 @@
     "@types/redux-thunk": "^2.1.0",
     "@types/send": "^0.17.1",
     "@types/video.js": "^7.3.52",
-    "@types/yup": "^0.32.0"
+    "@types/yup": "^0.32.0",
+    "serve": "^14.2.0"
   },
   "description": "online learning platfrom",
   "main": "index.js",
