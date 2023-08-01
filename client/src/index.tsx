@@ -4,7 +4,6 @@ import "./index.css";
 import AppRouter from "./routes";
 import { RouterProvider } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { client_id } from "./constants/common";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { ThemeProvider } from "@material-tailwind/react";  

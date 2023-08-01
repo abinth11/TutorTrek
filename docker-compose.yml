@@ -62,10 +62,12 @@ services:
     image: nginx
     volumes:
       - ./conf.d:/etc/nginx/conf.d
+      - ./client/build:/usr/share/nginx/html
     depends_on:
       - server
+      - client
     ports:
-      - 4000:4000
+        - "80:80" # Expose Nginx on port 80 of the host machine
     networks:
       - connection_network
 

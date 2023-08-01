@@ -1,7 +1,7 @@
 # Build stage
 FROM node:16-alpine as build
 
-# # Set the working directory inside the container
+# Set the working directory inside the container
 WORKDIR /usr/src/reactapp
 
 RUN chown -R node:node /usr/src/reactapp
@@ -21,23 +21,15 @@ COPY public public
 RUN yarn run build
 
 # Production stage
-FROM node:16-alpine
+FROM nginx:alpine
 
-# WORKDIR /reactapp
-WORKDIR /usr/src/reactapp
+# Remove the default nginx configuration
+RUN rm -rf /usr/share/nginx/html/*
 
-RUN chown -R node:node /usr/src/reactapp
-
-COPY package*.json ./
-
-RUN yarn install --frozen-lockfile --production=true
-
-USER node
-
-COPY --chown=node:node --from=build /usr/src/reactapp/build ./build
+# Copy the built React app from the build stage
+COPY --from=build /usr/src/reactapp/build /usr/share/nginx/html
 
 EXPOSE 3000
 
-RUN yarn global add serve
-
-CMD ["serve", "build", "-s"]
+# Start nginx server
+CMD ["nginx", "-g", "daemon off;"]

@@ -33,6 +33,6 @@ USER node
 
 COPY --chown=node:node --from=build /usr/src/nodeapp/build ./build
 
-EXPOSE 5000
+EXPOSE 4000
 
 CMD [ "node", "build/app.js" ]
