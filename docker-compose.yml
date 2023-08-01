@@ -6,8 +6,8 @@ services:
       dockerfile: Dockerfile
     image: abin11/tutortrek_client:latest
     container_name: tutortrek_client
-    ports:
-      - "3000"
+    volumes:
+      - static_files:/usr/src/reactapp/build/static  # Mount the volume to serve static files
     env_file:
       - ./client/.env
     depends_on:
@@ -20,7 +20,7 @@ services:
           memory: 1G
         reservations:
           memory: 512M
-          
+              
   server:
     build:
       context: ./server
@@ -37,7 +37,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-
+    
   redis:
     image: redis:latest
     environment:
@@ -50,11 +50,12 @@ services:
     restart: always
     networks:
       - connection_network
-
+    
   nginx:
     image: nginx:latest
     volumes:
       - ./conf.d:/etc/nginx/conf.d
+      - static_files:/usr/share/nginx/html/static  # Mount the volume to serve static files
     depends_on:
       - server
       - client
@@ -66,3 +67,6 @@ services:
 networks:
   connection_network:
     driver: bridge
+
+volumes:
+  static_files:  # Define the static_files volume
