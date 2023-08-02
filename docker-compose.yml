@@ -6,8 +6,11 @@ services:
       dockerfile: Dockerfile
     image: abin11/tutortrek_client:latest
     container_name: tutortrek_client
+    ports:
+      - "3000:3000"
     volumes:
-      - static_files:/usr/src/reactapp/build/static  # Mount the volume to serve static files
+      - static_files:/usr/share/nginx/html/static  # Mount the volume to serve static files
+      - ./client/build:/usr/src/reactapp/build  # Mount the React build directory to the volume
     env_file:
       - ./client/.env
     depends_on:

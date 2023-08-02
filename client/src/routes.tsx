@@ -8,7 +8,7 @@ import StripeContainer from "./components/pages/payment-stripe/StripeContainer";
 import AddCategory from "./components/pages/categories/AddCategory";
 import EditCategory from "./components/pages/categories/EditCategory";
 import ListCategories from "./components/pages/categories/ListCategory";
-import DashHome from "./components/pages/studentDash/DashHome";
+import DashHome from "./components/pages/student-dash/DashHome";
 import InstructorChannels from "./components/pages/channel/InstructorChannels";
 
 const LazyListCourse = lazy(
@@ -20,21 +20,21 @@ const LazyInstructorsListing = lazy(
 );
 
 const LazyStudentDash = lazy(
-  () => import("./components/pages/studentDash/UserDashboard")
+  () => import("./components/pages/student-dash/UserDashboard")
 );
 
 const LazyInstructorIndex = lazy(
-  () => import("./components/pages/InstructorManagement/ViewInstructorsIndex")
+  () => import("./components/pages/instructor-management/ViewInstructorsIndex")
 );
 
 const LazyStudents = lazy(
-  () => import("./components/pages/studentManagement/StudentsTab")
+  () => import("./components/pages/student-management/StudentsTab")
 );
 
 const LazyCategories = lazy(
   () => import("./components/pages/categories/Categories")
 );
-
+    
 const LazyViewCourse = lazy(
   () => import("../src/components/pages/course/view-course")
 );
@@ -44,23 +44,23 @@ const LazyWatchLesson = lazy(
 );
 
 const LazyAddCourse = lazy(
-  () => import("./components/pages/addCourse/AddCourse")
+  () => import("./components/pages/add-course/AddCourse")
 );
 
 const LazyViewLesson = lazy(
-  () => import("./components/pages/addLessons/ViewLessons")
+  () => import("./components/pages/add-lesson/ViewLessons")
 );
 
 const LazyListCourseInstructors = lazy(
-  () => import("./components/pages/addLessons/ListCourseForIstructors")
+  () => import("./components/pages/add-lesson/ListCourseForIstructors")
 );
 
 const LazyEditLesson = lazy(
-  () => import("./components/pages/addLessons/EditLesson")
+  () => import("./components/pages/add-lesson/EditLesson")
 );
 
 const LazyEditCourse = lazy(
-  () => import("./components/pages/addCourse/EditCourse")
+  () => import("./components/pages/add-course/EditCourse")
 );
 
 const LazyMyStudents = lazy(
@@ -76,11 +76,11 @@ const LazyViewInstructor = lazy(
 );
 
 const LazyStudentProfile = lazy(
-  () => import("./components/pages/studentDash/MyProfile")
+  () => import("./components/pages/student-dash/MyProfile")
 );
 
 const LazyStudentCourses = lazy(
-  () => import("./components/pages/studentDash/MyCourses")
+  () => import("./components/pages/student-dash/MyCourses")
 );
 
 const LazyStudentHomePage = lazy(
@@ -103,14 +103,14 @@ const LazyAdminHome = lazy(
   () => import("./components/pages/admin/AdminHomePage")
 );
 const LazyInstructorRequests = lazy(
-  () => import("./components/pages/InstructorManagement/ViewInstructorRequests")
+  () => import("./components/pages/instructor-management/ViewInstructorRequests")
 );
 const LazyViewMoreInstructorRequest = lazy(
   () =>
-    import("./components/pages/InstructorManagement/ViewMoreInstructorRequest")
+    import("./components/pages/instructor-management/ViewMoreInstructorRequest")
 );
 const LazyViewBlockedInstructors = lazy(
-  () => import("./components/pages/InstructorManagement/ViewBlockedInstructors")
+  () => import("./components/pages/instructor-management/ViewBlockedInstructors")
 );
 
 const AppRouter = createBrowserRouter([
