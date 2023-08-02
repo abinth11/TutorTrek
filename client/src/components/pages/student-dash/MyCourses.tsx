@@ -4,7 +4,7 @@ import { getCourseByStudent } from "../../../api/endpoints/course/course";
 import { toast } from "react-toastify";
 import { CourseInterface } from "../../../types/course";
 import { Link } from "react-router-dom";
-import ProfileCardShimmer from "../../Shimmers/ProfileCardShimmer";
+import ProfileCardShimmer from "../../shimmer/ProfileCardShimmer";
 type Props = {};
 
 const MyCourses: React.FC = (props: Props) => {
