@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { getStudentDetails } from "../../api/endpoints/student";
-import { ApiResponseStudent } from "../../api/types/apiResponses/apiResponseStudent";
+import { ApiResponseStudent } from "../../api/types/apiResponses/api-response-student";
 import decodeJwtToken from "../../utils/decode";
 
 interface StudentData {

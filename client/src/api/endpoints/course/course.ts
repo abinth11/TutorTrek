@@ -9,8 +9,8 @@ import {
   getRecommendedCoursesService,
   getTrendingCoursesService,
   searchCourseService,
-} from "../../services/course/courseService";
-import { getCoursesByInstructorService } from "../../services/course/courseService";
+} from "../../services/course/course-service";
+import { getCoursesByInstructorService } from "../../services/course/course-service";
 import { PaymentIntent } from "@stripe/stripe-js";
 
 export const addCourse = (courseInfo: FormData) => {

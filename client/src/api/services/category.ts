@@ -1,5 +1,5 @@
 import CONFIG_KEYS from "../../config";
-import api from "../middlewares/protectedInterceptor";
+import api from "../middlewares/protected-interceptor";
 
 export const addCategoryService = async (
   endpoint: string,

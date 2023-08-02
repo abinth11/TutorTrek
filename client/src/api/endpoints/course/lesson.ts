@@ -1,5 +1,5 @@
 import END_POINTS from "../../../constants/endpoints";
-import { getLessonsByCourseService,addLessonsService,getLessonsByIdService, editLessonsService } from "../../services/course/lessonService";
+import { getLessonsByCourseService,addLessonsService,getLessonsByIdService, editLessonsService } from "../../services/course/lesson-service";
 
 export const getLessonsByCourse = (courseId: string) => {
     return getLessonsByCourseService(END_POINTS.GET_LESSONS_BY_COURSE, courseId);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { GetCourseByInstructorInterface } from "../api/types/apiResponses/apiResponseInstructors";
+import { GetCourseByInstructorInterface } from "../api/types/apiResponses/api-response-instructors";
 import { debounce} from "lodash";
 
 const useSearch = (

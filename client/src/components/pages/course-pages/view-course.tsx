@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CustomBreadCrumbs from "../../common/BreadCrumbs";
+import CustomBreadCrumbs from "../../common/bread-crumbs";
 import { Link, useLocation } from "react-router-dom";
 import { Button, Chip } from "@material-tailwind/react";
 import { getIndividualCourse } from "../../../api/endpoints/course/course";
@@ -17,11 +17,11 @@ import { setCourseId } from "../../../redux/reducers/courseSlice";
 import { useSelector } from "react-redux";
 import { selectStudentId } from "../../../redux/reducers/studentSlice";
 import { MdDone } from "react-icons/md";
-import PaymentConfirmationModal from "./PaymentConfirmationModal";
+import PaymentConfirmationModal from "./payment-confirmation-modal";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
-import LoginConfirmation from "../../common/LoginConfirmationModal";
-import PdfViewer from "./PdfViewer";
-import ViewCourseShimmer from "components/shimmer/ViewCourseShimmer";
+import LoginConfirmation from "../../common/login-confirmation-modal";
+import PdfViewer from "./pdf-viewer";
+import ViewCourseShimmer from "components/shimmer/view-course-shimmer";
 const ViewCourseStudent: React.FC = () => {
   const params = useParams();
   const [expandedIndex, setExpandedIndex] = useState(null);

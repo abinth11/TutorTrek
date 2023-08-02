@@ -6,7 +6,7 @@ import {
   deleteDiscussionService,
   replyDiscussionService,
   getRepliesByDiscussionService
-} from "../../services/course/discussionService";
+} from "../../services/course/discussion-service";
 
 export const addDiscussion = (lessonId: string, message: string) => {
   return addDiscussionService(END_POINTS.ADD_DISCUSSION, lessonId, message);

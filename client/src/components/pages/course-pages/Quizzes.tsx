@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import {
   Question,
   Option,
-} from "../../../api/types/apiResponses/apiResponseQuizzes";
+} from "../../../api/types/apiResponses/api-response-quizzes";
 import { Link } from "react-router-dom";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 import { useSelector } from "react-redux";
