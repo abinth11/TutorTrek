@@ -14,7 +14,7 @@ import QuizSwitch from "./quiz-switch";
 import { Tooltip } from "@material-tailwind/react";
 import { addLesson } from "../../../api/endpoints/course/lesson";
 import { FormValuesLesson } from "../../../types/lesson";
-import SpinnerDialog from "../../common/spinner";
+import SpinnerDialog from "../../common/spinner-page";
 import { lessonSchema } from "../../../validations/lesson";
 import { useParams } from "react-router-dom";
 

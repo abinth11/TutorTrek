@@ -5,7 +5,7 @@ import { registerInstructor } from "../../../api/endpoints/auth/instructor-auth"
 import { instructorRegistrationValidationSchema } from "../../../validations/auth/InstructorRegisterValidation";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { InstructorRegisterDataInterface } from "../../../api/types/instructor/auth-interface";
-import SpinnerDialog from "../../common/spinner";
+import SpinnerDialog from "../../common/spinner-page";
 const initialValues = {
   firstName: "",
   lastName: "",

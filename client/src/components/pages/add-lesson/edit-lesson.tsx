@@ -12,7 +12,7 @@ import { Button } from "@material-tailwind/react";
 import { TiTrash } from "react-icons/ti";
 import { Tooltip } from "@material-tailwind/react";
 import { FormValuesLesson } from "../../../types/lesson";
-import SpinnerDialog from "../../common/spinner";
+import SpinnerDialog from "../../common/spinner-page";
 import { lessonSchema } from "../../../validations/lesson";
 import { useParams } from "react-router-dom";
 import EditQuizSwitch from "./edit-quiz-switch";  
