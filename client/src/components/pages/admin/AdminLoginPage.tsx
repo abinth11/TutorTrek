@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { AdminLoginInfo } from "../../../api/types/admin/authInterface";
 import { loginAdmin } from "../../../api/endpoints/auth/auth";
-// import { setTokenAdmin } from "../../../redux/reducers/adminAuthSlice";
 import { setToken } from "../../../redux/reducers/authSlice";
 import { useDispatch } from "react-redux";
 

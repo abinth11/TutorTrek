@@ -13,7 +13,6 @@ import {
 import { Link } from "react-router-dom";
 import { getAllCategories } from "../../../api/endpoints/category";
 import { toast } from "react-toastify";
-import { ApiResponseCategory } from "../../../api/types/apiResponses/apiResponseCategory";
 import { formatDate } from "../../../utils/helpers";
 import usePagination from "../../../hooks/usePagination";
 import useSearch from "../../../hooks/useSearch";

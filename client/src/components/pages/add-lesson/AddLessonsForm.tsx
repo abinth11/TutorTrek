@@ -12,7 +12,6 @@ import { Button} from "@material-tailwind/react";
 import { TiTrash } from "react-icons/ti";  
 import QuizSwitch from "./QuizSwitch";
 import { Tooltip } from "@material-tailwind/react";
-import { QuizzesComponent } from "./QuizesComponent";
 import { addLesson } from "../../../api/endpoints/course/lesson";
 import { FormValuesLesson } from "../../../types/lesson";
 import SpinnerDialog from "../../common/spinner";

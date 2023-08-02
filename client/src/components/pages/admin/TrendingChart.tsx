@@ -12,7 +12,6 @@ interface Props {
 }
 
 const TrendingCoursesChart: React.FC<Props> = ({ data }) => {
-  // Sort the data in descending order based on enrollment count to get top trending courses
   const sortedData = data.sort((a, b) => b.enrolled - a.enrolled).slice(0, 5);
 
   const chartOptions: Partial<ApexOptions> = {
@@ -22,7 +21,7 @@ const TrendingCoursesChart: React.FC<Props> = ({ data }) => {
     xaxis: {
       categories: sortedData.map((course) => course.title),
       labels: {
-        show: false, // Set this to false to hide the x-axis labels
+        show: false,
       },
     },
     yaxis: {

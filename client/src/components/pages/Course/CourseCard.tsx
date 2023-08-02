@@ -1,18 +1,10 @@
 import {
-  Card,
-  CardHeader,
-  CardBody,
-  Typography,
-  Tooltip,
   Rating
 } from "@material-tailwind/react";
-import {
-  HeartIcon,
-} from "@heroicons/react/24/solid";
 import { formatToINR } from "../../../utils/helpers";
 import { CourseInterface } from "../../../types/course";
 
-const CourseCard:React.FC<CourseInterface> = ({coursesEnrolled,rating,price,isPaid,title,thumbnailUrl,description}) => {
+const CourseCard:React.FC<CourseInterface> = ({rating,price,isPaid,title,thumbnailUrl,description}) => {
   return (
     <div className="w-[18.5rem] p-5 text-customTextColor  hover:shadow-md hover:border hover:border-gray-300">
       <div className="relative">

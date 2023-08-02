@@ -2,11 +2,6 @@ import React from "react";
 import {
   Navbar,
   Typography,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Card,
   Collapse,
   IconButton,
 } from "@material-tailwind/react";
@@ -14,9 +9,6 @@ import {
   CubeTransparentIcon,
   UserCircleIcon,
   CodeBracketSquareIcon,
-  Square3Stack3DIcon,
-  ChevronDownIcon,
-  RocketLaunchIcon,
   Bars2Icon,
 } from "@heroicons/react/24/outline";
 import { ProfileMenu } from "./ProfileMenuInstructor";
