@@ -12,7 +12,7 @@ import DashHome from "./components/pages/student-dash/DashHome";
 import InstructorChannels from "./components/pages/channel/InstructorChannels";
 
 const LazyListCourse = lazy(
-  () => import("./components/pages/course/ListCourse")
+  () => import("./components/pages/course-pages/ListCourse")
 ); 
 
 const LazyInstructorsListing = lazy(
@@ -36,11 +36,11 @@ const LazyCategories = lazy(
 );
     
 const LazyViewCourse = lazy(
-  () => import("./components/pages/course/view-course")
+  () => import("./components/pages/course-pages/view-course")
 );
 
 const LazyWatchLesson = lazy(
-  () => import("./components/pages/course/watch-lesson")
+  () => import("./components/pages/course-pages/watch-lesson")
 );
 
 const LazyAddCourse = lazy(
