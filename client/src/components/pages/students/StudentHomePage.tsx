@@ -3,7 +3,7 @@ import Carousel from "../../elements/Carousel";
 import TrendingCard from "../home/TrendingCard";
 import RecommendedCard from "../home/RecommendedCard";
 import { ApiResponseRecommended } from "../../../api/types/apiResponses/apiResponseHomePageListing";
-import TrendingCardShimmer from "../../Shimmers/ShimmerTrendingCourse";
+import TrendingCardShimmer from "components/shimmer/ShimmerTrendingCourse";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 import { useSelector } from "react-redux";
 import { Typography } from "@material-tailwind/react";

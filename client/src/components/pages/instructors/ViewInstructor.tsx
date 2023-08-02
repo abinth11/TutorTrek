@@ -4,7 +4,7 @@ import { getIndividualInstructors } from "../../../api/endpoints/instructorManag
 import { InstructorApiResponse } from "../../../api/types/apiResponses/apiResponseInstructors";
 import { toast } from "react-toastify";
 import { Avatar } from "@material-tailwind/react";
-import ViewInstructorShimmer from "../../Shimmers/ViewInstructorShimmer";
+import ViewInstructorShimmer from "components/shimmer/ViewInstructorShimmer";
 
 type Props = {};
 

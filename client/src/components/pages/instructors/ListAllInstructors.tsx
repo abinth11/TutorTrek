@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { getAllInstructors } from "../../../api/endpoints/instructorManagement";
 import { InstructorApiResponse } from "../../../api/types/apiResponses/apiResponseInstructors";
 import { toast } from "react-toastify";
-import ShimmerListAllInstructors from "../../Shimmers/ShimmerListAllInstructors";
+import ShimmerListAllInstructors from "../../shimmer/ShimmerListAllInstructors";
 import FilterInstructorSelectBox from "./FilterInstructorSelectBox";
 import { RiSearchLine } from "react-icons/ri";
 import { Spinner } from "@material-tailwind/react";

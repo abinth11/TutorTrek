@@ -11,7 +11,6 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { BiVideo } from "react-icons/bi";
 import { IoBookSharp } from "react-icons/io5";
 import useApiData from "../../../hooks/useApiCall";
-import ViewCourseShimmer from "../../Shimmers/ViewCourseShimmer";
 import { getLessonsByCourse } from "../../../api/endpoints/course/lesson";
 import { useDispatch } from "react-redux";
 import { setCourseId } from "../../../redux/reducers/courseSlice";
@@ -22,6 +21,7 @@ import PaymentConfirmationModal from "./PaymentConfirmationModal";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 import LoginConfirmation from "../../common/LoginConfirmationModal";
 import PdfViewer from "./PdfViewer";
+import ViewCourseShimmer from "components/shimmer/ViewCourseShimmer";
 const ViewCourseStudent: React.FC = () => {
   const params = useParams();
   const [expandedIndex, setExpandedIndex] = useState(null);

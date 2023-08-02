@@ -7,7 +7,7 @@ import {
 import { toast } from "react-toastify";
 import { CourseInterface } from "../../../types/course";
 import { Link } from "react-router-dom";
-import ShimmerCard from "../../Shimmers/ShimmerCard";
+import ShimmerCard from "../../shimmer/ShimmerCard";
 import { RiSearchLine } from "react-icons/ri";
 import FilterCoursesSelectBox from "./FilterCourseSelectbox";
 import { debounce } from "lodash";

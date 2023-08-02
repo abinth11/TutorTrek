@@ -13,7 +13,7 @@ import InstructorChannels from "./components/pages/channel/InstructorChannels";
 
 const LazyListCourse = lazy(
   () => import("./components/pages/course/ListCourse")
-);
+); 
 
 const LazyInstructorsListing = lazy(
   () => import("./components/pages/instructors/ListAllInstructors")
@@ -36,7 +36,7 @@ const LazyCategories = lazy(
 );
     
 const LazyViewCourse = lazy(
-  () => import("../src/components/pages/course/view-course")
+  () => import("./components/pages/course/view-course")
 );
 
 const LazyWatchLesson = lazy(
