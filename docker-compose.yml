@@ -55,7 +55,7 @@ services:
       - connection_network
     
   nginx:
-    image: nginx:latest
+    image: nginx:alpine
     volumes:
       - ./conf.d:/etc/nginx/conf.d
       - static_files:/usr/share/nginx/html/static  # Mount the volume to serve static files
