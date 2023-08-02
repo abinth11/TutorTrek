@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
-import VideoPlayer from "./VideoPlayer";
-import AboutLesson from "./AboutLesson";
-import Quizzes from "./Quizzes";
-import Discussion from "./Discussion";
+import VideoPlayer from "./video-player";
+import AboutLesson from "./about-lesson";
+import Quizzes from "./quizzes";
+import Discussion from "./discussion";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getLessonById } from "../../../api/endpoints/course/lesson";
 import { getLessonsByCourse } from "../../../api/endpoints/course/lesson";
-import { ApiResponseLesson } from "../../../api/types/apiResponses/apResponseLesson";
-import { Media } from "../../../api/types/apiResponses/apResponseLesson";
+import { ApiResponseLesson } from "../../../api/types/apiResponses/ap-response-lesson";
+import { Media } from "../../../api/types/apiResponses/ap-response-lesson";
 import { BiVideo } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 import { selectStudentId } from "../../../redux/reducers/studentSlice";
 import { selectUserType } from "../../../redux/reducers/authSlice";
-import ShimmerEffectWatchLessons from "../../shimmer/WatchLessonsShimmer";
-import ShimmerVideoPlayer from "../../shimmer/ShimmerVideoPlayer";
+import ShimmerEffectWatchLessons from "../../shimmer/watch-lessons-shimmer";
+import ShimmerVideoPlayer from "../../shimmer/shimmer-video-player";
 
 
 

@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
-import StudentHeader from "./components/partials/StudentHeader";
+import StudentHeader from "./components/partials/student-header";
 import "react-toastify/dist/ReactToastify.css";
 import { Outlet } from "react-router-dom";
-import AdminLoginPage from "./components/pages/admin/AdminLoginPage";
+import AdminLoginPage from "./components/pages/admin/admin-login-page";
 // import { Sidenav } from "./components/pages/admin/widgets/layout";
 import { useSelector, useDispatch } from "react-redux";
-import InstructorSideNav from "./components/pages/instructors/InstructorSideNav";
-import InstructorHeader from "./components/pages/instructors/InstructorHeader";
+import InstructorSideNav from "./components/pages/instructors/instructor-side-nav";
+import InstructorHeader from "./components/pages/instructors/instructor-header";
 import useIsOnline from "./hooks/useOnline";
-import YouAreOffline from "./components/common/YouAreOffline";
-import StudentFooter from "./components/partials/StudentFooter";
+import YouAreOffline from "./components/common/you-are-offline";
+import StudentFooter from "./components/partials/student-footer";
 import { selectIsLoggedIn, selectUserType } from "./redux/reducers/authSlice";
 import { selectIsFooterVisible } from "./redux/reducers/helperSlice";
 import { fetchStudentData } from "./redux/reducers/studentSlice";
-import SessionExpired from "./components/common/SessionExpiredModal";
-import InstructorLoginPage from "./components/pages/instructors/InstructorLoginPage";
+import SessionExpired from "./components/common/session-expired-modal";
+import InstructorLoginPage from "./components/pages/instructors/instructor-login-page";
 import { getInstructorDetails } from "./api/endpoints/instructor";
 import { setDetails } from "./redux/reducers/instructorSlice";
-import { AdminSideNav } from "./components/pages/admin/AdminSideNav";
+import { AdminSideNav } from "./components/pages/admin/admin-side-nav";
 import { toast } from "react-toastify";   
 
 export const Student: React.FC = () => {

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { IoSend } from "react-icons/io5";
 import { Tooltip } from "@material-tailwind/react";
-import DiscussionListEl from "./DiscussionList";
+import DiscussionListEl from "./discussion-list";
 import { addDiscussion } from "../../../api/endpoints/course/discussion";
 import { toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
 import { getDiscussionsByLesson } from "../../../api/endpoints/course/discussion";
-import { ApiResponseDiscussion } from "../../../api/types/apiResponses/apiResponseDiscussion";
+import { ApiResponseDiscussion } from "../../../api/types/apiResponses/api-response-discussion";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 

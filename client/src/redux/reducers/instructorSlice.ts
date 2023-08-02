@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import decodeJwtToken from "../../utils/decode";
-import { InstructorApiResponse } from "../../api/types/apiResponses/apiResponseInstructors";
+import { InstructorApiResponse } from "../../api/types/apiResponses/api-response-instructors";
 
 interface InstructorData {
   instructorDetails: InstructorApiResponse | null;

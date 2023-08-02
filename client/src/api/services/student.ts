@@ -1,4 +1,4 @@
-import api from "../middlewares/protectedInterceptor";
+import api from "../middlewares/protected-interceptor";
 import { PasswordInfo} from "../types/student/student";
 import CONFIG_KEYS from "../../config";
 

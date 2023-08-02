@@ -1,7 +1,7 @@
 import {
   createStripePaymentService,
   getConfigService,
-} from "../../services/payment/stripeService";
+} from "../../services/payment/stripe-service";
 import END_POINTS from "../../../constants/endpoints";
 
 export const createStripePayment = (courseId:string) => {
