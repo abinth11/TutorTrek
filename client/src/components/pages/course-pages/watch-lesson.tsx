@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import VideoPlayer from "./video-player";
 import AboutLesson from "./about-lesson";
-import Quizzes from "./quizzes";
-import Discussion from "./discussion";
+import Quizzes from "./quizzes-page";
+import Discussion from "./discussion-page";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getLessonById } from "../../../api/endpoints/course/lesson";

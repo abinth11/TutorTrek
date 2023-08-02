@@ -7,7 +7,7 @@ import InstructorDashboard from "./components/pages/instructors/instructor-dash-
 import StripeContainer from "./components/pages/payment-stripe/stripe-container";
 import AddCategory from "./components/pages/categories/add-category";
 import EditCategory from "./components/pages/categories/edit-category";
-import ListCategories from "./components/pages/categories/ListCategory";
+import ListCategories from "./components/pages/categories/list-category";
 import DashHome from "./components/pages/student-dash/dash-home";
 import InstructorChannels from "./components/pages/channel/instructor-channels";
 
@@ -32,7 +32,7 @@ const LazyStudents = lazy(
 );
 
 const LazyCategories = lazy(
-  () => import("./components/pages/categories/category")
+  () => import("./components/pages/categories/category-page")
 );
     
 const LazyViewCourse = lazy(
