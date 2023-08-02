@@ -12,9 +12,7 @@ import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { formatToINR } from "../../../utils/helpers";
 import { enrollStudent } from "../../../api/endpoints/course/course";
 import { toast } from "react-toastify";
-import { DotLoader } from "react-spinners";
 import { FaSpinner } from "react-icons/fa";
-import {FadeLoader} from "react-spinners";
 
 interface PaymentModalProps {
   open: boolean;

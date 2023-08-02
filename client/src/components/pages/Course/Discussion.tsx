@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { IoSend } from "react-icons/io5";
 import { Tooltip } from "@material-tailwind/react";
 import DiscussionListEl from "./DiscussionList";

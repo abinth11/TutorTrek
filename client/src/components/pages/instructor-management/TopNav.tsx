@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Card, CardBody, Tabs, TabsHeader, Tab } from "@material-tailwind/react";
+import { Card, CardBody, Tabs, TabsHeader} from "@material-tailwind/react";
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { FaBan, FaEye } from "react-icons/fa";
 

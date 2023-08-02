@@ -41,7 +41,6 @@ export function AdminSideNav() {
       <List>
         {navItems.map((item, index) => (
           <Link to={`/admin/${item.path}`} key={index}>
-            {/* Add the button wrapper only for selected li elements */}
             {selected === item.label ? (
               <Button fullWidth className="p-1 text-xs m-1" size="sm" variant="gradient">
                 <li

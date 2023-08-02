@@ -1,33 +1,11 @@
 import { Fragment, useState } from "react";
 import {
-  Button,
   Dialog,
-  DialogHeader,
   DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
 import {
-  PropagateLoader,
-  BarLoader,
-  BeatLoader,
-  BounceLoader,
-  CircleLoader,
-  ClimbingBoxLoader,
-  ClipLoader,
-  ClockLoader,
-  DotLoader,
-  FadeLoader,
-  GridLoader,
-  HashLoader,
-  MoonLoader,
-  PacmanLoader,
-  PuffLoader,
-  PulseLoader,
-  RingLoader,
-  RiseLoader,
-  RotateLoader,
-  ScaleLoader,
-  SkewLoader,
+  HashLoader
 } from "react-spinners";
 
 interface SpinnerDialogProps {
