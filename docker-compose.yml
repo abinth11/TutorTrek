@@ -8,9 +8,9 @@ services:
     container_name: tutortrek_client
     ports:
       - "3000:3000"
-    volumes:
-      - static_files:/usr/share/nginx/html/static  # Mount the volume to serve static files
-      - ./client/build:/usr/src/reactapp/build  # Mount the React build directory to the volume
+    #volumes:
+      #- static_files:/usr/share/nginx/html/static  # Mount the volume to serve static files
+      #- ./client/build:/usr/src/reactapp/build  # Mount the React build directory to the volume
     env_file:
       - ./client/.env
     depends_on:
@@ -58,12 +58,15 @@ services:
     image: nginx:alpine
     volumes:
       - ./conf.d:/etc/nginx/conf.d
-      - static_files:/usr/share/nginx/html/static  # Mount the volume to serve static files
+      #- static_files:/usr/share/nginx/html/static  # Mount the volume to serve static files
+      #- /path/to/your/ssl/certs:/etc/nginx/ssl  # Add this line
+      - ./client/build:/usr/share/nginx/html  # Mount the complete React build directory
     depends_on:
       - server
       - client
     ports:
       - "80:80"
+      - "443:443"
     networks:
       - connection_network
 

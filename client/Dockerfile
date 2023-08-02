@@ -20,6 +20,9 @@ COPY public public
 
 RUN yarn run build
 
+# List the contents of the build directory for verification
+# RUN ls -l /usr/src/reactapp/build
+
 # Production stage
 FROM nginx:alpine
 
