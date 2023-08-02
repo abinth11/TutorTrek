@@ -10,12 +10,14 @@ import { getLessonsByCourse } from "../../../api/endpoints/course/lesson";
 import { ApiResponseLesson } from "../../../api/types/apiResponses/apResponseLesson";
 import { Media } from "../../../api/types/apiResponses/apResponseLesson";
 import { BiVideo } from "react-icons/bi";
-import ShimmerEffectWatchLessons from "components/shimmer/WatchLessonsShimmer";
-import ShimmerVideoPlayer from "components/shimmer/ShimmerVideoPlayer";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 import { selectStudentId } from "../../../redux/reducers/studentSlice";
 import { selectUserType } from "../../../redux/reducers/authSlice";
+import ShimmerEffectWatchLessons from "../../shimmer/WatchLessonsShimmer";
+import ShimmerVideoPlayer from "../../shimmer/ShimmerVideoPlayer";
+
+
 
 const WatchLessons: React.FC = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
