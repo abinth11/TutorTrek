@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkabin=self.webpackChunkabin||[]).push([[897],{51897:function(e,s,n){n.r(s);var c=n(57689),i=n(80184);s.default=function(){return(0,i.jsx)("div",{className:"",children:(0,i.jsx)("div",{className:"pl-4   flex items-center justify-center pr-5 ",children:(0,i.jsx)(c.j3,{})})})}}}]);
+//# sourceMappingURL=897.abdfc286.chunk.js.map
