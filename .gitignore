@@ -11,7 +11,7 @@ yarn-error.log
 
 # Frontend
 /client/node_modules/
-/client/build/
+# /client/build/
 
 # Environment variables
 .env

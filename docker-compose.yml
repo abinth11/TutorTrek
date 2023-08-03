@@ -1,4 +1,5 @@
 version: "3.8"
+
 services:
   client:
     build:
@@ -64,8 +65,8 @@ services:
       - "443:443"
     networks:
       - tutortrek_connection_network
+    # user: "nginx:nginx"  # Set the user and group ownership for mounted volume
 
 networks:
   tutortrek_connection_network:
     driver: bridge
-
