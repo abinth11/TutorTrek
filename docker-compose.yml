@@ -6,17 +6,14 @@ services:
       dockerfile: Dockerfile
     image: abin11/tutortrek_client:latest
     container_name: tutortrek_client
-    ports:
-      - "3000:3000"
-    #volumes:
-      #- static_files:/usr/share/nginx/html/static  # Mount the volume to serve static files
-      #- ./client/build:/usr/src/reactapp/build  # Mount the React build directory to the volume
+    volumes:
+      - ./client/build:/usr/src/reactapp/build
     env_file:
       - ./client/.env
     depends_on:
       - server
     networks:
-      - connection_network
+      - tutortrek_connection_network
     deploy:
       resources:
         limits:
@@ -34,7 +31,7 @@ services:
     depends_on:
       - redis
     networks:
-      - connection_network
+      - tutortrek_connection_network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
       interval: 30s
@@ -52,27 +49,23 @@ services:
       - ./.db:/data
     restart: always
     networks:
-      - connection_network
+      - tutortrek_connection_network
     
   nginx:
     image: nginx:alpine
     volumes:
       - ./conf.d:/etc/nginx/conf.d
-      #- static_files:/usr/share/nginx/html/static  # Mount the volume to serve static files
-      #- /path/to/your/ssl/certs:/etc/nginx/ssl  # Add this line
-      - ./client/build:/usr/share/nginx/html  # Mount the complete React build directory
+      - ./client/build:/usr/share/nginx/html
     depends_on:
       - server
       - client
     ports:
-      - "80:80"
+      - "4000:80"  # Expose Nginx's port 80 to host port 4000
       - "443:443"
     networks:
-      - connection_network
+      - tutortrek_connection_network
 
 networks:
-  connection_network:
+  tutortrek_connection_network:
     driver: bridge
 
-volumes:
-  static_files:  # Define the static_files volume

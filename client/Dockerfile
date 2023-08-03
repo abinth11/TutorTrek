@@ -32,7 +32,7 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copy the built React app from the build stage
 COPY --from=build /usr/src/reactapp/build /usr/share/nginx/html
 
-EXPOSE 3000
+EXPOSE 80
 
 # Start nginx server
 CMD ["nginx", "-g", "daemon off;"]
