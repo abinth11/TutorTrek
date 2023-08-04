@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Typography,
   Button,
@@ -87,7 +87,7 @@ export default function ProfileMenu() {
             alt='candice wu'
             className='border border-blue-500 p-0.5'
             src={
-              student.studentDetails?.profilePic.url|| USER_AVATAR
+              student.studentDetails?.profilePic?.url|| USER_AVATAR
             }
           />
           <ChevronDownIcon

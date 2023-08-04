@@ -13,7 +13,7 @@ import InstructorChannels from "./components/pages/channel/instructor-channels";
 
 const LazyListCourse = lazy(
   () => import("./components/pages/course-pages/list-course")
-); 
+);
 
 const LazyInstructorsListing = lazy(
   () => import("./components/pages/instructors/list-all-instructors")
@@ -24,7 +24,8 @@ const LazyStudentDash = lazy(
 );
 
 const LazyInstructorIndex = lazy(
-  () => import("./components/pages/instructor-management/view-instructors-index")
+  () =>
+    import("./components/pages/instructor-management/view-instructors-index")
 );
 
 const LazyStudents = lazy(
@@ -34,7 +35,7 @@ const LazyStudents = lazy(
 const LazyCategories = lazy(
   () => import("./components/pages/categories/category-page")
 );
-    
+
 const LazyViewCourse = lazy(
   () => import("./components/pages/course-pages/view-course")
 );
@@ -103,14 +104,28 @@ const LazyAdminHome = lazy(
   () => import("./components/pages/admin/admin-home-page")
 );
 const LazyInstructorRequests = lazy(
-  () => import("./components/pages/instructor-management/viewInstructor-requests")
+  () =>
+    import("./components/pages/instructor-management/viewInstructor-requests")
 );
 const LazyViewMoreInstructorRequest = lazy(
   () =>
-    import("./components/pages/instructor-management/view-more-instructor-request")
+    import(
+      "./components/pages/instructor-management/view-more-instructor-request"
+    )
 );
 const LazyViewBlockedInstructors = lazy(
-  () => import("./components/pages/instructor-management/view-blocked-instructors")
+  () =>
+    import("./components/pages/instructor-management/view-blocked-instructors")
+);
+
+const LazyCommunity = lazy(
+  () => import("./components/pages/community/community-home")
+);
+
+const LazyAboutUs = lazy(() => import("./components/pages/about/about-us"));
+
+const LazyContactPage = lazy(
+  () => import("./components/pages/contact/contact-us")
 );
 
 const AppRouter = createBrowserRouter([
@@ -124,7 +139,7 @@ const AppRouter = createBrowserRouter([
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <LazyStudentHomePage />
-          </Suspense>
+          </Suspense>  
         ),
       },
       {
@@ -140,7 +155,7 @@ const AppRouter = createBrowserRouter([
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <LazyViewCourse />
-          </Suspense>
+          </Suspense> 
         ),
       },
       {
@@ -152,7 +167,7 @@ const AppRouter = createBrowserRouter([
         ),
       },
       {
-        path: "/tutors",
+        path: "/tutors", 
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <LazyInstructorsListing />
@@ -164,6 +179,30 @@ const AppRouter = createBrowserRouter([
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <LazyViewInstructor />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/community",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyCommunity />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/about",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyAboutUs />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/contact",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyContactPage />
           </Suspense>
         ),
       },
