@@ -1,5 +1,4 @@
 version: "3.8"
-
 services:
   client:
     build:
@@ -7,10 +6,10 @@ services:
       dockerfile: Dockerfile
     image: abin11/tutortrek_client:latest
     container_name: tutortrek_client
-    volumes:
-      - ./client/build:/usr/src/reactapp/build
     env_file:
       - ./client/.env
+    volumes:
+      - ./client/build:/usr/share/nginx/html
     depends_on:
       - server
     networks:
@@ -21,7 +20,7 @@ services:
           memory: 1G
         reservations:
           memory: 512M
-              
+
   server:
     build:
       context: ./server
@@ -33,12 +32,13 @@ services:
       - redis
     networks:
       - tutortrek_connection_network
+    restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
       interval: 30s
       timeout: 10s
       retries: 5
-    
+
   redis:
     image: redis:latest
     environment:
@@ -51,21 +51,34 @@ services:
     restart: always
     networks:
       - tutortrek_connection_network
-    
+
   nginx:
     image: nginx:alpine
     volumes:
-      - ./conf.d:/etc/nginx/conf.d
+      - ./conf.d:/etc/nginx/conf.d:ro
       - ./client/build:/usr/share/nginx/html
+      - ./letsencrypt:/etc/letsencrypt
     depends_on:
       - server
       - client
     ports:
-      - "4000:80"  # Expose Nginx's port 80 to host port 4000
+      - "80:80"
       - "443:443"
     networks:
       - tutortrek_connection_network
-    # user: "nginx:nginx"  # Set the user and group ownership for mounted volume
+    restart: always
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./letsencrypt:/etc/letsencrypt
+      - ./certbot-config:/etc/letsencrypt
+      - ./client/build:/usr/share/nginx/html
+    depends_on:
+      - nginx
+    command: certonly --webroot --webroot-path=/usr/share/nginx/html --email abinth250@gmail.com --agree-tos --no-eff-email -d tutortrek.online --force-renewal
+    networks:
+      - tutortrek_connection_network
 
 networks:
   tutortrek_connection_network:
