@@ -26,7 +26,7 @@ const routes = (app: Application, redisClient: RedisClient) => {
   app.use('/api/video-streaming', videoStreamRouter());
   app.use('/api/instructors', instructorRouter());
   app.use('/api/payments', jwtAuthMiddleware, paymentRouter());
-  app.use('/api/students', jwtAuthMiddleware, studentRouter(redisClient));
+  app.use('/api/students', studentRouter(redisClient));
 };
 
 export default routes;

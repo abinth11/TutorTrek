@@ -27,3 +27,9 @@ export interface Students {
   profileUrl:string;
   isBlocked: boolean;
 }
+
+export interface ContactInfo {
+  name:string;
+  email:string;
+  message:string
+}

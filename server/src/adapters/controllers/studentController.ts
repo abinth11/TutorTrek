@@ -10,9 +10,7 @@ import {
   getStudentDetailsU,
   updateProfileU
 } from '../../app/usecases/student';
-import {
-  StudentUpdateInfo
-} from '../../types/studentInterface';
+import { StudentUpdateInfo } from '../../types/studentInterface';
 import { CloudServiceInterface } from '../../app/services/cloudServiceInterface';
 import { CloudServiceImpl } from '../../frameworks/services/s3CloudService';
 import {
@@ -21,15 +19,21 @@ import {
   getAllStudentsU,
   unblockStudentU
 } from '../../app/usecases/management/studentManagement';
-import { RedisClient } from '@src/app';
-import { CacheRepositoryInterface } from '@src/app/repositories/cachedRepoInterface';
-import { RedisRepositoryImpl } from '@src/frameworks/database/redis/redisCacheRepository';
+import { RedisClient } from '../../app';
+import { CacheRepositoryInterface } from '../../app/repositories/cachedRepoInterface';
+import { RedisRepositoryImpl } from '../../frameworks/database/redis/redisCacheRepository';
+import { addContactU } from '../../app/usecases/contact';
+import { ContactInterface } from '../../types/contact';
+import { ContactDbInterface } from '../../app/repositories/contactDbRepository';
+import { ContactRepoImpl } from '../../frameworks/database/mongodb/repositories/contactsRepoMongoDb';
 
 const studentController = (
   authServiceInterface: AuthServiceInterface,
   authServiceImpl: AuthService,
   studentDbRepository: StudentsDbInterface,
   studentDbRepositoryImpl: StudentRepositoryMongoDB,
+  contactDbRepository: ContactDbInterface,
+  contactDbRepositoryImpl: ContactRepoImpl,
   cloudServiceInterface: CloudServiceInterface,
   cloudServiceImpl: CloudServiceImpl,
   cacheDbRepository: CacheRepositoryInterface,
@@ -40,7 +44,8 @@ const studentController = (
   const dbRepositoryCache = cacheDbRepository(
     cacheDbRepositoryImpl(cacheClient)
   );
-  
+  const dbRepositoryContact = contactDbRepository(contactDbRepositoryImpl());
+
   const authService = authServiceInterface(authServiceImpl());
   const cloudService = cloudServiceInterface(cloudServiceImpl());
   const changePassword = asyncHandler(
@@ -104,7 +109,6 @@ const studentController = (
     }
   );
 
-
   const getAllStudents = asyncHandler(async (req: Request, res: Response) => {
     const students = await getAllStudentsU(cloudService, dbRepositoryStudent);
     res.status(200).json({
@@ -149,6 +153,16 @@ const studentController = (
     }
   );
 
+  const addContact = asyncHandler(async (req: Request, res: Response) => {
+    const contactInfo: ContactInterface = req.body;
+    await addContactU(contactInfo, dbRepositoryContact);
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully Submitted your response ',
+      data: null
+    });
+  });
+
   return {
     changePassword,
     updateProfile,
@@ -156,7 +170,8 @@ const studentController = (
     blockStudent,
     unblockStudent,
     getAllStudents,
-    getAllBlockedStudents
+    getAllBlockedStudents,
+    addContact
   };
 };
 
