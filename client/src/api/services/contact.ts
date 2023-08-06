@@ -10,5 +10,5 @@ export const submitResponseService = async (
     `${CONFIG_KEYS.API_BASE_URL}/${endpoint}`,
     info
   );
-  return response;
+  return response.data
 };

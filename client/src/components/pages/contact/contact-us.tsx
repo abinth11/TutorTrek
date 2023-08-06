@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import { submitResponse } from "api/endpoints/contact";
 
 const ContactUs: React.FC = () => {
   const initialValues = {
@@ -16,18 +17,26 @@ const ContactUs: React.FC = () => {
     message: Yup.string().required("Required"),
   });
 
-  const onSubmit = (values: typeof initialValues, { setSubmitting,resetForm }: any) => {
-    // TODO: Add logic to submit the form data to your backend or handle it as needed
-    // For demonstration purposes, we'll just set the submitted state to true
-    toast.success("Successfully submitted your response..!",{position:toast.POSITION.BOTTOM_RIGHT})
-    resetForm()
-    setSubmitting(false); // Complete the submission process
+  const onSubmit = async (values: typeof initialValues, { resetForm }: any) => {
+    try {
+      const response = await submitResponse(values);
+      console.log(response)
+      response.status === "success" &&
+        toast.success(response?.message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      resetForm();
+    } catch (error) {
+      toast.error("Failed to submitted your response..!", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
   };
 
   return (
-    <div className="flex justify-center items-center p-10">
-      <div className="px-4 py-8 w-3/4">
-        <h1 className="text-3xl font-semibold mb-4">Contact Us</h1>
+    <div className='flex justify-center items-center p-10'>
+      <div className='px-4 py-8 w-3/4'>
+        <h1 className='text-3xl font-semibold mb-4'>Contact Us</h1>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -35,46 +44,67 @@ const ContactUs: React.FC = () => {
         >
           {({ isSubmitting }) => (
             <Form>
-              <div className="mb-4">
-                <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+              <div className='mb-4'>
+                <label
+                  htmlFor='name'
+                  className='block text-gray-700 font-medium mb-2'
+                >
                   Your Name
                 </label>
                 <Field
-                  type="text"
-                  id="name"
-                  name="name"
-                  className="w-full border rounded px-3 py-2 ring-1 ring-inset ring-gray-100 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6"
+                  type='text'
+                  id='name'
+                  name='name'
+                  className='w-full border rounded px-3 py-2 ring-1 ring-inset ring-gray-100 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                 />
-                <ErrorMessage name="name" component="div" className="text-red-500" />
+                <ErrorMessage
+                  name='name'
+                  component='div'
+                  className='text-red-500'
+                />
               </div>
-              <div className="mb-4">
-                <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
+              <div className='mb-4'>
+                <label
+                  htmlFor='email'
+                  className='block text-gray-700 font-medium mb-2'
+                >
                   Your Email
                 </label>
                 <Field
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="w-full border rounded px-3 py-2 ring-1 ring-inset ring-gray-100 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6"
+                  type='email'
+                  id='email'
+                  name='email'
+                  className='w-full border rounded px-3 py-2 ring-1 ring-inset ring-gray-100 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                 />
-                <ErrorMessage name="email" component="div" className="text-red-500" />
+                <ErrorMessage
+                  name='email'
+                  component='div'
+                  className='text-red-500'
+                />
               </div>
-              <div className="mb-4">
-                <label htmlFor="message" className="block text-gray-700 font-medium mb-2">
+              <div className='mb-4'>
+                <label
+                  htmlFor='message'
+                  className='block text-gray-700 font-medium mb-2'
+                >
                   Your Message
                 </label>
                 <Field
-                  as="textarea"
-                  id="message"
-                  name="message"
-                  className="w-full border rounded px-3 py-2 ring-1 ring-inset ring-gray-100 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6"
+                  as='textarea'
+                  id='message'
+                  name='message'
+                  className='w-full border rounded px-3 py-2 ring-1 ring-inset ring-gray-100 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                   rows={4}
                 />
-                <ErrorMessage name="message" component="div" className="text-red-500" />
+                <ErrorMessage
+                  name='message'
+                  component='div'
+                  className='text-red-500'
+                />
               </div>
               <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                type='submit'
+                className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
                 disabled={isSubmitting}
               >
                 Submit

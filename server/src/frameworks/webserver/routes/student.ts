@@ -12,6 +12,10 @@ import { cachingMiddleware } from '../middlewares/redisCaching';
 import { redisCacheRepository } from '../../../frameworks/database/redis/redisCacheRepository';
 import { cacheRepositoryInterface } from '../../../app/repositories/cachedRepoInterface';
 import jwtAuthMiddleware from '../middlewares/userAuth';
+import { contactDbInterface } from '../../../app/repositories/contactDbRepository';
+import { contactRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/contactsRepoMongoDb';
+import { adminRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
+import { adminRepoMongoDb } from '@src/frameworks/database/mongodb/repositories/adminRepoMongoDb';
 
 const studentRouter = (redisClient: RedisClient) => {
   const router = express.Router();
@@ -20,16 +24,23 @@ const studentRouter = (redisClient: RedisClient) => {
     authService,
     studentDbRepository,
     studentRepositoryMongoDB,
+    contactDbInterface,
+    contactRepositoryMongodb,
     cloudServiceInterface,
     s3Service,
     cacheRepositoryInterface,
     redisCacheRepository,
     redisClient
   );
-  router.patch('/change-password', controller.changePassword);
+  router.patch(
+    '/change-password',
+    jwtAuthMiddleware,
+    controller.changePassword
+  );
 
   router.put(
     '/update-profile',
+    jwtAuthMiddleware,
     upload.single('image'),
     controller.updateProfile
   );
@@ -41,13 +52,30 @@ const studentRouter = (redisClient: RedisClient) => {
     controller.getStudentDetails
   );
 
-  router.get('/get-all-students', controller.getAllStudents);
+  router.get('/get-all-students', jwtAuthMiddleware, controller.getAllStudents);
 
-  router.patch('/block-student/:studentId', controller.blockStudent);
+  router.patch(
+    '/block-student/:studentId',
+    jwtAuthMiddleware,
+    adminRoleCheckMiddleware,
+    controller.blockStudent
+  );
 
-  router.patch('/unblock-student/:studentId', controller.unblockStudent);
+  router.patch(
+    '/unblock-student/:studentId',
+    jwtAuthMiddleware,
+    adminRoleCheckMiddleware,
+    controller.unblockStudent
+  );
 
-  router.get('/get-all-blocked-students', controller.getAllBlockedStudents);
+  router.get(
+    '/get-all-blocked-students',
+    jwtAuthMiddleware,
+    adminRoleCheckMiddleware,
+    controller.getAllBlockedStudents
+  );
+
+  router.post('/contact-us', controller.addContact);
 
   return router;
 };
