@@ -19,12 +19,9 @@ export const googleAuthService = () => {
       audience: configKeys.GOOGLE_CLIENT_ID,
     });
     const payload = ticket.getPayload();
-    if (payload?.given_name && payload.email && payload.picture) {
-      const nameParts = payload.given_name.trim().split(" ");
-      const firstName = nameParts[0];
-      const lastName = nameParts.slice(1).join(" ");
-      user.firstName = firstName;
-      user.lastName = lastName;
+    if (payload?.given_name&&payload?.family_name&& payload.email && payload.picture) {
+      user.firstName =payload.given_name;
+      user.lastName = payload.family_name;
       user.email = payload.email;
       user.profilePic.url = payload.picture
       user.profilePic.name=payload.given_name
