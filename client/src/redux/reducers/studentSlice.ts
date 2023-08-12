@@ -14,10 +14,9 @@ interface StudentData {
 const accessToken = localStorage.getItem("accessToken");
 const decodedToken = decodeJwtToken(accessToken??"")
 
-
 const initialState: StudentData = {
   studentDetails: null,
-  studentId: decodedToken?.payload.userId || null,
+  studentId: decodedToken?.payload.Id || null,
   isFetching: false,
   error: null,
 };

@@ -13,7 +13,7 @@ const decodedToken = decodeJwtToken(accessToken ?? "");
 
 const initialState: InstructorData = {
   instructorDetails: null,
-  instructorId: decodedToken?.payload.userId || null,
+  instructorId: decodedToken?.payload.Id || null,
 };
 
 const instructorSlice = createSlice({

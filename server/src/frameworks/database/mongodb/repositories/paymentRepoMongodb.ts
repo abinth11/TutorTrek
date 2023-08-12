@@ -9,7 +9,7 @@ export const paymentRepositoryMongodb = () => {
   };
 
   const getMonthlyRevenue = async () => {
-    const currentMonth = new Date().getMonth() + 1; // Get the current month (1-based index)
+    const currentMonth = new Date().getMonth() + 1;
     const pipeline = [
       {
         $match: {

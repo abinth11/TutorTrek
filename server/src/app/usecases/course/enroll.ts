@@ -7,7 +7,7 @@ import { PaymentInfo } from '@src/types/payment';
 export const enrollStudentU = async (
   courseId: string,
   studentId: string,
-  paymentInfo: PaymentInfo,
+  paymentInfo: any,
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>,
   paymentDbRepository: ReturnType<PaymentInterface>
 ) => {
@@ -25,14 +25,18 @@ export const enrollStudentU = async (
   }
   const course = await courseDbRepository.getCourseById(courseId);
   if (course?.isPaid) {
-    const paymentId = paymentInfo.id;
-    const amount = paymentInfo.amount / 100;
-    paymentInfo.courseId = courseId;
-    paymentInfo.paymentId = paymentId;
-    paymentInfo.amount = amount;
+    const payment = {
+      paymentId: paymentInfo.id,
+      courseId: courseId,
+      studentId: studentId,
+      amount: paymentInfo.amount / 100,
+      currency: paymentInfo.currency,
+      payment_method: paymentInfo.payment_method,
+      status: paymentInfo.status
+    };
     await Promise.all([
       courseDbRepository.enrollStudent(courseId, studentId),
-      paymentDbRepository.savePayment(paymentInfo)
+      paymentDbRepository.savePayment(payment)
     ]);
   } else {
     await courseDbRepository.enrollStudent(courseId, studentId);
