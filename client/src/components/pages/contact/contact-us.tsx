@@ -20,7 +20,6 @@ const ContactUs: React.FC = () => {
   const onSubmit = async (values: typeof initialValues, { resetForm }: any) => {
     try {
       const response = await submitResponse(values);
-      console.log(response)
       response.status === "success" &&
         toast.success(response?.message, {
           position: toast.POSITION.BOTTOM_RIGHT,

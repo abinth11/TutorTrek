@@ -9,7 +9,6 @@ const connectDB = async () => {
     });
     console.log(`Database connected successfully`.bg_green);
   } catch (error: any) {
-    console.log(error);
     process.exit(1);
   }
 };

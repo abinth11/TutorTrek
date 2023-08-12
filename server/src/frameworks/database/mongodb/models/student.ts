@@ -62,10 +62,11 @@ const studentSchema = new Schema<IStudent>({
   mobile: {
     type: String,
     required: function (this: IStudent) {
-      return !this.isGoogleUser;
+      return !this.isGoogleUser; // Required for non-Google users
     },
     trim: true,
-    unique: true,
+    // unique:true,
+    sparse: true, // Allow multiple null values
     match: [/^[0-9]{10}$/, 'Please enter a valid 10-digit mobile number']
   },
   interests: {
@@ -97,6 +98,7 @@ const studentSchema = new Schema<IStudent>({
     default: ''
   }
 });
+
 
 const Students = model<IStudent>('Students', studentSchema, 'students');
 
