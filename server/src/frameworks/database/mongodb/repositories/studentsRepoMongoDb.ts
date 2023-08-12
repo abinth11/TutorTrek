@@ -6,7 +6,8 @@ import mongoose from 'mongoose';
 
 export const studentRepositoryMongoDB = () => {
   const addStudent = async (student: StudentRegisterInterface) => {
-    return await Student.create(student);
+    const newStudent = new Student(student);
+    return await newStudent.save();
   };
 
   const getStudentByEmail = async (email: string) => {
@@ -36,7 +37,7 @@ export const studentRepositoryMongoDB = () => {
   };
 
   const getAllStudents = async () => {
-    const students:StudentInterface[]|null = await Student.find({});
+    const students: StudentInterface[] | null = await Student.find({});
     return students;
   };
 
@@ -54,15 +55,17 @@ export const studentRepositoryMongoDB = () => {
     );
   };
 
-  const getAllBlockedStudents = async ()=>{
-   const blockedStudents:StudentInterface[]|null =  await Student.find({isBlocked:true})
-   return blockedStudents
-  }
+  const getAllBlockedStudents = async () => {
+    const blockedStudents: StudentInterface[] | null = await Student.find({
+      isBlocked: true
+    });
+    return blockedStudents;
+  };
 
-  const getTotalNumberOfStudents = async()=>{
-    const total = await Student.find().count()
-    return total
-  }
+  const getTotalNumberOfStudents = async () => {
+    const total = await Student.find().count();
+    return total;
+  };
 
   return {
     addStudent,

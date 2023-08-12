@@ -13,7 +13,6 @@ axiosInstance.interceptors.response.use(
   (error: AxiosError) => {
     if (error.response) {
       const { data, status } = error.response;
-      console.log(data)
       if (status === 400) {
         throw new CustomApiError("Bad request", data);
       } else if (status === 401) {
