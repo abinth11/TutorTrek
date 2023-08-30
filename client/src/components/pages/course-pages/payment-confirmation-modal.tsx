@@ -136,12 +136,12 @@ const PaymentConfirmationModal: React.FC<PaymentModalProps> = ({
             )}
           </Typography>
           <Typography variant='body' color='gray'>
-            <span className='font-semibold'>Course Overview:</span>{" "}
+            <span className='font-semibold'>Course Overview:</span><br />
             {courseDetails?.overview}
           </Typography>
         </DialogBody>
         <DialogFooter>
-          <Button
+          <Button  
             variant='gradient'
             color='green'
             onClick={handleCourseEnroll}

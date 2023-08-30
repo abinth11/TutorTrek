@@ -11,13 +11,10 @@ import { ApiResponseLesson } from "../../../api/types/apiResponses/ap-response-l
 import { Media } from "../../../api/types/apiResponses/ap-response-lesson";
 import { BiVideo } from "react-icons/bi";
 import { useSelector } from "react-redux";
-import { selectIsLoggedIn } from "../../../redux/reducers/authSlice";
 import { selectStudentId } from "../../../redux/reducers/studentSlice";
-import { selectUserType } from "../../../redux/reducers/authSlice";
+import { selectCourse } from "redux/reducers/courseSlice";
 import ShimmerEffectWatchLessons from "../../shimmer/watch-lessons-shimmer";
 import ShimmerVideoPlayer from "../../shimmer/shimmer-video-player";
-
-
 
 const WatchLessons: React.FC = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
@@ -27,13 +24,18 @@ const WatchLessons: React.FC = () => {
   const [allLessons, setAllLessons] = useState<Array<ApiResponseLesson>>([]);
   const [videoKey, setVideoKey] = useState<string | null>(null);
   const { lessonId } = useParams();
-  const isLoggedIn = useSelector(selectIsLoggedIn);
   const [currentLessonId, setCurrentLessonId] = useState<string | undefined>(
     lessonId
   );
-  const studentId = useSelector(selectStudentId)
+  const studentId = useSelector(selectStudentId);
+  const currentCourse = useSelector(selectCourse);
   const { courseId } = useParams();
-  const user = useSelector(selectUserType)
+  let isCoursePurchased = false;
+
+  if (currentCourse) {
+    isCoursePurchased = currentCourse.coursesEnrolled.includes(studentId)
+  }
+
 
   const handleItemClick = (index: number) => {
     setSelectedItemIndex(index);
@@ -109,7 +111,10 @@ const WatchLessons: React.FC = () => {
       ) : (
         <div className='md:w-3/4 w-full  overflow-y-scroll scrollbar-track-blue-gray-50 scrollbar-thumb-gray-400 scrollbar-thin scrollbar-h-md'>
           <div className='h-3/4'>
-            <VideoPlayer videoKey={videoKey} isCoursePurchased={isLoggedIn&&user==="student"} />
+            <VideoPlayer
+              videoKey={videoKey}
+              isCoursePurchased={isCoursePurchased}
+            />
           </div>
           <div className=''>
             <ul className='flex p-3'>
@@ -161,9 +166,9 @@ const WatchLessons: React.FC = () => {
       <div className='w-1/4 hidden md:block flex-grow mt-3 mb-2 overflow-y-scroll  scrollbar-thumb-gray-400  scrollbar-rounded scrollbar-track-gray-200 scrollbar-thin'>
         <h1 className='font-semibold text-blue-gray-800 text-2xl border-b border-gray-300 p-2'>
           Lessons
-        </h1>  
+        </h1>
         <ul>
-          {allLessons.map((lesson,index) => (
+          {allLessons.map((lesson, index) => (
             <li
               key={lesson._id}
               onClick={() => {
@@ -176,12 +181,14 @@ const WatchLessons: React.FC = () => {
                   : "hover:bg-gray-100"
               }  
               `}
-            >  
-              <BiVideo className='mr-2 text-blue-500' />   
-              <span className='flex-1 text-sm font-light text-gray-700'>Episode 0{index+1} - {lesson.title}</span>
+            >
+              <BiVideo className='mr-2 text-blue-500' />
+              <span className='flex-1 text-sm font-light text-gray-700'>
+                Episode 0{index + 1} - {lesson.title}
+              </span>
             </li>
           ))}
-        </ul>  
+        </ul>
       </div>
     </div>
   );

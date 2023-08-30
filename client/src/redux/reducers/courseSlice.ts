@@ -1,32 +1,30 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { CourseInterface } from "../../types/course"; // Corrected import path
 
-const initialState = {
-  data: {
-    courseId: "",
-  },
+interface InitialState {
+  course: CourseInterface | null;
+}
+
+const initialState: InitialState = {
+  course: null,
 };
 
 const courseSlice = createSlice({
   name: "course",
   initialState,
   reducers: {
-    setCourseId(state, action: PayloadAction<{ courseId: string }>) {
-      state.data = {
-        courseId: action.payload.courseId,
-      };
+    setCourse(state, action: PayloadAction<{ course: CourseInterface }>) {
+      state.course = action.payload.course;
     },
-    clearCourseId(state) {
-      state.data = {
-        courseId: "",
-      };
+    clearCourse(state) {
+      state.course = null;
     },
   },
 });
 
-export const { setCourseId, clearCourseId } = courseSlice.actions;
+export const { setCourse, clearCourse } = courseSlice.actions; 
 
-export const selectCourseId = (state: RootState) => state.course.data.courseId;
-
+export const selectCourse = (state: RootState) => state.course.course
 
 export const courseReducer = courseSlice.reducer;

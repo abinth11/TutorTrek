@@ -13,7 +13,7 @@ import { IoBookSharp } from "react-icons/io5";
 import useApiData from "../../../hooks/useApiCall";
 import { getLessonsByCourse } from "../../../api/endpoints/course/lesson";
 import { useDispatch } from "react-redux";
-import { setCourseId } from "../../../redux/reducers/courseSlice";
+import { setCourse } from "../../../redux/reducers/courseSlice";
 import { useSelector } from "react-redux";
 import { selectStudentId } from "../../../redux/reducers/studentSlice";
 import { MdDone } from "react-icons/md";
@@ -33,6 +33,7 @@ const ViewCourseStudent: React.FC = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const [loginConfirmation, setLoginConfirmation] = useState(false);
   const [showPdf, setShowPdf] = useState(false);
+  const [successToastShown, setSuccessToastShown] = useState(false);
 
   const fetchCourse = async (courseId: string): Promise<CourseInterface> => {
     try {
@@ -67,7 +68,7 @@ const ViewCourseStudent: React.FC = () => {
   );
 
   const course: CourseInterface | null = data;
-  courseId && dispatch(setCourseId({ courseId }));
+  course && dispatch(setCourse({ course }));
 
   const handleToggle = (index: any) => {
     setExpandedIndex(index === expandedIndex ? null : index);
@@ -83,11 +84,13 @@ const ViewCourseStudent: React.FC = () => {
   if (isLoading || isLessonsLoading) {
     return <ViewCourseShimmer />;
   }
-  // if (location.hash === "#success") {
-  //   toast.success("Successfully enrolled into the course", {
-  //     position: toast.POSITION.BOTTOM_RIGHT,
-  //   });
-  // }
+
+  if (location.hash === "#success" && !successToastShown) {
+    toast.success("Successfully enrolled into the course", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+    setSuccessToastShown(true);
+  }
   const enrolled = course?.coursesEnrolled.includes(studentId ?? "");
   return (
     <div className='bg-white w-full'>
@@ -106,7 +109,6 @@ const ViewCourseStudent: React.FC = () => {
         setOpen={setOpenPaymentConfirmation}
       />
       <div className='flex flex-col  pr-5 pl-3 pt-5 md:pl-50 lg:pl-80  '>
-        <h2>{location.hash}</h2>
         <CustomBreadCrumbs paths={location.pathname} />
       </div>
       <div className='flex flex-col items-center '>
@@ -202,13 +204,15 @@ const ViewCourseStudent: React.FC = () => {
                         <IoBookSharp className='mr-2 text-blue-500' />
                         <span className='flex-1'>Important guidelines</span>
                       </li>
-                      {showPdf && <PdfViewer pdfUrl={course?.guidelinesUrl??""} />}
+                      {showPdf && (
+                        <PdfViewer pdfUrl={course?.guidelinesUrl ?? ""} />
+                      )}
 
                       <Link to={"watch-lessons/1"}>
                         <li className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'>
                           <BiVideo className='mr-2 text-blue-500' />
                           <span className='flex-1'>Introduction video</span>
-                        </li>  
+                        </li>
                       </Link>
                     </ul>
                   </li>
