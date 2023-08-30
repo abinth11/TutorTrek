@@ -39,9 +39,10 @@ const ListCourse: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    console.log(searchQuery)
     const debouncedHandleCourseSearch = debounce(async () => {
       if (searchQuery.trim() !== "") {
-        try {
+        try {  
           const response = await searchCourse(searchQuery, "");
           setCourses(response?.data?.data || response?.data);
         } catch (error) {
@@ -51,13 +52,13 @@ const ListCourse: React.FC = () => {
         try {
           const response = await searchCourse("", filterQuery);
           setCourses(response?.data?.data || response?.data);
-        } catch (error) {
+        } catch (error) { 
           toast.error("Failed to search course");
         }
       } else {
         fetchCourse();
       }
-    }, 500);
+    }, 300);
 
     debouncedHandleCourseSearch();
 
