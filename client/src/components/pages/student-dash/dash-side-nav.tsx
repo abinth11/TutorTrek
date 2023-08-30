@@ -7,8 +7,6 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
-import { useDispatch } from "react-redux";
-import { clearToken } from "../../../redux/reducers/authSlice";
 import { FaUserGraduate } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import {FiSettings} from 'react-icons/fi'
@@ -32,7 +30,7 @@ const NavItems = [
     icon: <CgProfile className='h-6 w-6' />
   },
   {
-    path: "/dashboard/settings",
+    path: "#",
     name: "Settings",
     icon: <FiSettings className='h-6 w-6' />
 
@@ -41,11 +39,7 @@ const NavItems = [
 
 const SideNav: React.FC = () => {
   const [selected, setSelected] = useState<string>("Dashboard");
-  const dispatch = useDispatch();
-  const handleLogout = () => {
-    dispatch(clearToken());
-    // location.reload();
-  };
+
   return (
     <Card className='fixed top-0  h-full w-full max-w-[17rem] p-3 rounded-none'>
       <div className=' mb-1 p-1 flex items-center gap-4  pl-3'>

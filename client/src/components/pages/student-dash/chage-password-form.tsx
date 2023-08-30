@@ -5,7 +5,13 @@ import { toast } from "react-toastify";
 import { PasswordInfo } from "../../../api/types/student/student";
 import { PasswordValidationSchema } from "../../../validations/student";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-const ChangePasswordForm = () => {
+
+interface Props {
+  editMode: boolean;
+  setEditMode: (val: boolean) => void;
+}
+
+const ChangePasswordForm: React.FC<Props> = ({ editMode, setEditMode }) => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
@@ -14,6 +20,7 @@ const ChangePasswordForm = () => {
     try {
       const response = await changePassword(passwordInfo);
       response?.data?.status === "success" && formik.resetForm();
+      setEditMode(false);
       toast.success(response?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -35,7 +42,6 @@ const ChangePasswordForm = () => {
       handleSubmit(values);
     },
   });
-  
 
   const togglePasswordVisibility = (field: string) => {
     switch (field) {
@@ -66,7 +72,6 @@ const ChangePasswordForm = () => {
     }
   };
 
-
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className='relative z-0 w-full mb-6 group'>
@@ -74,6 +79,7 @@ const ChangePasswordForm = () => {
           type={getPasswordInputType("currentPassword")}
           name='currentPassword'
           id='floating_current_password'
+          disabled={!editMode}
           value={formik.values.currentPassword}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -115,6 +121,7 @@ const ChangePasswordForm = () => {
         <input
           type={getPasswordInputType("newPassword")}
           name='newPassword'
+          disabled={!editMode}
           id='floating_password'
           value={formik.values.newPassword}
           onChange={formik.handleChange}
@@ -155,6 +162,7 @@ const ChangePasswordForm = () => {
         <input
           type={getPasswordInputType("repeatPassword")}
           name='repeatPassword'
+          disabled={!editMode}
           id='floating_repeat_password'
           value={formik.values.repeatPassword}
           onChange={formik.handleChange}
@@ -194,15 +202,17 @@ const ChangePasswordForm = () => {
         </button>
       </div>
       <div className='relative pt-14 pr-1'>
-        <button
-          type='submit'   
-          className='text-white absolute bottom-0 right-0 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-        >
-          Reset  
-        </button>  
+        {editMode && (
+          <button
+            type='submit'
+            className='text-white absolute bottom-0 right-0 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+          >
+            Reset
+          </button>
+        )}
       </div>
     </form>
-  );  
+  );
 };
 
 export default ChangePasswordForm;

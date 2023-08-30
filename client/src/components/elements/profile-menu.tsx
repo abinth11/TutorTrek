@@ -12,8 +12,6 @@ import {
   UserCircleIcon,
   ChevronDownIcon,
   Cog6ToothIcon,
-  InboxArrowDownIcon,
-  LifebuoyIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
 import { clearToken } from "../../redux/reducers/authSlice";
@@ -23,24 +21,23 @@ import { USER_AVATAR } from "../../constants/common";
 import { selectStudent } from "../../redux/reducers/studentSlice";
 import LogoutConfirmationModal from "./student-logout-modal";
 
-// profile menu component
 const profileMenuItems = [
   {
     label: "My Profile",
     icon: UserCircleIcon,
   },
-  {
-    label: "Inbox",
-    icon: InboxArrowDownIcon,
-  },
+  // {
+  //   label: "Inbox",
+  //   icon: InboxArrowDownIcon,
+  // },
   {
     label: "Settings",
     icon: Cog6ToothIcon,
   },
-  {
-    label: "Help",
-    icon: LifebuoyIcon,
-  },
+  // {
+  //   label: "Help",
+  //   icon: LifebuoyIcon,
+  // },
   {
     label: "Sign Out",
     icon: PowerIcon,
@@ -61,7 +58,7 @@ export default function ProfileMenu() {
         navigate("/dashboard/my-profile");
         break;
       case "Settings":
-        navigate("/dashboard/settings");
+        navigate("#");
         break;
       case "Inbox":
         break;
