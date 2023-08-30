@@ -11,9 +11,6 @@ import { ApiResponseLesson } from "../../../api/types/apiResponses/ap-response-l
 import { Media } from "../../../api/types/apiResponses/ap-response-lesson";
 import { BiVideo } from "react-icons/bi";
 import { useSelector } from "react-redux";
-import {
-  selectUserType,
-} from "../../../redux/reducers/authSlice";
 import { selectStudentId } from "../../../redux/reducers/studentSlice";
 import { selectCourse } from "redux/reducers/courseSlice";
 import ShimmerEffectWatchLessons from "../../shimmer/watch-lessons-shimmer";
