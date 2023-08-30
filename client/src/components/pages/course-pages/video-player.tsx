@@ -37,18 +37,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
             type: "video/mp4", // Update the MIME type to video/mp4
           });
         } else {
-          showPurchaseOverlay();
-          // Show something in the player or outside when the course is not purchased
-          // For example, you can show a message or a custom component
-          // player.poster("path/to/poster-image.jpg"); // Set a poster image to show as a thumbnail
-          // You can also add a custom overlay or message within the player
-          // player.addChild("CustomOverlayComponent", {});
+          showPurchaseOverlay()
         }
       }
     };
 
     const showPurchaseOverlay = () => {
-      // JSX for the purchase poster overlay content
       const purchaseOverlay = (
         <div className='purchase-overlay pt-16 flex items-center justify-center'>
           <div className='text-center '>

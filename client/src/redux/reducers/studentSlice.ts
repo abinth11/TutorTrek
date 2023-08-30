@@ -66,7 +66,7 @@ export const { setDetails, clearDetails } = studentSlice.actions;
 
 export const selectStudent = (state: RootState) => state.student;
 
-export const selectStudentId = (state: RootState) => state.student.studentId;
+export const selectStudentId = (state: RootState) => state.student.studentDetails?._id;
 
 export const selectIsFetchingStudent = (state: RootState) => state.student.isFetching;
 

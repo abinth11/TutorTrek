@@ -13,7 +13,7 @@ import { IoBookSharp } from "react-icons/io5";
 import useApiData from "../../../hooks/useApiCall";
 import { getLessonsByCourse } from "../../../api/endpoints/course/lesson";
 import { useDispatch } from "react-redux";
-import { setCourseId } from "../../../redux/reducers/courseSlice";
+import { setCourse } from "../../../redux/reducers/courseSlice";
 import { useSelector } from "react-redux";
 import { selectStudentId } from "../../../redux/reducers/studentSlice";
 import { MdDone } from "react-icons/md";
@@ -67,7 +67,7 @@ const ViewCourseStudent: React.FC = () => {
   );
 
   const course: CourseInterface | null = data;
-  courseId && dispatch(setCourseId({ courseId }));
+  course && dispatch(setCourse({ course }));
 
   const handleToggle = (index: any) => {
     setExpandedIndex(index === expandedIndex ? null : index);
@@ -202,13 +202,15 @@ const ViewCourseStudent: React.FC = () => {
                         <IoBookSharp className='mr-2 text-blue-500' />
                         <span className='flex-1'>Important guidelines</span>
                       </li>
-                      {showPdf && <PdfViewer pdfUrl={course?.guidelinesUrl??""} />}
+                      {showPdf && (
+                        <PdfViewer pdfUrl={course?.guidelinesUrl ?? ""} />
+                      )}
 
                       <Link to={"watch-lessons/1"}>
                         <li className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'>
                           <BiVideo className='mr-2 text-blue-500' />
                           <span className='flex-1'>Introduction video</span>
-                        </li>  
+                        </li>
                       </Link>
                     </ul>
                   </li>
