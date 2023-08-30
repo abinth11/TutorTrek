@@ -2,6 +2,7 @@ import { CourseInterface } from '@src/types/courseInterface';
 import { RedisClient } from '../../../app';
 
 export function redisCacheRepository(redisClient: RedisClient) {
+
   const setCache = async ({
     key,
     expireTimeSec,
@@ -11,6 +12,11 @@ export function redisCacheRepository(redisClient: RedisClient) {
     expireTimeSec: number;
     data: string;
   }) => await redisClient.setEx(key, expireTimeSec, data);
+
+  const clearCache = async (key: string) => {
+    const result = await redisClient.del(key);
+    return result === 1;
+  };
 
   const populateTrie = async (course: CourseInterface) => {
     const trie: { [key: string]: any } = {}; // Initialize the trie object
@@ -31,6 +37,7 @@ export function redisCacheRepository(redisClient: RedisClient) {
 
   return {
     setCache,
+    clearCache,
     populateTrie
   };
 }

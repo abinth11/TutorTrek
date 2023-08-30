@@ -8,8 +8,11 @@ export const cacheRepositoryInterface=(repository:ReturnType<RedisRepositoryImpl
         data: string;
       })=>await repository.setCache(cachingOptions)
 
+    const clearCache = async(key:string)=> await repository.clearCache(key)
+
     return {
-        setCache
+        setCache,
+        clearCache
     }
 
 }

@@ -79,6 +79,7 @@ const studentController = (
         cloudService,
         dbRepositoryStudent
       );
+      await dbRepositoryCache.clearCache(studentId ?? '');
       res.status(200).json({
         status: 'success',
         message: 'Successfully updated your profile',
