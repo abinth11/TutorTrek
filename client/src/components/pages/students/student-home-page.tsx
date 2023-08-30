@@ -132,13 +132,13 @@ const StudentHomePage: React.FC = () => {
         </div>
 
         <div className='flex items-center justify-between px-10 flex-wrap'>
-          {trendingCourses?.slice(0, cardsToShow).map((course, index) => {
+          {trendingCourses?.slice(0, cardsToShow).map((course) => {
             return (
-              <React.Fragment key={index}>
-                <Link to={`/courses/${course._id}`} className=''>
+              <div className='grid  md:m-5 my-6  justify-center overflow-hidden text-center  bg-red-200 rounded-lg'>
+                <Link key={course._id} to={`/courses/${course._id}`}>
                   <TrendingCard courseInfo={course} />
                 </Link>
-              </React.Fragment>
+              </div>
             );
           })}
         </div>

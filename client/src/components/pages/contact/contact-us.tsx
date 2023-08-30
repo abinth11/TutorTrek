@@ -33,7 +33,7 @@ const ContactUs: React.FC = () => {
   };
 
   return (
-    <div className='flex justify-center items-center p-10'>
+    <div className='flex justify-center items-center md:p-10'>
       <div className='px-4 py-8 w-3/4'>
         <h1 className='text-3xl font-semibold mb-4'>Contact Us</h1>
         <Formik
