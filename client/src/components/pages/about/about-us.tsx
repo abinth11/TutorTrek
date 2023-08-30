@@ -12,7 +12,7 @@ const AboutUs: React.FC = () => {
             className='rounded-lg  w-10/12 shadow-md'
           />
         </div>
-        <div className='md:w-1/2'>
+        <div className='md:w-1/2 mt-5 md:mt-0'>
           <p className='text-gray-600 mb-4'>
             Welcome to Tutortrek, your ultimate destination for online learning
             and growth. We're on a mission to bring education to your
