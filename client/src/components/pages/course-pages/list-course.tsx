@@ -55,8 +55,7 @@ const ListCourse: React.FC = () => {
           toast.error("Failed to search course");
         }
       } else {
-        // If searchQuery is empty, reset the courses to the full list
-        fetchCourse(); // Fetch all courses from the server again
+        fetchCourse();
       }
     }, 500);
 

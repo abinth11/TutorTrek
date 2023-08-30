@@ -1,17 +1,15 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { getAllCategories } from "../../../api/endpoints/category";
 import { ApiResponseCategory } from "../../../api/types/apiResponses/api-response-category";
 import { toast } from "react-toastify";
 
-
 const animatedComponents = makeAnimated();
 interface Props {
-  handleSelect:(value:string)=>void,
+  handleSelect: (value: string) => void;
 }
 const FilterCourseSelectBox: React.FC<Props> = ({ handleSelect }) => {
-
   const [categories, setCategories] = useState<ApiResponseCategory[] | null>(
     null
   );
@@ -29,9 +27,9 @@ const FilterCourseSelectBox: React.FC<Props> = ({ handleSelect }) => {
 
   useEffect(() => {
     fetchAllCategories();
-  }, []);  
+  }, []);
   const handleSelectChange = (selectedOption: any) => {
-    handleSelect(selectedOption[0]?.value || "");
+    handleSelect(selectedOption?.value || "");
   };
   return (
     <Select
@@ -44,12 +42,12 @@ const FilterCourseSelectBox: React.FC<Props> = ({ handleSelect }) => {
       isSearchable={true}
       name='color'
       onChange={handleSelectChange}
-      isMulti
       placeholder='Filter by Categories'
       options={categories?.map((category) => ({
         value: category?.name,
         label: category?.name,
-      }))}    />
+      }))}
+    />
   );
 };
 
