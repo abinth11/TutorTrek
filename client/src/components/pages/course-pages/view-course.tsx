@@ -33,6 +33,7 @@ const ViewCourseStudent: React.FC = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const [loginConfirmation, setLoginConfirmation] = useState(false);
   const [showPdf, setShowPdf] = useState(false);
+  const [successToastShown, setSuccessToastShown] = useState(false);
 
   const fetchCourse = async (courseId: string): Promise<CourseInterface> => {
     try {
@@ -83,11 +84,13 @@ const ViewCourseStudent: React.FC = () => {
   if (isLoading || isLessonsLoading) {
     return <ViewCourseShimmer />;
   }
-  // if (location.hash === "#success") {
-  //   toast.success("Successfully enrolled into the course", {
-  //     position: toast.POSITION.BOTTOM_RIGHT,
-  //   });
-  // }
+
+  if (location.hash === "#success" && !successToastShown) {
+    toast.success("Successfully enrolled into the course", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+    setSuccessToastShown(true);
+  }
   const enrolled = course?.coursesEnrolled.includes(studentId ?? "");
   return (
     <div className='bg-white w-full'>
@@ -106,7 +109,6 @@ const ViewCourseStudent: React.FC = () => {
         setOpen={setOpenPaymentConfirmation}
       />
       <div className='flex flex-col  pr-5 pl-3 pt-5 md:pl-50 lg:pl-80  '>
-        <h2>{location.hash}</h2>
         <CustomBreadCrumbs paths={location.pathname} />
       </div>
       <div className='flex flex-col items-center '>
