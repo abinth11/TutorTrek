@@ -143,6 +143,7 @@ const courseController = (
         cloudService,
         dbRepositoryCourse
       );
+      console.log(course)
       res.status(200).json({
         status: 'success',
         message: 'Successfully retrieved the course',

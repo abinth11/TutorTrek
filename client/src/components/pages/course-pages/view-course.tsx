@@ -197,13 +197,15 @@ const ViewCourseStudent: React.FC = () => {
                 {expandedIndex === 0 && (
                   <li className=''>
                     <ul>
-                      <li
-                        className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'
-                        onClick={handleLiClick}
-                      >
-                        <IoBookSharp className='mr-2 text-blue-500' />
-                        <span className='flex-1'>Important guidelines</span>
-                      </li>
+                      <Link to={course?.guidelinesUrl ?? ""} target="_blank" rel="noopener noreferrer" >
+                        <li
+                          className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'
+                          // onClick={handleLiClick}
+                        >
+                          <IoBookSharp className='mr-2 text-blue-500' />
+                          <span className='flex-1'>Important guidelines</span>
+                        </li>
+                      </Link>
                       {showPdf && (
                         <PdfViewer pdfUrl={course?.guidelinesUrl ?? ""} />
                       )}

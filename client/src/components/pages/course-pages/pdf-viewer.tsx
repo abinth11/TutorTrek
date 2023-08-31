@@ -9,6 +9,7 @@ interface PdfViewerProps {
 }    
 
 const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl }) => {
+  console.log(pdfUrl)
   return (
     <div>
       <Document file={pdfUrl}>
