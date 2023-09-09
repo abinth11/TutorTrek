@@ -8,7 +8,7 @@ import { authService } from '../../../frameworks/services/authService';
 import { authServiceInterface } from '../../../app/services/authServicesInterface';
 import { cloudServiceInterface } from '../../../app/services/cloudServiceInterface';
 import { s3Service } from '../../../frameworks/services/s3CloudService';
-import { instructorRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
+import roleCheckMiddleware from '../middlewares/roleCheckMiddleware';
 import jwtAuthMiddleware from '../middlewares/userAuth';
 import upload from '../middlewares/multer';
 import { courseDbRepository } from '../../../app/repositories/courseDbRepository';
@@ -57,7 +57,7 @@ const instructorRouter = () => {
   router.get(
     '/get-instructor-details',
     jwtAuthMiddleware,
-    instructorRoleCheckMiddleware,
+    roleCheckMiddleware('instructor'),
     controller.getInstructorDetails
   );
 
@@ -65,14 +65,14 @@ const instructorRouter = () => {
     '/update-profile',
     jwtAuthMiddleware,
     upload.single('image'),
-    instructorRoleCheckMiddleware,
+    roleCheckMiddleware('instructor'),
     controller.updateProfile
   );
 
   router.patch(
     '/change-password',
     jwtAuthMiddleware,
-    instructorRoleCheckMiddleware,
+    roleCheckMiddleware('instructor'),
     controller.changePassword
   );
 
