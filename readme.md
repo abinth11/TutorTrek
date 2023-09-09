@@ -30,12 +30,6 @@ The project is a comprehensive online learning platform that connects teachers a
 
 5. Set up the required environment variables. Rename the `.env.example` file to `.env` and provide the necessary values for your environment.
 
-5. Seed the database with initial data (if applicable):
-
-   ```shell
-   yarn run seed
-   ```
-
 ## Usage
 
 1. Start the development server:

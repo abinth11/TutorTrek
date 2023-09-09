@@ -18,7 +18,8 @@ export interface InstructorInterface {
 }
 export interface Certificate {
     name:string;
-    url:string;
+    url?:string;
+    key:string
 }
 export interface SavedInstructorInterface extends InstructorInterface {
     _id:string;

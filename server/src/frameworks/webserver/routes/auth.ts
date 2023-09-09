@@ -12,13 +12,17 @@ import { adminDbRepository } from "../../../app/repositories/adminDbRepository";
 import { adminRepoMongoDb } from "../../../frameworks/database/mongodb/repositories/adminRepoMongoDb";
 import { refreshTokenDbRepository } from "../../../app/repositories/refreshTokenDBRepository";
 import { refreshTokenRepositoryMongoDB } from "../../../frameworks/database/mongodb/repositories/refreshTokenRepoMongoDb";
-import { uploadMultipleImages } from "../middlewares/imageUpload";
+import { s3Service } from "../../../frameworks/services/s3CloudService";
+import { cloudServiceInterface } from "../../../app/services/cloudServiceInterface";
+import upload from "../middlewares/multer";
 const authRouter = () => {     
   const router = express.Router();
   
   const controller = authController(
     authServiceInterface,
-    authService,  
+    authService,
+    cloudServiceInterface,
+    s3Service,
     studentDbRepository,
     studentRepositoryMongoDB,  
     instructorDbRepository,  
@@ -36,7 +40,7 @@ const authRouter = () => {
   router.post("/login-with-google",controller.loginWithGoogle)
   
   //* Instructor
-  router.post("/instructor/instructor-register",uploadMultipleImages, controller.registerInstructor)
+  router.post("/instructor/instructor-register",upload.array('images'), controller.registerInstructor)
   router.post("/instructor/instructor-login",controller.loginInstructor)
 
   //* Admin 
