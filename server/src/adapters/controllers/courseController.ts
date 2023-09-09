@@ -91,7 +91,8 @@ const courseController = (
         cloudService,
         dbRepositoryCourse
       );
-      res.status(200).json({
+      console.log(response)
+      res.status(201).json({
         status: 'success',
         message:
           'Successfully added new course, course will be published after verification',
