@@ -14,8 +14,7 @@ import { cacheRepositoryInterface } from '../../../app/repositories/cachedRepoIn
 import jwtAuthMiddleware from '../middlewares/userAuth';
 import { contactDbInterface } from '../../../app/repositories/contactDbRepository';
 import { contactRepositoryMongodb } from '../../../frameworks/database/mongodb/repositories/contactsRepoMongoDb';
-import { adminRoleCheckMiddleware } from '../middlewares/roleCheckMiddleware';
-import { adminRepoMongoDb } from '@src/frameworks/database/mongodb/repositories/adminRepoMongoDb';
+import roleCheckMiddleware from '../middlewares/roleCheckMiddleware';
 
 const studentRouter = (redisClient: RedisClient) => {
   const router = express.Router();
@@ -57,21 +56,21 @@ const studentRouter = (redisClient: RedisClient) => {
   router.patch(
     '/block-student/:studentId',
     jwtAuthMiddleware,
-    adminRoleCheckMiddleware,
+    roleCheckMiddleware('admin'),
     controller.blockStudent
   );
 
   router.patch(
     '/unblock-student/:studentId',
     jwtAuthMiddleware,
-    adminRoleCheckMiddleware,
+    roleCheckMiddleware('admin'),
     controller.unblockStudent
   );
 
   router.get(
     '/get-all-blocked-students',
     jwtAuthMiddleware,
-    adminRoleCheckMiddleware,
+    roleCheckMiddleware('admin'),
     controller.getAllBlockedStudents
   );
 
