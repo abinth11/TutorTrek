@@ -20,16 +20,15 @@ interface CourseFormValues {
   [key: string]: string;
 }
 
-
 const initialValues = {
   title: "",
   duration: "",
   category: "",
-  level:"",  
-  tags: "",  
-  about:"",  
+  level: "",
+  tags: "",
+  about: "",
   description: "",
-  syllabus:"",
+  syllabus: "",
   requirements: "",
   price: "",
 };
@@ -38,21 +37,29 @@ const CombinedForm: React.FC = () => {
   const [paid, setPaid] = useState(false);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [guidelines, setGuidelines] = useState<File | null>(null);
+  const [introduction,setIntroduction] = useState<File | null>(null)
   const [categories, setCategories] = useState<ApiResponseCategory[] | null>(
     null
   );
 
-  const handleFormSubmit = async (values: CourseFormValues,  { resetForm }: FormikHelpers<CourseFormValues>) => {
+  const handleFormSubmit = async (
+    values: CourseFormValues,
+    { resetForm }: FormikHelpers<CourseFormValues>
+  ) => {
     try {
       const formData = new FormData();
       guidelines && formData.append("files", guidelines);
       thumbnail && formData.append("files", thumbnail);
+      introduction && formData.append("files",introduction)
       Object.keys(values).forEach((key) => formData.append(key, values[key]));
       const response = await addCourse(formData);
-      toast.success(response.data.message, { 
+      toast.success(response.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-      resetForm()  
+      resetForm();
+      setGuidelines(null)
+      setThumbnail(null)
+      setIntroduction(null)
     } catch (error: any) {
       toast.error(error.data.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -65,7 +72,7 @@ const CombinedForm: React.FC = () => {
       const response = await getAllCategories();
       setCategories(response.data);
     } catch (error) {
-      toast.error("something went wrong")
+      toast.error("something went wrong");
     }
   };
 
@@ -144,9 +151,11 @@ const CombinedForm: React.FC = () => {
                     name='category'
                     className='pl-2 block w-80 rounded-md border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                   >
-                    {categories?.map(({ _id, name },index) => (
-                      <option selected={index===0} key={_id}>{name}</option>
-                    ))}  
+                    {categories?.map(({ _id, name }, index) => (
+                      <option selected={index === 0} key={_id}>
+                        {name}
+                      </option>
+                    ))}
                   </Field>
                   <ErrorMessage
                     name='category'
@@ -168,7 +177,9 @@ const CombinedForm: React.FC = () => {
                     name='level'
                     className='pl-2 block w-80 rounded-md border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
                   >
-                    <option value='easy' selected>Easy</option>
+                    <option value='easy' selected>
+                      Easy
+                    </option>
                     <option value='medium'>Medium</option>
                     <option value='hard'>Hard</option>
                   </Field>
@@ -208,7 +219,7 @@ const CombinedForm: React.FC = () => {
                   </div>
 
                   {paid && (
-                    <div className=''>
+                    <div className='mb-2'>
                       <label
                         htmlFor='price'
                         className='block text-sm font-medium leading-6 text-gray-900'
@@ -228,6 +239,32 @@ const CombinedForm: React.FC = () => {
                       />
                     </div>
                   )}
+
+                  <div className='mb-2'>
+                    <label
+                      htmlFor='introduction-video'
+                      className='block text-sm font-medium leading-6 text-gray-900'
+                    >
+                      Introduction video
+                    </label>
+                    <input
+                      type='file'
+                      id='introduction-video'
+                      name='introduction-video'
+                      accept='video/*'
+                      onChange={(event) => {
+                        const file = event.target.files?.[0] || null;
+                        setIntroduction(file);
+                      }}
+                      required
+                      className='pl-2 block w-80 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-700 focus-visible:outline-none focus-visible:ring-blue-600 sm:text-sm sm:leading-6'
+                    />
+                    <ErrorMessage
+                      name='introduction-video'
+                      component='div'
+                      className='text-red-500 text-sm'
+                    />
+                  </div>
                 </div>
               </div>
               <div>
@@ -341,7 +378,6 @@ const CombinedForm: React.FC = () => {
                   />
                 </div>
               </div>
-
               <div>
                 <div className='mb-2'>
                   <label
@@ -353,7 +389,7 @@ const CombinedForm: React.FC = () => {
                   <input
                     type='file'
                     id='thumbnail'
-                    name='thumbnail'  
+                    name='thumbnail'
                     accept='image/*'
                     required
                     onChange={(event) => {

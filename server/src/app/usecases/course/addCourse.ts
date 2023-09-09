@@ -11,47 +11,51 @@ export const addCourses = async (
   cloudService: ReturnType<CloudServiceInterface>,
   courseDbRepository: ReturnType<CourseDbRepositoryInterface>
 ) => {
-  if (!instructorId) {
-    throw new AppError('Please provide instructor id', HttpStatusCodes.BAD_REQUEST);
+  if (!instructorId || !courseInfo || !files || files.length === 0) {
+    throw new AppError('Invalid input data', HttpStatusCodes.BAD_REQUEST);
   }
+  console.log(files);
 
-  if (!courseInfo) {
-    throw new AppError('Please provide course details', HttpStatusCodes.BAD_REQUEST);
-  }
+  const uploadPromises = files.map(async (file) => {
+    let uploadedFile;
 
-  if (files && files.length > 0) {
-    const uploadPromises = files.map(async (file) => {
-      if (file.mimetype === 'application/pdf') {
-        const guidelines = await cloudService.upload(file);
-        courseInfo.guidelines = guidelines;
-      } else {
-        const thumbnail = await cloudService.upload(file);
-        courseInfo.thumbnail = thumbnail;
-      }
-    });
+    if (file.mimetype === 'application/pdf') {
+      uploadedFile = await cloudService.upload(file);
+      courseInfo.guidelines = uploadedFile;
+    }
 
-    await Promise.all(uploadPromises);
-  }
+    if (file.mimetype === 'video/mp4') {
+      uploadedFile = await cloudService.upload(file);
+      courseInfo.introduction = uploadedFile;
+    }
+
+    if (file.mimetype.includes('image')) {
+      uploadedFile = await cloudService.upload(file);
+      courseInfo.thumbnail = uploadedFile;
+    }
+  });
+
+  await Promise.all(uploadPromises);
 
   courseInfo.instructorId = instructorId;
 
-  if (typeof courseInfo.tags==='string') {
+  if (typeof courseInfo.tags === 'string') {
     courseInfo.tags = courseInfo.tags.split(',');
   }
-
-  if (typeof courseInfo.syllabus==='string') {
+  if (typeof courseInfo.syllabus === 'string') {
     courseInfo.syllabus = courseInfo.syllabus.split(',');
   }
-
-  if (typeof courseInfo.requirements==='string') {
+  if (typeof courseInfo.requirements === 'string') {
     courseInfo.requirements = courseInfo.requirements.split(',');
   }
-
-
+  console.log(courseInfo)
   const courseId = await courseDbRepository.addCourse(courseInfo);
 
   if (!courseId) {
-    throw new AppError('Unable to add course, please try again', HttpStatusCodes.INTERNAL_SERVER_ERROR);
+    throw new AppError(
+      'Unable to add course',
+      HttpStatusCodes.INTERNAL_SERVER_ERROR
+    );
   }
 
   return courseId;

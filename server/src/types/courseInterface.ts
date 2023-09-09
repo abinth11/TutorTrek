@@ -18,6 +18,7 @@ export interface AddCourseInfoInterface {
     syllabus:string[]|string;
     requirements:string[]|string;
     thumbnail: FileSchema;
+    introduction:FileSchema;
     guidelines:FileSchema;
     instructorId: string;
     rating: number;

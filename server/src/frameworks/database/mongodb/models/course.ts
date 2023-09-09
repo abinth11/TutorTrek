@@ -85,6 +85,10 @@ const courseSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  introduction: {
+    type: FileSchema,
+    required: true
+  },
   coursesEnrolled: [
     {
       type: mongoose.Schema.Types.ObjectId,
