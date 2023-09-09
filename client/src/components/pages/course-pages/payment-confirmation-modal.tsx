@@ -105,10 +105,10 @@ const PaymentConfirmationModal: React.FC<PaymentModalProps> = ({
           </div>
         </DialogHeader>
         <DialogBody divider>
-          <Typography variant='body' className='font-semibold' color='gray'>
+          <Typography variant='paragraph' className='font-semibold text-md' color='gray'>
             Please review the details before proceeding:
           </Typography>
-          <Typography variant='body' color='gray' className='mt-2 mb-1'>
+          <Typography variant='paragraph' color='gray' className='mt-2 mb-1'>
             {isFreeCourse ? (
               <span className='font-semibold text-green-500'>
                 This course is free!
@@ -135,7 +135,7 @@ const PaymentConfirmationModal: React.FC<PaymentModalProps> = ({
                     
             )}
           </Typography>
-          <Typography variant='body' color='gray'>
+          <Typography variant='paragraph' color='gray'>
             <span className='font-semibold'>Course Overview:</span><br />
             {courseDetails?.overview}
           </Typography>
