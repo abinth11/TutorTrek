@@ -24,9 +24,13 @@ import { AdminDbInterface } from '@src/app/repositories/adminDbRepository';
 import { AdminRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/adminRepoMongoDb';
 import { RefreshTokenDbInterface } from '@src/app/repositories/refreshTokenDBRepository';
 import { RefreshTokenRepositoryMongoDb } from '@src/frameworks/database/mongodb/repositories/refreshTokenRepoMongoDb';
+import { CloudServiceImpl } from '@src/frameworks/services/s3CloudService';
+import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
 const authController = (
   authServiceInterface: AuthServiceInterface,
   authServiceImpl: AuthService,
+  cloudServiceInterface:CloudServiceInterface,
+  CloudServiceImpl:CloudServiceImpl,
   studentDbRepository: StudentsDbInterface,
   studentDbRepositoryImpl: StudentRepositoryMongoDB,
   instructorDbRepository: InstructorDbInterface,
@@ -47,6 +51,7 @@ const authController = (
     refreshTokenDbRepositoryImpl()
   );
   const authService = authServiceInterface(authServiceImpl());
+  const cloudService = cloudServiceInterface(CloudServiceImpl())
   const googleAuthService = googleAuthServiceInterface(googleAuthServiceImpl());
 
   //? STUDENT
@@ -109,7 +114,8 @@ const authController = (
         instructor,
         files,
         dbRepositoryInstructor,
-        authService
+        authService,
+        cloudService
       );
       res.status(200).json({
         status: 'success',

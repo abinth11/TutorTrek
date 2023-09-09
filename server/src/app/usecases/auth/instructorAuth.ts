@@ -8,52 +8,58 @@ import { InstructorDbInterface } from '../../../app/repositories/instructorDbRep
 import { AuthServiceInterface } from '../../../app/services/authServicesInterface';
 import { RefreshTokenDbInterface } from '../../../app/repositories/refreshTokenDBRepository';
 import { UploadedFileInterface } from '@src/types/common';
+import { CloudServiceInterface } from '@src/app/services/cloudServiceInterface';
 
 export const instructorRegister = async (
   instructor: InstructorInterface,
-  files: UploadedFileInterface[],
+  files: Express.Multer.File[],
   instructorRepository: ReturnType<InstructorDbInterface>,
-  authService: ReturnType<AuthServiceInterface>
+  authService: ReturnType<AuthServiceInterface>,
+  cloudService: ReturnType<CloudServiceInterface>
 ) => {
-  console.log(instructor);
-  instructor.certificates = [];
-  instructor.profilePic = {
-    name: '',
-    key: '',
-    url: ''
-  };
-  if (files) {
-    files.map((file) => {
-      if (file.originalname === 'profilePic') {
-        instructor.profilePic.url = file.path;
-        instructor.profilePic.name=file.originalname
-      } else {
-        const certificate = {
-          name: file.originalname,
-          url: file.path
-        };
-        instructor.certificates.push(certificate);
-      }
-    });
-  }
-  const { password }: { password: string } = instructor;
-  instructor.email = instructor?.email?.toLowerCase();
-  const isEmailAlreadyRegistered =
-    await instructorRepository.getInstructorByEmail(instructor.email);
+  console.log(files);
+  instructor.certificates=[]
+  // Use object destructuring and default value
+  const { password = '', email = '' }: InstructorInterface = instructor;
+  instructor.email = email.toLowerCase();
+
+  // Check if the email is already registered
+  const isEmailAlreadyRegistered = await instructorRepository.getInstructorByEmail(
+    instructor.email
+  );
+
   if (isEmailAlreadyRegistered) {
     throw new AppError(
-      'Instructor with same email already exists..!',
+      'Instructor with the same email already exists..!',
       HttpStatusCodes.CONFLICT
     );
   }
+
+
+  for (const file of files) {
+    let uploadedFile;
+
+    if (file.originalname === 'profilePic') {
+      uploadedFile = await cloudService.upload(file);
+      instructor.profilePic = uploadedFile;
+    } else {
+      uploadedFile = await cloudService.upload(file);
+      instructor.certificates.push(uploadedFile);
+    }
+  }
+
+  // Hash the password if provided
   if (password) {
     instructor.password = await authService.hashPassword(password);
   }
   console.log(instructor)
+
+  // Add instructor to the repository
   const response = await instructorRepository.addInstructor(instructor);
+
   return response
-    ? { status: true, message: 'successfully registered!' }
-    : { status: false, message: 'failed to register!' };
+    ? { status: true, message: 'Successfully registered!' }
+    : { status: false, message: 'Failed to register!' };
 };
 
 export const instructorLogin = async (
