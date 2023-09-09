@@ -15,16 +15,23 @@ export const instructorRegister = async (
   instructorRepository: ReturnType<InstructorDbInterface>,
   authService: ReturnType<AuthServiceInterface>
 ) => {
-  instructor.certificates = []
+  console.log(instructor);
+  instructor.certificates = [];
+  instructor.profilePic = {
+    name: '',
+    key: '',
+    url: ''
+  };
   if (files) {
     files.map((file) => {
       if (file.originalname === 'profilePic') {
         instructor.profilePic.url = file.path;
+        instructor.profilePic.name=file.originalname
       } else {
         const certificate = {
-          name:file.originalname,
-          url:file.path
-        }
+          name: file.originalname,
+          url: file.path
+        };
         instructor.certificates.push(certificate);
       }
     });
@@ -42,6 +49,7 @@ export const instructorRegister = async (
   if (password) {
     instructor.password = await authService.hashPassword(password);
   }
+  console.log(instructor)
   const response = await instructorRepository.addInstructor(instructor);
   return response
     ? { status: true, message: 'successfully registered!' }
