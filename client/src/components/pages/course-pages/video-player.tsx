@@ -6,7 +6,7 @@ import {useParams,useNavigate} from "react-router-dom";
 
 interface VideoPlayerProps {
   videoKey: string | null;
-  isCoursePurchased: boolean;
+  isCoursePurchased: boolean|null;
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
@@ -21,7 +21,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const handleClick = ()=>{
     navigate(`/courses/${courseId}`)
   }
-
+ console.log(`https://d2vf4943yf4h7g.cloudfront.net/${videoKey}`)
   useEffect(() => {
     let player: any | undefined;
     const initializePlayer = () => {

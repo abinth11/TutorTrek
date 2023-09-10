@@ -31,7 +31,7 @@ export const courseRepositoryMongodb = () => {
   const getCourseById = async (courseId: string) => {
     const course: CourseInterface | null = await Course.findOne({
       _id: new mongoose.Types.ObjectId(courseId)
-    });
+    }).lean()
     return course;
   };
 

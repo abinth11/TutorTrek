@@ -9,6 +9,7 @@ export interface CourseInterface {
     price: number;
     about: string;
     description: string;
+    introduction:Media;
     syllabus: string[];
     requirements: string[];
     thumbnailUrl: string;
@@ -22,3 +23,8 @@ export interface CourseInterface {
     __v: number;
   }
 
+  export interface Media{
+    key: string
+    name: string
+    _id: string
+  }

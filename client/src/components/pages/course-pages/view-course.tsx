@@ -210,12 +210,12 @@ const ViewCourseStudent: React.FC = () => {
                         <PdfViewer pdfUrl={course?.guidelinesUrl ?? ""} />
                       )}
 
-                      <Link to={"watch-lessons/1"}>
+                      {/* <Link to={`watch-lessons/introduction`}>
                         <li className='p-6 border-b flex items-center cursor-pointer hover:bg-customBlueShade'>
                           <BiVideo className='mr-2 text-blue-500' />
                           <span className='flex-1'>Introduction video</span>
                         </li>
-                      </Link>
+                      </Link> */}
                     </ul>
                   </li>
                 )}
