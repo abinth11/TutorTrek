@@ -3,7 +3,7 @@ import VideoPlayer from "./video-player";
 import AboutLesson from "./about-lesson";
 import Quizzes from "./quizzes-page";
 import Discussion from "./discussion-page";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getLessonById } from "../../../api/endpoints/course/lesson";
 import { getLessonsByCourse } from "../../../api/endpoints/course/lesson";
@@ -24,6 +24,7 @@ const WatchLessons: React.FC = () => {
   const [allLessons, setAllLessons] = useState<Array<ApiResponseLesson>>([]);
   const [videoKey, setVideoKey] = useState<string | null>(null);
   const { lessonId } = useParams();
+  const location = useLocation();
   const [currentLessonId, setCurrentLessonId] = useState<string | undefined>(
     lessonId
   );
@@ -33,9 +34,10 @@ const WatchLessons: React.FC = () => {
   let isCoursePurchased = false;
 
   if (currentCourse) {
-    isCoursePurchased = currentCourse.coursesEnrolled.includes(studentId)
+    isCoursePurchased = currentCourse.coursesEnrolled.includes(studentId);
   }
-
+  console.log(currentCourse)
+  console.log(currentCourse?.introduction.key)
 
   const handleItemClick = (index: number) => {
     setSelectedItemIndex(index);
@@ -45,13 +47,13 @@ const WatchLessons: React.FC = () => {
     try {
       setIsLoadingAllLessons(true);
       const response = await getLessonsByCourse(courseId);
-      setAllLessons(response.data);
+      setAllLessons(response?.data);
       setTimeout(() => {
         setIsLoadingAllLessons(false);
       }, 3000);
     } catch (error: any) {
       setIsLoadingAllLessons(false);
-      toast.error(error.data.message, {
+      toast.error(error?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
@@ -60,8 +62,8 @@ const WatchLessons: React.FC = () => {
     try {
       setIsLoadingLesson(true);
       const response = await getLessonById(lessonId);
-      setLesson(response.data);
-      const key = response.data.media.find(
+      setLesson(response?.data);
+      const key = response?.data?.media.find(
         (media: Media) => media.name === "lessonVideo"
       )?.key;
       setVideoKey(key);
@@ -70,7 +72,7 @@ const WatchLessons: React.FC = () => {
       }, 2000);
     } catch (error: any) {
       setIsLoadingLesson(false);
-      toast.error(error.data.message, {
+      toast.error(error?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
@@ -113,8 +115,8 @@ const WatchLessons: React.FC = () => {
           <div className='h-3/4'>
             <VideoPlayer
               videoKey={videoKey}
-              isCoursePurchased={isCoursePurchased}
-            />
+              isCoursePurchased={currentCourse && currentCourse.isPaid ? isCoursePurchased : true}
+              />
           </div>
           <div className=''>
             <ul className='flex p-3'>
@@ -168,6 +170,25 @@ const WatchLessons: React.FC = () => {
           Lessons
         </h1>
         <ul>
+          {/* <li
+            onClick={() => {
+              setCurrentLessonId(currentCourse?._id);
+              setVideoKey(currentCourse?.introduction?.key??"")
+            }}
+            className={`p-6 border-b-2 flex items-center cursor-pointer 
+              ${
+                currentCourse?._id === currentLessonId
+                  ? "bg-gray-200 hover:bg-gray-200"
+                  : "hover:bg-gray-100"
+              }  
+              `}
+          >
+            <BiVideo className='mr-2 text-blue-500' />
+            <span className='flex-1 text-sm font-light text-gray-700'>
+              Episode 0{0} - Introduction to the course
+            </span>
+          </li> */}
+
           {allLessons.map((lesson, index) => (
             <li
               key={lesson._id}

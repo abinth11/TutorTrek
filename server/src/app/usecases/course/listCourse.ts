@@ -35,6 +35,9 @@ export const getCourseByIdU = async (
   const course: CourseInterface | null = await courseDbRepository.getCourseById(
     courseId
   );
+  // if(course){
+  //   course.introductionUrl=" "
+  // }
   if (course) {
     if (course.thumbnail) {
       const thumbnail = await cloudService.getFile(course.thumbnail.key);
@@ -44,6 +47,11 @@ export const getCourseByIdU = async (
       const guidelines = await cloudService.getFile(course.guidelines.key);
       course.guidelinesUrl = guidelines;
     }
+    // if(course.introduction){
+    //   const introduction = await cloudService.getFile(course.introduction.key)
+    //   console.log(introduction)
+    //   course.introductionUrl = introduction
+    // }
   }
   return course;
 };

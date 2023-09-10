@@ -42,9 +42,9 @@ const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
     }
   };
 
-  const fetchDiscussions = async () => {
+  const fetchDiscussions = async (lessonId:string) => {
     try {
-      const response = await getDiscussionsByLesson(lessonId ?? "");
+      const response = await getDiscussionsByLesson(lessonId);
       setDiscussions(response.data);
     } catch (error: any) {
       toast.error("Something went wrong", {
@@ -53,7 +53,9 @@ const Discussion: React.FC<{ lessonId: string }> = ({ lessonId }) => {
     }
   };
   useEffect(() => {
-    fetchDiscussions();
+    if(lessonId){
+      fetchDiscussions(lessonId);
+    }
   }, [updated]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

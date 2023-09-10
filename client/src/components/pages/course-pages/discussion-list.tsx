@@ -40,7 +40,7 @@ const MenuBar: React.FC<{
     try {
       const response = await deleteDiscussions(discussionId);
       setUpdated(!updated);
-      toast.success(response.message, {
+      toast.success(response?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
       setOpen(!open);

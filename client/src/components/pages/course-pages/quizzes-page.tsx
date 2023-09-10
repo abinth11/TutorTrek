@@ -25,9 +25,9 @@ const Quizzes: React.FC<{ lessonId: string | undefined }> = ({ lessonId }) => {
   const fetchQuizzes = async (lessonId: string) => {
     try {
       const response = await getQuizzesByLesson(lessonId);
-      setQuizzes(response.data.questions);
+      setQuizzes(response?.data?.questions);
     } catch (error: any) {
-      toast.error(error.data.message, {
+      toast.error(error?.data?.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }

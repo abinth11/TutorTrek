@@ -28,6 +28,7 @@ export interface AddCourseInfoInterface {
   export interface CourseInterface extends AddCourseInfoInterface {
     coursesEnrolled:Array<string>,
     thumbnailUrl:string,
+    introductionUrl:string,
     guidelinesUrl:string;
 
   }
