@@ -83,8 +83,7 @@ Here's an overview of the main folders and their purposes in the project:
 .
 ├── /client           # Frontend codebase
 ├── /server           # Backend codebase
-├── /public           # Static assets
-└── /docs             # Documentation files
+└── /conf.d           # Nginx configuration for full stack application
 ```
 
 For more detailed information, refer to the project's folder structure documentation [here](/docs/folder-structure.md).
