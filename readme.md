@@ -155,14 +155,14 @@ axios is a popular JavaScript library for making HTTP requests from web browsers
 ### Formik
 Formik is a form management library for React that simplifies the process of building complex forms and managing form state. It provides a set of React components and hooks to handle form rendering, validation, submission, and error handling. Formik integrates seamlessly with React's component model and offers features like form field validation, form-wide state management, input masking, and more. It aims to streamline the development of forms in React applications and reduce boilerplate code.
 
-## Deployment
+<!--## Deployment
 
 To deploy the online learning platform to a production environment, follow the deployment guidelines outlined in the [Deployment Documentation](/docs/deployment.md).
 
 ## Contributing
 
 Contributions to the project are welcome. To contribute, please follow the guidelines outlined in the [Contributing Documentation](/docs/contributing.md).
-
+-->
 
 ## Contact
 
